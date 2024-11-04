@@ -1,18 +1,19 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <?xml-model href="../../Organization/knxprod-support/knx_project_20/knx-editor.xsd" type="application/xml" schematypens="http://www.w3.org/2001/XMLSchema"?>
 <KNX xmlns="http://knx.org/xml/project/20" xmlns:op="http://github.com/OpenKNX/OpenKNXproducer">
+ 
+  <op:config name="%BRI_NumChannelsDefault%" value="30" />
+ 
   <ManufacturerData>
     <Manufacturer RefId="M-00FA">
       <ApplicationPrograms>
         <ApplicationProgram Id="%AID%" ApplicationNumber="0" ApplicationVersion="0" ProgramType="ApplicationProgram" MaskVersion="MV-07B0" Name="KNX-Homekit-Bridge-Hue-Emulation" LoadProcedureStyle="MergedProcedure" PeiType="0" DefaultLanguage="de" DynamicTableManagement="false" Linkable="true" MinEtsVersion="4.0">
           <Static>
             <ParameterTypes>
-              <ParameterType Id="%AID%_PT-WiFiSSID" Name="WiFiSSID">
-                <TypeText SizeInBit="256" />
-              </ParameterType>
-              <ParameterType Id="%AID%_PT-WiFiPassword" Name="WiFiPassword">
-                <TypeText SizeInBit="504" />
-              </ParameterType>
+              <ParameterType Id="%AID%_PT-BRINumChannels" Name="BRINumChannels">
+								<TypeNumber SizeInBit="8" Type="unsignedInt" minInclusive="0" maxInclusive="%N%" />
+							</ParameterType>
+      
               <ParameterType Id="%AID%_PT-DeviceType" Name="DeviceType">
                 <TypeRestriction Base="Value" SizeInBit="8">
                   <Enumeration Text="Inaktiv" Value="0" Id="%AID%_PT-DeviceType_EN-0" />
@@ -260,11 +261,9 @@
               <Parameter Id="%AID%_P-%T%000002" Name="Modus" ParameterType="%AID%_PT-ModeSelection" Text="Modus" Value="3">
                 <Memory CodeSegment="%AID%_RS-04-00000" Offset="29" BitOffset="0" />
               </Parameter>
-              <Parameter Id="%AID%_P-%T%000003" Name="WiFiSSID" ParameterType="%AID%_PT-WiFiSSID" Text="SSID" Value="">
-                <Memory CodeSegment="%AID%_RS-04-000000" Offset="30" BitOffset="0" />
-              </Parameter>
-              <Parameter Id="%AID%_P-%T%000004" Name="WiFiPassword" ParameterType="%AID%_PT-WiFiPassword" Text="Password" Value="">
-                <Memory CodeSegment="%AID%_RS-04-00000" Offset="62" BitOffset="0" />
+           		<!-- Number of channels -->
+              <Parameter Id="%AID%_P-%T%000000" Name="VisibleChannels" ParameterType="%AID%_PT-BRINumChannels" Text="Verfügbare Kanäle" Value="%BRI_NumChannelsDefault%" SuffixText=" von %N%" >
+                <Memory CodeSegment="%AID%_RS-04-00000" Offset="30" BitOffset="0" />
               </Parameter>
               <Parameter Id="%AID%_P-%T%000005" Name="PairingCode" ParameterType="%AID%_PT-PairingCode" Text="Kopplungscode" Value="46637726">
                 <Memory CodeSegment="%AID%_RS-04-00000" Offset="126" BitOffset="0" />
@@ -274,10 +273,9 @@
             <ParameterRefs>
               <!-- ParameterRef have to be defined for each parameter, pay attention, that the ID-part (number) after R- is unique! -->
               <!-- ParameterRef are used in the ETS UI -->
+              <ParameterRef Id="%AID%_P-%T%000000_R-%T%00000001" RefId="%AID%_P-%T%000000" /> <!-- Visible channels -->
               <ParameterRef Id="%AID%_P-%T%000001_R-%T%00000101" RefId="%AID%_P-%T%000001" /> <!-- Bridge Name -->
               <ParameterRef Id="%AID%_P-%T%000002_R-%T%00000201" RefId="%AID%_P-%T%000002" /> <!-- Modus -->
-              <ParameterRef Id="%AID%_P-%T%000003_R-%T%00000301" RefId="%AID%_P-%T%000003" /> <!-- WiFi SSID -->
-              <ParameterRef Id="%AID%_P-%T%000004_R-%T%00000401" RefId="%AID%_P-%T%000004" /> <!-- WiFi Password -->
               <ParameterRef Id="%AID%_P-%T%000005_R-%T%00000501" RefId="%AID%_P-%T%000005" /> <!-- Homekit Pairing Code -->
             </ParameterRefs>
             <ComObjectTable>
@@ -322,6 +320,9 @@
                     <ParameterSeparator Id="%AID%_PS-nnn" Text="Hinweis: Apple lässt beim Koppeln einfache Codes (z.B. nur Einser) nicht zu. Das kann durch ETS nicht geprüft werden. Es wird daher empfohlen den Standard-Wert 46637726 zu verwenden." UIHint="Information" />
                   </when>
                 </choose> 
+
+                <ParameterRefRef RefId="%AID%_P-%T%000000_R-%T%00000001" /> <!-- Visible channels -->
+            
                   
               </ParameterBlock>
             
@@ -330,12 +331,12 @@
                     
 
               <!-- More Page -->
-							<choose ParamRefId="%AID%_UP-%TT%00000_R-%TT%0000000">
+							<choose ParamRefId="%AID%_P-%T%000000_R-%T%00000001">
 								<when test="&lt;%N%">
 									<ParameterBlock Id="%AID%_PB-nnn" Name="IWAdditionalChannels" Text="(mehr)" Icon="dots-horizontal">										<!-- HelpContext="Empty" -->
 										<ParameterSeparator Id="%AID%_PS-nnn" Text="Kanalauswahl" UIHint="Headline" />
-										<ParameterRefRef RefId="%AID%_UP-%TT%00000_R-%TT%0000000" />
-										<!-- HelpContext="BASE-Verfuegbare-Kanaele" IndentLevel="1" /-->
+                    <ParameterRefRef RefId="%AID%_P-%T%000000_R-%T%00000001" /> <!-- Visible channels -->
+                    <!-- HelpContext="BASE-Verfuegbare-Kanaele" IndentLevel="1" /-->
 									</ParameterBlock>
 								</when>
 							</choose>
