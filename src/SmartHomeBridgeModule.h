@@ -20,6 +20,8 @@ public:
     virtual void loop() = 0;
     virtual void processInputKo(GroupObject& ko) = 0;
     virtual void getInformation(String& result) = 0;
+    virtual bool processCommand(const std::string cmd, bool diagnoseKo) = 0;
+    virtual void showHelp() = 0;
 };
 
 enum Mode
@@ -56,6 +58,8 @@ class SmartHomeBridgeModule : public ChannelOwnerModule
         void serveProgModePage();
         void serveFirmwareUpdatePage();
         void serveRebootPage();
+        bool processCommand(const std::string cmd, bool diagnoseKo) override;
+        void showHelp() override;
 };
 
 extern SmartHomeBridgeModule openknxSmartHomeBridgeModule;

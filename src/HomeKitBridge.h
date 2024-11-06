@@ -14,5 +14,6 @@ public:
     virtual void loop() override;
     virtual void processInputKo(GroupObject& ko) override;
     virtual void getInformation(String& result) override;
-
+    virtual bool processCommand(const std::string cmd, bool diagnoseKo) override;
+    virtual void showHelp() override;
 };

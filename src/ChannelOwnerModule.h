@@ -4,11 +4,11 @@
 class ChannelOwnerModule : public OpenKNX::Module
 {
 private: 
-    uint8_t _numberOfChannels;
+    uint8_t _numberOfChannels = 0;
     uint8_t _currentChannel = 0;
     OpenKNX::Channel** _pChannels = nullptr;
 public:
-    ChannelOwnerModule(uint8_t numberOfChannels = 0);
+    void setNumberOfChannels(uint8_t numberOfChannels);
     ~ChannelOwnerModule();
 
     virtual OpenKNX::Channel* createChannel(uint8_t _channelIndex /* this parameter is used in macros, do not rename */); 
