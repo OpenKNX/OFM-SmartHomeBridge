@@ -15,11 +15,11 @@
                 <Memory CodeSegment="%AID%_RS-04-00000" Offset="1" BitOffset="0" />
               </Parameter>
                <Parameter Id="%AID%_P-%T%%CCC%003" Name="CH%C%DisableChannel" ParameterType="%AID%_PT-CheckBoxDisable" Text="Gerät deaktivieren (Konfiguration bleibt erhalten)" Value="0">
-                <Memory CodeSegment="%AID%_RS-04-00000" Offset="26" BitOffset="0" />
+                <Memory CodeSegment="%AID%_RS-04-00000" Offset="27" BitOffset="0" />
               </Parameter>
               
               <Union SizeInBit="8">
-                <Memory CodeSegment="%AID%_RS-04-00000" Offset="27" BitOffset="0" />
+                <Memory CodeSegment="%AID%_RS-04-00000" Offset="28" BitOffset="0" />
                 <!-- Light -->
                 <Parameter Id="%AID%_UP-%T%%CCC%021" Name="CH%C%LightType"            Offset="0" BitOffset="0" ParameterType="%AID%_PT-LightType"          Text="Lampenart" Value="0" />
                 <!-- Jalousie -->
@@ -38,7 +38,7 @@
               </Union>
 
               <Union SizeInBit="8">
-                <Memory CodeSegment="%AID%_RS-04-00000" Offset="28" BitOffset="0" />
+                <Memory CodeSegment="%AID%_RS-04-00000" Offset="29" BitOffset="0" />
                 <!-- Switch -->
                 <Parameter Id="%AID%_UP-%T%%CCC%012" Name="CH%C%SwitchHueEmulation"   Offset="0" BitOffset="0" ParameterType="%AID%_PT-HueEmulation"          Text="Gerät in Hue verwenden" Value="1" />
                 <!-- Light -->
@@ -55,7 +55,7 @@
               </Union>
 
               <Union SizeInBit="8">
-                <Memory CodeSegment="%AID%_RS-04-00000" Offset="29" BitOffset="0" />
+                <Memory CodeSegment="%AID%_RS-04-00000" Offset="30" BitOffset="0" />
                 <!-- Light -->
                 <Parameter Id="%AID%_UP-%T%%CCC%023" Name="CH%C%LightSwitchOnBehavior" Offset="0" BitOffset="0" ParameterType="%AID%_PT-LightSwitchOnBehavior" Text="Bei EIN Befehl" Value="200" />
                 <!-- Jalousie -->
@@ -70,7 +70,7 @@
               </Union>
 
               <Union SizeInBit="8">
-                <Memory CodeSegment="%AID%_RS-04-00000" Offset="30" BitOffset="0" />
+                <Memory CodeSegment="%AID%_RS-04-00000" Offset="31" BitOffset="0" />
                 <!-- Light -->
                 <Parameter Id="%AID%_UP-%T%%CCC%024" Name="CH%C%LightSwitchOn2Behavior"  Offset="0" BitOffset="0" ParameterType="%AID%_PT-LightSwitchOn2Behavior" Text="Bei EIN wenn aktuelle Helligkeit > 0%" Value="100" />
                 <!-- Jalousie -->
@@ -85,7 +85,7 @@
               </Union>
 
               <Union SizeInBit="8">
-                <Memory CodeSegment="%AID%_RS-04-00000" Offset="31" BitOffset="0" />
+                <Memory CodeSegment="%AID%_RS-04-00000" Offset="32" BitOffset="0" />
                 <!-- Light -->
                 <Parameter Id="%AID%_UP-%T%%CCC%025" Name="CH%C%LightRGBSwitchOnBehavior" Offset="0" BitOffset="0" ParameterType="%AID%_PT-LightRGBSwitchOnBehavior" Text="Bei EIN Befehl" Value="200" />
                 <!-- Thermostat -->
@@ -96,7 +96,7 @@
               </Union>
 
               <Union SizeInBit="8">
-                <Memory CodeSegment="%AID%_RS-04-00000" Offset="32" BitOffset="0" />
+                <Memory CodeSegment="%AID%_RS-04-00000" Offset="33" BitOffset="0" />
                 <!-- Light -->
                 <Parameter Id="%AID%_UP-%T%%CCC%026" Name="CH%C%LightRGBSwitchOn2Behavior"  Offset="0" BitOffset="0" ParameterType="%AID%_PT-LightRGBSwitchOn2Behavior" Text="Bei EIN wenn aktuelle Farbe > 0" Value="0" />
                 <!-- Thermostat -->
@@ -107,7 +107,7 @@
               </Union>
 
               <Union SizeInBit="8">
-                <Memory CodeSegment="%AID%_RS-04-00000" Offset="33" BitOffset="0" />
+                <Memory CodeSegment="%AID%_RS-04-00000" Offset="34" BitOffset="0" />
                 <!-- Light -->
                 <Parameter Id="%AID%_UP-%T%%CCC%027" Name="CH%C%LightRGBUseSwitchKO"  Offset="0" BitOffset="0" ParameterType="%AID%_PT-LightRGBUseSwitchKO" Text="KO für Schalten verwenden" Value="1" />
                 <!-- Thermostat -->
@@ -115,7 +115,7 @@
               </Union>
               
                <Union SizeInBit="8">
-                <Memory CodeSegment="%AID%_RS-04-00000" Offset="34" BitOffset="0" />
+                <Memory CodeSegment="%AID%_RS-04-00000" Offset="35" BitOffset="0" />
                 <!-- Thermostat -->
                 <Parameter Id="%AID%_UP-%T%%CCC%058" Name="CH%C%ThemostateCoolingFeedbackKoType" Offset="0" BitOffset="0" ParameterType="%AID%_PT-ThemostateFeedbackKoType"  Text="Kühlen aktiv Rückmeldung" Value="0" />                         
               </Union>
@@ -280,366 +280,371 @@
        
             <!-- The following block is always there -->
             <ChannelIndependentBlock>
-              <ParameterBlock Id="%AID%_PB-3" Name="BridgeKanal" Text="Kanal %CC%: {{0:---}}" TextParameterRefId="%AID%_P-%T%%CCC%002_R-%T%%CCC%00201" Icon="power-cycle">
-                <Channel Id="%AID%_CH-BRI%C%" Number="BRI%C%" Name="BridgeKanal%C%" Text="Kanal %CC%: {{0:---}}" TextParameterRefId="%AID%_P-%T%%CCC%002_R-%T%%CCC%00201">
-                  <ParameterBlock Id="%AID%_PB-BRI%C%Wrapper" Name="BridgeKanal%C%Wrapper" Text="Wrapper" Inline="true">       
-                    <ParameterSeparator Id="%AID%_PS-1" Text="Kanaldefinition" UIHint="Headline" />
-                    <ParameterRefRef RefId="%AID%_P-%T%%CCC%001_R-%T%%CCC%00101" /> <!-- Devie Type -->
-                    <choose ParamRefId="%AID%_P-%T%%CCC%001_R-%T%%CCC%00101">  <!--Devie Type  -->
-                      <when test="30 31 32 40 51 50 60 70 71 72 73 74 75 76 80 90 91 92" >  <!-- nighter switch nor dimmer -->
-                        <choose ParamRefId="%AID%_P-%T%000002_R-%T%00000201">  <!-- Bride Mode -->
-                          <when test="2"> <!-- Hue -->
-                            <choose ParamRefId="%AID%_P-%T%%CCC%001_R-%T%%CCC%00101">  <!--Devie Type  -->
-                              <when test="30 31 32 80 90 91 92" >  <!-- Jalousie, Rolladen, Markise, Lüfter -->
-                                <ParameterSeparator Id="%AID%_PS-nnn" Text="Hinweis: Diese Gerät wird von der Hue Emulation nicht unterstützt, kann aber als Lampe simuliert werden" UIHint="Information" />                
-                              </when>
-                            </choose>
-                            <choose ParamRefId="%AID%_P-%T%%CCC%001_R-%T%%CCC%00101">  <!--Devie Type  -->
-                              <when test="50 60 70 71 72 73 74 75 76" >  <!-- Thermostat, Anzeige, Kontakt -->
-                                <ParameterSeparator Id="%AID%_PS-nnn" Text="Fehler: Diese Gerät wird von der Hue Emulation nicht unterstützt" UIHint="Error" />                
-                              </when>
-                            </choose>
-                          </when> 
-                          <when test="3"> <!-- Hue & Homekit -->
-                            <choose ParamRefId="%AID%_P-%T%%CCC%001_R-%T%%CCC%00101">  <!--Devie Type  -->
-                              <when test="30 31 32 80 90 91 92" >  <!-- Jalousie, Rolladen, Markise, Lüfter -->
-                                <ParameterSeparator Id="%AID%_PS-nnn" Text="Hinweis: Diese Gerät wird von der Hue Emulation nicht unterstützt, kann aber als Lampe simuliert werden" UIHint="Information" />                
-                              </when>
-                            </choose>
-                            <choose ParamRefId="%AID%_P-%T%%CCC%001_R-%T%%CCC%00101">  <!--Devie Type  -->
-                              <when test="50 60 70 71 72 73 74 75 76" >  <!-- Thermostat, Anzeige, Kontakt -->
-                                <ParameterSeparator Id="%AID%_PS-nnn" Text="Hinweis: Diese Gerät wird von der Hue Emulation nicht unterstützt" UIHint="Information" />                
-                              </when>
-                            </choose>
-                          </when>  
-                        </choose>                 
-                      </when>
-                    </choose>
-                    
-                    <ParameterRefRef RefId="%AID%_P-%T%%CCC%002_R-%T%%CCC%00201" /> <!-- Devie Name -->
-                    
-                    <choose ParamRefId="%AID%_P-%T%%CCC%001_R-%T%%CCC%00101">  <!--Devie Type  -->
-                      <when test="!=0" >  <!-- not inactive -->
-                        <ParameterRefRef RefId="%AID%_P-%T%%CCC%003_R-%T%%CCC%00301" /> <!-- Kanal Disabled -->
-                      </when>
-                    </choose>
-
-                    <choose ParamRefId="%AID%_P-%T%%CCC%001_R-%T%%CCC%00101">  <!-- Devie Type -->
-                     
-                      <!-- Switch -->
-                      <when test="10 11"> 
-                        <choose ParamRefId="%AID%_P-%T%000002_R-%T%00000201">  <!-- Bride Mode -->
-                          <when test="2 3 8"> <!-- Hue & Hue oder Hue & Homekit -->
-                            <ParameterRefRef RefId="%AID%_UP-%T%%CCC%012_R-%T%%CCC%01201" /> <!-- In Hue verwenden -->
+              <!-- Anzahl der Kanäle -->
+              <choose ParamRefId="%AID%_P-%T%000000_R-%T%00000001">
+              <when test="&gt;=%C%">
+                  <ParameterBlock Id="%AID%_PB-3" Name="BridgeKanal" Text="Kanal %CC%: {{0:---}}" TextParameterRefId="%AID%_P-%T%%CCC%002_R-%T%%CCC%00201" Icon="power-cycle">
+                    <Channel Id="%AID%_CH-BRI%C%" Number="BRI%C%" Name="BridgeKanal%C%" Text="Kanal %CC%: {{0:---}}" TextParameterRefId="%AID%_P-%T%%CCC%002_R-%T%%CCC%00201">
+                      <ParameterBlock Id="%AID%_PB-BRI%C%Wrapper" Name="BridgeKanal%C%Wrapper" Text="Wrapper" Inline="true">       
+                        <ParameterSeparator Id="%AID%_PS-1" Text="Kanaldefinition" UIHint="Headline" />
+                        <ParameterRefRef RefId="%AID%_P-%T%%CCC%001_R-%T%%CCC%00101" /> <!-- Devie Type -->
+                        <choose ParamRefId="%AID%_P-%T%%CCC%001_R-%T%%CCC%00101">  <!--Devie Type  -->
+                          <when test="30 31 32 40 51 50 60 70 71 72 73 74 75 76 80 90 91 92" >  <!-- nighter switch nor dimmer -->
+                            <choose ParamRefId="%AID%_P-%T%000002_R-%T%00000201">  <!-- Bride Mode -->
+                              <when test="2"> <!-- Hue -->
+                                <choose ParamRefId="%AID%_P-%T%%CCC%001_R-%T%%CCC%00101">  <!--Devie Type  -->
+                                  <when test="30 31 32 80 90 91 92" >  <!-- Jalousie, Rolladen, Markise, Lüfter -->
+                                    <ParameterSeparator Id="%AID%_PS-nnn" Text="Hinweis: Diese Gerät wird von der Hue Emulation nicht unterstützt, kann aber als Lampe simuliert werden" UIHint="Information" />                
+                                  </when>
+                                </choose>
+                                <choose ParamRefId="%AID%_P-%T%%CCC%001_R-%T%%CCC%00101">  <!--Devie Type  -->
+                                  <when test="50 60 70 71 72 73 74 75 76" >  <!-- Thermostat, Anzeige, Kontakt -->
+                                    <ParameterSeparator Id="%AID%_PS-nnn" Text="Fehler: Diese Gerät wird von der Hue Emulation nicht unterstützt" UIHint="Error" />                
+                                  </when>
+                                </choose>
+                              </when> 
+                              <when test="3"> <!-- Hue & Homekit -->
+                                <choose ParamRefId="%AID%_P-%T%%CCC%001_R-%T%%CCC%00101">  <!--Devie Type  -->
+                                  <when test="30 31 32 80 90 91 92" >  <!-- Jalousie, Rolladen, Markise, Lüfter -->
+                                    <ParameterSeparator Id="%AID%_PS-nnn" Text="Hinweis: Diese Gerät wird von der Hue Emulation nicht unterstützt, kann aber als Lampe simuliert werden" UIHint="Information" />                
+                                  </when>
+                                </choose>
+                                <choose ParamRefId="%AID%_P-%T%%CCC%001_R-%T%%CCC%00101">  <!--Devie Type  -->
+                                  <when test="50 60 70 71 72 73 74 75 76" >  <!-- Thermostat, Anzeige, Kontakt -->
+                                    <ParameterSeparator Id="%AID%_PS-nnn" Text="Hinweis: Diese Gerät wird von der Hue Emulation nicht unterstützt" UIHint="Information" />                
+                                  </when>
+                                </choose>
+                              </when>  
+                            </choose>                 
                           </when>
                         </choose>
-                          <ComObjectRefRef RefId="%AID%_O-%T%%CCC%001_R-%T%%CCC%00101" />
-                          <ComObjectRefRef RefId="%AID%_O-%T%%CCC%002_R-%T%%CCC%00201" />
-                      </when>
-
-                      <!-- Light -->
-                      <when test="20"> 
-                        <choose ParamRefId="%AID%_P-%T%000002_R-%T%00000201">  <!-- Bride Mode -->
-                          <when test="2 3 8"> <!-- Hue & Hue oder Hue & Homekit -->
-                            <ParameterRefRef RefId="%AID%_UP-%T%%CCC%022_R-%T%%CCC%02201" /> <!-- In Hue verwenden -->
-                          </when>
-                        </choose>
-                        <ParameterRefRef RefId="%AID%_UP-%T%%CCC%021_R-%T%%CCC%02101" /> <!-- Light Type -->
-                        <choose ParamRefId="%AID%_UP-%T%%CCC%021_R-%T%%CCC%02101">  <!-- Light Type -->
-                          <when test="0"> <!-- On/Off -->
-                            <ComObjectRefRef RefId="%AID%_O-%T%%CCC%001_R-%T%%CCC%00102" />
-                            <ComObjectRefRef RefId="%AID%_O-%T%%CCC%002_R-%T%%CCC%00202" />
-                          </when>
-                          <when test="1"> <!-- Dimmer -->
-                            <ParameterRefRef RefId="%AID%_UP-%T%%CCC%023_R-%T%%CCC%02301" /> <!-- Switch On Behavior -->
-                            <ParameterRefRef RefId="%AID%_UP-%T%%CCC%024_R-%T%%CCC%02401" /> <!-- Switch On 2 Behavior -->
-                            <ComObjectRefRef RefId="%AID%_O-%T%%CCC%001_R-%T%%CCC%00112" />
-                            <ComObjectRefRef RefId="%AID%_O-%T%%CCC%002_R-%T%%CCC%00212" />
-                          </when>
-                           <when test="2"> <!-- RGB -->
-                            <ParameterRefRef RefId="%AID%_UP-%T%%CCC%025_R-%T%%CCC%02501" /> <!-- RGB Switch On Behavior -->
-                            <ParameterRefRef RefId="%AID%_UP-%T%%CCC%026_R-%T%%CCC%02601" /> <!-- RGB Switch On 2 Behavior -->
-                            <ParameterRefRef RefId="%AID%_UP-%T%%CCC%027_R-%T%%CCC%02701" /> <!-- RGB Use Switch KO -->
-                            <ComObjectRefRef RefId="%AID%_O-%T%%CCC%001_R-%T%%CCC%00122" />
-                            <ComObjectRefRef RefId="%AID%_O-%T%%CCC%002_R-%T%%CCC%00222" />
-                            <choose ParamRefId="%AID%_UP-%T%%CCC%027_R-%T%%CCC%02701"> <!-- RGB Use Switch KO -->
-                              <when test="1"> <!-- Use Switch KO -->
-                                <ComObjectRefRef RefId="%AID%_O-%T%%CCC%003_R-%T%%CCC%00322" />
-                                <ComObjectRefRef RefId="%AID%_O-%T%%CCC%004_R-%T%%CCC%00422" />
-                              </when>
-                            </choose>
-                          </when>
-                        </choose>
-                     
-                      </when>
-                      <!-- Jalousie/Rolladen/Markise -->
-                      <when test="30 31 32"> 
-                        <choose ParamRefId="%AID%_P-%T%000002_R-%T%00000201">  <!-- Bride Mode -->
-                          <when test="2 3 8"> <!-- Hue & Hue oder Hue & Homekit -->
-                            <ParameterRefRef RefId="%AID%_UP-%T%%CCC%031_R-%T%%CCC%03101" /> <!-- In Hue verwenden -->
-                          </when>
-                        </choose>                    
-                        <ParameterRefRef RefId="%AID%_UP-%T%%CCC%032_R-%T%%CCC%03201" /> <!-- Up Down Handling -->
-                        <ParameterRefRef RefId="%AID%_UP-%T%%CCC%033_R-%T%%CCC%03301" /> <!-- Use Stop -->
-                        <choose ParamRefId="%AID%_P-%T%%CCC%001_R-%T%%CCC%00101">    <!-- Device Type -->
-                          <when test="30">   <!-- Jalousie --> 
-                            <ParameterRefRef RefId="%AID%_UP-%T%%CCC%034_R-%T%%CCC%03401" /> <!-- Slat Handling -->
+                        
+                        <ParameterRefRef RefId="%AID%_P-%T%%CCC%002_R-%T%%CCC%00201" /> <!-- Devie Name -->
+                        
+                        <choose ParamRefId="%AID%_P-%T%%CCC%001_R-%T%%CCC%00101">  <!--Devie Type  -->
+                          <when test="!=0" >  <!-- not inactive -->
+                            <ParameterRefRef RefId="%AID%_P-%T%%CCC%003_R-%T%%CCC%00301" /> <!-- Kanal Disabled -->
                           </when>
                         </choose>
 
-                        <ComObjectRefRef RefId="%AID%_O-%T%%CCC%001_R-%T%%CCC%00103" /> <!-- Position --> 
-                        <ComObjectRefRef RefId="%AID%_O-%T%%CCC%002_R-%T%%CCC%00203" /> <!-- Position Feedback --> 
-                        <ComObjectRefRef RefId="%AID%_O-%T%%CCC%003_R-%T%%CCC%00303" /> <!-- Move Down Feedback --> 
-                        <ComObjectRefRef RefId="%AID%_O-%T%%CCC%004_R-%T%%CCC%00403" /> <!-- Move Up Feedback -->  
-                        <choose ParamRefId="%AID%_UP-%T%%CCC%032_R-%T%%CCC%03201">    <!-- Up Down Handling -->
-                            <when test="!=0">
-                              <ComObjectRefRef RefId="%AID%_O-%T%%CCC%005_R-%T%%CCC%00503" /> <!-- Up / Down -->
-                            </when>
-                        </choose>
-                        <choose ParamRefId="%AID%_UP-%T%%CCC%033_R-%T%%CCC%03301">    <!-- Use Stop-->
-                            <when test="!=0">
-                              <ComObjectRefRef RefId="%AID%_O-%T%%CCC%006_R-%T%%CCC%00603" /> <!-- Stop -->
-                            </when>
-                        </choose>
-
-                        <choose ParamRefId="%AID%_P-%T%%CCC%001_R-%T%%CCC%00101">    <!-- Device Type -->
-                            <when test="30">   <!-- Jalousie -->              
-                              <ComObjectRefRef RefId="%AID%_O-%T%%CCC%007_R-%T%%CCC%00703" /> <!-- Slat Position -->
-                              <ComObjectRefRef RefId="%AID%_O-%T%%CCC%008_R-%T%%CCC%00803" /> <!-- Slat Position Feedback -->
-                            </when>
-                        </choose>
-                      </when>
-                      
-                      <!-- Thermostat -->
-                      <when test="50">
-                        <ComObjectRefRef RefId="%AID%_O-%T%%CCC%001_R-%T%%CCC%00105" /> <!-- Soll Temperatur -->
-                        <ComObjectRefRef RefId="%AID%_O-%T%%CCC%002_R-%T%%CCC%00205" /> <!-- Soll Temperatur Rückmeldung -->
-                        <ComObjectRefRef RefId="%AID%_O-%T%%CCC%003_R-%T%%CCC%00305" /> <!-- Ist Temperatur Rückmeldung -->
-                 
-                        <ParameterRefRef RefId="%AID%_UP-%T%%CCC%051_R-%T%%CCC%05101" />     <!-- Unit -->   
-                        <ParameterRefRef RefId="%AID%_UP-%T%%CCC%052_R-%T%%CCC%05201" />     <!-- Thermostat Mode --> 
-                        <choose ParamRefId="%AID%_UP-%T%%CCC%052_R-%T%%CCC%05201">           <!-- Thermostat Mode --> 
-                          <when test="1 3 7"> <!-- Heating -->
-                            <ParameterSeparator Id="%AID%_PS-nnn" Text="" UIHint="HorizontalRuler" />
-                            <ParameterSeparator Id="%AID%_PS-nnn" Text="Heizen" UIHint="Headline" />
-                            <ParameterRefRef RefId="%AID%_UP-%T%%CCC%053_R-%T%%CCC%05301" /> <!-- Ko Mode Heating --> 
-                            <choose ParamRefId="%AID%_UP-%T%%CCC%053_R-%T%%CCC%05301" >      <!-- Ko Mode Heading --> 
-                              <when test="0"> <!-- Switch -->
-                                <ComObjectRefRef RefId="%AID%_O-%T%%CCC%004_R-%T%%CCC%00405" />  <!-- Heizen -->
-                              </when>
-                              <when test="1"> <!-- Lock -->
-                                <ComObjectRefRef RefId="%AID%_O-%T%%CCC%004_R-%T%%CCC%00415" />  <!-- Heizen Sperre -->
-                              </when>
-                            </choose>    
-            
-                            <ParameterRefRef RefId="%AID%_UP-%T%%CCC%054_R-%T%%CCC%05401" /> <!-- Ko Mode Heating Feedback --> 
-                            <choose ParamRefId="%AID%_UP-%T%%CCC%054_R-%T%%CCC%05401" >      <!-- Ko Mode Heating Feedback -->
-                              <when test="0"> <!-- Switch -->
-                                <ComObjectRefRef RefId="%AID%_O-%T%%CCC%005_R-%T%%CCC%00505" />  <!-- Heizen Rückmeldung -->
-                              </when>
-                              <when test="1"> <!-- Lock -->
-                                <ComObjectRefRef RefId="%AID%_O-%T%%CCC%005_R-%T%%CCC%00515" />  <!-- Heizen Sperre Rückmeldung -->
+                        <choose ParamRefId="%AID%_P-%T%%CCC%001_R-%T%%CCC%00101">  <!-- Devie Type -->
+                        
+                          <!-- Switch -->
+                          <when test="10 11"> 
+                            <choose ParamRefId="%AID%_P-%T%000002_R-%T%00000201">  <!-- Bride Mode -->
+                              <when test="2 3 8"> <!-- Hue & Hue oder Hue & Homekit -->
+                                <ParameterRefRef RefId="%AID%_UP-%T%%CCC%012_R-%T%%CCC%01201" /> <!-- In Hue verwenden -->
                               </when>
                             </choose>
+                              <ComObjectRefRef RefId="%AID%_O-%T%%CCC%001_R-%T%%CCC%00101" />
+                              <ComObjectRefRef RefId="%AID%_O-%T%%CCC%002_R-%T%%CCC%00201" />
+                          </when>
 
-                            <ParameterRefRef RefId="%AID%_UP-%T%%CCC%055_R-%T%%CCC%05501" /> <!-- Ko Type Heating Active Feedback --> 
-                            <choose ParamRefId="%AID%_UP-%T%%CCC%055_R-%T%%CCC%05501" >      <!-- Ko Type Heating Active Feedback -->  
-                              <when test="0"> <!-- Switch -->
-                                <ComObjectRefRef RefId="%AID%_O-%T%%CCC%006_R-%T%%CCC%00605" />  <!-- Heizen Aktiv Rückmeldung -->
+                          <!-- Light -->
+                          <when test="20"> 
+                            <choose ParamRefId="%AID%_P-%T%000002_R-%T%00000201">  <!-- Bride Mode -->
+                              <when test="2 3 8"> <!-- Hue & Hue oder Hue & Homekit -->
+                                <ParameterRefRef RefId="%AID%_UP-%T%%CCC%022_R-%T%%CCC%02201" /> <!-- In Hue verwenden -->
                               </when>
-                              <when test="1"> <!-- Percent -->
-                                <ComObjectRefRef RefId="%AID%_O-%T%%CCC%006_R-%T%%CCC%00615" />  <!-- Heizen Aktiv Stellwert Rückmeldung -->
+                            </choose>
+                            <ParameterRefRef RefId="%AID%_UP-%T%%CCC%021_R-%T%%CCC%02101" /> <!-- Light Type -->
+                            <choose ParamRefId="%AID%_UP-%T%%CCC%021_R-%T%%CCC%02101">  <!-- Light Type -->
+                              <when test="0"> <!-- On/Off -->
+                                <ComObjectRefRef RefId="%AID%_O-%T%%CCC%001_R-%T%%CCC%00102" />
+                                <ComObjectRefRef RefId="%AID%_O-%T%%CCC%002_R-%T%%CCC%00202" />
+                              </when>
+                              <when test="1"> <!-- Dimmer -->
+                                <ParameterRefRef RefId="%AID%_UP-%T%%CCC%023_R-%T%%CCC%02301" /> <!-- Switch On Behavior -->
+                                <ParameterRefRef RefId="%AID%_UP-%T%%CCC%024_R-%T%%CCC%02401" /> <!-- Switch On 2 Behavior -->
+                                <ComObjectRefRef RefId="%AID%_O-%T%%CCC%001_R-%T%%CCC%00112" />
+                                <ComObjectRefRef RefId="%AID%_O-%T%%CCC%002_R-%T%%CCC%00212" />
+                              </when>
+                              <when test="2"> <!-- RGB -->
+                                <ParameterRefRef RefId="%AID%_UP-%T%%CCC%025_R-%T%%CCC%02501" /> <!-- RGB Switch On Behavior -->
+                                <ParameterRefRef RefId="%AID%_UP-%T%%CCC%026_R-%T%%CCC%02601" /> <!-- RGB Switch On 2 Behavior -->
+                                <ParameterRefRef RefId="%AID%_UP-%T%%CCC%027_R-%T%%CCC%02701" /> <!-- RGB Use Switch KO -->
+                                <ComObjectRefRef RefId="%AID%_O-%T%%CCC%001_R-%T%%CCC%00122" />
+                                <ComObjectRefRef RefId="%AID%_O-%T%%CCC%002_R-%T%%CCC%00222" />
+                                <choose ParamRefId="%AID%_UP-%T%%CCC%027_R-%T%%CCC%02701"> <!-- RGB Use Switch KO -->
+                                  <when test="1"> <!-- Use Switch KO -->
+                                    <ComObjectRefRef RefId="%AID%_O-%T%%CCC%003_R-%T%%CCC%00322" />
+                                    <ComObjectRefRef RefId="%AID%_O-%T%%CCC%004_R-%T%%CCC%00422" />
+                                  </when>
+                                </choose>
                               </when>
                             </choose>
                         
-                            
                           </when>
-                        </choose>
-                        <choose ParamRefId="%AID%_UP-%T%%CCC%052_R-%T%%CCC%05201">           <!-- Thermostat Mode --> 
-                          <when test="2 3 7"> <!-- Cooling Feedback -->
-                            <ParameterSeparator Id="%AID%_PS-nnn" Text="" UIHint="HorizontalRuler" />
-                            <ParameterSeparator Id="%AID%_PS-nnn" Text="Kühlen" UIHint="Headline" />
-                            <ParameterRefRef RefId="%AID%_UP-%T%%CCC%056_R-%T%%CCC%05601" /> <!-- Ko Mode Cooling --> 
-                            <choose ParamRefId="%AID%_UP-%T%%CCC%056_R-%T%%CCC%05601" >      <!-- Ko Mode Cooling --> 
-                              <when test="0"> <!-- Switch -->
-                                <ComObjectRefRef RefId="%AID%_O-%T%%CCC%007_R-%T%%CCC%00705" />  <!-- Kühlen -->
+                          <!-- Jalousie/Rolladen/Markise -->
+                          <when test="30 31 32"> 
+                            <choose ParamRefId="%AID%_P-%T%000002_R-%T%00000201">  <!-- Bride Mode -->
+                              <when test="2 3 8"> <!-- Hue & Hue oder Hue & Homekit -->
+                                <ParameterRefRef RefId="%AID%_UP-%T%%CCC%031_R-%T%%CCC%03101" /> <!-- In Hue verwenden -->
                               </when>
-                              <when test="1"> <!-- Lock -->
-                                <ComObjectRefRef RefId="%AID%_O-%T%%CCC%007_R-%T%%CCC%00715" />  <!-- Kühlen Sperre -->            
-                              </when>
-                            </choose>    
-
-                            <ParameterRefRef RefId="%AID%_UP-%T%%CCC%057_R-%T%%CCC%05701" /> <!-- Ko Mode Cooling Feedback --> 
-                            <choose ParamRefId="%AID%_UP-%T%%CCC%057_R-%T%%CCC%05701" >      <!-- Ko Mode Cooling Feedback --> 
-                              <when test="0"> <!-- Switch -->
-                                <ComObjectRefRef RefId="%AID%_O-%T%%CCC%008_R-%T%%CCC%00805" />  <!-- Kühlen Rückmeldung -->
-                              </when>
-                              <when test="1"> <!-- Lock -->
-                                <ComObjectRefRef RefId="%AID%_O-%T%%CCC%008_R-%T%%CCC%00815" />  <!-- Kühlen Sperre Rückmeldung -->
+                            </choose>                    
+                            <ParameterRefRef RefId="%AID%_UP-%T%%CCC%032_R-%T%%CCC%03201" /> <!-- Up Down Handling -->
+                            <ParameterRefRef RefId="%AID%_UP-%T%%CCC%033_R-%T%%CCC%03301" /> <!-- Use Stop -->
+                            <choose ParamRefId="%AID%_P-%T%%CCC%001_R-%T%%CCC%00101">    <!-- Device Type -->
+                              <when test="30">   <!-- Jalousie --> 
+                                <ParameterRefRef RefId="%AID%_UP-%T%%CCC%034_R-%T%%CCC%03401" /> <!-- Slat Handling -->
                               </when>
                             </choose>
 
-                            <ParameterRefRef RefId="%AID%_UP-%T%%CCC%058_R-%T%%CCC%05801" /> <!-- Ko Type Cooling Active Feedback --> 
-                            <choose ParamRefId="%AID%_UP-%T%%CCC%058_R-%T%%CCC%05801" >      <!-- Ko Type Cooling Active Feedback --> 
-                              <when test="0"> <!-- Switch -->
-                                <ComObjectRefRef RefId="%AID%_O-%T%%CCC%009_R-%T%%CCC%00905" />  <!-- Kühlen Aktiv Rückmeldung -->
+                            <ComObjectRefRef RefId="%AID%_O-%T%%CCC%001_R-%T%%CCC%00103" /> <!-- Position --> 
+                            <ComObjectRefRef RefId="%AID%_O-%T%%CCC%002_R-%T%%CCC%00203" /> <!-- Position Feedback --> 
+                            <ComObjectRefRef RefId="%AID%_O-%T%%CCC%003_R-%T%%CCC%00303" /> <!-- Move Down Feedback --> 
+                            <ComObjectRefRef RefId="%AID%_O-%T%%CCC%004_R-%T%%CCC%00403" /> <!-- Move Up Feedback -->  
+                            <choose ParamRefId="%AID%_UP-%T%%CCC%032_R-%T%%CCC%03201">    <!-- Up Down Handling -->
+                                <when test="!=0">
+                                  <ComObjectRefRef RefId="%AID%_O-%T%%CCC%005_R-%T%%CCC%00503" /> <!-- Up / Down -->
+                                </when>
+                            </choose>
+                            <choose ParamRefId="%AID%_UP-%T%%CCC%033_R-%T%%CCC%03301">    <!-- Use Stop-->
+                                <when test="!=0">
+                                  <ComObjectRefRef RefId="%AID%_O-%T%%CCC%006_R-%T%%CCC%00603" /> <!-- Stop -->
+                                </when>
+                            </choose>
+
+                            <choose ParamRefId="%AID%_P-%T%%CCC%001_R-%T%%CCC%00101">    <!-- Device Type -->
+                                <when test="30">   <!-- Jalousie -->              
+                                  <ComObjectRefRef RefId="%AID%_O-%T%%CCC%007_R-%T%%CCC%00703" /> <!-- Slat Position -->
+                                  <ComObjectRefRef RefId="%AID%_O-%T%%CCC%008_R-%T%%CCC%00803" /> <!-- Slat Position Feedback -->
+                                </when>
+                            </choose>
+                          </when>
+                          
+                          <!-- Thermostat -->
+                          <when test="50">
+                            <ComObjectRefRef RefId="%AID%_O-%T%%CCC%001_R-%T%%CCC%00105" /> <!-- Soll Temperatur -->
+                            <ComObjectRefRef RefId="%AID%_O-%T%%CCC%002_R-%T%%CCC%00205" /> <!-- Soll Temperatur Rückmeldung -->
+                            <ComObjectRefRef RefId="%AID%_O-%T%%CCC%003_R-%T%%CCC%00305" /> <!-- Ist Temperatur Rückmeldung -->
+                    
+                            <ParameterRefRef RefId="%AID%_UP-%T%%CCC%051_R-%T%%CCC%05101" />     <!-- Unit -->   
+                            <ParameterRefRef RefId="%AID%_UP-%T%%CCC%052_R-%T%%CCC%05201" />     <!-- Thermostat Mode --> 
+                            <choose ParamRefId="%AID%_UP-%T%%CCC%052_R-%T%%CCC%05201">           <!-- Thermostat Mode --> 
+                              <when test="1 3 7"> <!-- Heating -->
+                                <ParameterSeparator Id="%AID%_PS-nnn" Text="" UIHint="HorizontalRuler" />
+                                <ParameterSeparator Id="%AID%_PS-nnn" Text="Heizen" UIHint="Headline" />
+                                <ParameterRefRef RefId="%AID%_UP-%T%%CCC%053_R-%T%%CCC%05301" /> <!-- Ko Mode Heating --> 
+                                <choose ParamRefId="%AID%_UP-%T%%CCC%053_R-%T%%CCC%05301" >      <!-- Ko Mode Heading --> 
+                                  <when test="0"> <!-- Switch -->
+                                    <ComObjectRefRef RefId="%AID%_O-%T%%CCC%004_R-%T%%CCC%00405" />  <!-- Heizen -->
+                                  </when>
+                                  <when test="1"> <!-- Lock -->
+                                    <ComObjectRefRef RefId="%AID%_O-%T%%CCC%004_R-%T%%CCC%00415" />  <!-- Heizen Sperre -->
+                                  </when>
+                                </choose>    
+                
+                                <ParameterRefRef RefId="%AID%_UP-%T%%CCC%054_R-%T%%CCC%05401" /> <!-- Ko Mode Heating Feedback --> 
+                                <choose ParamRefId="%AID%_UP-%T%%CCC%054_R-%T%%CCC%05401" >      <!-- Ko Mode Heating Feedback -->
+                                  <when test="0"> <!-- Switch -->
+                                    <ComObjectRefRef RefId="%AID%_O-%T%%CCC%005_R-%T%%CCC%00505" />  <!-- Heizen Rückmeldung -->
+                                  </when>
+                                  <when test="1"> <!-- Lock -->
+                                    <ComObjectRefRef RefId="%AID%_O-%T%%CCC%005_R-%T%%CCC%00515" />  <!-- Heizen Sperre Rückmeldung -->
+                                  </when>
+                                </choose>
+
+                                <ParameterRefRef RefId="%AID%_UP-%T%%CCC%055_R-%T%%CCC%05501" /> <!-- Ko Type Heating Active Feedback --> 
+                                <choose ParamRefId="%AID%_UP-%T%%CCC%055_R-%T%%CCC%05501" >      <!-- Ko Type Heating Active Feedback -->  
+                                  <when test="0"> <!-- Switch -->
+                                    <ComObjectRefRef RefId="%AID%_O-%T%%CCC%006_R-%T%%CCC%00605" />  <!-- Heizen Aktiv Rückmeldung -->
+                                  </when>
+                                  <when test="1"> <!-- Percent -->
+                                    <ComObjectRefRef RefId="%AID%_O-%T%%CCC%006_R-%T%%CCC%00615" />  <!-- Heizen Aktiv Stellwert Rückmeldung -->
+                                  </when>
+                                </choose>
+                            
+                                
                               </when>
-                              <when test="1"> <!-- Percent -->
-                                <ComObjectRefRef RefId="%AID%_O-%T%%CCC%009_R-%T%%CCC%00915" />  <!-- Kühlen Aktiv Stellwert Rückmeldung -->
+                            </choose>
+                            <choose ParamRefId="%AID%_UP-%T%%CCC%052_R-%T%%CCC%05201">           <!-- Thermostat Mode --> 
+                              <when test="2 3 7"> <!-- Cooling Feedback -->
+                                <ParameterSeparator Id="%AID%_PS-nnn" Text="" UIHint="HorizontalRuler" />
+                                <ParameterSeparator Id="%AID%_PS-nnn" Text="Kühlen" UIHint="Headline" />
+                                <ParameterRefRef RefId="%AID%_UP-%T%%CCC%056_R-%T%%CCC%05601" /> <!-- Ko Mode Cooling --> 
+                                <choose ParamRefId="%AID%_UP-%T%%CCC%056_R-%T%%CCC%05601" >      <!-- Ko Mode Cooling --> 
+                                  <when test="0"> <!-- Switch -->
+                                    <ComObjectRefRef RefId="%AID%_O-%T%%CCC%007_R-%T%%CCC%00705" />  <!-- Kühlen -->
+                                  </when>
+                                  <when test="1"> <!-- Lock -->
+                                    <ComObjectRefRef RefId="%AID%_O-%T%%CCC%007_R-%T%%CCC%00715" />  <!-- Kühlen Sperre -->            
+                                  </when>
+                                </choose>    
+
+                                <ParameterRefRef RefId="%AID%_UP-%T%%CCC%057_R-%T%%CCC%05701" /> <!-- Ko Mode Cooling Feedback --> 
+                                <choose ParamRefId="%AID%_UP-%T%%CCC%057_R-%T%%CCC%05701" >      <!-- Ko Mode Cooling Feedback --> 
+                                  <when test="0"> <!-- Switch -->
+                                    <ComObjectRefRef RefId="%AID%_O-%T%%CCC%008_R-%T%%CCC%00805" />  <!-- Kühlen Rückmeldung -->
+                                  </when>
+                                  <when test="1"> <!-- Lock -->
+                                    <ComObjectRefRef RefId="%AID%_O-%T%%CCC%008_R-%T%%CCC%00815" />  <!-- Kühlen Sperre Rückmeldung -->
+                                  </when>
+                                </choose>
+
+                                <ParameterRefRef RefId="%AID%_UP-%T%%CCC%058_R-%T%%CCC%05801" /> <!-- Ko Type Cooling Active Feedback --> 
+                                <choose ParamRefId="%AID%_UP-%T%%CCC%058_R-%T%%CCC%05801" >      <!-- Ko Type Cooling Active Feedback --> 
+                                  <when test="0"> <!-- Switch -->
+                                    <ComObjectRefRef RefId="%AID%_O-%T%%CCC%009_R-%T%%CCC%00905" />  <!-- Kühlen Aktiv Rückmeldung -->
+                                  </when>
+                                  <when test="1"> <!-- Percent -->
+                                    <ComObjectRefRef RefId="%AID%_O-%T%%CCC%009_R-%T%%CCC%00915" />  <!-- Kühlen Aktiv Stellwert Rückmeldung -->
+                                  </when>
+                                </choose>
+                              
+                              </when>
+                            </choose>
+                          </when>                      
+                    
+                          <!-- Anzeige -->
+                          <when test="60">
+                              <ParameterRefRef RefId="%AID%_UP-%T%%CCC%061_R-%T%%CCC%06101" /> <!-- DisplayType  -->                       
+                              <choose ParamRefId="%AID%_UP-%T%%CCC%061_R-%T%%CCC%06101">  <!-- DisplayType  -->
+                              <when test="0"> <!-- Temperatur -->
+                                <ComObjectRefRef RefId="%AID%_O-%T%%CCC%001_R-%T%%CCC%00106" />
+                              </when>
+                              <when test="1"> <!-- Luftfeuchte -->
+                                <ComObjectRefRef RefId="%AID%_O-%T%%CCC%001_R-%T%%CCC%00116" />
+                              </when>
+                              <when test="2"> <!-- Helligkeit -->
+                                <ComObjectRefRef RefId="%AID%_O-%T%%CCC%001_R-%T%%CCC%00126" />
+                              </when>
+                            </choose>
+                          </when>
+                          <!-- Kontakte/Alarme/Sensoren -->
+                          <when test="70 71 72 73 74 75 76"> <!-- Anzeige -->
+                            <choose ParamRefId="%AID%_P-%T%%CCC%001_R-%T%%CCC%00101">  <!--Devie Type  -->
+                              <when test="70"> <!-- Contact -->
+                                <ComObjectRefRef RefId="%AID%_O-%T%%CCC%001_R-%T%%CCC%00107" />
+                              </when>
+                              <when test="71"> <!-- Movement -->
+                                <ComObjectRefRef RefId="%AID%_O-%T%%CCC%001_R-%T%%CCC%00117" />
+                              </when>
+                              <when test="72"> <!-- Occupancy -->
+                                <ComObjectRefRef RefId="%AID%_O-%T%%CCC%001_R-%T%%CCC%00127" />
+                              </when>
+                              <when test="73"> <!-- Leak -->
+                                <ComObjectRefRef RefId="%AID%_O-%T%%CCC%001_R-%T%%CCC%00137" />
+                              </when>
+                              <when test="74"> <!-- Smoke -->
+                                <ComObjectRefRef RefId="%AID%_O-%T%%CCC%001_R-%T%%CCC%00147" />
+                              </when>
+                              <when test="75"> <!-- CO2 -->
+                                <ComObjectRefRef RefId="%AID%_O-%T%%CCC%001_R-%T%%CCC%00157" />
+                              </when>
+                              <when test="76"> <!-- CO -->
+                                <ComObjectRefRef RefId="%AID%_O-%T%%CCC%001_R-%T%%CCC%00167" />
+                              </when>
+                            </choose>
+                            <ParameterRefRef RefId="%AID%_UP-%T%%CCC%071_R-%T%%CCC%07101" /> <!-- ContactAlarmSensor Invert Input -->
+                
+                          </when>
+                          <!-- Fan -->
+                          <when test="80"> <!-- Fan -->
+            
+                            <choose ParamRefId="%AID%_P-%T%000002_R-%T%00000201">  <!-- Bride Mode -->
+                              <when test="2 3 8"> <!-- Hue & Hue oder Hue & Homekit -->
+                                <ParameterRefRef RefId="%AID%_UP-%T%%CCC%081_R-%T%%CCC%08101" /> <!-- In Hue verwenden -->
+                              </when>
+                            </choose>
+
+                            <ComObjectRefRef RefId="%AID%_O-%T%%CCC%001_R-%T%%CCC%00108" />  <!-- Lüfter -->
+                            <ComObjectRefRef RefId="%AID%_O-%T%%CCC%002_R-%T%%CCC%00208" />  <!-- Lüfter Rückmeldung -->
+                      
+
+                            <ParameterSeparator Id="%AID%_PS-nnn" Text="" UIHint="HorizontalRuler" />
+                            <ParameterSeparator Id="%AID%_PS-nnn" Text="Automatikmodus" UIHint="Headline" />
+                            
+                            <ParameterRefRef RefId="%AID%_UP-%T%%CCC%082_R-%T%%CCC%08201" /> <!-- Fan hat Automatikmodus -->
+                            <choose ParamRefId="%AID%_UP-%T%%CCC%082_R-%T%%CCC%08201">  <!-- Fan hat Automatikmodus -->
+                              <when test="1"> <!-- Fan hat Automatikmodus -->
+                                <ParameterRefRef RefId="%AID%_UP-%T%%CCC%083_R-%T%%CCC%08301" /> <!-- Fan Automatik KO -->
+                                <choose ParamRefId="%AID%_UP-%T%%CCC%083_R-%T%%CCC%08301">  <!-- Fan Automatik KO -->
+                                  <when test="0"> <!-- Automatik -->
+                                    <ComObjectRefRef RefId="%AID%_O-%T%%CCC%003_R-%T%%CCC%00308" />  <!-- Automatik -->
+                                  </when>
+                                  <when test="1"> <!-- Handbetrieb -->
+                                    <ComObjectRefRef RefId="%AID%_O-%T%%CCC%003_R-%T%%CCC%00318" />  <!-- Handbetrieb -->
+                                  </when>                     
+                                </choose>
+                                <ParameterRefRef RefId="%AID%_UP-%T%%CCC%084_R-%T%%CCC%08401" /> <!-- Fan Automatik Rückmeldung KO -->
+                                <choose ParamRefId="%AID%_UP-%T%%CCC%084_R-%T%%CCC%08401">  <!-- Fan Automatik Rückmeldung KO -->
+                                  <when test="0"> <!-- Automatik -->
+                                    <ComObjectRefRef RefId="%AID%_O-%T%%CCC%004_R-%T%%CCC%00408" />  <!-- Automatik -->
+                                  </when>
+                                  <when test="1"> <!-- Handbetrieb -->
+                                    <ComObjectRefRef RefId="%AID%_O-%T%%CCC%004_R-%T%%CCC%00418" />  <!-- Handbetrieb -->
+                                  </when>                     
+                                </choose>
+                              </when>
+                            </choose>
+                          </when>
+                          <!-- Door/Window/Garage -->
+                          <when test="90 91 92"> 
+
+                          <choose ParamRefId="%AID%_P-%T%000002_R-%T%00000201">  <!-- Bride Mode -->
+                              <when test="2 3 8"> <!-- Hue & Hue oder Hue & Homekit -->
+                                <ParameterRefRef RefId="%AID%_UP-%T%%CCC%096_R-%T%%CCC%09601" /> <!-- In Hue verwenden -->
+                              </when>
+                            </choose>
+
+                            <ParameterRefRef RefId="%AID%_UP-%T%%CCC%091_R-%T%%CCC%09101" /> <!-- Motor -->
+
+                            <choose ParamRefId="%AID%_UP-%T%%CCC%091_R-%T%%CCC%09101">    <!-- Motor-->
+                              <when test="1">  
+                                <ParameterRefRef RefId="%AID%_UP-%T%%CCC%092_R-%T%%CCC%09201" /> <!-- Blockade -->
+
+                                <ParameterRefRef RefId="%AID%_UP-%T%%CCC%093_R-%T%%CCC%09301" /> <!-- Up Down Handling -->
+                                <ParameterRefRef RefId="%AID%_UP-%T%%CCC%094_R-%T%%CCC%09401" /> <!-- Use Stop -->
+                              </when>
+                            </choose>
+
+                            <ParameterRefRef RefId="%AID%_UP-%T%%CCC%095_R-%T%%CCC%09501" /> <!-- Rückmeldetype -->
+
+                            <choose ParamRefId="%AID%_UP-%T%%CCC%091_R-%T%%CCC%09101">    <!-- Motor-->
+                              <when test="1">
+                                <ComObjectRefRef RefId="%AID%_O-%T%%CCC%001_R-%T%%CCC%00109" /> <!-- Position --> 
+
+                                <choose ParamRefId="%AID%_UP-%T%%CCC%093_R-%T%%CCC%09301">    <!-- Up Down Handling -->
+                                  <when test="!=0">
+                                    <ComObjectRefRef RefId="%AID%_O-%T%%CCC%005_R-%T%%CCC%00509" /> <!-- Öffnen / Schließen -->
+                                  </when>
+                                </choose>
+                                <choose ParamRefId="%AID%_UP-%T%%CCC%094_R-%T%%CCC%09401">    <!-- Use Stop-->
+                                  <when test="!=0">
+                                    <ComObjectRefRef RefId="%AID%_O-%T%%CCC%006_R-%T%%CCC%00609" /> <!-- Stop -->
+                                  </when>
+                                </choose>   
+                                <ComObjectRefRef RefId="%AID%_O-%T%%CCC%003_R-%T%%CCC%00309" /> <!-- Schließen Feedback --> 
+                                <ComObjectRefRef RefId="%AID%_O-%T%%CCC%004_R-%T%%CCC%00409" /> <!-- Öffnen Feedback -->  
+                              </when>
+                            </choose>
+
+                            <choose ParamRefId="%AID%_UP-%T%%CCC%095_R-%T%%CCC%09501">    <!-- Rückmeldetype-->
+                              <when test="0">
+                                <ComObjectRefRef RefId="%AID%_O-%T%%CCC%002_R-%T%%CCC%00209" /> <!-- Position Feedback Percentage-->
+                              </when>
+                              <when test="1">
+                                <ComObjectRefRef RefId="%AID%_O-%T%%CCC%002_R-%T%%CCC%00219" /> <!-- Open Feedback -->  
+                              </when>
+                              <when test="2">
+                                <ComObjectRefRef RefId="%AID%_O-%T%%CCC%002_R-%T%%CCC%00229" /> <!-- Close Feedback -->  
                               </when>
                             </choose>
                           
+                            <choose ParamRefId="%AID%_UP-%T%%CCC%092_R-%T%%CCC%09201">    <!-- Klemmt Handling -->
+                              <when test="!=0">
+                                <ComObjectRefRef RefId="%AID%_O-%T%%CCC%007_R-%T%%CCC%00709" /> <!-- Klemmt Feedback -->
+                              </when>
+                            </choose>
                           </when>
                         </choose>
-                      </when>                      
-                
-                       <!-- Anzeige -->
-                      <when test="60">
-                          <ParameterRefRef RefId="%AID%_UP-%T%%CCC%061_R-%T%%CCC%06101" /> <!-- DisplayType  -->                       
-                          <choose ParamRefId="%AID%_UP-%T%%CCC%061_R-%T%%CCC%06101">  <!-- DisplayType  -->
-                          <when test="0"> <!-- Temperatur -->
-                            <ComObjectRefRef RefId="%AID%_O-%T%%CCC%001_R-%T%%CCC%00106" />
-                          </when>
-                          <when test="1"> <!-- Luftfeuchte -->
-                            <ComObjectRefRef RefId="%AID%_O-%T%%CCC%001_R-%T%%CCC%00116" />
-                          </when>
-                           <when test="2"> <!-- Helligkeit -->
-                            <ComObjectRefRef RefId="%AID%_O-%T%%CCC%001_R-%T%%CCC%00126" />
-                          </when>
-                        </choose>
-                      </when>
-                      <!-- Kontakte/Alarme/Sensoren -->
-                      <when test="70 71 72 73 74 75 76"> <!-- Anzeige -->
-                        <choose ParamRefId="%AID%_P-%T%%CCC%001_R-%T%%CCC%00101">  <!--Devie Type  -->
-                          <when test="70"> <!-- Contact -->
-                            <ComObjectRefRef RefId="%AID%_O-%T%%CCC%001_R-%T%%CCC%00107" />
-                          </when>
-                          <when test="71"> <!-- Movement -->
-                            <ComObjectRefRef RefId="%AID%_O-%T%%CCC%001_R-%T%%CCC%00117" />
-                          </when>
-                          <when test="72"> <!-- Occupancy -->
-                            <ComObjectRefRef RefId="%AID%_O-%T%%CCC%001_R-%T%%CCC%00127" />
-                          </when>
-                          <when test="73"> <!-- Leak -->
-                            <ComObjectRefRef RefId="%AID%_O-%T%%CCC%001_R-%T%%CCC%00137" />
-                          </when>
-                          <when test="74"> <!-- Smoke -->
-                            <ComObjectRefRef RefId="%AID%_O-%T%%CCC%001_R-%T%%CCC%00147" />
-                          </when>
-                          <when test="75"> <!-- CO2 -->
-                            <ComObjectRefRef RefId="%AID%_O-%T%%CCC%001_R-%T%%CCC%00157" />
-                          </when>
-                          <when test="76"> <!-- CO -->
-                            <ComObjectRefRef RefId="%AID%_O-%T%%CCC%001_R-%T%%CCC%00167" />
-                          </when>
-                        </choose>
-                        <ParameterRefRef RefId="%AID%_UP-%T%%CCC%071_R-%T%%CCC%07101" /> <!-- ContactAlarmSensor Invert Input -->
-            
-                      </when>
-                       <!-- Fan -->
-                      <when test="80"> <!-- Fan -->
-        
-                        <choose ParamRefId="%AID%_P-%T%000002_R-%T%00000201">  <!-- Bride Mode -->
-                          <when test="2 3 8"> <!-- Hue & Hue oder Hue & Homekit -->
-                            <ParameterRefRef RefId="%AID%_UP-%T%%CCC%081_R-%T%%CCC%08101" /> <!-- In Hue verwenden -->
-                          </when>
-                        </choose>
-
-                        <ComObjectRefRef RefId="%AID%_O-%T%%CCC%001_R-%T%%CCC%00108" />  <!-- Lüfter -->
-                        <ComObjectRefRef RefId="%AID%_O-%T%%CCC%002_R-%T%%CCC%00208" />  <!-- Lüfter Rückmeldung -->
                   
-
-                        <ParameterSeparator Id="%AID%_PS-nnn" Text="" UIHint="HorizontalRuler" />
-                        <ParameterSeparator Id="%AID%_PS-nnn" Text="Automatikmodus" UIHint="Headline" />
-                        
-                        <ParameterRefRef RefId="%AID%_UP-%T%%CCC%082_R-%T%%CCC%08201" /> <!-- Fan hat Automatikmodus -->
-                        <choose ParamRefId="%AID%_UP-%T%%CCC%082_R-%T%%CCC%08201">  <!-- Fan hat Automatikmodus -->
-                          <when test="1"> <!-- Fan hat Automatikmodus -->
-                            <ParameterRefRef RefId="%AID%_UP-%T%%CCC%083_R-%T%%CCC%08301" /> <!-- Fan Automatik KO -->
-                            <choose ParamRefId="%AID%_UP-%T%%CCC%083_R-%T%%CCC%08301">  <!-- Fan Automatik KO -->
-                              <when test="0"> <!-- Automatik -->
-                                <ComObjectRefRef RefId="%AID%_O-%T%%CCC%003_R-%T%%CCC%00308" />  <!-- Automatik -->
-                              </when>
-                              <when test="1"> <!-- Handbetrieb -->
-                                <ComObjectRefRef RefId="%AID%_O-%T%%CCC%003_R-%T%%CCC%00318" />  <!-- Handbetrieb -->
-                              </when>                     
-                            </choose>
-                            <ParameterRefRef RefId="%AID%_UP-%T%%CCC%084_R-%T%%CCC%08401" /> <!-- Fan Automatik Rückmeldung KO -->
-                            <choose ParamRefId="%AID%_UP-%T%%CCC%084_R-%T%%CCC%08401">  <!-- Fan Automatik Rückmeldung KO -->
-                              <when test="0"> <!-- Automatik -->
-                                <ComObjectRefRef RefId="%AID%_O-%T%%CCC%004_R-%T%%CCC%00408" />  <!-- Automatik -->
-                              </when>
-                              <when test="1"> <!-- Handbetrieb -->
-                                <ComObjectRefRef RefId="%AID%_O-%T%%CCC%004_R-%T%%CCC%00418" />  <!-- Handbetrieb -->
-                              </when>                     
-                            </choose>
-                          </when>
-                        </choose>
-                      </when>
-                      <!-- Door/Window/Garage -->
-                      <when test="90 91 92"> 
-
-                       <choose ParamRefId="%AID%_P-%T%000002_R-%T%00000201">  <!-- Bride Mode -->
-                          <when test="2 3 8"> <!-- Hue & Hue oder Hue & Homekit -->
-                            <ParameterRefRef RefId="%AID%_UP-%T%%CCC%096_R-%T%%CCC%09601" /> <!-- In Hue verwenden -->
-                          </when>
-                        </choose>
-
-                        <ParameterRefRef RefId="%AID%_UP-%T%%CCC%091_R-%T%%CCC%09101" /> <!-- Motor -->
-
-                        <choose ParamRefId="%AID%_UP-%T%%CCC%091_R-%T%%CCC%09101">    <!-- Motor-->
-                          <when test="1">  
-                            <ParameterRefRef RefId="%AID%_UP-%T%%CCC%092_R-%T%%CCC%09201" /> <!-- Blockade -->
-
-                            <ParameterRefRef RefId="%AID%_UP-%T%%CCC%093_R-%T%%CCC%09301" /> <!-- Up Down Handling -->
-                            <ParameterRefRef RefId="%AID%_UP-%T%%CCC%094_R-%T%%CCC%09401" /> <!-- Use Stop -->
-                          </when>
-                        </choose>
-
-                        <ParameterRefRef RefId="%AID%_UP-%T%%CCC%095_R-%T%%CCC%09501" /> <!-- Rückmeldetype -->
-
-                        <choose ParamRefId="%AID%_UP-%T%%CCC%091_R-%T%%CCC%09101">    <!-- Motor-->
-                          <when test="1">
-                            <ComObjectRefRef RefId="%AID%_O-%T%%CCC%001_R-%T%%CCC%00109" /> <!-- Position --> 
-
-                            <choose ParamRefId="%AID%_UP-%T%%CCC%093_R-%T%%CCC%09301">    <!-- Up Down Handling -->
-                              <when test="!=0">
-                                <ComObjectRefRef RefId="%AID%_O-%T%%CCC%005_R-%T%%CCC%00509" /> <!-- Öffnen / Schließen -->
-                              </when>
-                            </choose>
-                            <choose ParamRefId="%AID%_UP-%T%%CCC%094_R-%T%%CCC%09401">    <!-- Use Stop-->
-                              <when test="!=0">
-                                <ComObjectRefRef RefId="%AID%_O-%T%%CCC%006_R-%T%%CCC%00609" /> <!-- Stop -->
-                              </when>
-                            </choose>   
-                            <ComObjectRefRef RefId="%AID%_O-%T%%CCC%003_R-%T%%CCC%00309" /> <!-- Schließen Feedback --> 
-                            <ComObjectRefRef RefId="%AID%_O-%T%%CCC%004_R-%T%%CCC%00409" /> <!-- Öffnen Feedback -->  
-                          </when>
-                        </choose>
-
-                        <choose ParamRefId="%AID%_UP-%T%%CCC%095_R-%T%%CCC%09501">    <!-- Rückmeldetype-->
-                          <when test="0">
-                            <ComObjectRefRef RefId="%AID%_O-%T%%CCC%002_R-%T%%CCC%00209" /> <!-- Position Feedback Percentage-->
-                          </when>
-                          <when test="1">
-                            <ComObjectRefRef RefId="%AID%_O-%T%%CCC%002_R-%T%%CCC%00219" /> <!-- Open Feedback -->  
-                          </when>
-                          <when test="2">
-                            <ComObjectRefRef RefId="%AID%_O-%T%%CCC%002_R-%T%%CCC%00229" /> <!-- Close Feedback -->  
-                          </when>
-                        </choose>
-                      
-                        <choose ParamRefId="%AID%_UP-%T%%CCC%092_R-%T%%CCC%09201">    <!-- Klemmt Handling -->
-                          <when test="!=0">
-                            <ComObjectRefRef RefId="%AID%_O-%T%%CCC%007_R-%T%%CCC%00709" /> <!-- Klemmt Feedback -->
-                          </when>
-                        </choose>
-                      </when>
-                    </choose>
-               
+                      </ParameterBlock>
+                    </Channel>
                   </ParameterBlock>
-                </Channel>
-              </ParameterBlock>
+                </when>
+              </choose>
             </ChannelIndependentBlock>
 
           </Dynamic>

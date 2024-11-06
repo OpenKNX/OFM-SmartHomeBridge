@@ -259,14 +259,14 @@
                 <Memory CodeSegment="%AID%_RS-04-00000" Offset="4" BitOffset="0" />
               </Parameter>
               <Parameter Id="%AID%_P-%T%000002" Name="Modus" ParameterType="%AID%_PT-ModeSelection" Text="Modus" Value="3">
-                <Memory CodeSegment="%AID%_RS-04-00000" Offset="29" BitOffset="0" />
+                <Memory CodeSegment="%AID%_RS-04-00000" Offset="30" BitOffset="0" />
               </Parameter>
            		<!-- Number of channels -->
               <Parameter Id="%AID%_P-%T%000000" Name="VisibleChannels" ParameterType="%AID%_PT-BRINumChannels" Text="Verfügbare Kanäle" Value="%BRI_NumChannelsDefault%" SuffixText=" von %N%" >
-                <Memory CodeSegment="%AID%_RS-04-00000" Offset="30" BitOffset="0" />
+                <Memory CodeSegment="%AID%_RS-04-00000" Offset="31" BitOffset="0" />
               </Parameter>
               <Parameter Id="%AID%_P-%T%000005" Name="PairingCode" ParameterType="%AID%_PT-PairingCode" Text="Kopplungscode" Value="46637726">
-                <Memory CodeSegment="%AID%_RS-04-00000" Offset="126" BitOffset="0" />
+                <Memory CodeSegment="%AID%_RS-04-00000" Offset="127" BitOffset="0" />
               </Parameter>
           
             </Parameters>
