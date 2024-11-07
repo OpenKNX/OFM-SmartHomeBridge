@@ -91,10 +91,7 @@ void SmartHomeBridgeModule::setup()
     bridgeInterfaces->push_back(_pHueBridge);
   }
 
-  for (auto it = bridgeInterfaces->begin(); it != bridgeInterfaces->end(); ++it)
-    (*it)->initialize(this);
-
-  ChannelOwnerModule::setup();
+ // Do not call base class here, because this creates the channels
 }
 
 OpenKNX::Channel *SmartHomeBridgeModule::createChannel(uint8_t _channelIndex /* this parameter is used in macros, do not rename */)
@@ -319,12 +316,20 @@ void SmartHomeBridgeModule::loop()
           }
         });
 
+    logDebugP("Initialize briges");
+    for (auto it = bridgeInterfaces->begin(); it != bridgeInterfaces->end(); ++it)
+      (*it)->initialize(this);
+
+    createChannels();
+
     for (auto it = bridgeInterfaces->begin(); it != bridgeInterfaces->end(); ++it)
       (*it)->initWebServer(*webServer);
 
     webServer->enableDelay(false);
     for (auto it = bridgeInterfaces->begin(); it != bridgeInterfaces->end(); ++it)
       (*it)->start(this);
+
+
     webServer->begin();
   }
   if (webServer != nullptr)

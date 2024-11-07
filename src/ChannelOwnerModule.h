@@ -19,6 +19,7 @@ public:
         */
     virtual void setup(bool configured) override;
     virtual void setup() override;
+    void createChannels();
 
     /*
         * Module logic for core0

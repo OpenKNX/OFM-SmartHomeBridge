@@ -9,14 +9,23 @@
 void HomeKitBridge::initialize(SmartHomeBridgeModule *bridge)
 {
     _bridge = bridge;
+    homeSpan.setWifiCredentials("Dummy","Dummy");
+    if (WiFi.status() == WL_NO_SHIELD)
+        WiFi._setStatus(WL_CONNECTED);
+    homeSpan.setSerialInputDisable(true);
+    homeSpan.setPairingCode((const char *)ParamBRI_PairingCode);
+    homeSpan.setPortNum(8080);
+    homeSpan.begin(Category::Bridges, bridge->getNameInUTF8());
+    new SpanAccessory();
+    new Service::AccessoryInformation();
+    new Characteristic::Identify();
 }
 
 bool HomeKitBridge::processCommand(const std::string cmd, bool diagnoseKo)
 {
     if (cmd == "hk")
     {
-        Serial.println("Wifi");
-        Serial.println(WiFi.status());
+        homeSpan.processSerialCommand("i");
         return true;
     }
     if (cmd.rfind("hk ") == 0)
@@ -60,15 +69,7 @@ const std::string HomeKitBridge::name()
 void HomeKitBridge::start(SmartHomeBridgeModule *bridge)
 {
     BridgeBase::start(bridge);
-    homeSpan.setWifiCredentials("Dummy","Dummy");
-    WiFi._setStatus(WL_CONNECTED);
-    homeSpan.setSerialInputDisable(true);
-    homeSpan.setPairingCode((const char *)ParamBRI_PairingCode);
-    homeSpan.setPortNum(8080);
-    homeSpan.begin(Category::Bridges, bridge->getNameInUTF8());
-    new SpanAccessory();
-    new Service::AccessoryInformation();
-    new Characteristic::Identify();
+  
 
     homeSpan.autoPoll(HOMESPAN_STACK_SIZE);
 }
