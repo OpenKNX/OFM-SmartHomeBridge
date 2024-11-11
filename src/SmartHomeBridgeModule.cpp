@@ -269,22 +269,22 @@ void SmartHomeBridgeModule::loop()
     started = true;
     webServer = new WebServer(80);
     // serve pages
-    webServer->on("/", HTTP_GET, [=]()
-                  { serveHomePage(); });
-    webServer->on("/updateFW", HTTP_GET, [=]()
-                  { serveFirmwareUpdatePage(); });
-    webServer->on("/progMode", HTTP_POST, [=]()
-                  { serveProgModePage(); });
-    webServer->on("/reboot", HTTP_POST, [=]()
-                  { serveRebootPage(); });
+    webServer->on("/", HTTP_GET, [this]()
+                  { this->serveHomePage(); });
+    webServer->on("/updateFW", HTTP_GET, [this]()
+                  { this->serveFirmwareUpdatePage(); });
+    webServer->on("/progMode", HTTP_POST, [this]()
+                  { this->serveProgModePage(); });
+    webServer->on("/reboot", HTTP_POST, [this]()
+                  { this->serveRebootPage(); });
     // handling uploading firmware file
     webServer->on(
-        "/update", HTTP_POST, [=]()
+        "/update", HTTP_POST, [this]()
         {
       webServer->sendHeader("Connection", "close");
       webServer->send(200, "text/plain", (Update.hasError()) ? "FAIL" : "OK");
       ESP.restart(); },
-        [=]()
+        [this]()
         {
           HTTPUpload &upload = webServer->upload();
           if (upload.status == UPLOAD_FILE_START)

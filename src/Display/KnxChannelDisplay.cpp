@@ -29,15 +29,15 @@ void KnxChannelDisplay::setup()
     switch (getDisplayType())
     {
         case DisplayType::DisplayTypeTemperature:
-            koSetWithoutSend(KO_TEMPERATURE_FEEDBACK, 0);
+            koSetWithoutSend(KO_TEMPERATURE_FEEDBACK, 0.F);
             koSendReadRequest(KO_TEMPERATURE_FEEDBACK);
             break;
         case DisplayType::DisplayTypeHumidity:
-            koSetWithoutSend(KO_HUMIDITY_FEEDBACK, 0);
+            koSetWithoutSend(KO_HUMIDITY_FEEDBACK, 0.F);
             koSendReadRequest(KO_HUMIDITY_FEEDBACK);
             break;
             case DisplayType::DisplayTypeLux:
-            koSetWithoutSend(KO_LUX_FEEDBACK, 0);
+            koSetWithoutSend(KO_LUX_FEEDBACK,  0.F);
             koSendReadRequest(KO_LUX_FEEDBACK);
             break;
     }

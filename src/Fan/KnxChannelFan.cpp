@@ -49,8 +49,8 @@ void KnxChannelFan::commandAutomatic(FanBridge *fanBridge, bool automatic)
 
 void KnxChannelFan::setup()
 {
-    koSetWithoutSend(KO_SWITCH, 0);
-    koSetWithoutSend(KO_SWITCH_FEEDBACK, 0);
+    koSetWithoutSend(KO_SWITCH, false);
+    koSetWithoutSend(KO_SWITCH_FEEDBACK, false);
     koSendReadRequest(KO_SWITCH_FEEDBACK);
 
     koSetWithoutSend(KO_AUTOMATIC, ParamBRI_CHFanKoAutomatic == 1);

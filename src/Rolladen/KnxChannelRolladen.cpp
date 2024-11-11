@@ -97,8 +97,8 @@ bool KnxChannelRolladen::commandPosition(RolladenBridge* interface, uint8_t posi
 
 void KnxChannelRolladen::setup()
 {
-    koSetWithoutSend(KO_POSITION, 0);
-    koSetWithoutSend(KO_POSITION_FEEDBACK, 0);
+    koSetWithoutSend(KO_POSITION, (uint8_t) 0);
+    koSetWithoutSend(KO_POSITION_FEEDBACK, (uint8_t) 0);
     koSendReadRequest(KO_POSITION_FEEDBACK);
     koSetWithoutSend(KO_MOVING_DOWN_FEEDBACK, false);
     koSendReadRequest(KO_MOVING_DOWN_FEEDBACK);

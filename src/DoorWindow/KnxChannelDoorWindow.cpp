@@ -121,10 +121,10 @@ bool KnxChannelDoorWindow::commandPosition(DoorWindowBridge* interface, uint8_t 
 
 void KnxChannelDoorWindow::setup()
 {
-    koSetWithoutSend(KO_POSITION, 0);
+    koSetWithoutSend(KO_POSITION, (uint8_t) 0);
     if (KnxChannelDoorWindowFeedback::DoorWindowFeedbackPercentage == (KnxChannelDoorWindowFeedback) ParamBRI_CHDoorWindowFeedbackType)
     {
-        koSetWithoutSend(KO_FEEDBACK_PERCENT, 0);
+        koSetWithoutSend(KO_FEEDBACK_PERCENT,(uint8_t) 0);
         koSendReadRequest(KO_FEEDBACK_PERCENT);
     }
     else

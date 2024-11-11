@@ -10,8 +10,10 @@ void HomeKitBridge::initialize(SmartHomeBridgeModule *bridge)
 {
     _bridge = bridge;
     homeSpan.setWifiCredentials("Dummy","Dummy");
+#if !defined(SOC_WIFI_SUPPORTED)
     if (WiFi.status() == WL_NO_SHIELD)
-        WiFi._setStatus(WL_CONNECTED);
+        WiFi._setStatus( WL_CONNECTED);
+#endif
     homeSpan.setSerialInputDisable(true);
     homeSpan.setPairingCode((const char *)ParamBRI_PairingCode);
     homeSpan.setPortNum(8080);
@@ -44,8 +46,8 @@ void HomeKitBridge::showHelp()
 
 void HomeKitBridge::initWebServer(WebServer &webServer)
 {
-    webServer.on("/resetPairing", HTTP_POST, [=]()
-                 { serveResetPairingPage(); });
+    webServer.on("/resetPairing", HTTP_POST, [this]()
+                 { this->serveResetPairingPage(); });
 }
 
 void HomeKitBridge::serveResetPairingPage()
@@ -84,13 +86,17 @@ void HomeKitBridge::processInputKo(GroupObject &ko)
 void HomeKitBridge::getInformation(String &result)
 {
     result += "<h3>HomeKit</h3>";
-    auto minFreeStack = homeSpan.getAutoPollMinFreeStack();
-    if (minFreeStack != 0)
+    auto handle = homeSpan.getAutoPollTask();
+    if (handle != nullptr)
     {
-        result += "Maximale Stack Verwendung: ";
-        result += HOMESPAN_STACK_SIZE - minFreeStack;
-        result += " von " + (String)HOMESPAN_STACK_SIZE;
-        // HomeKit Factory Reset
-        result += "<form method='post' action='/resetPairing'><input name='resetPairing' type='hidden' value='1'><input type='submit' value='Alle HomeKit Kopplungen Löschen'></form>";
+        auto minFreeStack = uxTaskGetStackHighWaterMark(handle);
+        if (minFreeStack != 0)
+        {
+            result += "Maximale Stack Verwendung: ";
+            result += HOMESPAN_STACK_SIZE - minFreeStack;
+            result += " von " + (String)HOMESPAN_STACK_SIZE;
+            // HomeKit Factory Reset
+            result += "<form method='post' action='/resetPairing'><input name='resetPairing' type='hidden' value='1'><input type='submit' value='Alle HomeKit Kopplungen Löschen'></form>";
+        }
     }
 }
