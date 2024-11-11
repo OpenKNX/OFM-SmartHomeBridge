@@ -70,8 +70,8 @@ void KnxChannelDimmer::commandPower(DimmerBridge* dimmerBridge, bool power)
 
 void KnxChannelDimmer::setup()
 {
-    koSetWithoutSend(KO_DIMMER, 0);
-    koSetWithoutSend(KO_DIMMER_FEEDBACK, 0);
+    koSetWithoutSend(KO_DIMMER, (uint8_t) 0);
+    koSetWithoutSend(KO_DIMMER_FEEDBACK,(uint8_t) 0);
     koSendReadRequest(KO_DIMMER_FEEDBACK);
 }
 

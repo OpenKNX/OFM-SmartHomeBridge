@@ -260,21 +260,21 @@ private:
     #ifdef ESPALEXA_ASYNC
     if (serverAsync == nullptr) {
       serverAsync = new AsyncWebServer(80);
-      serverAsync->onNotFound([=](AsyncWebServerRequest *request){server = request; serveNotFound();});
+      serverAsync->onNotFound([this](AsyncWebServerRequest *request){this->server = request; this->serveNotFound();});
     }
     
-    serverAsync->onRequestBody([=](AsyncWebServerRequest *request, uint8_t *data, size_t len, size_t index, size_t total){
+    serverAsync->onRequestBody([this](AsyncWebServerRequest *request, uint8_t *data, size_t len, size_t index, size_t total){
       char b[len +1];
       b[len] = 0;
       memcpy(b, data, len);
-      body = b; //save the body so we can use it for the API call
+      this->body = b; //save the body so we can use it for the API call
       EA_DEBUG("Received body: ");
-      EA_DEBUGLN(body);
+      EA_DEBUGLN(this->body);
     });
     #ifndef ESPALEXA_NO_SUBPAGE
-    serverAsync->on("/espalexa", HTTP_GET, [=](AsyncWebServerRequest *request){server = request; servePage();});
+    serverAsync->on("/espalexa", HTTP_GET, [this](AsyncWebServerRequest *request){this->server = request; this->servePage();});
     #endif
-    serverAsync->on("/description.xml", HTTP_GET, [=](AsyncWebServerRequest *request){server = request; serveDescription();});
+    serverAsync->on("/description.xml", HTTP_GET, [=](AsyncWebServerRequest *request){this->server = request; this->serveDescription();});
     serverAsync->begin();
     
     #else
@@ -288,9 +288,9 @@ private:
     server->addHandler(this);
    
     #ifndef ESPALEXA_NO_SUBPAGE
-    server->on("/espalexa", HTTP_GET, [=](){servePage();});
+    server->on("/espalexa", HTTP_GET, [this](){this->servePage();});
     #endif
-    server->on("/description.xml", HTTP_GET, [=](){serveDescription();});
+    server->on("/description.xml", HTTP_GET, [this](){this->serveDescription();});
     server->begin();
     #endif
   }

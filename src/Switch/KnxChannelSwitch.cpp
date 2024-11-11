@@ -32,8 +32,8 @@ void KnxChannelSwitch::commandPower(SwitchBridge *switchBridge, bool power)
 
 void KnxChannelSwitch::setup()
 {
-    koSetWithoutSend(KO_SWITCH, 0);
-    koSetWithoutSend(KO_SWITCH_FEEDBACK, 0);
+    koSetWithoutSend(KO_SWITCH, (uint32_t) 0);
+    koSetWithoutSend(KO_SWITCH_FEEDBACK, (uint32_t) 0);
     koSendReadRequest(KO_SWITCH_FEEDBACK);
 }
 

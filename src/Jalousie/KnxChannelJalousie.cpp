@@ -63,8 +63,8 @@ void KnxChannelJalousie::commandSlatPosition(RolladenBridge* interface, uint8_t 
 void KnxChannelJalousie::setup()
 {
     KnxChannelRolladen::setup();
-    koSetWithoutSend(KO_SLAT_POSITION, 0);
-    koSetWithoutSend(KO_SLAT_POSITION_FEEDBACK, 0);
+    koSetWithoutSend(KO_SLAT_POSITION, (uint8_t) 0);
+    koSetWithoutSend(KO_SLAT_POSITION_FEEDBACK, (uint8_t) 0);
     koSendReadRequest(KO_SLAT_POSITION_FEEDBACK);
 }
 

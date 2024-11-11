@@ -5,6 +5,16 @@ void HueBridge::initialize(SmartHomeBridgeModule *bridge)
 
 }
 
+bool HueBridge::processCommand(const std::string cmd, bool diagnoseKo)
+{
+    return false;
+}
+
+void HueBridge::showHelp()
+{
+    
+}
+
 const std::string HueBridge::name()
 {
     return "HueBridge";

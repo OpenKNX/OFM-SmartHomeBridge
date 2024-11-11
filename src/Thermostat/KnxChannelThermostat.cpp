@@ -179,10 +179,10 @@ void KnxChannelThermostat::processInputKo(GroupObject &ko)
     }
     else if (isKo(ko, KO_HEADING_ACTIVE_FEEDBACK) || isKo(ko, KO_COOLING_ACTIVE_FEEDBACK))
     {
-        bool heading = ParamBRI_CHThemostateHeatingFeedbackKoType == 0 ? (boolean) koGet(KO_HEADING_ACTIVE_FEEDBACK) : 0 < (int)koGet(KO_HEADING_ACTIVE_PERCENT_FEEDBACK);
+        bool heading = ParamBRI_CHThemostateHeatingFeedbackKoType == 0 ? (boolean) koGet(KO_HEADING_ACTIVE_FEEDBACK) : 0 < (uint8_t)koGet(KO_HEADING_ACTIVE_PERCENT_FEEDBACK);
         if (heading && isKo(ko, KO_HEADING_ACTIVE_FEEDBACK))
             koSetWithoutSend(KO_COOLING_FEEDBACK, false);
-        bool cooling = ParamBRI_CHThemostateCoolingFeedbackKoType == 0 ? (boolean) koGet(KO_COOLING_ACTIVE_FEEDBACK) : 0 < (int)koGet(KO_COOLING_ACTIVE_PERCENT_FEEDBACK);
+        bool cooling = ParamBRI_CHThemostateCoolingFeedbackKoType == 0 ? (boolean) koGet(KO_COOLING_ACTIVE_FEEDBACK) : 0 < (uint8_t)koGet(KO_COOLING_ACTIVE_PERCENT_FEEDBACK);
         if (cooling && isKo(ko, KO_COOLING_ACTIVE_FEEDBACK))
             koSetWithoutSend(KO_HEADING_FEEDBACK, false);
         

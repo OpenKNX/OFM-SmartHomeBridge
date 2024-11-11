@@ -60,8 +60,8 @@ void KnxChannelRGB::commandRGB(RGBBridge* RGBBridge, uint32_t rgb)
         koSet(KO_POWER, true, true);
         if (!ParamBRI_CHLightRGBUseSwitchKO)
         {
-            koSetWithoutSend(KO_RGB_FEEDBACK, 0x000000);
-            koSet(KO_RGB, 0x000000, true);
+            koSetWithoutSend(KO_RGB_FEEDBACK, (uint32_t) 0x000000);
+            koSet(KO_RGB, (uint32_t) 0x000000, true);
         };
     }
     else
@@ -135,8 +135,8 @@ void KnxChannelRGB::commandPower(RGBBridge* RGBBridge, bool power)
 
 void KnxChannelRGB::setup()
 {
-    koSetWithoutSend(KO_RGB, 0x000000);
-    koSetWithoutSend(KO_RGB_FEEDBACK, 0x000000);
+    koSetWithoutSend(KO_RGB, (uint32_t) 0x000000);
+    koSetWithoutSend(KO_RGB_FEEDBACK, (uint32_t) 0x000000);
     koSendReadRequest(KO_RGB_FEEDBACK);
     koSetWithoutSend(KO_POWER, false);
     koSetWithoutSend(KO_POWER_FEEDBACK, false);

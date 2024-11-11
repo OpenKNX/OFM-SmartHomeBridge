@@ -1,8 +1,11 @@
 #include "string.h"
 #include "CP1252ToUTF8.h"
 #include "MemoryAllocator.h"
+#ifndef  _GLIBCXX_USE_CHAR8_T
+#define char8_t char
+#endif
 
-const char* cp1252UTF8[128]
+const char8_t* cp1252UTF8[128]
       = { u8"€", u8" ", u8"‚", u8"ƒ", u8"„", u8"…", u8"†", u8"‡", u8"ˆ", u8"‰", u8"Š", u8"‹", u8"Œ", u8" ", u8"Ž", u8" ",
       	  u8" ", u8"‘", u8"’", u8"“", u8"”", u8"•", u8"–", u8"—", u8"˜", u8"™", u8"š", u8"›", u8"œ", u8" ", u8"ž", u8"Ÿ",
           u8" ", u8"¡", u8"¢", u8"£", u8"¤", u8"¥", u8"¦", u8"§", u8"¨", u8"©", u8"ª", u8"«", u8"¬", u8" ", u8"®", u8"¯",
@@ -22,7 +25,7 @@ const char* convert1252ToUTF8(const char* c1252)
         char c = c1252[i++];
         if (c >= 128)
         {
-            bufferlength += strlen(cp1252UTF8[c - 128]);
+            bufferlength += strlen((const char*) cp1252UTF8[c - 128]);
             replacementNeeded = true;
         }
         else
@@ -42,7 +45,7 @@ const char* convert1252ToUTF8(const char* c1252)
         char c = c1252[i++];
         if (c >= 128)
         {
-            const char* utf8 = cp1252UTF8[c - 128];
+            const char* utf8 = (const char*) cp1252UTF8[c - 128];
             size_t utf8len = strlen(utf8);
             memcpy(cUtf8 + bufferIndex, utf8, utf8len);
             bufferIndex += utf8len;
