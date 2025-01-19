@@ -27,21 +27,16 @@ bool HomeKitBridge::processCommand(const std::string cmd, bool diagnoseKo)
 {
     if (cmd == "hk")
     {
-        homeSpan.processSerialCommand("i");
+        openknx.console.disableConsole(true);
+        homeSpan.setSerialInputDisable(false);
         return true;
     }
-    if (cmd.rfind("hk ") == 0)
-    {
-        homeSpan.processSerialCommand(cmd.substr(3).c_str());
-        return true;
-    }
-
     return false;
 }
 
 void HomeKitBridge::showHelp()
 {
-    openknx.console.printHelpLine("HK", "Send command to HomeKit library");
+    openknx.console.printHelpLine("HK", "Switch to HomeKit console");
 }
 
 void HomeKitBridge::initWebServer(WebServer &webServer)

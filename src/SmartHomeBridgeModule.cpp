@@ -246,10 +246,13 @@ OpenKNX::Channel *SmartHomeBridgeModule::createChannel(uint8_t _channelIndex /* 
 
 bool SmartHomeBridgeModule::processCommand(const std::string cmd, bool diagnoseKo)
 {
-  for (auto it = bridgeInterfaces->begin(); it != bridgeInterfaces->end(); ++it)
+  if (bridgeInterfaces != nullptr)
   {
-    if ((*it)->processCommand(cmd, diagnoseKo))
-      return true;
+    for (auto it = bridgeInterfaces->begin(); it != bridgeInterfaces->end(); ++it)
+    {
+      if ((*it)->processCommand(cmd, diagnoseKo))
+        return true;
+    }
   }
   return false;
 }
