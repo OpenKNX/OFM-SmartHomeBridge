@@ -1,0 +1,26 @@
+<choose ParamRefId="%AID%_P-%T%000002_R-%T%00000201">  <!-- Bride Mode -->
+    <when test="2"> <!-- Hue -->
+        <choose ParamRefId="%AID%_P-%T%%CCC%001_R-%T%%CCC%00101">  <!--Devie Type  -->
+            <when test="30 31 32 80 90 91 92" >  <!-- Jalousie, Rolladen, Markise, Lüfter -->
+            <ParameterSeparator Id="%AID%_PS-nnn" Text="Hinweis: Diese Gerät wird von der Hue Emulation nicht unterstützt, kann aber als Lampe simuliert werden" UIHint="Information" />                
+            </when>
+        </choose>
+        <choose ParamRefId="%AID%_P-%T%%CCC%001_R-%T%%CCC%00101">  <!--Devie Type  -->
+            <when test="50 60 70 71 72 73 74 75 76" >  <!-- Thermostat, Anzeige, Kontakt -->
+            <ParameterSeparator Id="%AID%_PS-nnn" Text="Fehler: Diese Gerät wird von der Hue Emulation nicht unterstützt" UIHint="Error" />                
+            </when>
+        </choose>
+        </when> 
+        <when test="3"> <!-- Hue & Homekit -->
+        <choose ParamRefId="%AID%_P-%T%%CCC%001_R-%T%%CCC%00101">  <!--Devie Type  -->
+            <when test="30 31 32 80 90 91 92" >  <!-- Jalousie, Rolladen, Markise, Lüfter -->
+            <ParameterSeparator Id="%AID%_PS-nnn" Text="Hinweis: Diese Gerät wird von der Hue Emulation nicht unterstützt, kann aber als Lampe simuliert werden" UIHint="Information" />                
+            </when>
+        </choose>
+        <choose ParamRefId="%AID%_P-%T%%CCC%001_R-%T%%CCC%00101">  <!--Devie Type  -->
+            <when test="50 60 70 71 72 73 74 75 76" >  <!-- Thermostat, Anzeige, Kontakt -->
+            <ParameterSeparator Id="%AID%_PS-nnn" Text="Hinweis: Diese Gerät wird von der Hue Emulation nicht unterstützt" UIHint="Information" />                
+            </when>
+        </choose>
+    </when>  
+</choose>    
