@@ -14,258 +14,272 @@
 								<TypeNumber SizeInBit="8" Type="unsignedInt" minInclusive="0" maxInclusive="%N%" />
 							</ParameterType>
       
-              <ParameterType Id="%AID%_PT-DeviceType" Name="DeviceType">
+              <ParameterType Id="%AID%_PT-BRIDeviceType" Name="BRIDeviceType">
                 <TypeRestriction Base="Value" SizeInBit="8">
-                  <Enumeration Text="Inaktiv" Value="0" Id="%AID%_PT-DeviceType_EN-0" />
-                  <Enumeration Text="Schalten" Value="10" Id="%AID%_PT-DeviceType_EN-1" />
-                  <Enumeration Text="Steckdose" Value="11" Id="%AID%_PT-DeviceType_EN-11" />
-                  <Enumeration Text="Lampe"   Value="20" Id="%AID%_PT-DeviceType_EN-20" />
-                  <Enumeration Text="Jalousie" Value="30" Id="%AID%_PT-DeviceType_EN-33" />
-                  <Enumeration Text="Rolladen" Value="31" Id="%AID%_PT-DeviceType_EN-31" />
-                  <Enumeration Text="Markise" Value="32" Id="%AID%_PT-DeviceType_EN-32" />
-                  <Enumeration Text="Thermostat" Value="50" Id="%AID%_PT-DeviceType_EN-50" />
-                  <Enumeration Text="Anzeige" Value="60" Id="%AID%_PT-DeviceType_EN-60" />
-                  <Enumeration Text="Kontakt" Value="70" Id="%AID%_PT-DeviceType_EN-70" />
-                  <Enumeration Text="Bewegungsmelder" Value="71" Id="%AID%_PT-DeviceType_EN-71" />
-                  <Enumeration Text="Präsensmelder" Value="72" Id="%AID%_PT-DeviceType_EN-72" />
-                  <Enumeration Text="Leckmelder" Value="73" Id="%AID%_PT-DeviceType_EN-73" />
-                  <Enumeration Text="Rauchmelder" Value="74" Id="%AID%_PT-DeviceType_EN-74" />
-                  <Enumeration Text="Kohlendioxidmelder (CO2)" Value="75" Id="%AID%_PT-DeviceType_EN-75" />
-                  <Enumeration Text="Kohlenmonoxidmelder (CO)" Value="76" Id="%AID%_PT-DeviceType_EN-76" />
-                  <Enumeration Text="Lüfter" Value="80" Id="%AID%_PT-DeviceType_EN-80" />
-                  <Enumeration Text="Fenster" Value="90" Id="%AID%_PT-DeviceType_EN-90" />
-                  <Enumeration Text="Tür" Value="91" Id="%AID%_PT-DeviceType_EN-91" />
-                  <Enumeration Text="Garagentor" Value="92" Id="%AID%_PT-DeviceType_EN-92" />
+                  <Enumeration Value="0"  Id="%ENID%" Text ="Inaktiv" />
+                  <Enumeration Value="10" Id="%ENID%" Text="Schalten" />
+                  <Enumeration Value="11" Id="%ENID%" Text="Steckdose"/>
+                  <Enumeration Value="20" Id="%ENID%" Text="Lampe"    />
+                  <Enumeration Value="30" Id="%ENID%" Text="Jalousie" />
+                  <Enumeration Value="31" Id="%ENID%" Text="Rolladen" />
+                  <Enumeration Value="32" Id="%ENID%" Text="Markise" />
+                  <Enumeration Value="50" Id="%ENID%" Text="Thermostat" />
+                  <Enumeration Value="60" Id="%ENID%" Text="Anzeige" />
+                  <Enumeration Value="70" Id="%ENID%" Text="Kontakt" />
+                  <Enumeration Value="71" Id="%ENID%" Text="Bewegungsmelder" />
+                  <Enumeration Value="72" Id="%ENID%" Text="Präsensmelder"/>
+                  <Enumeration Value="73" Id="%ENID%" Text="Leckmelder" />
+                  <Enumeration Value="74" Id="%ENID%" Text="Rauchmelder" />
+                  <Enumeration Value="75" Id="%ENID%" Text="Kohlendioxidmelder (CO2)" />
+                  <Enumeration Value="76" Id="%ENID%" Text="Kohlenmonoxidmelder (CO)" />
+                  <Enumeration Value="80" Id="%ENID%" Text="Lüfter" />
+                  <Enumeration Value="90" Id="%ENID%" Text="Fenster" />
+                  <Enumeration Value="91" Id="%ENID%" Text="Tür" />
+                  <Enumeration Value="92" Id="%ENID%" Text="Garagentor" />
                 </TypeRestriction>
               </ParameterType>
-              <ParameterType Id="%AID%_PT-DeviceName" Name="DeviceName" >
+              <ParameterType Id="%AID%_PT-BRIDeviceName" Name="BRIDeviceName" >
                 <TypeText  SizeInBit="200" />
               </ParameterType>
-              <ParameterType Id="%AID%_PT-PairingCode" Name="PairingCode">
+              <ParameterType Id="%AID%_PT-BRIPairingCode" Name="BRIPairingCode">
                 <TypeText SizeInBit="64" />
               </ParameterType>
-              <ParameterType Id="%AID%_PT-ModeSelection" Name="ModeSelection">
+              <ParameterType Id="%AID%_PT-BRIModeSelection" Name="BRIModeSelection">
                 <TypeRestriction Base="Value" SizeInBit="8">
-                  <Enumeration Text="Homekit &amp; Hue-Bridge-Emulation" Value="3" Id="%AID%_PT-ModeSelection_EN-3" />
-                  <Enumeration Text="Homekit"                            Value="1" Id="%AID%_PT-ModeSelection_EN-1" />
-                  <Enumeration Text="Hue-Bridge-Emulation"               Value="2" Id="%AID%_PT-ModeSelection_EN-2" />
+                  <Enumeration Value="3" Id="%ENID%" Text="Homekit &amp; Hue-Bridge-Emulation" />
+                  <Enumeration Value="1" Id="%ENID%" Text="Homekit"                            />
+                  <Enumeration Value="2" Id="%ENID%" Text="Hue-Bridge-Emulation"               />
                 </TypeRestriction>
               </ParameterType>
-              <ParameterType Id="%AID%_PT-HueEmulation" Name="HueEmulation">
-                <TypeRestriction Base="Value" SizeInBit="8" UIHint="DropDown">
-                  <Enumeration Text="Nein" Value="0" Id="%AID%_PT-HueEmulation_EN-0" />
-                  <Enumeration Text="Ja"   Value="1" Id="%AID%_PT-HueEmulation_EN-1" />
+              <ParameterType Id="%AID%_PT-BRIHueEmulation" Name="BRIHueEmulation">
+                <TypeRestriction Base="Value" SizeInBit="1" UIHint="DropDown">
+                  <Enumeration Value="0" Id="%ENID%" Text="Nein" />
+                  <Enumeration Value="1" Id="%ENID%" Text="Ja"   />
                 </TypeRestriction>
               </ParameterType>
-              <ParameterType Id="%AID%_PT-CheckBoxDisable" Name="CheckBoxDisable">
+              <ParameterType Id="%AID%_PT-BRICheckBoxDisable" Name="BRICheckBoxDisable">
                 <TypeNumber SizeInBit="1" Type="unsignedInt" minInclusive="0" maxInclusive="1" UIHint="CheckBox" />
               </ParameterType>
 
               <!-- Light -->
-              <ParameterType Id="%AID%_PT-LightType" Name="LightType">
-                <TypeRestriction Base="Value" SizeInBit="8" UIHint="DropDown" >
-                  <Enumeration Text="Ein / Aus"              Value="0"  Id="%AID%_PT-LightType_EN-0"  />
-                  <Enumeration Text="Dimmer"                 Value="1"  Id="%AID%_PT-LightType_EN-1"  />
-                  <Enumeration Text="RGB"                    Value="2"  Id="%AID%_PT-LightType_EN-2"  />
+              <ParameterType Id="%AID%_PT-BRILightType" Name="BRILightType">
+                <TypeRestriction Base="Value" SizeInBit="4" UIHint="DropDown" >
+                  <Enumeration Value="0" Id="%ENID%" Text="Ein / Aus"  />
+                  <Enumeration Value="1" Id="%ENID%" Text="Dimmer"     />
+                  <Enumeration Value="2" Id="%ENID%" Text="RGB"        />
                 </TypeRestriction>
               </ParameterType>
-              <ParameterType Id="%AID%_PT-LightSwitchOnBehavior" Name="LightSwitchOnBehavior">
+              <ParameterType Id="%AID%_PT-BRILightSwitchOnBehavior" Name="BRILightSwitchOnBehavior">
                 <TypeRestriction Base="Value" SizeInBit="8">
-                  <Enumeration Text="Letzte Helligkeit"              Value="201"  Id="%AID%_PT-LightSwitchOnBehavior_EN-0"  />
-                  <Enumeration Text="Letzte Helligkeit kleiner 100%" Value="200"  Id="%AID%_PT-LightSwitchOnBehavior_EN-1"  />
-                  <Enumeration Text="100%"                           Value="100" Id="%AID%_PT-LightSwitchOnBehavior_EN-2"  />
-                  <Enumeration Text="90%"                            Value="90"  Id="%AID%_PT-LightSwitchOnBehavior_EN-3"  />
-                  <Enumeration Text="80%"                            Value="80"  Id="%AID%_PT-LightSwitchOnBehavior_EN-4"  />
-                  <Enumeration Text="70%"                            Value="70"  Id="%AID%_PT-LightSwitchOnBehavior_EN-5"  />
-                  <Enumeration Text="60%"                            Value="60"  Id="%AID%_PT-LightSwitchOnBehavior_EN-6"  />
-                  <Enumeration Text="50%"                            Value="50"  Id="%AID%_PT-LightSwitchOnBehavior_EN-7"  />
-                  <Enumeration Text="40%"                            Value="40"  Id="%AID%_PT-LightSwitchOnBehavior_EN-8"  />
-                  <Enumeration Text="30%"                            Value="30"  Id="%AID%_PT-LightSwitchOnBehavior_EN-9"  />
-                  <Enumeration Text="20%"                            Value="20"  Id="%AID%_PT-LightSwitchOnBehavior_EN-10"  />
-                  <Enumeration Text="10%"                            Value="10"  Id="%AID%_PT-LightSwitchOnBehavior_EN-11" />
+                  <Enumeration Value="201" Id="%ENID%" Text="Letzte Helligkeit"               />
+                  <Enumeration Value="200" Id="%ENID%" Text="Letzte Helligkeit kleiner 100%"  />
+                  <Enumeration Value="100" Id="%ENID%" Text="100%"                            />
+                  <Enumeration Value="90"  Id="%ENID%" Text="90%"                             />
+                  <Enumeration Value="80"  Id="%ENID%" Text="80%"                             />
+                  <Enumeration Value="70"  Id="%ENID%" Text="70%"                             />
+                  <Enumeration Value="60"  Id="%ENID%" Text="60%"                             />
+                  <Enumeration Value="50"  Id="%ENID%" Text="50%"                             />
+                  <Enumeration Value="40"  Id="%ENID%" Text="40%"                             />
+                  <Enumeration Value="30"  Id="%ENID%" Text="30%"                             />
+                  <Enumeration Value="20"  Id="%ENID%" Text="20%"                             />
+                  <Enumeration Value="10"  Id="%ENID%" Text="10%"                             />
                 </TypeRestriction>
               </ParameterType>
-              <ParameterType Id="%AID%_PT-LightSwitchOn2Behavior" Name="LightSwitchOn2Behavior">
+              <ParameterType Id="%AID%_PT-BRILightSwitchOn2Behavior" Name="BRILightSwitchOn2Behavior">
                 <TypeRestriction Base="Value" SizeInBit="8">
-                  <Enumeration Text="Letzte Helligkeit kleiner 100%" Value="200"  Id="%AID%_PT-LightSwitchOn2Behavior_EN-0"  />
-                  <Enumeration Text="100%"                           Value="100" Id="%AID%_PT-LightSwitchOn2Behavior_EN-1" />
-                  <Enumeration Text="90%"                            Value="90"  Id="%AID%_PT-LightSwitchOn2Behavior_EN-2" />
-                  <Enumeration Text="80%"                            Value="80"  Id="%AID%_PT-LightSwitchOn2Behavior_EN-3" />
-                  <Enumeration Text="70%"                            Value="70"  Id="%AID%_PT-LightSwitchOn2Behavior_EN-4" />
-                  <Enumeration Text="60%"                            Value="60"  Id="%AID%_PT-LightSwitchOn2Behavior_EN-5" />
-                  <Enumeration Text="50%"                            Value="50"  Id="%AID%_PT-LightSwitchOn2Behavior_EN-6" />
-                  <Enumeration Text="40%"                            Value="40"  Id="%AID%_PT-LightSwitchOn2Behavior_EN-7" />
-                  <Enumeration Text="30%"                            Value="30"  Id="%AID%_PT-LightSwitchOn2Behavior_EN-8" />
-                  <Enumeration Text="20%"                            Value="20"  Id="%AID%_PT-LightSwitchOn2Behavior_EN-9" />
-                  <Enumeration Text="10%"                            Value="10"  Id="%AID%_PT-LightSwitchOn2Behavior_EN-10" />             
+                  <Enumeration Value="200" Id="%ENID%" Text="Letzte Helligkeit kleiner 100%"  />
+                  <Enumeration Value="100" Id="%ENID%" Text="100%"                            />
+                  <Enumeration Value="90"  Id="%ENID%" Text="90%"                             />
+                  <Enumeration Value="80"  Id="%ENID%" Text="80%"                             />
+                  <Enumeration Value="70"  Id="%ENID%" Text="70%"                             />
+                  <Enumeration Value="60"  Id="%ENID%" Text="60%"                             />
+                  <Enumeration Value="50"  Id="%ENID%" Text="50%"                             />
+                  <Enumeration Value="40"  Id="%ENID%" Text="40%"                             />
+                  <Enumeration Value="30"  Id="%ENID%" Text="30%"                             />
+                  <Enumeration Value="20"  Id="%ENID%" Text="20%"                             />
+                  <Enumeration Value="10"  Id="%ENID%" Text="10%"                             />            
                 </TypeRestriction>
               </ParameterType>
-              <ParameterType Id="%AID%_PT-LightRGBSwitchOnBehavior" Name="LightRGBSwitchOnBehavior">
+              <ParameterType Id="%AID%_PT-BRILightRGBSwitchOnBehavior" Name="BRILightRGBSwitchOnBehavior">
                 <TypeRestriction Base="Value" SizeInBit="8">
-                  <Enumeration Text="Ein Senden"                     Value="200"  Id="%AID%_PT-LightRGBSwitchOnBehavior_EN-0"  />
-                  <Enumeration Text="Letzte Farbe"                   Value="201"  Id="%AID%_PT-LightRGBSwitchOnBehavior_EN-1"  />
-                  <Enumeration Text="Letzte Farbe, ungleich weiß"    Value="202"  Id="%AID%_PT-LightRGBSwitchOnBehavior_EN-2"  />
-                  <Enumeration Text="Weiß"                           Value="0"    Id="%AID%_PT-LightRGBSwitchOnBehavior_EN-3"  />
-                  <Enumeration Text="Dunkel"                         Value="1"    Id="%AID%_PT-LightRGBSwitchOnBehavior_EN-4"  />
-                  <Enumeration Text="Rot"                            Value="2"    Id="%AID%_PT-LightRGBSwitchOnBehavior_EN-5"  />
-                  <Enumeration Text="Grün"                           Value="3"    Id="%AID%_PT-LightRGBSwitchOnBehavior_EN-6"  />
-                  <Enumeration Text="Blau"                           Value="4"    Id="%AID%_PT-LightRGBSwitchOnBehavior_EN-7"  />
-                  <Enumeration Text="Gelb"                           Value="5"    Id="%AID%_PT-LightRGBSwitchOnBehavior_EN-8"  />
-                  <Enumeration Text="Magenta"                        Value="6"    Id="%AID%_PT-LightRGBSwitchOnBehavior_EN-9"  />
-                  <Enumeration Text="Cyan"                           Value="7"    Id="%AID%_PT-LightRGBSwitchOnBehavior_EN-10"  />                 
+                  <Enumeration Value="200" Id="%ENID%" Text="Ein Senden"                  />
+                  <Enumeration Value="201" Id="%ENID%" Text="Letzte Farbe"                />
+                  <Enumeration Value="202" Id="%ENID%" Text="Letzte Farbe, ungleich weiß" />
+                  <Enumeration Value="0"   Id="%ENID%" Text="Weiß"                        />
+                  <Enumeration Value="1"   Id="%ENID%" Text="Dunkel"                      />
+                  <Enumeration Value="2"   Id="%ENID%" Text="Rot"                         />
+                  <Enumeration Value="3"   Id="%ENID%" Text="Grün"                        />
+                  <Enumeration Value="4"   Id="%ENID%" Text="Blau"                        />
+                  <Enumeration Value="5"   Id="%ENID%" Text="Gelb"                        />
+                  <Enumeration Value="6"   Id="%ENID%" Text="Magenta"                     />
+                  <Enumeration Value="7"   Id="%ENID%" Text="Cyan"                        />                 
                 </TypeRestriction>
               </ParameterType>
-              <ParameterType Id="%AID%_PT-LightRGBSwitchOn2Behavior" Name="LightRGBSwitchOn2Behavior">
+              <ParameterType Id="%AID%_PT-BRILightRGBSwitchOn2Behavior" Name="BRILightRGBSwitchOn2Behavior">
                 <TypeRestriction Base="Value" SizeInBit="8">
-                  <Enumeration Text="Letzte Farbe, ungleich weiß"    Value="202"  Id="%AID%_PT-LightRGBSwitchOn2Behavior_EN-2"  />
-                  <Enumeration Text="Weiß"                           Value="0"    Id="%AID%_PT-LightRGBSwitchOn2Behavior_EN-3"  />
-                  <Enumeration Text="Dunkel"                         Value="1"    Id="%AID%_PT-LightRGBSwitchOn2Behavior_EN-4"  />
-                  <Enumeration Text="Rot"                            Value="2"    Id="%AID%_PT-LightRGBSwitchOn2Behavior_EN-5"  />
-                  <Enumeration Text="Grün"                           Value="3"    Id="%AID%_PT-LightRGBSwitchOn2Behavior_EN-6"  />
-                  <Enumeration Text="Blau"                           Value="4"    Id="%AID%_PT-LightRGBSwitchOn2Behavior_EN-7"  />
-                  <Enumeration Text="Gelb"                           Value="5"    Id="%AID%_PT-LightRGBSwitchOn2Behavior_EN-8"  />
-                  <Enumeration Text="Magenta"                        Value="6"    Id="%AID%_PT-LightRGBSwitchOn2Behavior_EN-9"  />
-                  <Enumeration Text="Cyan"                           Value="7"    Id="%AID%_PT-LightRGBSwitchOn2Behavior_EN-10"  />                 
+                  <Enumeration Value="202"  Id="%ENID%" Text="Letzte Farbe, ungleich weiß" />
+                  <Enumeration Value="0"    Id="%ENID%" Text="Weiß"                        />
+                  <Enumeration Value="1"    Id="%ENID%" Text="Dunkel"                      />
+                  <Enumeration Value="2"    Id="%ENID%" Text="Rot"                         />
+                  <Enumeration Value="3"    Id="%ENID%" Text="Grün"                        />
+                  <Enumeration Value="4"    Id="%ENID%" Text="Blau"                        />
+                  <Enumeration Value="5"    Id="%ENID%" Text="Gelb"                        />
+                  <Enumeration Value="6"    Id="%ENID%" Text="Magenta"                     />
+                  <Enumeration Value="7"    Id="%ENID%" Text="Cyan"                        />                 
                 </TypeRestriction>
               </ParameterType>
-              <ParameterType Id="%AID%_PT-LightRGBUseSwitchKO" Name="LightRGBUseSwitchKO" >
-                <TypeRestriction Base="Value" SizeInBit="8" UIHint="DropDown">
-                  <Enumeration Text="Nein"  Value="0" Id="%AID%_PT-LightRGBUseSwitchKO_EN-0" />
-                  <Enumeration Text="Ja"    Value="1" Id="%AID%_PT-LightRGBUseSwitchKO_EN-1" />              
+              <ParameterType Id="%AID%_PT-BRILightRGBUseSwitchKO" Name="BRILightRGBUseSwitchKO" >
+                <TypeRestriction Base="Value" SizeInBit="1" UIHint="DropDown">
+                  <Enumeration Value="0" Id="%ENID%" Text="Nein" />
+                  <Enumeration Value="1" Id="%ENID%" Text="Ja"   />              
                 </TypeRestriction>
               </ParameterType>
               
               <!-- Jalousie/Rolladen/Markisen -->
-              <ParameterType Id="%AID%_PT-BlindsUpDownHandling" Name="BlindsUpDownHandling">
-                <TypeRestriction Base="Value" SizeInBit="8">
-                  <Enumeration Text="Nicht verwenden"                        Value="0" Id="%AID%_PT-BlindsUpDownHandling_EN-0" />
-                  <Enumeration Text="Ab senden bei 100% Befehl"              Value="1" Id="%AID%_PT-BlindsUpDownHandling_EN-1" />
-                  <Enumeration Text="Auf senden bei 0% Befehl"               Value="2" Id="%AID%_PT-BlindsUpDownHandling_EN-2" />
-                  <Enumeration Text="Auf senden bei 0% / Ab senden bei 100%" Value="3" Id="%AID%_PT-BlindsUpDownHandling_EN-3" />
+              <ParameterType Id="%AID%_PT-BRIBlindsUpDownHandling" Name="BRIBlindsUpDownHandling">
+                <TypeRestriction Base="Value" SizeInBit="4">
+                  <Enumeration Value="0" Id="%ENID%" Text="Nicht verwenden"                        />
+                  <Enumeration Value="1" Id="%ENID%" Text="Ab senden bei 100% Befehl"              />
+                  <Enumeration Value="2" Id="%ENID%" Text="Auf senden bei 0% Befehl"               />
+                  <Enumeration Value="3" Id="%ENID%" Text="Auf senden bei 0% / Ab senden bei 100%" />
                 </TypeRestriction>
               </ParameterType>
 
-              <ParameterType Id="%AID%_PT-BlindsUseStop" Name="BlindsUseStop">
-                <TypeRestriction Base="Value" SizeInBit="8" UIHint="DropDown">
-                  <Enumeration Text="Nicht verwenden"                                                        Value="0" Id="%AID%_PT-BlindsUseStop_EN-0" />
-                  <Enumeration Text="Stopp senden bei 0% oder 100% während Fahrt"                             Value="1" Id="%AID%_PT-BlindsUseStop_EN-1" />
+              <ParameterType Id="%AID%_PT-BRIBlindsUseStop" Name="BRIBlindsUseStop">
+                <TypeRestriction Base="Value" SizeInBit="1" UIHint="DropDown">
+                  <Enumeration  Value="0" Id="%ENID%" Text="Nicht verwenden"                             />
+                  <Enumeration  Value="1" Id="%ENID%" Text="Stopp senden bei 0% oder 100% während Fahrt" />
                 </TypeRestriction>
               </ParameterType>
 
-              <ParameterType Id="%AID%_PT-SlatHandling" Name="SlatHandling">
-                <TypeRestriction Base="Value" SizeInBit="8">
-                  <Enumeration Text="nicht ändern"                                                           Value="0" Id="%AID%_PT-SlatHandling_EN-0" />
-                  <Enumeration Text="100% (schließen) wenn Fahrt von 0% Höhe startet"                        Value="1" Id="%AID%_PT-SlatHandling_EN-1" />
-                  <Enumeration Text="100% (schließen) bei Fahrt nach unten, 0% (öffnen) bei Fahrt nach oben" Value="2" Id="%AID%_PT-SlatHandling_EN-2" />
+              <ParameterType Id="%AID%_PT-BRISlatHandling" Name="BRISlatHandling">
+                <TypeRestriction Base="Value" SizeInBit="4">
+                  <Enumeration Value="0" Id="%ENID%" Text="nicht ändern"                                                           />
+                  <Enumeration Value="1" Id="%ENID%" Text="100% (schließen) wenn Fahrt von 0% Höhe startet"                        />
+                  <Enumeration Value="2" Id="%ENID%" Text="100% (schließen) bei Fahrt nach unten, 0% (öffnen) bei Fahrt nach oben" />
                 </TypeRestriction>
               </ParameterType>
 
               <!-- Thermostat -->
-              <ParameterType Id="%AID%_PT-ThermostatTemperaturUnitType" Name="ThermostatTemperaturUnitType">
-                <TypeRestriction Base="Value" SizeInBit="8" UIHint="DropDown">
-                  <Enumeration Text="Celsius"    Value="0" Id="%AID%_PT-ThermostatTemperaturUnitType_EN-0" />
-                  <Enumeration Text="Fahrenheit" Value="1" Id="%AID%_PT-ThermostatTemperaturUnitType_EN-1" />
+              <ParameterType Id="%AID%_PT-BRIThermostatTemperaturUnitType" Name="BRIThermostatTemperaturUnitType">
+                <TypeRestriction Base="Value" SizeInBit="1" UIHint="DropDown">
+                  <Enumeration Value="0" Id="%ENID%" Text="Celsius"    />
+                  <Enumeration Value="1" Id="%ENID%" Text="Fahrenheit" />
                 </TypeRestriction>
               </ParameterType>
-              <ParameterType Id="%AID%_PT-ThermostatMode" Name="ThermostatMode">
-                <TypeRestriction Base="Value" SizeInBit="8">
-                  <Enumeration Text="Heizen und Kühlen Automatik"             Value="7" Id="%AID%_PT-ThermostatMode_EN-0" />
-                  <Enumeration Text="Heizen oder Kühlen (Manuelle Auswahl)"   Value="3" Id="%AID%_PT-ThermostatMode_EN-1" />
-                  <Enumeration Text="Heizen"                                  Value="1" Id="%AID%_PT-ThermostatMode_EN-2" />
-                  <Enumeration Text="Kühlen"                                  Value="2" Id="%AID%_PT-ThermostatMode_EN-3" />
+              <ParameterType Id="%AID%_PT-BRIThermostatMode" Name="BRIThermostatMode">
+                <TypeRestriction Base="Value" SizeInBit="4">
+                  <Enumeration Value="7" Id="%ENID%" Text="Heizen und Kühlen Automatik"             />
+                  <Enumeration Value="3" Id="%ENID%" Text="Heizen oder Kühlen (Manuelle Auswahl)"   />
+                  <Enumeration Value="1" Id="%ENID%" Text="Heizen"                                  />
+                  <Enumeration Value="2" Id="%ENID%" Text="Kühlen"                                  />
                 </TypeRestriction>
               </ParameterType>
-              <ParameterType Id="%AID%_PT-ThermostatKoMode" Name="ThermostatKoMode">
-                <TypeRestriction Base="Value" SizeInBit="8" UIHint="DropDown">
-                  <Enumeration Text="Einschaltobjekt (1 bei ein)"                         Value="0" Id="%AID%_PT-ThermostatKoMode_EN-1" />
-                  <Enumeration Text="Sperren (0 bei ein)"                                 Value="1" Id="%AID%_PT-ThermostatKoMode_EN-2" />
+              <ParameterType Id="%AID%_PT-BRIThermostatKoMode" Name="BRIThermostatKoMode">
+                <TypeRestriction Base="Value" SizeInBit="1" UIHint="DropDown">
+                  <Enumeration Value="0" Id="%ENID%" Text="Einschaltobjekt (1 bei ein)" />
+                  <Enumeration Value="1" Id="%ENID%" Text="Sperren (0 bei ein)"         />
                 </TypeRestriction>
               </ParameterType>
-               <ParameterType Id="%AID%_PT-ThermostatKoModeFeedback" Name="ThermostatKoModeFeedback">
-                <TypeRestriction Base="Value" SizeInBit="8" UIHint="DropDown">
-                  <Enumeration Text="Ein Rückmeldung"                         Value="0" Id="%AID%_PT-ThermostatKoModeFeedback_EN-1" />
-                  <Enumeration Text="Sperren Aktiv"                           Value="1" Id="%AID%_PT-ThermostatKoModeFeedback_EN-2" />
+               <ParameterType Id="%AID%_PT-BRIThermostatKoModeFeedback" Name="BRIThermostatKoModeFeedback">
+                <TypeRestriction Base="Value" SizeInBit="1" UIHint="DropDown">
+                  <Enumeration Value="0" Id="%ENID%" Text="Ein Rückmeldung" />
+                  <Enumeration Value="1" Id="%ENID%" Text="Sperren Aktiv"   />
                 </TypeRestriction>
               </ParameterType>
-               <ParameterType Id="%AID%_PT-ThemostateFeedbackKoType" Name="ThemostateFeedbackKoType">
-                <TypeRestriction Base="Value" SizeInBit="8" UIHint="DropDown">
-                  <Enumeration Text="1 Bit Aktiv"                             Value="0" Id="%AID%_PT-ThemostateFeedbackKoType_EN-1" />
-                  <Enumeration Text="1 Byte Stellwert (%)"                    Value="1" Id="%AID%_PT-ThemostateFeedbackKoType_EN-2" />
+               <ParameterType Id="%AID%_PT-BRIThemostateFeedbackKoType" Name="BRIThemostateFeedbackKoType">
+                <TypeRestriction Base="Value" SizeInBit="1" UIHint="DropDown">
+                  <Enumeration Value="0" Id="%ENID%" Text="1 Bit Aktiv"          />
+                  <Enumeration Value="1" Id="%ENID%" Text="1 Byte Stellwert (%)" />
                 </TypeRestriction>
               </ParameterType>
 
               <!-- Anzeige -->
-              <ParameterType Id="%AID%_PT-DisplayType" Name="DisplayType">
+              <ParameterType Id="%AID%_PT-BRIDisplayType" Name="BRIDisplayType">
                 <TypeRestriction Base="Value" SizeInBit="8">
-                  <Enumeration Text="Temperatur"       Value="0" Id="%AID%_PT-DisplayType_EN-0" />
-                  <Enumeration Text="Luftfeuchtigkeit" Value="1" Id="%AID%_PT-DisplayType_EN-1" />
-                  <Enumeration Text="Helligkeit"       Value="2" Id="%AID%_PT-DisplayType_EN-2" />
+                  <Enumeration Value="0" Id="%ENID%" Text="Temperatur"       />
+                  <Enumeration Value="1" Id="%ENID%" Text="Luftfeuchtigkeit" />
+                  <Enumeration Value="2" Id="%ENID%" Text="Helligkeit"       />
                 </TypeRestriction>
               </ParameterType>
 
               <!-- Kontakte/Alarme/Sensoren -->
-              <ParameterType Id="%AID%_PT-ContactAlarmSensorInvert" Name="ContactAlarmSensorInvert">
-                <TypeRestriction Base="Value" SizeInBit="8" UIHint="DropDown">
-                  <Enumeration Text="Nein"         Value="0" Id="%AID%_PT-ContactAlarmSensorInvert_EN-0" />
-                  <Enumeration Text="Ja"           Value="1" Id="%AID%_PT-ContactAlarmSensorInvert_EN-1" />
+              <ParameterType Id="%AID%_PT-BRIContactAlarmSensorInvert" Name="BRIContactAlarmSensorInvert">
+                <TypeRestriction Base="Value" SizeInBit="1" UIHint="DropDown">
+                  <Enumeration Value="0" Id="%ENID%" Text="Nein" />
+                  <Enumeration Value="1" Id="%ENID%" Text="Ja"   />
                 </TypeRestriction>
               </ParameterType>
 
               <!-- Fan -->
-              <ParameterType Id="%AID%_PT-FanAutomatic" Name="FanAutomatic">
-                <TypeRestriction Base="Value" SizeInBit="8" UIHint="DropDown">
-                  <Enumeration Text="Nein" Value="0" Id="%AID%_PT-FanAutomatic_EN-1" />
-                  <Enumeration Text="Ja"   Value="1" Id="%AID%_PT-FanAutomatic_EN-2" />
+              <ParameterType Id="%AID%_PT-BRIFanAutomatic" Name="BRIFanAutomatic">
+                <TypeRestriction Base="Value" SizeInBit="1" UIHint="DropDown">
+                  <Enumeration Value="0" Id="%ENID%" Text="Nein" />
+                  <Enumeration Value="1" Id="%ENID%" Text="Ja"   />
                 </TypeRestriction>
               </ParameterType>
-              <ParameterType Id="%AID%_PT-FanKoAutomatic" Name="FanKoAutomatic">
-                <TypeRestriction Base="Value" SizeInBit="8" UIHint="DropDown">
-                  <Enumeration Text="1 Bit Automatik (Automatik = EIN)"   Value="0" Id="%AID%_PT-FanKoAutomatic_EN-1" />
-                  <Enumeration Text="1 Bit Handbetrieb (Automatik = AUS)" Value="1" Id="%AID%_PT-FanKoAutomatic_EN-2" />
+              <ParameterType Id="%AID%_PT-BRIFanKoAutomatic" Name="BRIFanKoAutomatic">
+                <TypeRestriction Base="Value" SizeInBit="1" UIHint="DropDown">
+                  <Enumeration Value="0" Id="%ENID%" Text="1 Bit Automatik (Automatik = EIN)"   />
+                  <Enumeration Value="1" Id="%ENID%" Text="1 Bit Handbetrieb (Automatik = AUS)" />
                 </TypeRestriction>
               </ParameterType>
-              <ParameterType Id="%AID%_PT-FanKoAutomaticFeedback" Name="FanKoAutomaticFeedback">
-                <TypeRestriction Base="Value" SizeInBit="8" UIHint="DropDown">
-                  <Enumeration Text="1 Bit Automatik (Automatik = EIN)"   Value="0" Id="%AID%_PT-FanKoAutomaticFeedback_EN-1" />
-                  <Enumeration Text="1 Bit Handbetrieb (Automatik = AUS)" Value="1" Id="%AID%_PT-FanKoAutomaticFeedback_EN-2" />
+              <ParameterType Id="%AID%_PT-BRIFanKoAutomaticFeedback" Name="BRIFanKoAutomaticFeedback">
+                <TypeRestriction Base="Value" SizeInBit="1" UIHint="DropDown">
+                  <Enumeration Value="0" Id="%ENID%" Text="1 Bit Automatik (Automatik = EIN)"   />
+                  <Enumeration Value="1" Id="%ENID%" Text="1 Bit Handbetrieb (Automatik = AUS)" />
                 </TypeRestriction>
               </ParameterType>
 
               <!-- Door/Window/Garage -->
-              <ParameterType Id="%AID%_PT-DoorWindowMotor" Name="DoorWindowMotor">
-                <TypeRestriction Base="Value" SizeInBit="8" UIHint="DropDown">
-                  <Enumeration Text="Nein" Value="0" Id="%AID%_PT-DoorWindowMotor_EN-1" />
-                  <Enumeration Text="Ja"   Value="1" Id="%AID%_PT-DoorWindowMotor_EN-2" />
+              <ParameterType Id="%AID%_PT-BRIDoorWindowMotor" Name="BRIDoorWindowMotor">
+                <TypeRestriction Base="Value" SizeInBit="1" UIHint="DropDown">
+                  <Enumeration Value="0" Id="%ENID%" Text="Nein" />
+                  <Enumeration Value="1" Id="%ENID%" Text="Ja"   />
                 </TypeRestriction>
               </ParameterType>
-              <ParameterType Id="%AID%_PT-DoorWindowObstructionDetection" Name="DoorWindowObstructionDetection">
-                <TypeRestriction Base="Value" SizeInBit="8" UIHint="DropDown">
-                  <Enumeration Text="Nein" Value="0" Id="%AID%_PT-DoorWindowObstructionDetection_EN-1" />
-                  <Enumeration Text="Ja"   Value="1" Id="%AID%_PT-DoorWindowObstructionDetection_EN-2" />
+              <ParameterType Id="%AID%_PT-BRIDoorWindowObstructionDetection" Name="BRIDoorWindowObstructionDetection">
+                <TypeRestriction Base="Value" SizeInBit="1" UIHint="DropDown">
+                  <Enumeration Value="0" Id="%ENID%" Text="Nein" />
+                  <Enumeration Value="1" Id="%ENID%" Text="Ja"   />
                 </TypeRestriction>
               </ParameterType>
-              <ParameterType Id="%AID%_PT-DoorWindowFeedbackType" Name="DoorWindowFeedbackType">
-                <TypeRestriction Base="Value" SizeInBit="8">
-                  <Enumeration Text="Absolute Position" Value="0" Id="%AID%_PT-DoorWindowFeedbackType_EN-1" />
-                  <Enumeration Text="Geöffnet"      Value="1" Id="%AID%_PT-DoorWindowFeedbackType_EN-2" />
-                  <Enumeration Text="Geschlossen"   Value="2" Id="%AID%_PT-DoorWindowFeedbackType_EN-3" />
+              <ParameterType Id="%AID%_PT-BRIDoorWindowFeedbackType" Name="BRIDoorWindowFeedbackType">
+                <TypeRestriction Base="Value" SizeInBit="4">
+                  <Enumeration Value="0" Id="%ENID%" Text="Absolute Position" />
+                  <Enumeration Value="1" Id="%ENID%" Text="Geöffnet"          />
+                  <Enumeration Value="2" Id="%ENID%" Text="Geschlossen"       />
+                </TypeRestriction>
+              </ParameterType>
+              <ParameterType Id="%AID%_PT-BRIDoorWindowUseStop" Name="BRIDoorWindowUseStop">
+                <TypeRestriction Base="Value" SizeInBit="1" UIHint="DropDown">
+                  <Enumeration Value="0" Id="%ENID%" Text="Nicht verwenden"                             />
+                  <Enumeration Value="1" Id="%ENID%" Text="Stopp senden bei 0% oder 100% während Fahrt"  />
+                </TypeRestriction>
+              </ParameterType>
+              <ParameterType Id="%AID%_PT-BRIDoorWindowUpDownHandling" Name="BRIDoorWindowUpDownHandling">
+                <TypeRestriction Base="Value" SizeInBit="4">
+                  <Enumeration Value="0" Id="%ENID%" Text="Nicht verwenden"                        />
+                  <Enumeration Value="1" Id="%ENID%" Text="Ab senden bei 100% Befehl"              />
+                  <Enumeration Value="2" Id="%ENID%" Text="Auf senden bei 0% Befehl"               />
+                  <Enumeration Value="3" Id="%ENID%" Text="Auf senden bei 0% / Ab senden bei 100%" />
                 </TypeRestriction>
               </ParameterType>
 
             </ParameterTypes>
             <Parameters>
               
-              <Parameter Id="%AID%_P-%T%000001" Name="BridgeName" ParameterType="%AID%_PT-DeviceName" Text="Name" Value="OpenKNX Smart Home Bridge">
+              <Parameter Id="%AID%_P-%T%000001" Name="BridgeName" ParameterType="%AID%_PT-BRIDeviceName" Text="Name" Value="OpenKNX Smart Home Bridge">
                 <Memory CodeSegment="%AID%_RS-04-00000" Offset="4" BitOffset="0" />
               </Parameter>
-              <Parameter Id="%AID%_P-%T%000002" Name="Modus" ParameterType="%AID%_PT-ModeSelection" Text="Modus" Value="3">
+              <Parameter Id="%AID%_P-%T%000002" Name="Modus" ParameterType="%AID%_PT-BRIModeSelection" Text="Modus" Value="3">
                 <Memory CodeSegment="%AID%_RS-04-00000" Offset="30" BitOffset="0" />
               </Parameter>
            		<!-- Number of channels -->
               <Parameter Id="%AID%_P-%T%000000" Name="VisibleChannels" ParameterType="%AID%_PT-BRINumChannels" Text="Verfügbare Kanäle" Value="%BRI_NumChannelsDefault%" SuffixText=" von %N%" >
                 <Memory CodeSegment="%AID%_RS-04-00000" Offset="31" BitOffset="0" />
               </Parameter>
-              <Parameter Id="%AID%_P-%T%000005" Name="PairingCode" ParameterType="%AID%_PT-PairingCode" Text="Kopplungscode" Value="46637726">
+              <Parameter Id="%AID%_P-%T%000005" Name="PairingCode" ParameterType="%AID%_PT-BRIPairingCode" Text="Kopplungscode" Value="46637726">
                 <Memory CodeSegment="%AID%_RS-04-00000" Offset="127" BitOffset="0" />
               </Parameter>
           

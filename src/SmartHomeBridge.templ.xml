@@ -8,116 +8,132 @@
           <Static>
             <Parameters>
               <!-- Bridge Channel -->
-              <Parameter Id="%AID%_P-%T%%CCC%001" Name="CH%C%DeviceType" ParameterType="%AID%_PT-DeviceType" Text="Gerät" Value="0">
+              <Parameter Id="%AID%_P-%T%%CCC%001" Name="CH%C%DeviceType" ParameterType="%AID%_PT-BRIDeviceType" Text="Gerät" Value="0" >
+                <!-- Device Type -->
                 <Memory CodeSegment="%AID%_RS-04-00000" Offset="0" BitOffset="0" />
               </Parameter>
-              <Parameter Id="%AID%_P-%T%%CCC%002" Name="CH%C%DeviceName" ParameterType="%AID%_PT-DeviceName" Text="Name" Value="Gerät %C%">
+              <!-- Device Name -->
+              <Parameter Id="%AID%_P-%T%%CCC%002" Name="CH%C%DeviceName" ParameterType="%AID%_PT-BRIDeviceName" Text="Name" Value="Gerät %C%" >
+                <!-- ^^^ 25 Bytes + 1 Byte '0' terminator = 26 Bytes ^^^ -->
                 <Memory CodeSegment="%AID%_RS-04-00000" Offset="1" BitOffset="0" />
               </Parameter>
-               <Parameter Id="%AID%_P-%T%%CCC%003" Name="CH%C%DisableChannel" ParameterType="%AID%_PT-CheckBoxDisable" Text="Gerät deaktivieren (Konfiguration bleibt erhalten)" Value="0">
+              <!-- Disabled -->
+              <Parameter Id="%AID%_P-%T%%CCC%003" Name="CH%C%DisableChannel" ParameterType="%AID%_PT-BRICheckBoxDisable" Text="Gerät deaktivieren (Konfiguration bleibt erhalten)" Value="0" >
                 <Memory CodeSegment="%AID%_RS-04-00000" Offset="27" BitOffset="0" />
               </Parameter>
-              
-              <Union SizeInBit="8">
-                <Memory CodeSegment="%AID%_RS-04-00000" Offset="28" BitOffset="0" />
-                <!-- Light -->
-                <Parameter Id="%AID%_UP-%T%%CCC%021" Name="CH%C%LightType"            Offset="0" BitOffset="0" ParameterType="%AID%_PT-LightType"          Text="Lampenart" Value="0" />
-                <!-- Jalousie -->
-                <Parameter Id="%AID%_UP-%T%%CCC%031" Name="CH%C%JalousieHueEmulation"   Offset="0" BitOffset="0" ParameterType="%AID%_PT-HueEmulation"          Text="In HUE als dimmbare Lampe darstellen" Value="0" />
-                <!-- Thermostat -->
-                <Parameter Id="%AID%_UP-%T%%CCC%051" Name="CH%C%ThermostatTemperaturUnitType" Offset="0" BitOffset="0" ParameterType="%AID%_PT-ThermostatTemperaturUnitType" Text="Einheit" Value="0" />                         
-                <!-- Kontakte/Alarme/Sensoren -->
-                <Parameter Id="%AID%_UP-%T%%CCC%071" Name="CH%C%ContactAlarmSensorInvert" Offset="0" BitOffset="0" ParameterType="%AID%_PT-ContactAlarmSensorInvert" Text="Eingang Invertieren" Value="0" />
-                <!-- Anzeige -->
-                <Parameter Id="%AID%_UP-%T%%CCC%061" Name="CH%C%DisplayType" Offset="0" BitOffset="0" ParameterType="%AID%_PT-DisplayType" Text="Messwert" Value="0" />    
-                <!-- Fan-->
-                <Parameter Id="%AID%_UP-%T%%CCC%081" Name="CH%C%FanHueEmulation"   Offset="0" BitOffset="0" ParameterType="%AID%_PT-HueEmulation"           Text="Lüfter in HUE als Lampe darstellen" Value="0" />        
-                <!-- Door/Window-->
-                <Parameter Id="%AID%_UP-%T%%CCC%091" Name="CH%C%DoorWindowMotor"   Offset="0" BitOffset="0" ParameterType="%AID%_PT-DoorWindowMotor"                 Text="Motorantrieb" Value="1" />        
-    
-              </Union>
-
-              <Union SizeInBit="8">
-                <Memory CodeSegment="%AID%_RS-04-00000" Offset="29" BitOffset="0" />
-                <!-- Switch -->
-                <Parameter Id="%AID%_UP-%T%%CCC%012" Name="CH%C%SwitchHueEmulation"   Offset="0" BitOffset="0" ParameterType="%AID%_PT-HueEmulation"          Text="Gerät in Hue verwenden" Value="1" />
-                <!-- Light -->
-                <Parameter Id="%AID%_UP-%T%%CCC%022" Name="CH%C%LightHueEmulation"    Offset="0" BitOffset="0" ParameterType="%AID%_PT-HueEmulation"          Text="Lampe in Hue verwenden" Value="1" />
-                <!-- Jalousie -->
-                <Parameter Id="%AID%_UP-%T%%CCC%032" Name="CH%C%JalousieUpDownHandling"   Offset="0" BitOffset="0" ParameterType="%AID%_PT-BlindsUpDownHandling"    Text="Auf/Ab Objekt verwenden" Value="0" />
-                <!-- Thermostat -->
-                <Parameter Id="%AID%_UP-%T%%CCC%052" Name="CH%C%ThermostatMode"           Offset="0" BitOffset="0" ParameterType="%AID%_PT-ThermostatMode"          Text="Optionen" Value="3" />                         
-                <!-- Fan-->
-                <Parameter Id="%AID%_UP-%T%%CCC%082" Name="CH%C%FanAutomatic"             Offset="0" BitOffset="0" ParameterType="%AID%_PT-FanAutomatic"             Text="Lüfter hat Automatikmodus" Value="0" />
-                <!-- Door/Window-->
-                <Parameter Id="%AID%_UP-%T%%CCC%092" Name="CH%C%DoorWindowObstructionDetection"   Offset="0" BitOffset="0" ParameterType="%AID%_PT-DoorWindowObstructionDetection"  Text="Blockadenerkennung" Value="0" />        
-   
-              </Union>
-
+              <!-- 2 Byte free -->
+          
+          
+              <!-- Switch -->
               <Union SizeInBit="8">
                 <Memory CodeSegment="%AID%_RS-04-00000" Offset="30" BitOffset="0" />
-                <!-- Light -->
-                <Parameter Id="%AID%_UP-%T%%CCC%023" Name="CH%C%LightSwitchOnBehavior" Offset="0" BitOffset="0" ParameterType="%AID%_PT-LightSwitchOnBehavior" Text="Bei EIN Befehl" Value="200" />
-                <!-- Jalousie -->
-                <Parameter Id="%AID%_UP-%T%%CCC%033" Name="CH%C%JalousieUseStop"  Offset="0" BitOffset="0" ParameterType="%AID%_PT-BlindsUseStop" Text="Stopp Objekt verwenden" Value="0" />
-                <!-- Thermostat -->
-                <Parameter Id="%AID%_UP-%T%%CCC%053" Name="CH%C%ThermostatKoModeHeating" Offset="0" BitOffset="0" ParameterType="%AID%_PT-ThermostatKoMode"  Text="Betriebsart" Value="0" />                                     
-                <!-- Fan-->
-                <Parameter Id="%AID%_UP-%T%%CCC%083" Name="CH%C%FanKoAutomatic"            Offset="0" BitOffset="0" ParameterType="%AID%_PT-FanKoAutomatic" Text="Objekt für Automatik" Value="0" />
-                <!-- Door/Window -->
-                <Parameter Id="%AID%_UP-%T%%CCC%093" Name="CH%C%DoorWindowUpDownHandling"   Offset="0" BitOffset="0" ParameterType="%AID%_PT-BlindsUpDownHandling"    Text="Auf/Ab Objekt verwenden" Value="0" />
-        
-              </Union>
-
-              <Union SizeInBit="8">
-                <Memory CodeSegment="%AID%_RS-04-00000" Offset="31" BitOffset="0" />
-                <!-- Light -->
-                <Parameter Id="%AID%_UP-%T%%CCC%024" Name="CH%C%LightSwitchOn2Behavior"  Offset="0" BitOffset="0" ParameterType="%AID%_PT-LightSwitchOn2Behavior" Text="Bei EIN wenn aktuelle Helligkeit > 0%" Value="100" />
-                <!-- Jalousie -->
-                <Parameter Id="%AID%_UP-%T%%CCC%034" Name="CH%C%SlatHandling"  Offset="0" BitOffset="0" ParameterType="%AID%_PT-SlatHandling" Text="Lamellenposition bei Fahrt" Value="0" />
-                <!-- Thermostat -->
-                <Parameter Id="%AID%_UP-%T%%CCC%054" Name="CH%C%ThermostatKoModeHeatingFeedback" Offset="0" BitOffset="0" ParameterType="%AID%_PT-ThermostatKoModeFeedback"  Text="Betriebsart Rückmeldung" Value="0" />                                     
-                <!-- Fan-->
-                <Parameter Id="%AID%_UP-%T%%CCC%084" Name="CH%C%FanKoAutomaticFeedback"   Offset="0" BitOffset="0" ParameterType="%AID%_PT-FanKoAutomaticFeedback"   Text="Objekt für Rückmeldung" Value="0" />
-                <!-- Door/Window -->
-                <Parameter Id="%AID%_UP-%T%%CCC%094" Name="CH%C%DoorWindowUseStop"  Offset="0" BitOffset="0" ParameterType="%AID%_PT-BlindsUseStop" Text="Stopp Objekt verwenden" Value="0" />
-  
-              </Union>
-
-              <Union SizeInBit="8">
-                <Memory CodeSegment="%AID%_RS-04-00000" Offset="32" BitOffset="0" />
-                <!-- Light -->
-                <Parameter Id="%AID%_UP-%T%%CCC%025" Name="CH%C%LightRGBSwitchOnBehavior" Offset="0" BitOffset="0" ParameterType="%AID%_PT-LightRGBSwitchOnBehavior" Text="Bei EIN Befehl" Value="200" />
-                <!-- Thermostat -->
-                <Parameter Id="%AID%_UP-%T%%CCC%055" Name="CH%C%ThemostateHeatingFeedbackKoType" Offset="0" BitOffset="0" ParameterType="%AID%_PT-ThemostateFeedbackKoType"  Text="Heizen aktiv Rückmeldung" Value="0" />                         
-                <!-- Door/Window -->
-                <Parameter Id="%AID%_UP-%T%%CCC%095" Name="CH%C%DoorWindowFeedbackType"  Offset="0" BitOffset="0" ParameterType="%AID%_PT-DoorWindowFeedbackType" Text="Rückmeldung" Value="0" />
-         
-              </Union>
-
-              <Union SizeInBit="8">
-                <Memory CodeSegment="%AID%_RS-04-00000" Offset="33" BitOffset="0" />
-                <!-- Light -->
-                <Parameter Id="%AID%_UP-%T%%CCC%026" Name="CH%C%LightRGBSwitchOn2Behavior"  Offset="0" BitOffset="0" ParameterType="%AID%_PT-LightRGBSwitchOn2Behavior" Text="Bei EIN wenn aktuelle Farbe > 0" Value="0" />
-                <!-- Thermostat -->
-                <Parameter Id="%AID%_UP-%T%%CCC%056" Name="CH%C%ThermostatKoModeCooling" Offset="0" BitOffset="0" ParameterType="%AID%_PT-ThermostatKoMode"  Text="Betriebsart" Value="0" />                         
-                 <!-- Door/Window -->
-                <Parameter Id="%AID%_UP-%T%%CCC%096" Name="CH%C%DoorHueEmulation"   Offset="0" BitOffset="0" ParameterType="%AID%_PT-HueEmulation"          Text="In Hue als dimmbare Lampe darstellen" Value="0" />
-                          
-              </Union>
-
-              <Union SizeInBit="8">
-                <Memory CodeSegment="%AID%_RS-04-00000" Offset="34" BitOffset="0" />
-                <!-- Light -->
-                <Parameter Id="%AID%_UP-%T%%CCC%027" Name="CH%C%LightRGBUseSwitchKO"  Offset="0" BitOffset="0" ParameterType="%AID%_PT-LightRGBUseSwitchKO" Text="KO für Schalten verwenden" Value="1" />
-                <!-- Thermostat -->
-                <Parameter Id="%AID%_UP-%T%%CCC%057" Name="CH%C%ThermostatKoModeCoolingFeedback" Offset="0" BitOffset="0" ParameterType="%AID%_PT-ThermostatKoModeFeedback"  Text="Betriebsart Rückmeldung" Value="0" />                         
+                <!-- Switch Hue Emulation -->
+                <Parameter Id="%AID%_UP-%T%%CCC%012" Offset="0" BitOffset="0" Name="CH%C%SwitchHueEmulation" ParameterType="%AID%_PT-BRIHueEmulation"          Text="Gerät in Hue verwenden" Value="1" />
+                <!-- 7 bits free -->
+              </Union> 
+              
+              <!-- Light -->
+              <Union SizeInBit="40">
+                <Memory CodeSegment="%AID%_RS-04-00000" Offset="30" BitOffset="0" />
+                <!-- Light Hue Emulation -->
+                <Parameter Id="%AID%_UP-%T%%CCC%022" Offset="0" BitOffset="0" Name="CH%C%LightHueEmulation" ParameterType="%AID%_PT-BRIHueEmulation"          Text="Lampe in Hue verwenden" Value="1" />        
+                <!-- Light RGB Use Switch KO -->
+                <Parameter Id="%AID%_UP-%T%%CCC%027" Offset="0" BitOffset="1" Name="CH%C%LightRGBUseSwitchKO" ParameterType="%AID%_PT-BRILightRGBUseSwitchKO" Text="KO für Schalten verwenden" Value="1" />
+                <!-- 2 Bits free -->
+                <!-- Light Type -->
+                <Parameter Id="%AID%_UP-%T%%CCC%021" Offset="0" BitOffset="4" Name="CH%C%LightType" ParameterType="%AID%_PT-BRILightType" Text="Lampenart" Value="0" />
+                <!-- Light Switch On Behavior-->
+                <Parameter Id="%AID%_UP-%T%%CCC%023" Offset="1" BitOffset="0" Name="CH%C%LightSwitchOnBehavior" ParameterType="%AID%_PT-BRILightSwitchOnBehavior" Text="Bei EIN Befehl" Value="200" />
+                <!-- Light Switch On Behavior 2 -->
+                <Parameter Id="%AID%_UP-%T%%CCC%024" Offset="2" BitOffset="0" Name="CH%C%LightSwitchOn2Behavior" ParameterType="%AID%_PT-BRILightSwitchOn2Behavior" Text="Bei EIN wenn aktuelle Helligkeit > 0%" Value="100" />
+                <!-- Light RGB Switch Behavior -->
+                <Parameter Id="%AID%_UP-%T%%CCC%025" Offset="3" BitOffset="0" Name="CH%C%LightRGBSwitchOnBehavior"  ParameterType="%AID%_PT-BRILightRGBSwitchOnBehavior" Text="Bei EIN Befehl" Value="200" />                     
+                <!--  Light RGB Switch Behavior 2 -->
+                <Parameter Id="%AID%_UP-%T%%CCC%026" Offset="4" BitOffset="0" Name="CH%C%LightRGBSwitchOn2Behavior" ParameterType="%AID%_PT-BRILightRGBSwitchOn2Behavior" Text="Bei EIN wenn aktuelle Farbe > 0" Value="0" />
               </Union>
               
-               <Union SizeInBit="8">
-                <Memory CodeSegment="%AID%_RS-04-00000" Offset="35" BitOffset="0" />
-                <!-- Thermostat -->
-                <Parameter Id="%AID%_UP-%T%%CCC%058" Name="CH%C%ThemostateCoolingFeedbackKoType" Offset="0" BitOffset="0" ParameterType="%AID%_PT-ThemostateFeedbackKoType"  Text="Kühlen aktiv Rückmeldung" Value="0" />                         
+              <!-- Jalousie -->
+              <Union SizeInBit="16">
+                <Memory CodeSegment="%AID%_RS-04-00000" Offset="30" BitOffset="0" />
+                <!-- Jalousie Hue Emulation -->
+                <Parameter Id="%AID%_UP-%T%%CCC%031" Offset="0" BitOffset="0" Name="CH%C%JalousieHueEmulation" ParameterType="%AID%_PT-BRIHueEmulation" Text="In HUE als dimmbare Lampe darstellen" Value="0" />
+                <!-- Jalousie Use Stop -->
+                <Parameter Id="%AID%_UP-%T%%CCC%033" Offset="0" BitOffset="1" Name="CH%C%JalousieUseStop" ParameterType="%AID%_PT-BRIBlindsUseStop" Text="Stopp Objekt verwenden" Value="0" />
+                <!-- 2 Bits free -->
+                <!-- Jalousie Up/Down Handling-->
+                <Parameter Id="%AID%_UP-%T%%CCC%032" Offset="0" BitOffset="4" Name="CH%C%JalousieUpDownHandling" ParameterType="%AID%_PT-BRIBlindsUpDownHandling"    Text="Auf/Ab Objekt verwenden" Value="0" />
+                <!-- Jalousie Slat Handling -->
+                <Parameter Id="%AID%_UP-%T%%CCC%034" Offset="1" BitOffset="0" Name="CH%C%SlatHandling" ParameterType="%AID%_PT-BRISlatHandling" Text="Lamellenposition bei Fahrt" Value="0" />
+                <!-- 4 Bits free -->
+              </Union>       
+
+              <!-- Thermostat -->
+              <Union SizeInBit="16">
+                <Memory CodeSegment="%AID%_RS-04-00000" Offset="30" BitOffset="0" />
+                <!-- Temperature Unit -->
+                <Parameter Id="%AID%_UP-%T%%CCC%051" Offset="0" BitOffset="0" Name="CH%C%ThermostatTemperaturUnitType" ParameterType="%AID%_PT-BRIThermostatTemperaturUnitType" Text="Einheit" Value="0" />                         
+                <!-- Thermostat Ko Mod Heating -->
+                <Parameter Id="%AID%_UP-%T%%CCC%053" Offset="0" BitOffset="1" Name="CH%C%ThermostatKoModeHeating" ParameterType="%AID%_PT-BRIThermostatKoMode"  Text="Betriebsart" Value="0" />                                     
+                <!-- Thermostat KO Mode Heading Feedback -->
+                <Parameter Id="%AID%_UP-%T%%CCC%054" Offset="0" BitOffset="2" Name="CH%C%ThermostatKoModeHeatingFeedback" ParameterType="%AID%_PT-BRIThermostatKoModeFeedback"  Text="Betriebsart Rückmeldung" Value="0" />                                     
+                <!-- Thermostat Heating Feedback Ko Type -->
+                <Parameter Id="%AID%_UP-%T%%CCC%055" Offset="0" BitOffset="3" Name="CH%C%ThemostateHeatingFeedbackKoType" ParameterType="%AID%_PT-BRIThemostateFeedbackKoType"  Text="Heizen aktiv Rückmeldung" Value="0" />                         
+                <!-- Thermostat Mode -->
+                <Parameter Id="%AID%_UP-%T%%CCC%052" Offset="0" BitOffset="4" Name="CH%C%ThermostatMode" ParameterType="%AID%_PT-BRIThermostatMode"          Text="Optionen" Value="3" />                         
+                <!-- Thermostat KO Mode Cooling -->
+                <Parameter Id="%AID%_UP-%T%%CCC%056" Offset="1" BitOffset="0" Name="CH%C%ThermostatKoModeCooling"  ParameterType="%AID%_PT-BRIThermostatKoMode"  Text="Betriebsart" Value="0" />                         
+                 <!-- Thermostat KO Mode Cooling Feedback -->
+                <Parameter Id="%AID%_UP-%T%%CCC%057" Offset="1" BitOffset="1" Name="CH%C%ThermostatKoModeCoolingFeedback" ParameterType="%AID%_PT-BRIThermostatKoModeFeedback"  Text="Betriebsart Rückmeldung" Value="0" />                         
+                <!-- Thermostat Cooling Feedback KO Type -->
+                <Parameter Id="%AID%_UP-%T%%CCC%058" Offset="1" BitOffset="2" Name="CH%C%ThemostateCoolingFeedbackKoType"  ParameterType="%AID%_PT-BRIThemostateFeedbackKoType"  Text="Kühlen aktiv Rückmeldung" Value="0" />                         
+                <!-- 5 Bits free -->
+              </Union>
+
+              <!-- Kontakte/Alarme/Sensoren -->
+              <Union SizeInBit="8">
+                <Memory CodeSegment="%AID%_RS-04-00000" Offset="30" BitOffset="0" />
+                <!-- Sensor Inverted -->
+                <Parameter Id="%AID%_UP-%T%%CCC%071" Offset="0" BitOffset="0" Name="CH%C%ContactAlarmSensorInvert"  ParameterType="%AID%_PT-BRIContactAlarmSensorInvert" Text="Eingang Invertieren" Value="0" />
+                <!-- 7 Bits free -->
+              </Union>
+
+              <!-- Anzeige -->
+              <Union SizeInBit="8">
+                <Memory CodeSegment="%AID%_RS-04-00000" Offset="30" BitOffset="0" />
+                <!-- Display Type -->
+                <Parameter Id="%AID%_UP-%T%%CCC%061" Offset="0" BitOffset="0" Name="CH%C%DisplayType" ParameterType="%AID%_PT-BRIDisplayType" Text="Messwert" Value="0" />    
+              </Union>
+
+              <!-- Fan -->
+              <Union SizeInBit="8">
+                <Memory CodeSegment="%AID%_RS-04-00000" Offset="30" BitOffset="0" />
+                <!-- Fan Hue Emulation -->
+                <Parameter Id="%AID%_UP-%T%%CCC%081" Offset="0" BitOffset="0" Name="CH%C%FanHueEmulation" ParameterType="%AID%_PT-BRIHueEmulation"           Text="Lüfter in HUE als Lampe darstellen" Value="0" />        
+                <!-- Fan Automatic -->
+                <Parameter Id="%AID%_UP-%T%%CCC%082" Offset="0" BitOffset="1" Name="CH%C%FanAutomatic" ParameterType="%AID%_PT-BRIFanAutomatic"             Text="Lüfter hat Automatikmodus" Value="0" />
+                <!-- Fan KO Autoamtic -->
+                <Parameter Id="%AID%_UP-%T%%CCC%083" Offset="0" BitOffset="2" Name="CH%C%FanKoAutomatic" ParameterType="%AID%_PT-BRIFanKoAutomatic" Text="Objekt für Automatik" Value="0" />
+                <!-- Fan KO Automatic Feedback -->
+                <Parameter Id="%AID%_UP-%T%%CCC%084" Offset="0" BitOffset="3" Name="CH%C%FanKoAutomaticFeedback" ParameterType="%AID%_PT-BRIFanKoAutomaticFeedback"   Text="Objekt für Rückmeldung" Value="0" />
+                <!-- 4 Bits free -->     
+              </Union>
+
+              <!-- Door/Window -->
+              <Union SizeInBit="16">
+                <Memory CodeSegment="%AID%_RS-04-00000" Offset="30" BitOffset="0" />
+                <!-- Door/Window HUE Emulation -->
+                <Parameter Id="%AID%_UP-%T%%CCC%096" Offset="0" BitOffset="0" Name="CH%C%DoorHueEmulation" ParameterType="%AID%_PT-BRIHueEmulation"          Text="In Hue als dimmbare Lampe darstellen" Value="0" />
+                <!-- Door/Window Motor -->
+                <Parameter Id="%AID%_UP-%T%%CCC%091" Offset="0" BitOffset="1" Name="CH%C%DoorWindowMotor" ParameterType="%AID%_PT-BRIDoorWindowMotor"                 Text="Motorantrieb" Value="1" />         
+                <!-- Door/Window Obstruction Detection -->
+                <Parameter Id="%AID%_UP-%T%%CCC%092" Offset="0" BitOffset="2" Name="CH%C%DoorWindowObstructionDetection" ParameterType="%AID%_PT-BRIDoorWindowObstructionDetection"  Text="Blockadenerkennung" Value="0" />        
+                <!-- 1 Bits free -->    
+                <!-- Door/Window Up Down Handling -->
+                <Parameter Id="%AID%_UP-%T%%CCC%093" Offset="0" BitOffset="4" Name="CH%C%DoorWindowUpDownHandling" ParameterType="%AID%_PT-BRIDoorWindowUpDownHandling"    Text="Auf/Ab Objekt verwenden" Value="0" />
+                <!-- Door/Window  Use Stop-->
+                <Parameter Id="%AID%_UP-%T%%CCC%094" Offset="1" BitOffset="0" Name="CH%C%DoorWindowUseStop"  ParameterType="%AID%_PT-BRIDoorWindowUseStop" Text="Stopp Objekt verwenden" Value="0" />  
+                <!-- Door/Window Feedback Type -->
+                <Parameter Id="%AID%_UP-%T%%CCC%095" Offset="1" BitOffset="4" Name="CH%C%DoorWindowFeedbackType" ParameterType="%AID%_PT-BRIDoorWindowFeedbackType" Text="Rückmeldung" Value="0" />
               </Union>
 
             </Parameters>
@@ -129,9 +145,11 @@
               <ParameterRef Id="%AID%_P-%T%%CCC%003_R-%T%%CCC%00301" RefId="%AID%_P-%T%%CCC%003" />                        
 
               <!-- Switch -->
+              <!-- Switch Hue Emulation -->
               <ParameterRef Id="%AID%_UP-%T%%CCC%012_R-%T%%CCC%01201" RefId="%AID%_UP-%T%%CCC%012" />
 
               <!-- Light -->
+              <!-- Light Hue Emulation -->
               <ParameterRef Id="%AID%_UP-%T%%CCC%021_R-%T%%CCC%02101" RefId="%AID%_UP-%T%%CCC%021" />
               <ParameterRef Id="%AID%_UP-%T%%CCC%022_R-%T%%CCC%02201" RefId="%AID%_UP-%T%%CCC%022" />
               <ParameterRef Id="%AID%_UP-%T%%CCC%023_R-%T%%CCC%02301" RefId="%AID%_UP-%T%%CCC%023" />
