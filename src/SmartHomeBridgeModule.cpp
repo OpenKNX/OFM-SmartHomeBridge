@@ -420,7 +420,7 @@ void SmartHomeBridgeModule::serveRebootPage()
   res += "</body>";
   webServer->send(200, "text/html;charset=UTF-8", res);
   vTaskDelay(1000);
-  ESP.restart();
+  openknx.restart();
 }
 
 void SmartHomeBridgeModule::serveProgModePage()
