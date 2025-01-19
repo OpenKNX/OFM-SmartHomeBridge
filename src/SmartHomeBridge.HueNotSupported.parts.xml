@@ -1,0 +1,10 @@
+<ParameterBlock>
+    <choose ParamRefId="%AID%_P-%T%000002_R-%T%00000201">  <!-- Bride Mode -->
+        <when test="2"> <!-- Hue -->
+            <ParameterSeparator Id="%AID%_PS-nnn" Text="Fehler: Diese Gerät wird von der Hue Emulation nicht unterstützt" UIHint="Error" />                
+        </when> 
+        <when test="3"> <!-- Hue & Homekit -->
+            <ParameterSeparator Id="%AID%_PS-nnn" Text="Hinweis: Diese Gerät wird von der Hue Emulation nicht unterstützt" UIHint="Information" />                
+        </when>  
+    </choose>   
+</ParameterBlock> 

@@ -5,8 +5,9 @@
     <Manufacturer RefId="M-00FA">
       <ApplicationPrograms>
         <ApplicationProgram Id="%AID%" ApplicationNumber="0" ApplicationVersion="0" ProgramType="ApplicationProgram" MaskVersion="MV-07B0" Name="KNX-Homekit-Bridge-Hue-Emulation" LoadProcedureStyle="MergedProcedure" PeiType="0" DefaultLanguage="de" DynamicTableManagement="false" Linkable="true" MinEtsVersion="4.0">
-          <op:part href="SmartHomeBridge.Warning.parts.xml" name="Warning" instances="1" />
-          <!-- <op:part href="SmartHomeBridge.ChannelHead.parts.xml" name="ChannelHead" instances="1" /> -->
+          <op:part href="SmartHomeBridge.HueSimulation.parts.xml" name="HueSimulation" instances="1" />
+          <op:part href="SmartHomeBridge.HueNotSupported.parts.xml" name="HueNotSupported" instances="1" />
+          <op:part href="SmartHomeBridge.ChannelHead.parts.xml" name="ChannelHead" instances="1" />
           <Static>
             <Parameters>
               <!-- Bridge Channel -->
@@ -339,10 +340,8 @@
                         <!-- ************** Schalten ************ -->
                         <ParameterBlock Id="%AID%_PB-nnn" Name="f%CC%FCB_Switch" Text="%C% Schalten: {{0: ...}}"      TextParameterRefId="%AID%_P-%T%%CCC%002_R-%T%%CCC%00201" Icon="light-switch-off" ShowInComObjectTree="true" HelpContext="FCB-UND">
                           <ParameterSeparator Id="%AID%_PS-nnn" Text="Schalten" UIHint="Headline" />
-                          <!-- Devie Name -->
-                          <ParameterRefRef RefId="%AID%_P-%T%%CCC%002_R-%T%%CCC%00201" /> 
-                          <!-- Kanal Disabled -->
-                          <ParameterRefRef RefId="%AID%_P-%T%%CCC%003_R-%T%%CCC%00301" /> 
+         			            <op:usePart name="ChannelHead" xpath="//ParameterBlock/*" />
+
                           <!-- Bride Mode -->
                           <choose ParamRefId="%AID%_P-%T%000002_R-%T%00000201">  
                             <when test="2 3 8"> <!-- Hue & Hue oder Hue & Homekit -->
@@ -359,9 +358,8 @@
                         <!-- ************** Steckdose ************ -->
                         <ParameterBlock Id="%AID%_PB-nnn" Name="f%CC%FCB_Switch" Text="%C% Steckdose: {{0: ...}}"      TextParameterRefId="%AID%_P-%T%%CCC%002_R-%T%%CCC%00201" Icon="power-socket-eu" ShowInComObjectTree="true" HelpContext="FCB-UND">
                           <ParameterSeparator Id="%AID%_PS-nnn" Text="Steckdose" UIHint="Headline" />
-                          <!-- Devie Name -->
-                          <ParameterRefRef RefId="%AID%_P-%T%%CCC%002_R-%T%%CCC%00201" /> 
-                          <!-- Kanal Disabled -->
+        			            <op:usePart name="ChannelHead" xpath="//ParameterBlock/*" />
+                        
                           <ParameterRefRef RefId="%AID%_P-%T%%CCC%003_R-%T%%CCC%00301" />          
                           <!-- Bride Mode -->
                           <choose ParamRefId="%AID%_P-%T%000002_R-%T%00000201">  
@@ -379,56 +377,53 @@
                         <!-- ************** Lampe ************ -->
                         <ParameterBlock Id="%AID%_PB-nnn" Name="f%CC%FCB_Switch" Text="%C% Lampe: {{0: ...}}"      TextParameterRefId="%AID%_P-%T%%CCC%002_R-%T%%CCC%00201" Icon="lamp-outline" ShowInComObjectTree="true" HelpContext="FCB-UND">
                           <ParameterSeparator Id="%AID%_PS-nnn" Text="Lampe" UIHint="Headline" />
-                            <!-- Devie Name -->
-                            <ParameterRefRef RefId="%AID%_P-%T%%CCC%002_R-%T%%CCC%00201" /> 
-                            <!-- Kanal Disabled -->
-                            <ParameterRefRef RefId="%AID%_P-%T%%CCC%003_R-%T%%CCC%00301" /> 
-                            <!-- Bride Mode -->
-                            <choose ParamRefId="%AID%_P-%T%000002_R-%T%00000201"> 
-                              <when test="2 3 8"> <!-- Hue & Hue oder Hue & Homekit -->
-                                <ParameterRefRef RefId="%AID%_UP-%T%%CCC%022_R-%T%%CCC%02201" />
-                                <!-- In Hue verwenden -->
+                          <op:usePart name="ChannelHead" xpath="//ParameterBlock/*" />
+
+                          <ParameterRefRef RefId="%AID%_P-%T%%CCC%003_R-%T%%CCC%00301" /> 
+                          <!-- Bride Mode -->
+                          <choose ParamRefId="%AID%_P-%T%000002_R-%T%00000201"> 
+                            <when test="2 3 8"> <!-- Hue & Hue oder Hue & Homekit -->
+                              <ParameterRefRef RefId="%AID%_UP-%T%%CCC%022_R-%T%%CCC%02201" />
+                              <!-- In Hue verwenden -->
+                          </when>
+                          </choose>
+                          <ParameterSeparator Id="%AID%_PS-nnn" Text="" UIHint="HorizontalRuler" />
+                    
+                          <ParameterRefRef RefId="%AID%_UP-%T%%CCC%021_R-%T%%CCC%02101" /> <!-- Light Type -->
+                          <choose ParamRefId="%AID%_UP-%T%%CCC%021_R-%T%%CCC%02101">  <!-- Light Type -->
+                            <when test="0"> <!-- On/Off -->
+                              <ComObjectRefRef RefId="%AID%_O-%T%%CCC%001_R-%T%%CCC%00102" />
+                              <ComObjectRefRef RefId="%AID%_O-%T%%CCC%002_R-%T%%CCC%00202" />
                             </when>
-                            </choose>
-                            <ParameterSeparator Id="%AID%_PS-nnn" Text="" UIHint="HorizontalRuler" />
-                     
-                            <ParameterRefRef RefId="%AID%_UP-%T%%CCC%021_R-%T%%CCC%02101" /> <!-- Light Type -->
-                            <choose ParamRefId="%AID%_UP-%T%%CCC%021_R-%T%%CCC%02101">  <!-- Light Type -->
-                              <when test="0"> <!-- On/Off -->
-                                <ComObjectRefRef RefId="%AID%_O-%T%%CCC%001_R-%T%%CCC%00102" />
-                                <ComObjectRefRef RefId="%AID%_O-%T%%CCC%002_R-%T%%CCC%00202" />
-                              </when>
-                              <when test="1"> <!-- Dimmer -->
-                                <ParameterRefRef RefId="%AID%_UP-%T%%CCC%023_R-%T%%CCC%02301" /> <!-- Switch On Behavior -->
-                                <ParameterRefRef RefId="%AID%_UP-%T%%CCC%024_R-%T%%CCC%02401" /> <!-- Switch On 2 Behavior -->
-                                <ComObjectRefRef RefId="%AID%_O-%T%%CCC%001_R-%T%%CCC%00112" />
-                                <ComObjectRefRef RefId="%AID%_O-%T%%CCC%002_R-%T%%CCC%00212" />
-                              </when>
-                              <when test="2"> <!-- RGB -->
-                                <ParameterRefRef RefId="%AID%_UP-%T%%CCC%025_R-%T%%CCC%02501" /> <!-- RGB Switch On Behavior -->
-                                <ParameterRefRef RefId="%AID%_UP-%T%%CCC%026_R-%T%%CCC%02601" /> <!-- RGB Switch On 2 Behavior -->
-                                <ParameterRefRef RefId="%AID%_UP-%T%%CCC%027_R-%T%%CCC%02701" /> <!-- RGB Use Switch KO -->
-                                <ComObjectRefRef RefId="%AID%_O-%T%%CCC%001_R-%T%%CCC%00122" />
-                                <ComObjectRefRef RefId="%AID%_O-%T%%CCC%002_R-%T%%CCC%00222" />
-                                <choose ParamRefId="%AID%_UP-%T%%CCC%027_R-%T%%CCC%02701"> <!-- RGB Use Switch KO -->
-                                  <when test="1"> <!-- Use Switch KO -->
-                                    <ComObjectRefRef RefId="%AID%_O-%T%%CCC%003_R-%T%%CCC%00322" />
-                                    <ComObjectRefRef RefId="%AID%_O-%T%%CCC%004_R-%T%%CCC%00422" />
-                                  </when>
-                                </choose>
-                              </when>
-                            </choose>
+                            <when test="1"> <!-- Dimmer -->
+                              <ParameterRefRef RefId="%AID%_UP-%T%%CCC%023_R-%T%%CCC%02301" /> <!-- Switch On Behavior -->
+                              <ParameterRefRef RefId="%AID%_UP-%T%%CCC%024_R-%T%%CCC%02401" /> <!-- Switch On 2 Behavior -->
+                              <ComObjectRefRef RefId="%AID%_O-%T%%CCC%001_R-%T%%CCC%00112" />
+                              <ComObjectRefRef RefId="%AID%_O-%T%%CCC%002_R-%T%%CCC%00212" />
+                            </when>
+                            <when test="2"> <!-- RGB -->
+                              <ParameterRefRef RefId="%AID%_UP-%T%%CCC%025_R-%T%%CCC%02501" /> <!-- RGB Switch On Behavior -->
+                              <ParameterRefRef RefId="%AID%_UP-%T%%CCC%026_R-%T%%CCC%02601" /> <!-- RGB Switch On 2 Behavior -->
+                              <ParameterRefRef RefId="%AID%_UP-%T%%CCC%027_R-%T%%CCC%02701" /> <!-- RGB Use Switch KO -->
+                              <ComObjectRefRef RefId="%AID%_O-%T%%CCC%001_R-%T%%CCC%00122" />
+                              <ComObjectRefRef RefId="%AID%_O-%T%%CCC%002_R-%T%%CCC%00222" />
+                              <choose ParamRefId="%AID%_UP-%T%%CCC%027_R-%T%%CCC%02701"> <!-- RGB Use Switch KO -->
+                                <when test="1"> <!-- Use Switch KO -->
+                                  <ComObjectRefRef RefId="%AID%_O-%T%%CCC%003_R-%T%%CCC%00322" />
+                                  <ComObjectRefRef RefId="%AID%_O-%T%%CCC%004_R-%T%%CCC%00422" />
+                                </when>
+                              </choose>
+                            </when>
+                          </choose>
                         </ParameterBlock>
                       </when>
                       <when test="30">
                         <!-- ************** Jalousie ************ -->
                         <ParameterBlock Id="%AID%_PB-nnn" Name="f%CC%FCB_Switch" Text="%C% Jalousie: {{0: ...}}"      TextParameterRefId="%AID%_P-%T%%CCC%002_R-%T%%CCC%00201" Icon="window-shutter" ShowInComObjectTree="true" HelpContext="FCB-UND">
-                        <ParameterSeparator Id="%AID%_PS-nnn" Text="Jalousie" UIHint="Headline" />
-                          <!-- Devie Name -->
-                          <ParameterRefRef RefId="%AID%_P-%T%%CCC%002_R-%T%%CCC%00201" /> 
-                          <!-- Kanal Disabled -->
-                          <ParameterRefRef RefId="%AID%_P-%T%%CCC%003_R-%T%%CCC%00301" /> 
-                          
+                          <ParameterSeparator Id="%AID%_PS-nnn" Text="Jalousie" UIHint="Headline" />
+                          <op:usePart name="ChannelHead" xpath="//ParameterBlock/*" />
+                          <op:usePart name="HueSimulation" xpath="//ParameterBlock/*" />
+                                              
 							            <!-- Bride Mode -->
                           <choose ParamRefId="%AID%_P-%T%000002_R-%T%00000201">  
                             <when test="2 3 8"> <!-- Hue & Hue oder Hue & Homekit -->
@@ -464,10 +459,9 @@
                         <!-- ************** Rolladen ************ -->
                         <ParameterBlock Id="%AID%_PB-nnn" Name="f%CC%FCB_Switch" Text="%C% Rolladen: {{0: ...}}"      TextParameterRefId="%AID%_P-%T%%CCC%002_R-%T%%CCC%00201" Icon="roller-shade-closed" ShowInComObjectTree="true" HelpContext="FCB-UND">
                           <ParameterSeparator Id="%AID%_PS-nnn" Text="Rolladen" UIHint="Headline" />
-                          <!-- Devie Name -->
-                          <ParameterRefRef RefId="%AID%_P-%T%%CCC%002_R-%T%%CCC%00201" /> 
-                          <!-- Kanal Disabled -->
-                          <ParameterRefRef RefId="%AID%_P-%T%%CCC%003_R-%T%%CCC%00301" /> 
+                          <op:usePart name="ChannelHead" xpath="//ParameterBlock/*" />
+                          <op:usePart name="HueSimulation" xpath="//ParameterBlock/*" />
+                             
                           <!-- Bride Mode -->
                           <choose ParamRefId="%AID%_P-%T%000002_R-%T%00000201">  
                             <when test="2 3 8"> <!-- Hue & Hue oder Hue & Homekit -->
@@ -500,10 +494,9 @@
                         <!-- ************** Markise ************ -->
                         <ParameterBlock Id="%AID%_PB-nnn" Name="f%CC%FCB_Switch" Text="%C% Markise: {{0: ...}}"      TextParameterRefId="%AID%_P-%T%%CCC%002_R-%T%%CCC%00201" Icon="storefront-outline" ShowInComObjectTree="true" HelpContext="FCB-UND">
                         <ParameterSeparator Id="%AID%_PS-nnn" Text="Markise" UIHint="Headline" />
-                          <!-- Devie Name -->
-                          <ParameterRefRef RefId="%AID%_P-%T%%CCC%002_R-%T%%CCC%00201" /> 
-                          <!-- Kanal Disabled -->
-                          <ParameterRefRef RefId="%AID%_P-%T%%CCC%003_R-%T%%CCC%00301" /> 
+                          <op:usePart name="ChannelHead" xpath="//ParameterBlock/*" />
+                          <op:usePart name="HueSimulation" xpath="//ParameterBlock/*" />
+                       
                           <!-- Bride Mode -->
                           <choose ParamRefId="%AID%_P-%T%000002_R-%T%00000201">  
                             <when test="2 3 8"> <!-- Hue & Hue oder Hue & Homekit -->
@@ -535,10 +528,8 @@
                         <!-- ************** Thermostat ************ -->
                         <ParameterBlock Id="%AID%_PB-nnn" Name="f%CC%FCB_Switch" Text="%C% Thermostat: {{0: ...}}"      TextParameterRefId="%AID%_P-%T%%CCC%002_R-%T%%CCC%00201" Icon="thermostat" ShowInComObjectTree="true" HelpContext="FCB-UND">
                         <ParameterSeparator Id="%AID%_PS-nnn" Text="Thermostat" UIHint="Headline" />
-                          <!-- Devie Name -->
-                          <ParameterRefRef RefId="%AID%_P-%T%%CCC%002_R-%T%%CCC%00201" /> 
-                          <!-- Kanal Disabled -->
-                          <ParameterRefRef RefId="%AID%_P-%T%%CCC%003_R-%T%%CCC%00301" /> 
+                          <op:usePart name="ChannelHead" xpath="//ParameterBlock/*" />
+                          <op:usePart name="HueNotSupported" xpath="//ParameterBlock/*" />    
                           <ParameterSeparator Id="%AID%_PS-nnn" Text="" UIHint="HorizontalRuler" />
           
                           <ComObjectRefRef RefId="%AID%_O-%T%%CCC%001_R-%T%%CCC%00105" /> <!-- Soll Temperatur -->
@@ -624,10 +615,8 @@
                         <!-- ************** Anzeige ************ -->
                         <ParameterBlock Id="%AID%_PB-nnn" Name="f%CC%FCB_Switch" Text="%C% Anzeige: {{0: ...}}"      TextParameterRefId="%AID%_P-%T%%CCC%002_R-%T%%CCC%00201" Icon="card-text-outline" ShowInComObjectTree="true" HelpContext="FCB-UND">
                           <ParameterSeparator Id="%AID%_PS-nnn" Text="Anzeige" UIHint="Headline" />
-                          <!-- Devie Name -->
-                          <ParameterRefRef RefId="%AID%_P-%T%%CCC%002_R-%T%%CCC%00201" /> 
-                          <!-- Kanal Disabled -->
-                          <ParameterRefRef RefId="%AID%_P-%T%%CCC%003_R-%T%%CCC%00301" /> 
+                          <op:usePart name="ChannelHead" xpath="//ParameterBlock/*" />
+                          <op:usePart name="HueNotSupported" xpath="//ParameterBlock/*" />                 
                           <ParameterSeparator Id="%AID%_PS-nnn" Text="" UIHint="HorizontalRuler" />
           
                           <ParameterRefRef RefId="%AID%_UP-%T%%CCC%061_R-%T%%CCC%06101" /> <!-- DisplayType  -->                       
@@ -648,12 +637,10 @@
                         <!-- ************** Kontakt ************ -->
                         <ParameterBlock Id="%AID%_PB-nnn" Name="f%CC%FCB_Switch" Text="%C% Kontakt: {{0: ...}}"      TextParameterRefId="%AID%_P-%T%%CCC%002_R-%T%%CCC%00201" Icon="electric-switch" ShowInComObjectTree="true" HelpContext="FCB-UND">
                           <ParameterSeparator Id="%AID%_PS-nnn" Text="Kontakt" UIHint="Headline" />
-                          <!-- Devie Name -->
-                          <ParameterRefRef RefId="%AID%_P-%T%%CCC%002_R-%T%%CCC%00201" /> 
-                          <!-- Kanal Disabled -->
-                          <ParameterRefRef RefId="%AID%_P-%T%%CCC%003_R-%T%%CCC%00301" /> 
-                          <ParameterSeparator Id="%AID%_PS-nnn" Text="" UIHint="HorizontalRuler" />
+                          <op:usePart name="ChannelHead" xpath="//ParameterBlock/*" />
+                          <op:usePart name="HueNotSupported" xpath="//ParameterBlock/*" />   
 
+                          <ParameterSeparator Id="%AID%_PS-nnn" Text="" UIHint="HorizontalRuler" />
                           <ParameterRefRef RefId="%AID%_UP-%T%%CCC%071_R-%T%%CCC%07101" /> <!-- ContactAlarmSensor Invert Input -->
                           <ComObjectRefRef RefId="%AID%_O-%T%%CCC%001_R-%T%%CCC%00107" />                 
                         </ParameterBlock>
@@ -662,12 +649,10 @@
                         <!-- ************** Bewegungsmelder ************ -->
                         <ParameterBlock Id="%AID%_PB-nnn" Name="f%CC%FCB_Switch" Text="%C% Bewegungsmelder: {{0: ...}}"      TextParameterRefId="%AID%_P-%T%%CCC%002_R-%T%%CCC%00201" Icon="walk" ShowInComObjectTree="true" HelpContext="FCB-UND">
                           <ParameterSeparator Id="%AID%_PS-nnn" Text="Bewegungsmelder" UIHint="Headline" />
-                          <!-- Devie Name -->
-                          <ParameterRefRef RefId="%AID%_P-%T%%CCC%002_R-%T%%CCC%00201" /> 
-                          <!-- Kanal Disabled -->
-                          <ParameterRefRef RefId="%AID%_P-%T%%CCC%003_R-%T%%CCC%00301" /> 
+                          <op:usePart name="ChannelHead" xpath="//ParameterBlock/*" />
+                          <op:usePart name="HueNotSupported" xpath="//ParameterBlock/*" />    
                           <ParameterSeparator Id="%AID%_PS-nnn" Text="" UIHint="HorizontalRuler" />
-         
+
                           <ParameterRefRef RefId="%AID%_UP-%T%%CCC%071_R-%T%%CCC%07101" /> <!-- ContactAlarmSensor Invert Input -->         
                           <ComObjectRefRef RefId="%AID%_O-%T%%CCC%001_R-%T%%CCC%00117" />    
                         </ParameterBlock>
@@ -676,12 +661,10 @@
                         <!-- ************** Präsensmelder ************ -->
                         <ParameterBlock Id="%AID%_PB-nnn" Name="f%CC%FCB_Switch" Text="%C% Präsensmelder: {{0: ...}}"      TextParameterRefId="%AID%_P-%T%%CCC%002_R-%T%%CCC%00201" Icon="human-male-female" ShowInComObjectTree="true" HelpContext="FCB-UND">
                           <ParameterSeparator Id="%AID%_PS-nnn" Text="Präsensmelder" UIHint="Headline" />
-                          <!-- Devie Name -->
-                          <ParameterRefRef RefId="%AID%_P-%T%%CCC%002_R-%T%%CCC%00201" /> 
-                          <!-- Kanal Disabled -->
-                          <ParameterRefRef RefId="%AID%_P-%T%%CCC%003_R-%T%%CCC%00301" /> 
+                          <op:usePart name="ChannelHead" xpath="//ParameterBlock/*" />
+                          <op:usePart name="HueNotSupported" xpath="//ParameterBlock/*" />    
                           <ParameterSeparator Id="%AID%_PS-nnn" Text="" UIHint="HorizontalRuler" />
-         
+
                           <ParameterRefRef RefId="%AID%_UP-%T%%CCC%071_R-%T%%CCC%07101" /> <!-- ContactAlarmSensor Invert Input -->
                           <ComObjectRefRef RefId="%AID%_O-%T%%CCC%001_R-%T%%CCC%00127" />
                         </ParameterBlock>
@@ -690,10 +673,8 @@
                         <!-- ************** Leckmelder ************ -->
                         <ParameterBlock Id="%AID%_PB-nnn" Name="f%CC%FCB_Switch" Text="%C% Leckmelder: {{0: ...}}"      TextParameterRefId="%AID%_P-%T%%CCC%002_R-%T%%CCC%00201" Icon="water-alert-outline" ShowInComObjectTree="true" HelpContext="FCB-UND">
                           <ParameterSeparator Id="%AID%_PS-nnn" Text="Leckmelder" UIHint="Headline" />
-                          <!-- Devie Name -->
-                          <ParameterRefRef RefId="%AID%_P-%T%%CCC%002_R-%T%%CCC%00201" /> 
-                          <!-- Kanal Disabled -->
-                          <ParameterRefRef RefId="%AID%_P-%T%%CCC%003_R-%T%%CCC%00301" /> 
+                          <op:usePart name="ChannelHead" xpath="//ParameterBlock/*" />
+                          <op:usePart name="HueNotSupported" xpath="//ParameterBlock/*" />             
                           <ParameterSeparator Id="%AID%_PS-nnn" Text="" UIHint="HorizontalRuler" />
         
                           <ParameterRefRef RefId="%AID%_UP-%T%%CCC%071_R-%T%%CCC%07101" /> <!-- ContactAlarmSensor Invert Input -->
@@ -704,10 +685,8 @@
                         <!-- ************** Rauchmelder ************ -->
                         <ParameterBlock Id="%AID%_PB-nnn" Name="f%CC%FCB_Switch" Text="%C% Rauchmelder: {{0: ...}}"      TextParameterRefId="%AID%_P-%T%%CCC%002_R-%T%%CCC%00201" Icon="smoke" ShowInComObjectTree="true" HelpContext="FCB-UND">
                           <ParameterSeparator Id="%AID%_PS-nnn" Text="Rauchmelder" UIHint="Headline" />
-                          <!-- Devie Name -->
-                          <ParameterRefRef RefId="%AID%_P-%T%%CCC%002_R-%T%%CCC%00201" /> 
-                          <!-- Kanal Disabled -->
-                          <ParameterRefRef RefId="%AID%_P-%T%%CCC%003_R-%T%%CCC%00301" /> 
+                          <op:usePart name="ChannelHead" xpath="//ParameterBlock/*" />
+                          <op:usePart name="HueNotSupported" xpath="//ParameterBlock/*" />    
                           <ParameterSeparator Id="%AID%_PS-nnn" Text="" UIHint="HorizontalRuler" />
            
                           <ParameterRefRef RefId="%AID%_UP-%T%%CCC%071_R-%T%%CCC%07101" /> <!-- ContactAlarmSensor Invert Input -->     
@@ -718,10 +697,8 @@
                         <!-- ************** Kohlendioxidmelder (CO2) ************ -->
                         <ParameterBlock Id="%AID%_PB-nnn" Name="f%CC%FCB_Switch" Text="%C% Kohlendioxidmelder (CO2): {{0: ...}}"      TextParameterRefId="%AID%_P-%T%%CCC%002_R-%T%%CCC%00201" Icon="molecule-co2" ShowInComObjectTree="true" HelpContext="FCB-UND">
                           <ParameterSeparator Id="%AID%_PS-nnn" Text="Kohlendioxidmelder (CO2)" UIHint="Headline" />
-                          <!-- Devie Name -->
-                          <ParameterRefRef RefId="%AID%_P-%T%%CCC%002_R-%T%%CCC%00201" /> 
-                          <!-- Kanal Disabled -->
-                          <ParameterRefRef RefId="%AID%_P-%T%%CCC%003_R-%T%%CCC%00301" /> 
+                          <op:usePart name="ChannelHead" xpath="//ParameterBlock/*" />
+                          <op:usePart name="HueNotSupported" xpath="//ParameterBlock/*" />    
                           <ParameterSeparator Id="%AID%_PS-nnn" Text="" UIHint="HorizontalRuler" />
 
                           <ParameterRefRef RefId="%AID%_UP-%T%%CCC%071_R-%T%%CCC%07101" /> <!-- ContactAlarmSensor Invert Input -->
@@ -732,10 +709,8 @@
                         <!-- ************** Kohlenmonoxidmelder (CO) ************ -->
                         <ParameterBlock Id="%AID%_PB-nnn" Name="f%CC%FCB_Switch" Text="%C% Kohlenmonoxidmelder (CO): {{0: ...}}"      TextParameterRefId="%AID%_P-%T%%CCC%002_R-%T%%CCC%00201" Icon="molecule-co" ShowInComObjectTree="true" HelpContext="FCB-UND">
                           <ParameterSeparator Id="%AID%_PS-nnn" Text="Kohlenmonoxidmelder (CO)" UIHint="Headline" />
-                          <!-- Devie Name -->
-                          <ParameterRefRef RefId="%AID%_P-%T%%CCC%002_R-%T%%CCC%00201" /> 
-                          <!-- Kanal Disabled -->
-                          <ParameterRefRef RefId="%AID%_P-%T%%CCC%003_R-%T%%CCC%00301" /> 
+                          <op:usePart name="ChannelHead" xpath="//ParameterBlock/*" />
+                          <op:usePart name="HueNotSupported" xpath="//ParameterBlock/*" />    
                           <ParameterSeparator Id="%AID%_PS-nnn" Text="" UIHint="HorizontalRuler" />
 
                           <ParameterRefRef RefId="%AID%_UP-%T%%CCC%071_R-%T%%CCC%07101" /> <!-- ContactAlarmSensor Invert Input -->
@@ -746,10 +721,9 @@
                         <!-- ************** Lüfter ************ -->
                         <ParameterBlock Id="%AID%_PB-nnn" Name="f%CC%FCB_Switch" Text="%C% Lüfter: {{0: ...}}"      TextParameterRefId="%AID%_P-%T%%CCC%002_R-%T%%CCC%00201" Icon="fan" ShowInComObjectTree="true" HelpContext="FCB-UND">
                           <ParameterSeparator Id="%AID%_PS-nnn" Text="Lüfter" UIHint="Headline" />
-                          <!-- Devie Name -->
-                          <ParameterRefRef RefId="%AID%_P-%T%%CCC%002_R-%T%%CCC%00201" /> 
-                          <!-- Kanal Disabled -->
-                          <ParameterRefRef RefId="%AID%_P-%T%%CCC%003_R-%T%%CCC%00301" /> 
+                          <op:usePart name="ChannelHead" xpath="//ParameterBlock/*" />
+                          <op:usePart name="HueSimulation" xpath="//ParameterBlock/*" />
+                      
                           <choose ParamRefId="%AID%_P-%T%000002_R-%T%00000201">  <!-- Bride Mode -->
                             <when test="2 3 8"> <!-- Hue & Hue oder Hue & Homekit -->
                               <ParameterRefRef RefId="%AID%_UP-%T%%CCC%081_R-%T%%CCC%08101" /> <!-- In Hue verwenden -->
@@ -792,17 +766,15 @@
                         <!-- ************** Fenster ************ -->
                         <ParameterBlock Id="%AID%_PB-nnn" Name="f%CC%FCB_Switch" Text="%C% Fenster: {{0: ...}}"      TextParameterRefId="%AID%_P-%T%%CCC%002_R-%T%%CCC%00201" Icon="window-closed-variant" ShowInComObjectTree="true" HelpContext="FCB-UND">
                           <ParameterSeparator Id="%AID%_PS-nnn" Text="Fenster" UIHint="Headline" />
-                          <!-- Devie Name -->
-                          <ParameterRefRef RefId="%AID%_P-%T%%CCC%002_R-%T%%CCC%00201" /> 
-                          <!-- Kanal Disabled -->
-                          <ParameterRefRef RefId="%AID%_P-%T%%CCC%003_R-%T%%CCC%00301" /> 
+                          <op:usePart name="ChannelHead" xpath="//ParameterBlock/*" />
+                          <op:usePart name="HueSimulation" xpath="//ParameterBlock/*" />   
                           <choose ParamRefId="%AID%_P-%T%000002_R-%T%00000201">  <!-- Bride Mode -->
                             <when test="2 3 8"> <!-- Hue & Hue oder Hue & Homekit -->
                               <ParameterRefRef RefId="%AID%_UP-%T%%CCC%096_R-%T%%CCC%09601" /> <!-- In Hue verwenden -->
                             </when>
                           </choose>
-                          <ParameterSeparator Id="%AID%_PS-nnn" Text="Automatikmodus" UIHint="Headline" />
-                    
+                          <ParameterSeparator Id="%AID%_PS-nnn" Text="" UIHint="HorizontalRuler" />
+                        
                           <ParameterRefRef RefId="%AID%_UP-%T%%CCC%091_R-%T%%CCC%09101" /> <!-- Motor -->
 
                           <choose ParamRefId="%AID%_UP-%T%%CCC%091_R-%T%%CCC%09101">    <!-- Motor-->
@@ -858,13 +830,15 @@
                         <!-- ************** Tür ************ -->
                         <ParameterBlock Id="%AID%_PB-nnn" Name="f%CC%FCB_Switch" Text="%C% Tür: {{0: ...}}"      TextParameterRefId="%AID%_P-%T%%CCC%002_R-%T%%CCC%00201" Icon="door" ShowInComObjectTree="true" HelpContext="FCB-UND">
                           <ParameterSeparator Id="%AID%_PS-nnn" Text="Tür" UIHint="Headline" />
-                          <!-- Devie Name -->
-                          <ParameterRefRef RefId="%AID%_P-%T%%CCC%002_R-%T%%CCC%00201" /> 
-                          <!-- Kanal Disabled -->
-                          <ParameterRefRef RefId="%AID%_P-%T%%CCC%003_R-%T%%CCC%00301" /> 
-
-                          <ParameterSeparator Id="%AID%_PS-nnn" Text="Automatikmodus" UIHint="Headline" />
-                    
+                          <op:usePart name="ChannelHead" xpath="//ParameterBlock/*" />
+                          <op:usePart name="HueSimulation" xpath="//ParameterBlock/*" />
+                           <choose ParamRefId="%AID%_P-%T%000002_R-%T%00000201">  <!-- Bride Mode -->
+                            <when test="2 3 8"> <!-- Hue & Hue oder Hue & Homekit -->
+                              <ParameterRefRef RefId="%AID%_UP-%T%%CCC%096_R-%T%%CCC%09601" /> <!-- In Hue verwenden -->
+                            </when>
+                          </choose>
+                          <ParameterSeparator Id="%AID%_PS-nnn" Text="" UIHint="HorizontalRuler" />
+                
                           <ParameterRefRef RefId="%AID%_UP-%T%%CCC%091_R-%T%%CCC%09101" /> <!-- Motor -->
 
                           <choose ParamRefId="%AID%_UP-%T%%CCC%091_R-%T%%CCC%09101">    <!-- Motor-->
@@ -920,13 +894,15 @@
                         <!-- ************** Garagentor ************ -->
                         <ParameterBlock Id="%AID%_PB-nnn" Name="f%CC%FCB_Switch" Text="%C% Garagentor: {{0: ...}}"      TextParameterRefId="%AID%_P-%T%%CCC%002_R-%T%%CCC%00201" Icon="garage-open-variant" ShowInComObjectTree="true" HelpContext="FCB-UND">
                           <ParameterSeparator Id="%AID%_PS-nnn" Text="Garagentor" UIHint="Headline" />
-                          <!-- Devie Name -->
-                          <ParameterRefRef RefId="%AID%_P-%T%%CCC%002_R-%T%%CCC%00201" /> 
-                          <!-- Kanal Disabled -->
-                          <ParameterRefRef RefId="%AID%_P-%T%%CCC%003_R-%T%%CCC%00301" /> 
-
-                          <ParameterSeparator Id="%AID%_PS-nnn" Text="Automatikmodus" UIHint="Headline" />
-                    
+                          <op:usePart name="ChannelHead" xpath="//ParameterBlock/*" />
+                          <op:usePart name="HueSimulation" xpath="//ParameterBlock/*" />
+                           <choose ParamRefId="%AID%_P-%T%000002_R-%T%00000201">  <!-- Bride Mode -->
+                            <when test="2 3 8"> <!-- Hue & Hue oder Hue & Homekit -->
+                              <ParameterRefRef RefId="%AID%_UP-%T%%CCC%096_R-%T%%CCC%09601" /> <!-- In Hue verwenden -->
+                            </when>
+                          </choose>
+                          <ParameterSeparator Id="%AID%_PS-nnn" Text="" UIHint="HorizontalRuler" />
+                              
                           <ParameterRefRef RefId="%AID%_UP-%T%%CCC%091_R-%T%%CCC%09101" /> <!-- Motor -->
 
                           <choose ParamRefId="%AID%_UP-%T%%CCC%091_R-%T%%CCC%09101">    <!-- Motor-->
