@@ -8,6 +8,11 @@
     <Manufacturer RefId="M-00FA">
       <ApplicationPrograms>
         <ApplicationProgram Id="%AID%" ApplicationNumber="0" ApplicationVersion="0" ProgramType="ApplicationProgram" MaskVersion="MV-07B0" Name="KNX-Homekit-Bridge-Hue-Emulation" LoadProcedureStyle="MergedProcedure" PeiType="0" DefaultLanguage="de" DynamicTableManagement="false" Linkable="true" MinEtsVersion="4.0">
+          <op:part href="SmartHomeBridge.HueSimulation.parts.xml" name="HueSimulation" instances="1" />
+          <op:part href="SmartHomeBridge.HueNotSupported.parts.xml" name="HueNotSupported" instances="1" />
+          <op:part href="SmartHomeBridge.ChannelHead.parts.xml" name="ChannelHead" instances="1" />
+          <op:part href="SmartHomeBridge.ChannelLimitWarning.parts.xml" name="ChannelLimitWarning" instances="1" />
+    
           <Static>
             <ParameterTypes>
               <ParameterType Id="%AID%_PT-BRINumChannels" Name="BRINumChannels">
@@ -338,6 +343,8 @@
             
                 <ParameterRefRef RefId="%AID%_P-%T%000000_R-%T%00000001" /> <!-- Visible channels -->
             		
+                <op:usePart name="ChannelLimitWarning" xpath="//ParameterBlock/*" />
+                
                 <op:include href="SmartHomeBridge.templ.xml" xpath="//Dynamic/ChannelIndependentBlock/ParameterBlock[@Name='Settings']/*" type="template" prefix="BRI" IsInner="true" />
 
                   
@@ -366,6 +373,8 @@
 										
 										<Button Id="%AID%_B-%TT%00200" Text="Hinzufügen" EventHandler="briAddChannel" />
 
+                    <op:usePart name="ChannelLimitWarning" xpath="//ParameterBlock/*" />
+              
 										<!-- HelpContext="BASE-Verfuegbare-Kanaele" IndentLevel="1" /-->
 									</ParameterBlock>
 								</when>

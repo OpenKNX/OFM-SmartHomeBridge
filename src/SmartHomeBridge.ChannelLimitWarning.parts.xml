@@ -1,0 +1,24 @@
+<ParameterBlock>
+    <!-- Bride Mode -->
+    <choose ParamRefId="%AID%_P-%T%000002_R-%T%00000201">  
+        <when test="2 3"> <!-- Hue oder Hue & Homekit -->
+            <!-- Anzahl der Kanäle -->
+            <choose ParamRefId="%AID%_P-%T%000000_R-%T%00000001">
+                <when test="&gt;=30">
+                        <ParameterSeparator Id="%AID%_PS-nnn" Text="Die HUE Emulation wird instabile wenn mehr als 30 Geräte verwendet werden. Es können mehr Geräte definiert werden, jedoch sollten nur 30 davon für HUE verwendet werden." UIHint="Information" />
+                </when>
+            </choose>
+        </when>
+    </choose>
+     <!-- Bride Mode -->
+    <choose ParamRefId="%AID%_P-%T%000002_R-%T%00000201">  
+        <when test="1 3"> <!-- Homekit oder Hue & Homekit -->
+            <!-- Anzahl der Kanäle -->
+            <choose ParamRefId="%AID%_P-%T%000000_R-%T%00000001">
+                <when test="&gt;=55">
+                        <ParameterSeparator Id="%AID%_PS-nnn" Text="ACHTUNG: Die HomeKit Verbindung kann instabil werden wenn mehr als 55 Geräte verwendet werden." UIHint="Information" />
+                </when>
+            </choose>
+        </when>
+    </choose>
+</ParameterBlock>

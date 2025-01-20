@@ -3,5 +3,4 @@
     <ParameterRefRef RefId="%AID%_P-%T%%CCC%002_R-%T%%CCC%00201" /> 
     <!-- Kanal Disabled -->
     <ParameterRefRef RefId="%AID%_P-%T%%CCC%003_R-%T%%CCC%00301" /> 
-<!-- Kanal Name -->
 </ParameterBlock>

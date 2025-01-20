@@ -5,13 +5,10 @@
     <Manufacturer RefId="M-00FA">
       <ApplicationPrograms>
         <ApplicationProgram Id="%AID%" ApplicationNumber="0" ApplicationVersion="0" ProgramType="ApplicationProgram" MaskVersion="MV-07B0" Name="KNX-Homekit-Bridge-Hue-Emulation" LoadProcedureStyle="MergedProcedure" PeiType="0" DefaultLanguage="de" DynamicTableManagement="false" Linkable="true" MinEtsVersion="4.0">
-          <op:part href="SmartHomeBridge.HueSimulation.parts.xml" name="HueSimulation" instances="1" />
-          <op:part href="SmartHomeBridge.HueNotSupported.parts.xml" name="HueNotSupported" instances="1" />
-          <op:part href="SmartHomeBridge.ChannelHead.parts.xml" name="ChannelHead" instances="1" />
-          <Static>
+            <Static>
             <Parameters>
               <!-- Bridge Channel -->
-              <Parameter Id="%AID%_P-%T%%CCC%001" Name="CH%C%DeviceType" ParameterType="%AID%_PT-BRIDeviceType" Text="Gerät" Value="0" >
+              <Parameter Id="%AID%_P-%T%%CCC%001" Name="CH%C%DeviceType" ParameterType="%AID%_PT-BRIDeviceType" Text="Gerät %C%" Value="0" >
                 <!-- Device Type -->
                 <Memory CodeSegment="%AID%_RS-04-00000" Offset="0" BitOffset="0" />
               </Parameter>
@@ -322,7 +319,7 @@
                         <ParameterSeparator Id="%AID%_PS-nnn" Text="Die Auswahl darf nicht 'Deaktiviert' sein um hinzufügen zu können. Hinzugefügte Kanäle erscheinen nach ca. 1 Sekunde verzögerung links im Baum." UIHint="Information" />
                       </when>
                     </choose>
-                  </when>
+                  </when>     
                 </choose>
               </ParameterBlock>
 
