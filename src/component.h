@@ -1,4 +1,5 @@
 #pragma once
+#include <string>
 #include <arduino.h>
 #include <knx.h> 
 #include "DynamicPointerArray.h"
