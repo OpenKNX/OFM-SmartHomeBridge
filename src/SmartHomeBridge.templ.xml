@@ -303,7 +303,7 @@
                 <choose ParamRefId="%AID%_P-%T%000000_R-%T%00000001">
                   <when test="&gt;=%C%">
                     <!-- Device Typ -->
-                    <ParameterRefRef  IndentLevel="1" RefId="%AID%_P-%T%%CCC%001_R-%T%%CCC%00101" HelpContext="FCB-Kanalauswahl" />
+                    <ParameterRefRef IndentLevel="1" RefId="%AID%_P-%T%%CCC%001_R-%T%%CCC%00101" HelpContext="FCB-Kanalauswahl" />
                   </when>
                 </choose>
               </ParameterBlock>
@@ -313,7 +313,7 @@
                 <choose ParamRefId="%AID%_P-%T%000000_R-%T%00000001">
                   <when test="=%C-1%">
                     <!-- Device Typ -->
-                    <ParameterRefRef  IndentLevel="1" RefId="%AID%_P-%T%%CCC%001_R-%T%%CCC%00101" HelpContext="FCB-Kanalauswahl" />
+                    <ParameterRefRef IndentLevel="1" RefId="%AID%_P-%T%%CCC%001_R-%T%%CCC%00101" HelpContext="FCB-Kanalauswahl" />
                     <choose ParamRefId="%AID%_P-%T%%CCC%001_R-%T%%CCC%00101">
                       <when test="0"><!-- ************ Deaktiviert ************ -->
                         <ParameterSeparator Id="%AID%_PS-nnn" Text="Die Auswahl darf nicht 'Deaktiviert' sein um hinzufügen zu können. Hinzugefügte Kanäle erscheinen nach ca. 1 Sekunde verzögerung links im Baum." UIHint="Information" />
@@ -343,7 +343,7 @@
                           <choose ParamRefId="%AID%_P-%T%000002_R-%T%00000201">  
                             <when test="2 3 8"> <!-- Hue & Hue oder Hue & Homekit -->
                               <!-- In Hue verwenden -->
-                              <ParameterRefRef RefId="%AID%_UP-%T%%CCC%012_R-%T%%CCC%01201" /> 
+                              <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%T%%CCC%012_R-%T%%CCC%01201" /> 
                             </when>
                           </choose>
 
@@ -357,12 +357,12 @@
                           <ParameterSeparator Id="%AID%_PS-nnn" Text="Steckdose" UIHint="Headline" />
         			            <op:usePart name="ChannelHead" xpath="//ParameterBlock/*" />
                         
-                          <ParameterRefRef RefId="%AID%_P-%T%%CCC%003_R-%T%%CCC%00301" />          
+                          <ParameterRefRef IndentLevel="1" RefId="%AID%_P-%T%%CCC%003_R-%T%%CCC%00301" />          
                           <!-- Bride Mode -->
                           <choose ParamRefId="%AID%_P-%T%000002_R-%T%00000201">  
                             <when test="2 3 8"> <!-- Hue & Hue oder Hue & Homekit -->
                               <!-- In Hue verwenden -->
-                              <ParameterRefRef RefId="%AID%_UP-%T%%CCC%012_R-%T%%CCC%01201" /> 
+                              <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%T%%CCC%012_R-%T%%CCC%01201" /> 
                             </when>
                           </choose>
 
@@ -376,32 +376,32 @@
                           <ParameterSeparator Id="%AID%_PS-nnn" Text="Lampe" UIHint="Headline" />
                           <op:usePart name="ChannelHead" xpath="//ParameterBlock/*" />
 
-                          <ParameterRefRef RefId="%AID%_P-%T%%CCC%003_R-%T%%CCC%00301" /> 
+                          <ParameterRefRef IndentLevel="1" RefId="%AID%_P-%T%%CCC%003_R-%T%%CCC%00301" /> 
                           <!-- Bride Mode -->
                           <choose ParamRefId="%AID%_P-%T%000002_R-%T%00000201"> 
                             <when test="2 3 8"> <!-- Hue & Hue oder Hue & Homekit -->
-                              <ParameterRefRef RefId="%AID%_UP-%T%%CCC%022_R-%T%%CCC%02201" />
+                              <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%T%%CCC%022_R-%T%%CCC%02201" />
                               <!-- In Hue verwenden -->
                           </when>
                           </choose>
                           <ParameterSeparator Id="%AID%_PS-nnn" Text="" UIHint="HorizontalRuler" />
                     
-                          <ParameterRefRef RefId="%AID%_UP-%T%%CCC%021_R-%T%%CCC%02101" /> <!-- Light Type -->
+                          <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%T%%CCC%021_R-%T%%CCC%02101" /> <!-- Light Type -->
                           <choose ParamRefId="%AID%_UP-%T%%CCC%021_R-%T%%CCC%02101">  <!-- Light Type -->
                             <when test="0"> <!-- On/Off -->
                               <ComObjectRefRef RefId="%AID%_O-%T%%CCC%001_R-%T%%CCC%00102" />
                               <ComObjectRefRef RefId="%AID%_O-%T%%CCC%002_R-%T%%CCC%00202" />
                             </when>
                             <when test="1"> <!-- Dimmer -->
-                              <ParameterRefRef RefId="%AID%_UP-%T%%CCC%023_R-%T%%CCC%02301" /> <!-- Switch On Behavior -->
-                              <ParameterRefRef RefId="%AID%_UP-%T%%CCC%024_R-%T%%CCC%02401" /> <!-- Switch On 2 Behavior -->
+                              <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%T%%CCC%023_R-%T%%CCC%02301" /> <!-- Switch On Behavior -->
+                              <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%T%%CCC%024_R-%T%%CCC%02401" /> <!-- Switch On 2 Behavior -->
                               <ComObjectRefRef RefId="%AID%_O-%T%%CCC%001_R-%T%%CCC%00112" />
                               <ComObjectRefRef RefId="%AID%_O-%T%%CCC%002_R-%T%%CCC%00212" />
                             </when>
                             <when test="2"> <!-- RGB -->
-                              <ParameterRefRef RefId="%AID%_UP-%T%%CCC%025_R-%T%%CCC%02501" /> <!-- RGB Switch On Behavior -->
-                              <ParameterRefRef RefId="%AID%_UP-%T%%CCC%026_R-%T%%CCC%02601" /> <!-- RGB Switch On 2 Behavior -->
-                              <ParameterRefRef RefId="%AID%_UP-%T%%CCC%027_R-%T%%CCC%02701" /> <!-- RGB Use Switch KO -->
+                              <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%T%%CCC%025_R-%T%%CCC%02501" /> <!-- RGB Switch On Behavior -->
+                              <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%T%%CCC%026_R-%T%%CCC%02601" /> <!-- RGB Switch On 2 Behavior -->
+                              <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%T%%CCC%027_R-%T%%CCC%02701" /> <!-- RGB Use Switch KO -->
                               <ComObjectRefRef RefId="%AID%_O-%T%%CCC%001_R-%T%%CCC%00122" />
                               <ComObjectRefRef RefId="%AID%_O-%T%%CCC%002_R-%T%%CCC%00222" />
                               <choose ParamRefId="%AID%_UP-%T%%CCC%027_R-%T%%CCC%02701"> <!-- RGB Use Switch KO -->
@@ -424,14 +424,14 @@
 							            <!-- Bride Mode -->
                           <choose ParamRefId="%AID%_P-%T%000002_R-%T%00000201">  
                             <when test="2 3 8"> <!-- Hue & Hue oder Hue & Homekit -->
-                              <ParameterRefRef RefId="%AID%_UP-%T%%CCC%031_R-%T%%CCC%03101" /> <!-- In Hue verwenden -->
+                              <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%T%%CCC%031_R-%T%%CCC%03101" /> <!-- In Hue verwenden -->
                             </when>
                           </choose>            
                           <ParameterSeparator Id="%AID%_PS-nnn" Text="" UIHint="HorizontalRuler" />
           
-                          <ParameterRefRef RefId="%AID%_UP-%T%%CCC%032_R-%T%%CCC%03201" /> <!-- Up Down Handling -->
-                          <ParameterRefRef RefId="%AID%_UP-%T%%CCC%033_R-%T%%CCC%03301" /> <!-- Use Stop -->
-                          <ParameterRefRef RefId="%AID%_UP-%T%%CCC%034_R-%T%%CCC%03401" /> <!-- Slat Handling -->
+                          <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%T%%CCC%032_R-%T%%CCC%03201" /> <!-- Up Down Handling -->
+                          <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%T%%CCC%033_R-%T%%CCC%03301" /> <!-- Use Stop -->
+                          <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%T%%CCC%034_R-%T%%CCC%03401" /> <!-- Slat Handling -->
                   
                           <ComObjectRefRef RefId="%AID%_O-%T%%CCC%001_R-%T%%CCC%00103" /> <!-- Position --> 
                           <ComObjectRefRef RefId="%AID%_O-%T%%CCC%002_R-%T%%CCC%00203" /> <!-- Position Feedback --> 
@@ -462,13 +462,13 @@
                           <!-- Bride Mode -->
                           <choose ParamRefId="%AID%_P-%T%000002_R-%T%00000201">  
                             <when test="2 3 8"> <!-- Hue & Hue oder Hue & Homekit -->
-                              <ParameterRefRef RefId="%AID%_UP-%T%%CCC%031_R-%T%%CCC%03101" /> <!-- In Hue verwenden -->
+                              <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%T%%CCC%031_R-%T%%CCC%03101" /> <!-- In Hue verwenden -->
                             </when>
                           </choose>            
                           <ParameterSeparator Id="%AID%_PS-nnn" Text="" UIHint="HorizontalRuler" />
           
-                          <ParameterRefRef RefId="%AID%_UP-%T%%CCC%032_R-%T%%CCC%03201" /> <!-- Up Down Handling -->
-                          <ParameterRefRef RefId="%AID%_UP-%T%%CCC%033_R-%T%%CCC%03301" /> <!-- Use Stop -->
+                          <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%T%%CCC%032_R-%T%%CCC%03201" /> <!-- Up Down Handling -->
+                          <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%T%%CCC%033_R-%T%%CCC%03301" /> <!-- Use Stop -->
 
                           <ComObjectRefRef RefId="%AID%_O-%T%%CCC%001_R-%T%%CCC%00103" /> <!-- Position --> 
                           <ComObjectRefRef RefId="%AID%_O-%T%%CCC%002_R-%T%%CCC%00203" /> <!-- Position Feedback --> 
@@ -497,13 +497,13 @@
                           <!-- Bride Mode -->
                           <choose ParamRefId="%AID%_P-%T%000002_R-%T%00000201">  
                             <when test="2 3 8"> <!-- Hue & Hue oder Hue & Homekit -->
-                              <ParameterRefRef RefId="%AID%_UP-%T%%CCC%031_R-%T%%CCC%03101" /> <!-- In Hue verwenden -->
+                              <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%T%%CCC%031_R-%T%%CCC%03101" /> <!-- In Hue verwenden -->
                             </when>
                           </choose>            
                           <ParameterSeparator Id="%AID%_PS-nnn" Text="" UIHint="HorizontalRuler" />
           
-                          <ParameterRefRef RefId="%AID%_UP-%T%%CCC%032_R-%T%%CCC%03201" /> <!-- Up Down Handling -->
-                          <ParameterRefRef RefId="%AID%_UP-%T%%CCC%033_R-%T%%CCC%03301" /> <!-- Use Stop -->         
+                          <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%T%%CCC%032_R-%T%%CCC%03201" /> <!-- Up Down Handling -->
+                          <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%T%%CCC%033_R-%T%%CCC%03301" /> <!-- Use Stop -->         
                           <ComObjectRefRef RefId="%AID%_O-%T%%CCC%001_R-%T%%CCC%00103" /> <!-- Position --> 
                           <ComObjectRefRef RefId="%AID%_O-%T%%CCC%002_R-%T%%CCC%00203" /> <!-- Position Feedback --> 
                           <ComObjectRefRef RefId="%AID%_O-%T%%CCC%003_R-%T%%CCC%00303" /> <!-- Move Down Feedback --> 
@@ -533,13 +533,13 @@
                           <ComObjectRefRef RefId="%AID%_O-%T%%CCC%002_R-%T%%CCC%00205" /> <!-- Soll Temperatur Rückmeldung -->
                           <ComObjectRefRef RefId="%AID%_O-%T%%CCC%003_R-%T%%CCC%00305" /> <!-- Ist Temperatur Rückmeldung -->
                   
-                          <ParameterRefRef RefId="%AID%_UP-%T%%CCC%051_R-%T%%CCC%05101" />     <!-- Unit -->   
-                          <ParameterRefRef RefId="%AID%_UP-%T%%CCC%052_R-%T%%CCC%05201" />     <!-- Thermostat Mode --> 
+                          <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%T%%CCC%051_R-%T%%CCC%05101" />     <!-- Unit -->   
+                          <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%T%%CCC%052_R-%T%%CCC%05201" />     <!-- Thermostat Mode --> 
                           <choose ParamRefId="%AID%_UP-%T%%CCC%052_R-%T%%CCC%05201">           <!-- Thermostat Mode --> 
                             <when test="1 3 7"> <!-- Heating -->
                               <ParameterSeparator Id="%AID%_PS-nnn" Text="" UIHint="HorizontalRuler" />
                               <ParameterSeparator Id="%AID%_PS-nnn" Text="Heizen" UIHint="Headline" />
-                              <ParameterRefRef RefId="%AID%_UP-%T%%CCC%053_R-%T%%CCC%05301" /> <!-- Ko Mode Heating --> 
+                              <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%T%%CCC%053_R-%T%%CCC%05301" /> <!-- Ko Mode Heating --> 
                               <choose ParamRefId="%AID%_UP-%T%%CCC%053_R-%T%%CCC%05301" >      <!-- Ko Mode Heading --> 
                                 <when test="0"> <!-- Switch -->
                                   <ComObjectRefRef RefId="%AID%_O-%T%%CCC%004_R-%T%%CCC%00405" />  <!-- Heizen -->
@@ -549,7 +549,7 @@
                                 </when>
                               </choose>    
               
-                              <ParameterRefRef RefId="%AID%_UP-%T%%CCC%054_R-%T%%CCC%05401" /> <!-- Ko Mode Heating Feedback --> 
+                              <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%T%%CCC%054_R-%T%%CCC%05401" /> <!-- Ko Mode Heating Feedback --> 
                               <choose ParamRefId="%AID%_UP-%T%%CCC%054_R-%T%%CCC%05401" >      <!-- Ko Mode Heating Feedback -->
                                 <when test="0"> <!-- Switch -->
                                   <ComObjectRefRef RefId="%AID%_O-%T%%CCC%005_R-%T%%CCC%00505" />  <!-- Heizen Rückmeldung -->
@@ -559,7 +559,7 @@
                                 </when>
                               </choose>
 
-                              <ParameterRefRef RefId="%AID%_UP-%T%%CCC%055_R-%T%%CCC%05501" /> <!-- Ko Type Heating Active Feedback --> 
+                              <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%T%%CCC%055_R-%T%%CCC%05501" /> <!-- Ko Type Heating Active Feedback --> 
                               <choose ParamRefId="%AID%_UP-%T%%CCC%055_R-%T%%CCC%05501" >      <!-- Ko Type Heating Active Feedback -->  
                                 <when test="0"> <!-- Switch -->
                                   <ComObjectRefRef RefId="%AID%_O-%T%%CCC%006_R-%T%%CCC%00605" />  <!-- Heizen Aktiv Rückmeldung -->
@@ -574,7 +574,7 @@
                             <when test="2 3 7"> <!-- Cooling Feedback -->
                               <ParameterSeparator Id="%AID%_PS-nnn" Text="" UIHint="HorizontalRuler" />
                               <ParameterSeparator Id="%AID%_PS-nnn" Text="Kühlen" UIHint="Headline" />
-                              <ParameterRefRef RefId="%AID%_UP-%T%%CCC%056_R-%T%%CCC%05601" /> <!-- Ko Mode Cooling --> 
+                              <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%T%%CCC%056_R-%T%%CCC%05601" /> <!-- Ko Mode Cooling --> 
                               <choose ParamRefId="%AID%_UP-%T%%CCC%056_R-%T%%CCC%05601" >      <!-- Ko Mode Cooling --> 
                                 <when test="0"> <!-- Switch -->
                                   <ComObjectRefRef RefId="%AID%_O-%T%%CCC%007_R-%T%%CCC%00705" />  <!-- Kühlen -->
@@ -584,7 +584,7 @@
                                 </when>
                               </choose>    
 
-                              <ParameterRefRef RefId="%AID%_UP-%T%%CCC%057_R-%T%%CCC%05701" /> <!-- Ko Mode Cooling Feedback --> 
+                              <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%T%%CCC%057_R-%T%%CCC%05701" /> <!-- Ko Mode Cooling Feedback --> 
                               <choose ParamRefId="%AID%_UP-%T%%CCC%057_R-%T%%CCC%05701" >      <!-- Ko Mode Cooling Feedback --> 
                                 <when test="0"> <!-- Switch -->
                                   <ComObjectRefRef RefId="%AID%_O-%T%%CCC%008_R-%T%%CCC%00805" />  <!-- Kühlen Rückmeldung -->
@@ -594,7 +594,7 @@
                                 </when>
                               </choose>
 
-                              <ParameterRefRef RefId="%AID%_UP-%T%%CCC%058_R-%T%%CCC%05801" /> <!-- Ko Type Cooling Active Feedback --> 
+                              <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%T%%CCC%058_R-%T%%CCC%05801" /> <!-- Ko Type Cooling Active Feedback --> 
                               <choose ParamRefId="%AID%_UP-%T%%CCC%058_R-%T%%CCC%05801" >      <!-- Ko Type Cooling Active Feedback --> 
                                 <when test="0"> <!-- Switch -->
                                   <ComObjectRefRef RefId="%AID%_O-%T%%CCC%009_R-%T%%CCC%00905" />  <!-- Kühlen Aktiv Rückmeldung -->
@@ -616,7 +616,7 @@
                           <op:usePart name="HueNotSupported" xpath="//ParameterBlock/*" />                 
                           <ParameterSeparator Id="%AID%_PS-nnn" Text="" UIHint="HorizontalRuler" />
           
-                          <ParameterRefRef RefId="%AID%_UP-%T%%CCC%061_R-%T%%CCC%06101" /> <!-- DisplayType  -->                       
+                          <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%T%%CCC%061_R-%T%%CCC%06101" /> <!-- DisplayType  -->                       
                           <choose ParamRefId="%AID%_UP-%T%%CCC%061_R-%T%%CCC%06101">  <!-- DisplayType  -->
                             <when test="0"> <!-- Temperatur -->
                               <ComObjectRefRef RefId="%AID%_O-%T%%CCC%001_R-%T%%CCC%00106" />
@@ -638,7 +638,7 @@
                           <op:usePart name="HueNotSupported" xpath="//ParameterBlock/*" />   
 
                           <ParameterSeparator Id="%AID%_PS-nnn" Text="" UIHint="HorizontalRuler" />
-                          <ParameterRefRef RefId="%AID%_UP-%T%%CCC%071_R-%T%%CCC%07101" /> <!-- ContactAlarmSensor Invert Input -->
+                          <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%T%%CCC%071_R-%T%%CCC%07101" /> <!-- ContactAlarmSensor Invert Input -->
                           <ComObjectRefRef RefId="%AID%_O-%T%%CCC%001_R-%T%%CCC%00107" />                 
                         </ParameterBlock>
                       </when>
@@ -650,7 +650,7 @@
                           <op:usePart name="HueNotSupported" xpath="//ParameterBlock/*" />    
                           <ParameterSeparator Id="%AID%_PS-nnn" Text="" UIHint="HorizontalRuler" />
 
-                          <ParameterRefRef RefId="%AID%_UP-%T%%CCC%071_R-%T%%CCC%07101" /> <!-- ContactAlarmSensor Invert Input -->         
+                          <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%T%%CCC%071_R-%T%%CCC%07101" /> <!-- ContactAlarmSensor Invert Input -->         
                           <ComObjectRefRef RefId="%AID%_O-%T%%CCC%001_R-%T%%CCC%00117" />    
                         </ParameterBlock>
                       </when>
@@ -662,7 +662,7 @@
                           <op:usePart name="HueNotSupported" xpath="//ParameterBlock/*" />    
                           <ParameterSeparator Id="%AID%_PS-nnn" Text="" UIHint="HorizontalRuler" />
 
-                          <ParameterRefRef RefId="%AID%_UP-%T%%CCC%071_R-%T%%CCC%07101" /> <!-- ContactAlarmSensor Invert Input -->
+                          <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%T%%CCC%071_R-%T%%CCC%07101" /> <!-- ContactAlarmSensor Invert Input -->
                           <ComObjectRefRef RefId="%AID%_O-%T%%CCC%001_R-%T%%CCC%00127" />
                         </ParameterBlock>
                       </when>
@@ -674,7 +674,7 @@
                           <op:usePart name="HueNotSupported" xpath="//ParameterBlock/*" />             
                           <ParameterSeparator Id="%AID%_PS-nnn" Text="" UIHint="HorizontalRuler" />
         
-                          <ParameterRefRef RefId="%AID%_UP-%T%%CCC%071_R-%T%%CCC%07101" /> <!-- ContactAlarmSensor Invert Input -->
+                          <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%T%%CCC%071_R-%T%%CCC%07101" /> <!-- ContactAlarmSensor Invert Input -->
                           <ComObjectRefRef RefId="%AID%_O-%T%%CCC%001_R-%T%%CCC%00137" />                
                         </ParameterBlock>
                       </when>
@@ -686,7 +686,7 @@
                           <op:usePart name="HueNotSupported" xpath="//ParameterBlock/*" />    
                           <ParameterSeparator Id="%AID%_PS-nnn" Text="" UIHint="HorizontalRuler" />
            
-                          <ParameterRefRef RefId="%AID%_UP-%T%%CCC%071_R-%T%%CCC%07101" /> <!-- ContactAlarmSensor Invert Input -->     
+                          <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%T%%CCC%071_R-%T%%CCC%07101" /> <!-- ContactAlarmSensor Invert Input -->     
                           <ComObjectRefRef RefId="%AID%_O-%T%%CCC%001_R-%T%%CCC%00147" />  
                         </ParameterBlock>
                       </when>
@@ -698,7 +698,7 @@
                           <op:usePart name="HueNotSupported" xpath="//ParameterBlock/*" />    
                           <ParameterSeparator Id="%AID%_PS-nnn" Text="" UIHint="HorizontalRuler" />
 
-                          <ParameterRefRef RefId="%AID%_UP-%T%%CCC%071_R-%T%%CCC%07101" /> <!-- ContactAlarmSensor Invert Input -->
+                          <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%T%%CCC%071_R-%T%%CCC%07101" /> <!-- ContactAlarmSensor Invert Input -->
                           <ComObjectRefRef RefId="%AID%_O-%T%%CCC%001_R-%T%%CCC%00157" />             
                         </ParameterBlock>
                       </when>
@@ -710,7 +710,7 @@
                           <op:usePart name="HueNotSupported" xpath="//ParameterBlock/*" />    
                           <ParameterSeparator Id="%AID%_PS-nnn" Text="" UIHint="HorizontalRuler" />
 
-                          <ParameterRefRef RefId="%AID%_UP-%T%%CCC%071_R-%T%%CCC%07101" /> <!-- ContactAlarmSensor Invert Input -->
+                          <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%T%%CCC%071_R-%T%%CCC%07101" /> <!-- ContactAlarmSensor Invert Input -->
                           <ComObjectRefRef RefId="%AID%_O-%T%%CCC%001_R-%T%%CCC%00167" />          
                         </ParameterBlock>
                       </when>
@@ -723,7 +723,7 @@
                       
                           <choose ParamRefId="%AID%_P-%T%000002_R-%T%00000201">  <!-- Bride Mode -->
                             <when test="2 3 8"> <!-- Hue & Hue oder Hue & Homekit -->
-                              <ParameterRefRef RefId="%AID%_UP-%T%%CCC%081_R-%T%%CCC%08101" /> <!-- In Hue verwenden -->
+                              <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%T%%CCC%081_R-%T%%CCC%08101" /> <!-- In Hue verwenden -->
                             </when>
                           </choose>
                           <ParameterSeparator Id="%AID%_PS-nnn" Text="" UIHint="HorizontalRuler" />
@@ -734,10 +734,10 @@
                           <ParameterSeparator Id="%AID%_PS-nnn" Text="" UIHint="HorizontalRuler" />
                           <ParameterSeparator Id="%AID%_PS-nnn" Text="Automatikmodus" UIHint="Headline" />
                           
-                          <ParameterRefRef RefId="%AID%_UP-%T%%CCC%082_R-%T%%CCC%08201" /> <!-- Fan hat Automatikmodus -->
+                          <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%T%%CCC%082_R-%T%%CCC%08201" /> <!-- Fan hat Automatikmodus -->
                           <choose ParamRefId="%AID%_UP-%T%%CCC%082_R-%T%%CCC%08201">  <!-- Fan hat Automatikmodus -->
                             <when test="1"> <!-- Fan hat Automatikmodus -->
-                              <ParameterRefRef RefId="%AID%_UP-%T%%CCC%083_R-%T%%CCC%08301" /> <!-- Fan Automatik KO -->
+                              <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%T%%CCC%083_R-%T%%CCC%08301" /> <!-- Fan Automatik KO -->
                               <choose ParamRefId="%AID%_UP-%T%%CCC%083_R-%T%%CCC%08301">  <!-- Fan Automatik KO -->
                                 <when test="0"> <!-- Automatik -->
                                   <ComObjectRefRef RefId="%AID%_O-%T%%CCC%003_R-%T%%CCC%00308" />  <!-- Automatik -->
@@ -746,7 +746,7 @@
                                   <ComObjectRefRef RefId="%AID%_O-%T%%CCC%003_R-%T%%CCC%00318" />  <!-- Handbetrieb -->
                                 </when>                     
                               </choose>
-                              <ParameterRefRef RefId="%AID%_UP-%T%%CCC%084_R-%T%%CCC%08401" /> <!-- Fan Automatik Rückmeldung KO -->
+                              <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%T%%CCC%084_R-%T%%CCC%08401" /> <!-- Fan Automatik Rückmeldung KO -->
                               <choose ParamRefId="%AID%_UP-%T%%CCC%084_R-%T%%CCC%08401">  <!-- Fan Automatik Rückmeldung KO -->
                                 <when test="0"> <!-- Automatik -->
                                   <ComObjectRefRef RefId="%AID%_O-%T%%CCC%004_R-%T%%CCC%00408" />  <!-- Automatik -->
@@ -767,23 +767,23 @@
                           <op:usePart name="HueSimulation" xpath="//ParameterBlock/*" />   
                           <choose ParamRefId="%AID%_P-%T%000002_R-%T%00000201">  <!-- Bride Mode -->
                             <when test="2 3 8"> <!-- Hue & Hue oder Hue & Homekit -->
-                              <ParameterRefRef RefId="%AID%_UP-%T%%CCC%096_R-%T%%CCC%09601" /> <!-- In Hue verwenden -->
+                              <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%T%%CCC%096_R-%T%%CCC%09601" /> <!-- In Hue verwenden -->
                             </when>
                           </choose>
                           <ParameterSeparator Id="%AID%_PS-nnn" Text="" UIHint="HorizontalRuler" />
                         
-                          <ParameterRefRef RefId="%AID%_UP-%T%%CCC%091_R-%T%%CCC%09101" /> <!-- Motor -->
+                          <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%T%%CCC%091_R-%T%%CCC%09101" /> <!-- Motor -->
 
                           <choose ParamRefId="%AID%_UP-%T%%CCC%091_R-%T%%CCC%09101">    <!-- Motor-->
                             <when test="1">  
-                              <ParameterRefRef RefId="%AID%_UP-%T%%CCC%092_R-%T%%CCC%09201" /> <!-- Blockade -->
+                              <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%T%%CCC%092_R-%T%%CCC%09201" /> <!-- Blockade -->
 
-                              <ParameterRefRef RefId="%AID%_UP-%T%%CCC%093_R-%T%%CCC%09301" /> <!-- Up Down Handling -->
-                              <ParameterRefRef RefId="%AID%_UP-%T%%CCC%094_R-%T%%CCC%09401" /> <!-- Use Stop -->
+                              <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%T%%CCC%093_R-%T%%CCC%09301" /> <!-- Up Down Handling -->
+                              <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%T%%CCC%094_R-%T%%CCC%09401" /> <!-- Use Stop -->
                             </when>
                           </choose>
 
-                          <ParameterRefRef RefId="%AID%_UP-%T%%CCC%095_R-%T%%CCC%09501" /> <!-- Rückmeldetype -->
+                          <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%T%%CCC%095_R-%T%%CCC%09501" /> <!-- Rückmeldetype -->
 
                           <choose ParamRefId="%AID%_UP-%T%%CCC%091_R-%T%%CCC%09101">    <!-- Motor-->
                             <when test="1">
@@ -831,23 +831,23 @@
                           <op:usePart name="HueSimulation" xpath="//ParameterBlock/*" />
                            <choose ParamRefId="%AID%_P-%T%000002_R-%T%00000201">  <!-- Bride Mode -->
                             <when test="2 3 8"> <!-- Hue & Hue oder Hue & Homekit -->
-                              <ParameterRefRef RefId="%AID%_UP-%T%%CCC%096_R-%T%%CCC%09601" /> <!-- In Hue verwenden -->
+                              <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%T%%CCC%096_R-%T%%CCC%09601" /> <!-- In Hue verwenden -->
                             </when>
                           </choose>
                           <ParameterSeparator Id="%AID%_PS-nnn" Text="" UIHint="HorizontalRuler" />
                 
-                          <ParameterRefRef RefId="%AID%_UP-%T%%CCC%091_R-%T%%CCC%09101" /> <!-- Motor -->
+                          <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%T%%CCC%091_R-%T%%CCC%09101" /> <!-- Motor -->
 
                           <choose ParamRefId="%AID%_UP-%T%%CCC%091_R-%T%%CCC%09101">    <!-- Motor-->
                             <when test="1">  
-                              <ParameterRefRef RefId="%AID%_UP-%T%%CCC%092_R-%T%%CCC%09201" /> <!-- Blockade -->
+                              <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%T%%CCC%092_R-%T%%CCC%09201" /> <!-- Blockade -->
 
-                              <ParameterRefRef RefId="%AID%_UP-%T%%CCC%093_R-%T%%CCC%09301" /> <!-- Up Down Handling -->
-                              <ParameterRefRef RefId="%AID%_UP-%T%%CCC%094_R-%T%%CCC%09401" /> <!-- Use Stop -->
+                              <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%T%%CCC%093_R-%T%%CCC%09301" /> <!-- Up Down Handling -->
+                              <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%T%%CCC%094_R-%T%%CCC%09401" /> <!-- Use Stop -->
                             </when>
                           </choose>
 
-                          <ParameterRefRef RefId="%AID%_UP-%T%%CCC%095_R-%T%%CCC%09501" /> <!-- Rückmeldetype -->
+                          <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%T%%CCC%095_R-%T%%CCC%09501" /> <!-- Rückmeldetype -->
 
                           <choose ParamRefId="%AID%_UP-%T%%CCC%091_R-%T%%CCC%09101">    <!-- Motor-->
                             <when test="1">
@@ -895,23 +895,23 @@
                           <op:usePart name="HueSimulation" xpath="//ParameterBlock/*" />
                            <choose ParamRefId="%AID%_P-%T%000002_R-%T%00000201">  <!-- Bride Mode -->
                             <when test="2 3 8"> <!-- Hue & Hue oder Hue & Homekit -->
-                              <ParameterRefRef RefId="%AID%_UP-%T%%CCC%096_R-%T%%CCC%09601" /> <!-- In Hue verwenden -->
+                              <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%T%%CCC%096_R-%T%%CCC%09601" /> <!-- In Hue verwenden -->
                             </when>
                           </choose>
                           <ParameterSeparator Id="%AID%_PS-nnn" Text="" UIHint="HorizontalRuler" />
                               
-                          <ParameterRefRef RefId="%AID%_UP-%T%%CCC%091_R-%T%%CCC%09101" /> <!-- Motor -->
+                          <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%T%%CCC%091_R-%T%%CCC%09101" /> <!-- Motor -->
 
                           <choose ParamRefId="%AID%_UP-%T%%CCC%091_R-%T%%CCC%09101">    <!-- Motor-->
                             <when test="1">  
-                              <ParameterRefRef RefId="%AID%_UP-%T%%CCC%092_R-%T%%CCC%09201" /> <!-- Blockade -->
+                              <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%T%%CCC%092_R-%T%%CCC%09201" /> <!-- Blockade -->
 
-                              <ParameterRefRef RefId="%AID%_UP-%T%%CCC%093_R-%T%%CCC%09301" /> <!-- Up Down Handling -->
-                              <ParameterRefRef RefId="%AID%_UP-%T%%CCC%094_R-%T%%CCC%09401" /> <!-- Use Stop -->
+                              <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%T%%CCC%093_R-%T%%CCC%09301" /> <!-- Up Down Handling -->
+                              <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%T%%CCC%094_R-%T%%CCC%09401" /> <!-- Use Stop -->
                             </when>
                           </choose>
 
-                          <ParameterRefRef RefId="%AID%_UP-%T%%CCC%095_R-%T%%CCC%09501" /> <!-- Rückmeldetype -->
+                          <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%T%%CCC%095_R-%T%%CCC%09501" /> <!-- Rückmeldetype -->
 
                           <choose ParamRefId="%AID%_UP-%T%%CCC%091_R-%T%%CCC%09101">    <!-- Motor-->
                             <when test="1">
