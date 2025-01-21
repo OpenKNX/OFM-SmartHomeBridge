@@ -41,6 +41,7 @@ class SmartHomeBridgeModule : public ChannelOwnerModule
     protected:
         virtual const std::string name() override;
         virtual const std::string version() override;
+        virtual void showInformations() override;
  
         virtual void setup() override;
         virtual void loop() override;
