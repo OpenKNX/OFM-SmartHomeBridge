@@ -268,8 +268,11 @@ bool SmartHomeBridgeModule::processCommand(const std::string cmd, bool diagnoseK
 
 void SmartHomeBridgeModule::showHelp()
 {
-  for (auto it = bridgeInterfaces->begin(); it != bridgeInterfaces->end(); ++it)
-    (*it)->showHelp();
+  if (bridgeInterfaces != nullptr)
+  {
+    for (auto it = bridgeInterfaces->begin(); it != bridgeInterfaces->end(); ++it)
+      (*it)->showHelp();
+  }
 }
 
 void SmartHomeBridgeModule::loop()
