@@ -357,7 +357,6 @@
                           <ParameterSeparator Id="%AID%_PS-nnn" Text="Steckdose" UIHint="Headline" />
         			            <op:usePart name="ChannelHead" xpath="//ParameterBlock/*" />
                         
-                          <ParameterRefRef IndentLevel="1" RefId="%AID%_P-%T%%CCC%003_R-%T%%CCC%00301" />          
                           <!-- Bride Mode -->
                           <choose ParamRefId="%AID%_P-%T%000002_R-%T%00000201">  
                             <when test="2 3 8"> <!-- Hue & Hue oder Hue & Homekit -->
@@ -376,7 +375,6 @@
                           <ParameterSeparator Id="%AID%_PS-nnn" Text="Lampe" UIHint="Headline" />
                           <op:usePart name="ChannelHead" xpath="//ParameterBlock/*" />
 
-                          <ParameterRefRef IndentLevel="1" RefId="%AID%_P-%T%%CCC%003_R-%T%%CCC%00301" /> 
                           <!-- Bride Mode -->
                           <choose ParamRefId="%AID%_P-%T%000002_R-%T%00000201"> 
                             <when test="2 3 8"> <!-- Hue & Hue oder Hue & Homekit -->
