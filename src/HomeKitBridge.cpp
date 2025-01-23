@@ -9,10 +9,8 @@
 void HomeKitBridge::initialize(SmartHomeBridgeModule *bridge)
 {
     _bridge = bridge;
-    homeSpan.setWifiCredentials("Dummy","Dummy");
-#if !defined(SOC_WIFI_SUPPORTED)
-    if (WiFi.status() == WL_NO_SHIELD)
-        WiFi._setStatus( WL_CONNECTED);
+#ifdef KNX_IP_LAN
+    homeSpan.useEthernet();
 #endif
     homeSpan.setSerialInputDisable(true);
     homeSpan.setPairingCode((const char *)ParamBRI_PairingCode);
