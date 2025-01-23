@@ -274,7 +274,7 @@
             </ParameterTypes>
             <Parameters>
               
-              <Parameter Id="%AID%_P-%T%000001" Name="BridgeName" ParameterType="%AID%_PT-BRIDeviceName" Text="Name" Value="OpenKNX Smart Home Bridge">
+              <Parameter Id="%AID%_P-%T%000001" Name="BridgeName" ParameterType="%AID%_PT-BRIDeviceName" Text="Name" Value="OpenKNX Smart Home Bridge" >
                 <Memory CodeSegment="%AID%_RS-04-00000" Offset="4" BitOffset="0" />
               </Parameter>
               <Parameter Id="%AID%_P-%T%000002" Name="Modus" ParameterType="%AID%_PT-BRIModeSelection" Text="Modus" Value="3">
@@ -319,7 +319,7 @@
             <Channel Id="%AID%_CH-%T%" Name="Main" Number="%T%" Text="Smart Home Bridge" Icon="bridge">
           
 
-              <ParameterBlock Id="%AID%_PB-nnn" Name="General" Text="Allgemein" Icon="cog-outline">
+              <ParameterBlock Id="%AID%_PB-nnn" Name="General" Text="Allgemein" Icon="cog-outline" HelpContext="BRI-Smarthome-Bridge">
                 <!-- <ParameterSeparator Id="%AID%_PS-4" Text="" UIHint="HorizontalRuler" /> -->
                 <ParameterSeparator Id="%AID%_PS-nnn" Text="Smart Home Bridge" UIHint="Headline" />
             		<ParameterSeparator Id="%AID%_PS-nnn" Text="Version: %ModuleVersion%" />
@@ -328,8 +328,8 @@
                 <ParameterSeparator Id="%AID%_PS-nnn" Text="Basiseinstellungen" UIHint="Headline" />
 
 
-                <ParameterRefRef IndentLevel="1" RefId="%AID%_P-%T%000001_R-%T%00000101" /> <!-- Bridge Name -->
-                <ParameterRefRef IndentLevel="1" RefId="%AID%_P-%T%000002_R-%T%00000201" /> <!-- Modus -->
+                <ParameterRefRef IndentLevel="1" RefId="%AID%_P-%T%000001_R-%T%00000101" HelpContext="%DOC%" /> <!-- Bridge Name -->
+                <ParameterRefRef IndentLevel="1" RefId="%AID%_P-%T%000002_R-%T%00000201" HelpContext="%DOC%" /> <!-- Modus -->
             
                 <!-- <ParameterSeparator Id="%AID%_PS-nnn" Text="" UIHint="HorizontalRuler" />
                 <ParameterSeparator Id="%AID%_PS-nnn" Text="WIFI" UIHint="Headline" /> -->
@@ -340,7 +340,7 @@
                   <when test="1 3"> <!-- Homekit OR Homekit & Hue -->
                     <ParameterSeparator Id="%AID%_PS-nnn" Text="" UIHint="HorizontalRuler" />
                     <ParameterSeparator Id="%AID%_PS-nnn" Text="Homekit" UIHint="Headline" />
-                    <ParameterRefRef IndentLevel="1" RefId="%AID%_P-%T%000005_R-%T%00000501" /> <!-- Pairing Code -->
+                    <ParameterRefRef IndentLevel="1" RefId="%AID%_P-%T%000005_R-%T%00000501" HelpContext="%DOC%" /> <!-- Pairing Code -->
                     <ParameterSeparator Id="%AID%_PS-nnn" Text="Hinweis: Apple lässt beim Koppeln einfache Codes (z.B. nur Einser) nicht zu. Das kann durch ETS nicht geprüft werden. Es wird daher empfohlen den Standard-Wert 46637726 zu verwenden." UIHint="Information" />
                   </when>
                 </choose> 
@@ -348,7 +348,7 @@
                 <ParameterSeparator Id="%AID%_PS-nnn" Text="" UIHint="HorizontalRuler" />
                 <ParameterSeparator Id="%AID%_PS-nnn" Text="Kanalauswahl" UIHint="Headline" />
             
-                <ParameterRefRef IndentLevel="1" RefId="%AID%_P-%T%000000_R-%T%00000001" /> <!-- Visible channels -->
+                <ParameterRefRef IndentLevel="1" RefId="%AID%_P-%T%000000_R-%T%00000001" HelpContext="%DOC%" /> <!-- Visible channels -->
             		
                 <op:usePart name="ChannelLimitWarning" xpath="//ParameterBlock/*" />
                 
@@ -364,7 +364,7 @@
               <!-- More Page -->
 							<choose ParamRefId="%AID%_P-%T%000000_R-%T%00000001">
 								<when test="&lt;%N%">
-									<ParameterBlock Id="%AID%_PB-nnn" Name="BRIAdditionalChannels" Text="(mehr)" Icon="dots-horizontal">										<!-- HelpContext="Empty" -->
+									<ParameterBlock Id="%AID%_PB-nnn" Name="BRIAdditionalChannels" Text="(mehr)" Icon="dots-horizontal" HelpContext="BRI-MorePage">									
 										<ParameterSeparator Id="%AID%_PS-nnn" Text="Kanalauswahl" UIHint="Headline" />
 				
 										<op:include href="SmartHomeBridge.templ.xml" xpath="//Dynamic/ChannelIndependentBlock/ParameterBlock[@Name='More']/*" type="template" prefix="BRI" IsInner="true" />

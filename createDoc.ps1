@@ -1,0 +1,1 @@
+OpenKNXproducer baggages -d doc/Applikationsbeschreibung-SmartHomeBridge.md -b src/Baggages/Help_de -p BRI

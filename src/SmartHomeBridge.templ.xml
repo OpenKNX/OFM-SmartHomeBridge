@@ -303,7 +303,7 @@
                 <choose ParamRefId="%AID%_P-%T%000000_R-%T%00000001">
                   <when test="&gt;=%C%">
                     <!-- Device Typ -->
-                    <ParameterRefRef IndentLevel="1" RefId="%AID%_P-%T%%CCC%001_R-%T%%CCC%00101" HelpContext="FCB-Kanalauswahl" />
+                    <ParameterRefRef IndentLevel="1" RefId="%AID%_P-%T%%CCC%001_R-%T%%CCC%00101" HelpContext="BRI-Kanalauswahl" />
                   </when>
                 </choose>
               </ParameterBlock>
@@ -313,7 +313,7 @@
                 <choose ParamRefId="%AID%_P-%T%000000_R-%T%00000001">
                   <when test="=%C-1%">
                     <!-- Device Typ -->
-                    <ParameterRefRef IndentLevel="1" RefId="%AID%_P-%T%%CCC%001_R-%T%%CCC%00101" HelpContext="FCB-Kanalauswahl" />
+                    <ParameterRefRef IndentLevel="1" RefId="%AID%_P-%T%%CCC%001_R-%T%%CCC%00101" HelpContext="BRI-Kanalauswahl" />
                     <choose ParamRefId="%AID%_P-%T%%CCC%001_R-%T%%CCC%00101">
                       <when test="0"><!-- ************ Deaktiviert ************ -->
                         <ParameterSeparator Id="%AID%_PS-nnn" Text="Die Auswahl darf nicht 'Deaktiviert' sein um hinzufügen zu können. Hinzugefügte Kanäle erscheinen nach ca. 1 Sekunde verzögerung links im Baum." UIHint="Information" />
@@ -335,7 +335,7 @@
                       </when>
                       <when test="10">
                         <!-- ************** Schalten ************ -->
-                        <ParameterBlock Id="%AID%_PB-nnn" Name="f%CC%FCB_Switch" Text="%C% Schalten: {{0: ...}}"      TextParameterRefId="%AID%_P-%T%%CCC%002_R-%T%%CCC%00201" Icon="light-switch-off" ShowInComObjectTree="true" HelpContext="FCB-UND">
+                        <ParameterBlock Id="%AID%_PB-nnn" Name="f%CC%FCB_Switch" Text="%C% Schalten: {{0: ...}}"      TextParameterRefId="%AID%_P-%T%%CCC%002_R-%T%%CCC%00201" Icon="light-switch-off" ShowInComObjectTree="true" HelpContext="BRI-Schalten">
                           <ParameterSeparator Id="%AID%_PS-nnn" Text="Schalten" UIHint="Headline" />
          			            <op:usePart name="ChannelHead" xpath="//ParameterBlock/*" />
 
@@ -353,7 +353,7 @@
                       </when>
                        <when test="11">
                         <!-- ************** Steckdose ************ -->
-                        <ParameterBlock Id="%AID%_PB-nnn" Name="f%CC%FCB_Switch" Text="%C% Steckdose: {{0: ...}}"      TextParameterRefId="%AID%_P-%T%%CCC%002_R-%T%%CCC%00201" Icon="power-socket-eu" ShowInComObjectTree="true" HelpContext="FCB-UND">
+                        <ParameterBlock Id="%AID%_PB-nnn" Name="f%CC%FCB_Switch" Text="%C% Steckdose: {{0: ...}}"      TextParameterRefId="%AID%_P-%T%%CCC%002_R-%T%%CCC%00201" Icon="power-socket-eu" ShowInComObjectTree="true" HelpContext="BRI-Steckdose">
                           <ParameterSeparator Id="%AID%_PS-nnn" Text="Steckdose" UIHint="Headline" />
         			            <op:usePart name="ChannelHead" xpath="//ParameterBlock/*" />
                         
@@ -371,7 +371,7 @@
                       </when>
                       <when test="20">
                         <!-- ************** Lampe ************ -->
-                        <ParameterBlock Id="%AID%_PB-nnn" Name="f%CC%FCB_Switch" Text="%C% Lampe: {{0: ...}}"      TextParameterRefId="%AID%_P-%T%%CCC%002_R-%T%%CCC%00201" Icon="lamp-outline" ShowInComObjectTree="true" HelpContext="FCB-UND">
+                        <ParameterBlock Id="%AID%_PB-nnn" Name="f%CC%FCB_Switch" Text="%C% Lampe: {{0: ...}}"      TextParameterRefId="%AID%_P-%T%%CCC%002_R-%T%%CCC%00201" Icon="lamp-outline" ShowInComObjectTree="true" HelpContext="BRI-Lampe">
                           <ParameterSeparator Id="%AID%_PS-nnn" Text="Lampe" UIHint="Headline" />
                           <op:usePart name="ChannelHead" xpath="//ParameterBlock/*" />
 
@@ -414,7 +414,7 @@
                       </when>
                       <when test="30">
                         <!-- ************** Jalousie ************ -->
-                        <ParameterBlock Id="%AID%_PB-nnn" Name="f%CC%FCB_Switch" Text="%C% Jalousie: {{0: ...}}"      TextParameterRefId="%AID%_P-%T%%CCC%002_R-%T%%CCC%00201" Icon="window-shutter" ShowInComObjectTree="true" HelpContext="FCB-UND">
+                        <ParameterBlock Id="%AID%_PB-nnn" Name="f%CC%FCB_Switch" Text="%C% Jalousie: {{0: ...}}"      TextParameterRefId="%AID%_P-%T%%CCC%002_R-%T%%CCC%00201" Icon="window-shutter" ShowInComObjectTree="true" HelpContext="BRI-Jalousie">
                           <ParameterSeparator Id="%AID%_PS-nnn" Text="Jalousie" UIHint="Headline" />
                           <op:usePart name="ChannelHead" xpath="//ParameterBlock/*" />
                           <op:usePart name="HueSimulation" xpath="//ParameterBlock/*" />
@@ -452,7 +452,7 @@
                       </when>
                       <when test="31">
                         <!-- ************** Rolladen ************ -->
-                        <ParameterBlock Id="%AID%_PB-nnn" Name="f%CC%FCB_Switch" Text="%C% Rolladen: {{0: ...}}"      TextParameterRefId="%AID%_P-%T%%CCC%002_R-%T%%CCC%00201" Icon="roller-shade-closed" ShowInComObjectTree="true" HelpContext="FCB-UND">
+                        <ParameterBlock Id="%AID%_PB-nnn" Name="f%CC%FCB_Switch" Text="%C% Rolladen: {{0: ...}}"      TextParameterRefId="%AID%_P-%T%%CCC%002_R-%T%%CCC%00201" Icon="roller-shade-closed" ShowInComObjectTree="true" HelpContext="BRI-Rolladen">
                           <ParameterSeparator Id="%AID%_PS-nnn" Text="Rolladen" UIHint="Headline" />
                           <op:usePart name="ChannelHead" xpath="//ParameterBlock/*" />
                           <op:usePart name="HueSimulation" xpath="//ParameterBlock/*" />
@@ -487,7 +487,7 @@
                       </when>
                       <when test="32">
                         <!-- ************** Markise ************ -->
-                        <ParameterBlock Id="%AID%_PB-nnn" Name="f%CC%FCB_Switch" Text="%C% Markise: {{0: ...}}"      TextParameterRefId="%AID%_P-%T%%CCC%002_R-%T%%CCC%00201" Icon="storefront-outline" ShowInComObjectTree="true" HelpContext="FCB-UND">
+                        <ParameterBlock Id="%AID%_PB-nnn" Name="f%CC%FCB_Switch" Text="%C% Markise: {{0: ...}}"      TextParameterRefId="%AID%_P-%T%%CCC%002_R-%T%%CCC%00201" Icon="storefront-outline" ShowInComObjectTree="true" HelpContext="BRI-Markise">
                         <ParameterSeparator Id="%AID%_PS-nnn" Text="Markise" UIHint="Headline" />
                           <op:usePart name="ChannelHead" xpath="//ParameterBlock/*" />
                           <op:usePart name="HueSimulation" xpath="//ParameterBlock/*" />
@@ -521,7 +521,7 @@
                       </when>
                       <when test="50">
                         <!-- ************** Thermostat ************ -->
-                        <ParameterBlock Id="%AID%_PB-nnn" Name="f%CC%FCB_Switch" Text="%C% Thermostat: {{0: ...}}"      TextParameterRefId="%AID%_P-%T%%CCC%002_R-%T%%CCC%00201" Icon="thermostat" ShowInComObjectTree="true" HelpContext="FCB-UND">
+                        <ParameterBlock Id="%AID%_PB-nnn" Name="f%CC%FCB_Switch" Text="%C% Thermostat: {{0: ...}}"      TextParameterRefId="%AID%_P-%T%%CCC%002_R-%T%%CCC%00201" Icon="thermostat" ShowInComObjectTree="true" HelpContext="BRI-Thermostat">
                         <ParameterSeparator Id="%AID%_PS-nnn" Text="Thermostat" UIHint="Headline" />
                           <op:usePart name="ChannelHead" xpath="//ParameterBlock/*" />
                           <op:usePart name="HueNotSupported" xpath="//ParameterBlock/*" />    
@@ -608,7 +608,7 @@
                       </when>
                       <when test="60">
                         <!-- ************** Anzeige ************ -->
-                        <ParameterBlock Id="%AID%_PB-nnn" Name="f%CC%FCB_Switch" Text="%C% Anzeige: {{0: ...}}"      TextParameterRefId="%AID%_P-%T%%CCC%002_R-%T%%CCC%00201" Icon="card-text-outline" ShowInComObjectTree="true" HelpContext="FCB-UND">
+                        <ParameterBlock Id="%AID%_PB-nnn" Name="f%CC%FCB_Switch" Text="%C% Anzeige: {{0: ...}}"      TextParameterRefId="%AID%_P-%T%%CCC%002_R-%T%%CCC%00201" Icon="card-text-outline" ShowInComObjectTree="true" HelpContext="BRI-Anzeige">
                           <ParameterSeparator Id="%AID%_PS-nnn" Text="Anzeige" UIHint="Headline" />
                           <op:usePart name="ChannelHead" xpath="//ParameterBlock/*" />
                           <op:usePart name="HueNotSupported" xpath="//ParameterBlock/*" />                 
@@ -630,7 +630,7 @@
                       </when>
                       <when test="70">
                         <!-- ************** Kontakt ************ -->
-                        <ParameterBlock Id="%AID%_PB-nnn" Name="f%CC%FCB_Switch" Text="%C% Kontakt: {{0: ...}}"      TextParameterRefId="%AID%_P-%T%%CCC%002_R-%T%%CCC%00201" Icon="electric-switch" ShowInComObjectTree="true" HelpContext="FCB-UND">
+                        <ParameterBlock Id="%AID%_PB-nnn" Name="f%CC%FCB_Switch" Text="%C% Kontakt: {{0: ...}}"      TextParameterRefId="%AID%_P-%T%%CCC%002_R-%T%%CCC%00201" Icon="electric-switch" ShowInComObjectTree="true" HelpContext="BRI-Kontakt">
                           <ParameterSeparator Id="%AID%_PS-nnn" Text="Kontakt" UIHint="Headline" />
                           <op:usePart name="ChannelHead" xpath="//ParameterBlock/*" />
                           <op:usePart name="HueNotSupported" xpath="//ParameterBlock/*" />   
@@ -642,7 +642,7 @@
                       </when>
                       <when test="71">
                         <!-- ************** Bewegungsmelder ************ -->
-                        <ParameterBlock Id="%AID%_PB-nnn" Name="f%CC%FCB_Switch" Text="%C% Bewegungsmelder: {{0: ...}}"      TextParameterRefId="%AID%_P-%T%%CCC%002_R-%T%%CCC%00201" Icon="walk" ShowInComObjectTree="true" HelpContext="FCB-UND">
+                        <ParameterBlock Id="%AID%_PB-nnn" Name="f%CC%FCB_Switch" Text="%C% Bewegungsmelder: {{0: ...}}"      TextParameterRefId="%AID%_P-%T%%CCC%002_R-%T%%CCC%00201" Icon="walk" ShowInComObjectTree="true" HelpContext="BRI-Bewegungsmelder">
                           <ParameterSeparator Id="%AID%_PS-nnn" Text="Bewegungsmelder" UIHint="Headline" />
                           <op:usePart name="ChannelHead" xpath="//ParameterBlock/*" />
                           <op:usePart name="HueNotSupported" xpath="//ParameterBlock/*" />    
@@ -654,7 +654,7 @@
                       </when>
                       <when test="72">
                         <!-- ************** Präsensmelder ************ -->
-                        <ParameterBlock Id="%AID%_PB-nnn" Name="f%CC%FCB_Switch" Text="%C% Präsensmelder: {{0: ...}}"      TextParameterRefId="%AID%_P-%T%%CCC%002_R-%T%%CCC%00201" Icon="human-male-female" ShowInComObjectTree="true" HelpContext="FCB-UND">
+                        <ParameterBlock Id="%AID%_PB-nnn" Name="f%CC%FCB_Switch" Text="%C% Präsensmelder: {{0: ...}}"      TextParameterRefId="%AID%_P-%T%%CCC%002_R-%T%%CCC%00201" Icon="human-male-female" ShowInComObjectTree="true" HelpContext="BRI-Praesensmelder">
                           <ParameterSeparator Id="%AID%_PS-nnn" Text="Präsensmelder" UIHint="Headline" />
                           <op:usePart name="ChannelHead" xpath="//ParameterBlock/*" />
                           <op:usePart name="HueNotSupported" xpath="//ParameterBlock/*" />    
@@ -666,7 +666,7 @@
                       </when>
                       <when test="73">
                         <!-- ************** Leckmelder ************ -->
-                        <ParameterBlock Id="%AID%_PB-nnn" Name="f%CC%FCB_Switch" Text="%C% Leckmelder: {{0: ...}}"      TextParameterRefId="%AID%_P-%T%%CCC%002_R-%T%%CCC%00201" Icon="water-alert-outline" ShowInComObjectTree="true" HelpContext="FCB-UND">
+                        <ParameterBlock Id="%AID%_PB-nnn" Name="f%CC%FCB_Switch" Text="%C% Leckmelder: {{0: ...}}"      TextParameterRefId="%AID%_P-%T%%CCC%002_R-%T%%CCC%00201" Icon="water-alert-outline" ShowInComObjectTree="true" HelpContext="BRI-Leckmelder">
                           <ParameterSeparator Id="%AID%_PS-nnn" Text="Leckmelder" UIHint="Headline" />
                           <op:usePart name="ChannelHead" xpath="//ParameterBlock/*" />
                           <op:usePart name="HueNotSupported" xpath="//ParameterBlock/*" />             
@@ -678,7 +678,7 @@
                       </when>
                       <when test="74">
                         <!-- ************** Rauchmelder ************ -->
-                        <ParameterBlock Id="%AID%_PB-nnn" Name="f%CC%FCB_Switch" Text="%C% Rauchmelder: {{0: ...}}"      TextParameterRefId="%AID%_P-%T%%CCC%002_R-%T%%CCC%00201" Icon="smoke" ShowInComObjectTree="true" HelpContext="FCB-UND">
+                        <ParameterBlock Id="%AID%_PB-nnn" Name="f%CC%FCB_Switch" Text="%C% Rauchmelder: {{0: ...}}"      TextParameterRefId="%AID%_P-%T%%CCC%002_R-%T%%CCC%00201" Icon="smoke" ShowInComObjectTree="true" HelpContext="BRI-Rauchmelder">
                           <ParameterSeparator Id="%AID%_PS-nnn" Text="Rauchmelder" UIHint="Headline" />
                           <op:usePart name="ChannelHead" xpath="//ParameterBlock/*" />
                           <op:usePart name="HueNotSupported" xpath="//ParameterBlock/*" />    
@@ -690,7 +690,7 @@
                       </when>
                       <when test="75">
                         <!-- ************** Kohlendioxidmelder (CO2) ************ -->
-                        <ParameterBlock Id="%AID%_PB-nnn" Name="f%CC%FCB_Switch" Text="%C% Kohlendioxidmelder (CO2): {{0: ...}}"      TextParameterRefId="%AID%_P-%T%%CCC%002_R-%T%%CCC%00201" Icon="molecule-co2" ShowInComObjectTree="true" HelpContext="FCB-UND">
+                        <ParameterBlock Id="%AID%_PB-nnn" Name="f%CC%FCB_Switch" Text="%C% Kohlendioxidmelder (CO2): {{0: ...}}"      TextParameterRefId="%AID%_P-%T%%CCC%002_R-%T%%CCC%00201" Icon="molecule-co2" ShowInComObjectTree="true" HelpContext="BRI-Kohlendioxidmelder-CO2">
                           <ParameterSeparator Id="%AID%_PS-nnn" Text="Kohlendioxidmelder (CO2)" UIHint="Headline" />
                           <op:usePart name="ChannelHead" xpath="//ParameterBlock/*" />
                           <op:usePart name="HueNotSupported" xpath="//ParameterBlock/*" />    
@@ -702,7 +702,7 @@
                       </when>
                       <when test="76">
                         <!-- ************** Kohlenmonoxidmelder (CO) ************ -->
-                        <ParameterBlock Id="%AID%_PB-nnn" Name="f%CC%FCB_Switch" Text="%C% Kohlenmonoxidmelder (CO): {{0: ...}}"      TextParameterRefId="%AID%_P-%T%%CCC%002_R-%T%%CCC%00201" Icon="molecule-co" ShowInComObjectTree="true" HelpContext="FCB-UND">
+                        <ParameterBlock Id="%AID%_PB-nnn" Name="f%CC%FCB_Switch" Text="%C% Kohlenmonoxidmelder (CO): {{0: ...}}"      TextParameterRefId="%AID%_P-%T%%CCC%002_R-%T%%CCC%00201" Icon="molecule-co" ShowInComObjectTree="true" HelpContext="BRI-Kohlenmonoxidmelder-CO">
                           <ParameterSeparator Id="%AID%_PS-nnn" Text="Kohlenmonoxidmelder (CO)" UIHint="Headline" />
                           <op:usePart name="ChannelHead" xpath="//ParameterBlock/*" />
                           <op:usePart name="HueNotSupported" xpath="//ParameterBlock/*" />    
@@ -714,7 +714,7 @@
                       </when>
                       <when test="80">
                         <!-- ************** Lüfter ************ -->
-                        <ParameterBlock Id="%AID%_PB-nnn" Name="f%CC%FCB_Switch" Text="%C% Lüfter: {{0: ...}}"      TextParameterRefId="%AID%_P-%T%%CCC%002_R-%T%%CCC%00201" Icon="fan" ShowInComObjectTree="true" HelpContext="FCB-UND">
+                        <ParameterBlock Id="%AID%_PB-nnn" Name="f%CC%FCB_Switch" Text="%C% Lüfter: {{0: ...}}"      TextParameterRefId="%AID%_P-%T%%CCC%002_R-%T%%CCC%00201" Icon="fan" ShowInComObjectTree="true" HelpContext="BRI-Luefter">
                           <ParameterSeparator Id="%AID%_PS-nnn" Text="Lüfter" UIHint="Headline" />
                           <op:usePart name="ChannelHead" xpath="//ParameterBlock/*" />
                           <op:usePart name="HueSimulation" xpath="//ParameterBlock/*" />
@@ -759,7 +759,7 @@
                       </when>
                       <when test="90">
                         <!-- ************** Fenster ************ -->
-                        <ParameterBlock Id="%AID%_PB-nnn" Name="f%CC%FCB_Switch" Text="%C% Fenster: {{0: ...}}"      TextParameterRefId="%AID%_P-%T%%CCC%002_R-%T%%CCC%00201" Icon="window-closed-variant" ShowInComObjectTree="true" HelpContext="FCB-UND">
+                        <ParameterBlock Id="%AID%_PB-nnn" Name="f%CC%FCB_Switch" Text="%C% Fenster: {{0: ...}}"      TextParameterRefId="%AID%_P-%T%%CCC%002_R-%T%%CCC%00201" Icon="window-closed-variant" ShowInComObjectTree="true" HelpContext="BRI-Fenster">
                           <ParameterSeparator Id="%AID%_PS-nnn" Text="Fenster" UIHint="Headline" />
                           <op:usePart name="ChannelHead" xpath="//ParameterBlock/*" />
                           <op:usePart name="HueSimulation" xpath="//ParameterBlock/*" />   
@@ -823,7 +823,7 @@
                       </when>
                       <when test="91">
                         <!-- ************** Tür ************ -->
-                        <ParameterBlock Id="%AID%_PB-nnn" Name="f%CC%FCB_Switch" Text="%C% Tür: {{0: ...}}"      TextParameterRefId="%AID%_P-%T%%CCC%002_R-%T%%CCC%00201" Icon="door" ShowInComObjectTree="true" HelpContext="FCB-UND">
+                        <ParameterBlock Id="%AID%_PB-nnn" Name="f%CC%FCB_Switch" Text="%C% Tür: {{0: ...}}"      TextParameterRefId="%AID%_P-%T%%CCC%002_R-%T%%CCC%00201" Icon="door" ShowInComObjectTree="true" HelpContext="BRI-Tuer">
                           <ParameterSeparator Id="%AID%_PS-nnn" Text="Tür" UIHint="Headline" />
                           <op:usePart name="ChannelHead" xpath="//ParameterBlock/*" />
                           <op:usePart name="HueSimulation" xpath="//ParameterBlock/*" />
@@ -887,7 +887,7 @@
                       </when>
                       <when test="92">
                         <!-- ************** Garagentor ************ -->
-                        <ParameterBlock Id="%AID%_PB-nnn" Name="f%CC%FCB_Switch" Text="%C% Garagentor: {{0: ...}}"      TextParameterRefId="%AID%_P-%T%%CCC%002_R-%T%%CCC%00201" Icon="garage-open-variant" ShowInComObjectTree="true" HelpContext="FCB-UND">
+                        <ParameterBlock Id="%AID%_PB-nnn" Name="f%CC%FCB_Switch" Text="%C% Garagentor: {{0: ...}}"      TextParameterRefId="%AID%_P-%T%%CCC%002_R-%T%%CCC%00201" Icon="garage-open-variant" ShowInComObjectTree="true" HelpContext="BRI-Garagentor">
                           <ParameterSeparator Id="%AID%_PS-nnn" Text="Garagentor" UIHint="Headline" />
                           <op:usePart name="ChannelHead" xpath="//ParameterBlock/*" />
                           <op:usePart name="HueSimulation" xpath="//ParameterBlock/*" />
