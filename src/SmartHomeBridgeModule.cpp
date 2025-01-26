@@ -468,6 +468,8 @@ void SmartHomeBridgeModule::serveHomePage()
   res += (__DATE__ + sizeof(__DATE__) - 5);
   res += "<br><br>Name: ";
   res += name;
+  res += "<br>IP Address: ";
+  res += openknxNetwork.localIP().toString();
   res += "<br>ETS Gerätetype: 0x";
   char etsType[5];
   sprintf(etsType, "%02X%02X", MAIN_OpenKnxId, MAIN_ApplicationNumber);
