@@ -20,6 +20,7 @@
 #ifndef SSDP_INTERVAL
   #define SSDP_INTERVAL 100      // cache control interval for SSDP Search response
 #endif
+#include "NetworkModule.h"
 
 //you can use these defines for library config in your sketch. Just use them before #include <Espalexa.h>
 //#define ESPALEXA_ASYNC
@@ -224,7 +225,7 @@ private:
   void serveDescription()
   {
     EA_DEBUGLN("# Responding to description.xml ... #\n");
-    IPAddress localIP = WiFi.localIP();
+    IPAddress localIP = openknxNetwork.localIP();
     char s[16];
     sprintf(s, "%d.%d.%d.%d", localIP[0], localIP[1], localIP[2], localIP[3]);
     char buf[1024];
@@ -306,7 +307,7 @@ private:
   //respond to UDP SSDP M-SEARCH
   void respondToSearch(IPAddress remoteIP, uint16_t remotePort)
   {
-    IPAddress localIP = WiFi.localIP();
+    IPAddress localIP = openknxNetwork.localIP();
     char s[16];
     sprintf(s, "%d.%d.%d.%d", localIP[0], localIP[1], localIP[2], localIP[3]);
 
@@ -375,7 +376,7 @@ public:
        #ifdef ARDUINO_ARCH_ESP32
          udpConnected = espalexaUdp.beginMulticast(IPAddress(239, 255, 255, 250), 1900);
          #else
-         udpConnected = espalexaUdp.beginMulticast(WiFi.localIP(), IPAddress(239, 255, 255, 250), 1900);
+         udpConnected = espalexaUdp.beginMulticast(openknxNetwork.localIP(), IPAddress(239, 255, 255, 250), 1900);
          #endif    
     #endif
 
@@ -410,7 +411,7 @@ public:
             EA_DEBUGLN("");
         #endif
         // check remote IP if subnet filter enabled
-        if (!enableSubnetFilter || ((remoteIp & WiFi.subnetMask()) == (WiFi.localIP() & WiFi.subnetMask()) && remoteIp != WiFi.localIP()))
+        if (!enableSubnetFilter || ((remoteIp & openknxNetwork.subnetMask()) == (openknxNetwork.localIP() & openknxNetwork.subnetMask()) && remoteIp != openknxNetwork.localIP()))
         {
             // remote caller is on same subnet, or subnet filter not enabled
             if (strnstr(request, "ssdp:disc", packetSize)  != nullptr &&  //short for "ssdp:discover"
