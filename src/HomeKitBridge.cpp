@@ -9,9 +9,7 @@
 void HomeKitBridge::initialize(SmartHomeBridgeModule *bridge)
 {
     _bridge = bridge;
-#ifdef KNX_IP_LAN
     homeSpan.useEthernet();
-#endif
     homeSpan.setSerialInputDisable(true);
     homeSpan.setPairingCode((const char *)ParamBRI_PairingCode);
     homeSpan.setPortNum(8080);

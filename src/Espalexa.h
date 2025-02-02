@@ -14,7 +14,6 @@
  * @license MIT
  * @contributors d-999
  */
-
 #include "Arduino.h"
 #include <map>
 #ifndef SSDP_INTERVAL
@@ -70,6 +69,8 @@
 
 class Espalexa : public RequestHandler {
 private:
+  uint8_t _mac[6];
+  uint16_t webserverPort = 80;
   //private member vars
   #ifdef ESPALEXA_ASYNC
   AsyncWebServer* serverAsync;
@@ -133,10 +134,8 @@ private:
   
   void encodeLightId(uint8_t idx, char* out)
   {
-    uint8_t mac[6];
-    WiFi.macAddress(mac);
-
-    sprintf_P(out, PSTR("%02X:%02X:%02X:%02X:%02X:%02X:00:11-%02X"), mac[0],mac[1],mac[2],mac[3],mac[4],mac[5], idx);
+    
+    sprintf_P(out, PSTR("%02X:%02X:%02X:%02X:%02X:%02X:00:11-%02X"), _mac[0],_mac[1],_mac[2],_mac[3],_mac[4],_mac[5], idx);
   }
 
   // construct 'globally unique' Json dict key fitting into signed int
@@ -233,10 +232,10 @@ private:
     sprintf_P(buf,PSTR("<?xml version=\"1.0\" ?>"
         "<root xmlns=\"urn:schemas-upnp-org:device-1-0\">"
         "<specVersion><major>1</major><minor>0</minor></specVersion>"
-        "<URLBase>http://%s:80/</URLBase>"
+        "<URLBase>http://%s:%d/</URLBase>"
         "<device>"
           "<deviceType>urn:schemas-upnp-org:device:Basic:1</deviceType>"
-          "<friendlyName>SmartHome Bridge (%s:80)</friendlyName>"
+          "<friendlyName>SmartHome Bridge (%s:%d)</friendlyName>"
           "<manufacturer>Royal Philips Electronics</manufacturer>"
           "<manufacturerURL>http://www.philips.com</manufacturerURL>"
           "<modelDescription>Philips hue Personal Wireless Lighting</modelDescription>"
@@ -247,7 +246,7 @@ private:
           "<UDN>uuid:2f402f80-da50-11e1-9b23-%s</UDN>"
           "<presentationURL>index.html</presentationURL>"
         "</device>"
-        "</root>"),s,s,escapedMac.c_str(),escapedMac.c_str());
+        "</root>"),s, (int) webserverPort, s, (int) webserverPort,escapedMac.c_str(),escapedMac.c_str());
           
     server->send(200, "text/xml", buf);
     
@@ -260,7 +259,7 @@ private:
 
     #ifdef ESPALEXA_ASYNC
     if (serverAsync == nullptr) {
-      serverAsync = new AsyncWebServer(80);
+      serverAsync = new AsyncWebServer(webserverPort);
       serverAsync->onNotFound([this](AsyncWebServerRequest *request){this->server = request; this->serveNotFound();});
     }
     
@@ -281,9 +280,9 @@ private:
     #else
     if (server == nullptr) {
       #ifdef ARDUINO_ARCH_ESP32
-      server = new WebServer(80);
+      server = new WebServer(webserverPort);
       #else
-      server = new ESP8266WebServer(80);  
+      server = new ESP8266WebServer(webserverPort);  
       #endif
     }
     server->addHandler(this);
@@ -295,12 +294,18 @@ private:
     server->begin();
     #endif
   }
-
-  bool canHandle(HTTPMethod method, String uri) {
-    return uri.startsWith( "/api/") || uri == "/api";
+  
+  bool canHandle(WebServer &server, HTTPMethod method, const String &uri) override {
+    bool result = uri.startsWith( "/api/") || uri == "/api";
+    if (!result)
+    {
+      EA_DEBUG("Unkown uri:");
+      EA_DEBUGLN(uri);
+    }
+    return result;
   }
 
-  bool handle(WebServer& server, HTTPMethod requestMethod, String requestUri) {    
+  bool handle(WebServer& server, HTTPMethod requestMethod, const String& requestUri) override {    
     return handleAlexaApiCall(server.uri(), server.arg(0));
   }
 
@@ -310,18 +315,18 @@ private:
     IPAddress localIP = openknxNetwork.localIP();
     char s[16];
     sprintf(s, "%d.%d.%d.%d", localIP[0], localIP[1], localIP[2], localIP[3]);
-
+    
     char buf[1024];
 
     sprintf_P(buf,PSTR("HTTP/1.1 200 OK\r\n"
       "EXT:\r\n"
       "CACHE-CONTROL: max-age=%d\r\n" // SSDP_INTERVAL
-      "LOCATION: http://%s:80/description.xml\r\n"
+      "LOCATION: http://%s:%d/description.xml\r\n"
       "SERVER: FreeRTOS/6.0.5, UPnP/1.0, IpBridge/1.17.0\r\n" // _modelName, _modelNumber
       "hue-bridgeid: %s\r\n"
       "ST: urn:schemas-upnp-org:device:basic:1\r\n"  // _deviceType
       "USN: uuid:2f402f80-da50-11e1-9b23-%s::upnp:rootdevice\r\n" // _uuid::_deviceType
-      "\r\n"),SSDP_INTERVAL,s,escapedMac.c_str(),escapedMac.c_str());
+      "\r\n"),SSDP_INTERVAL,s, (int) webserverPort, escapedMac.c_str(),escapedMac.c_str());
 
     #ifdef USE_ESP32_ASYNC_UDP
          espalexaUdp.writeTo((uint8_t*)buf, strlen(buf), remoteIP, remotePort);
@@ -332,6 +337,8 @@ private:
          #else
          espalexaUdp.write(buf);
          #endif
+         EA_DEBUG(buf);
+         espalexaUdp.flush();
          espalexaUdp.endPacket(); 
     #endif
   }
@@ -341,20 +348,36 @@ public:
 
   //initialize interfaces
   #ifdef ESPALEXA_ASYNC
-  bool begin(AsyncWebServer* externalServer = nullptr)
+  bool begin(AsyncWebServer* externalServer = nullptr, uint8_t webserverPort = 80, uint8_t* mac = nullptr)
   #elif defined ARDUINO_ARCH_ESP32
-  bool begin(WebServer* externalServer = nullptr)
+  bool begin(WebServer* externalServer = nullptr, uint8_t webserverPort = 80, uint8_t* mac = nullptr)
   #else
-  bool begin(ESP8266WebServer* externalServer = nullptr)
+  bool begin(ESP8266WebServer* externalServer = nullptr, uint8_t webserverPort = 80, uint8_t* mac = nullptr)
   #endif
   {
     serverOwner = externalServer == nullptr;
+    this->webserverPort = webserverPort;
     EA_DEBUGLN("Espalexa Begin...");
     EA_DEBUG("MAXDEVICES ");
     EA_DEBUGLN(ESPALEXA_MAXDEVICES);
-    escapedMac = WiFi.macAddress();
+   
+    if (mac != nullptr)
+    {
+      memcpy(_mac, mac, 6);
+      char macStr[30];
+      sprintf(macStr, "%02X:%02X:%02X:%02X:%02X:%02X", mac[0], mac[1], mac[2], mac[3], mac[4], mac[5]);
+      escapedMac = macStr;
+    }
+    else
+    {
+      WiFi.macAddress(_mac);
+      escapedMac = WiFi.macAddress();
+    }
     escapedMac.replace(":", "");
     escapedMac.toLowerCase();
+
+    EA_DEBUGLN("MAC: ");
+    EA_DEBUGLN(escapedMac);
 
     String macSubStr = escapedMac.substring(6, 12);
     mac24 = strtol(macSubStr.c_str(), 0, 16);

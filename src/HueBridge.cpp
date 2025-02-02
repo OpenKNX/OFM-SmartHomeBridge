@@ -22,7 +22,9 @@ const std::string HueBridge::name()
 
 void HueBridge::start(SmartHomeBridgeModule *bridge)
 {
-    espalexa.begin(bridge->getWebServer());
+    uint8_t mac[6];
+    openknxNetwork.macAddress(mac);
+    espalexa.begin(bridge->getWebServer(), bridge->getWebServerPort(), mac);
 }
 
 void HueBridge::loop()

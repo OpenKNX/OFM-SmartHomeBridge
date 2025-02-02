@@ -33,6 +33,7 @@ enum Mode
 class SmartHomeBridgeModule : public ChannelOwnerModule
 {
     private:
+        const uint16_t webServerPort = 80;
         const char* _utf8Name = nullptr;
         HueBridge* _pHueBridge = nullptr;
         DynamicPointerArray<BridgeBase>* bridgeInterfaces = nullptr;
@@ -55,6 +56,7 @@ class SmartHomeBridgeModule : public ChannelOwnerModule
         ~SmartHomeBridgeModule();
         const char* getNameInUTF8();
         WebServer* getWebServer();
+        uint16_t getWebServerPort();
         void serveHomePage();
         void serveProgModePage();
         void serveFirmwareUpdatePage();
