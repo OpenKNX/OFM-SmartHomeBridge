@@ -134,8 +134,7 @@ private:
   
   void encodeLightId(uint8_t idx, char* out)
   {
-    
-    sprintf_P(out, PSTR("%02X:%02X:%02X:%02X:%02X:%02X:00:11-%02X"), _mac[0],_mac[1],_mac[2],_mac[3],_mac[4],_mac[5], idx);
+    sprintf_P(out, PSTR("%02X:%02X:%02X:%02X:%02X:%02X-%02X-00:11"), _mac[0],_mac[1],_mac[2],_mac[3],_mac[4],_mac[5], idx);
   }
 
   // construct 'globally unique' Json dict key fitting into signed int
@@ -177,7 +176,7 @@ private:
     {
        // On/Off
         sprintf_P(buf, PSTR("{\"state\":{\"on\":%s,\"alert\":\"none%\",\"reachable\":true},"
-                       "\"type\":\"%s\",\"name\":\"%s\",\"modelid\":\"%s\",\"manufacturername\":\"Philips\",\"uniqueid\":\"%s\",\"swversion\":\"espalexa-2.7.0\"}")
+                       "\"type\":\"%s\",\"name\":\"%s\",\"modelid\":\"%s\",\"manufacturername\":\"OpenKNX\",\"uniqueid\":\"%s\",\"swversion\":\"SmartHomeBridge\"}")
                       
         , (dev->getValue())?"true":"false", typeString(dev->getType()),
         dev->getName().c_str(), modelidString(dev->getType()), buf_lightid);
@@ -187,8 +186,8 @@ private:
     {
 
         sprintf_P(buf, PSTR("{\"state\":{\"on\":%s,\"bri\":%u%s%s,\"alert\":\"none%s\",\"mode\":\"homeautomation\",\"reachable\":true},"
-                      "\"type\":\"%s\",\"name\":\"%s\",\"modelid\":\"%s\",\"manufacturername\":\"Philips\",\"productname\":\"E%u"
-                      "\",\"uniqueid\":\"%s\",\"swversion\":\"espalexa-2.7.0\"}")
+                      "\"type\":\"%s\",\"name\":\"%s\",\"modelid\":\"%s\",\"manufacturername\":\"OpenKNX\",\"productname\":\"E%u"
+                      "\",\"uniqueid\":\"%s\",\"swversion\":\"SmartHomeBridge\"}")
                       
         , (dev->getValue())?"true":"false", dev->getLastValue()-1, buf_col, buf_ct, buf_cm, typeString(dev->getType()),
         dev->getName().c_str(), modelidString(dev->getType()), static_cast<uint8_t>(dev->getType()), buf_lightid);
@@ -338,7 +337,6 @@ private:
          espalexaUdp.write(buf);
          #endif
          EA_DEBUG(buf);
-         espalexaUdp.flush();
          espalexaUdp.endPacket(); 
     #endif
   }
