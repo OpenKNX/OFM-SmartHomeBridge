@@ -51,9 +51,9 @@
               </ParameterType>
               <ParameterType Id="%AID%_PT-BRIModeSelection" Name="BRIModeSelection">
                 <TypeRestriction Base="Value" SizeInBit="8">
-                  <Enumeration Value="3" Id="%ENID%" Text="Homekit &amp; Hue-Bridge-Emulation" />
+                  <Enumeration Value="3" Id="%ENID%" Text="Homekit &amp; Hue-Bridge-Emulation (Alexa)" />
                   <Enumeration Value="1" Id="%ENID%" Text="Homekit"                            />
-                  <Enumeration Value="2" Id="%ENID%" Text="Hue-Bridge-Emulation"               />
+                  <Enumeration Value="2" Id="%ENID%" Text="Hue-Bridge-Emulation (Alexa)"               />
                 </TypeRestriction>
               </ParameterType>
               <ParameterType Id="%AID%_PT-BRIHueEmulation" Name="BRIHueEmulation">
