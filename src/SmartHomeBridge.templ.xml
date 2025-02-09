@@ -300,7 +300,7 @@
             <ChannelIndependentBlock>
               <ParameterBlock Id="%AID%_PB-nnn" Name="Settings">
                 <!-- Anzahl der Kanäle -->
-                <choose ParamRefId="%AID%_P-%T%000000_R-%T%00000001">
+                <choose ParamRefId="%AID%_UP-%T%000000_R-%T%00000001">
                   <when test="&gt;=%C%">
                     <!-- Device Typ -->
                     <ParameterRefRef IndentLevel="1" RefId="%AID%_P-%T%%CCC%001_R-%T%%CCC%00101" HelpContext="BRI-Kanalauswahl" />
@@ -310,7 +310,7 @@
 
               <ParameterBlock Id="%AID%_PB-nnn" Name="More">
                 <!-- Anzahl der Kanäle -->
-                <choose ParamRefId="%AID%_P-%T%000000_R-%T%00000001">
+                <choose ParamRefId="%AID%_UP-%T%000000_R-%T%00000001">
                   <when test="=%C-1%">
                     <!-- Device Typ -->
                     <ParameterRefRef IndentLevel="1" RefId="%AID%_P-%T%%CCC%001_R-%T%%CCC%00101" HelpContext="BRI-Kanalauswahl" />
@@ -326,7 +326,7 @@
               <ParameterBlock Id="%AID%_PB-nnn" Name="Channel">
 
                 <!-- Anzahl der Kanäle -->
-                <choose ParamRefId="%AID%_P-%T%000000_R-%T%00000001">
+                <choose ParamRefId="%AID%_UP-%T%000000_R-%T%00000001">
                   <when test="&gt;=%C%">
                     <!-- Device Typ -->
                     <choose ParamRefId="%AID%_P-%T%%CCC%001_R-%T%%CCC%00101">
@@ -339,9 +339,9 @@
                           <ParameterSeparator Id="%AID%_PS-nnn" Text="Schalten" UIHint="Headline" />
          			            <op:usePart name="ChannelHead" xpath="//ParameterBlock/*" />
 
-                          <!-- Bride Mode -->
-                          <choose ParamRefId="%AID%_P-%T%000002_R-%T%00000201">  
-                            <when test="2 3 8"> <!-- Hue & Hue oder Hue & Homekit -->
+                          <!-- Hue -->
+                          <choose ParamRefId="%AID%_UP-%T%000003_R-%T%00000301">  
+                            <when test="1"> <!-- Hue Enabled -->
                               <!-- In Hue verwenden -->
                               <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%T%%CCC%012_R-%T%%CCC%01201" /> 
                             </when>
@@ -357,9 +357,9 @@
                           <ParameterSeparator Id="%AID%_PS-nnn" Text="Steckdose" UIHint="Headline" />
         			            <op:usePart name="ChannelHead" xpath="//ParameterBlock/*" />
                         
-                          <!-- Bride Mode -->
-                          <choose ParamRefId="%AID%_P-%T%000002_R-%T%00000201">  
-                            <when test="2 3 8"> <!-- Hue & Hue oder Hue & Homekit -->
+                          <!-- Hue -->
+                          <choose ParamRefId="%AID%_UP-%T%000003_R-%T%00000301">  
+                            <when test="1"> <!-- Hue Enabled -->
                               <!-- In Hue verwenden -->
                               <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%T%%CCC%012_R-%T%%CCC%01201" /> 
                             </when>
@@ -375,9 +375,9 @@
                           <ParameterSeparator Id="%AID%_PS-nnn" Text="Lampe" UIHint="Headline" />
                           <op:usePart name="ChannelHead" xpath="//ParameterBlock/*" />
 
-                          <!-- Bride Mode -->
-                          <choose ParamRefId="%AID%_P-%T%000002_R-%T%00000201"> 
-                            <when test="2 3 8"> <!-- Hue & Hue oder Hue & Homekit -->
+                          <!-- Hue -->
+                          <choose ParamRefId="%AID%_UP-%T%000003_R-%T%00000301"> 
+                            <when test="1"> <!-- Hue & Hue oder Hue & Homekit -->
                               <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%T%%CCC%022_R-%T%%CCC%02201" />
                               <!-- In Hue verwenden -->
                           </when>
@@ -419,9 +419,9 @@
                           <op:usePart name="ChannelHead" xpath="//ParameterBlock/*" />
                           <op:usePart name="HueSimulation" xpath="//ParameterBlock/*" />
                                               
-							            <!-- Bride Mode -->
-                          <choose ParamRefId="%AID%_P-%T%000002_R-%T%00000201">  
-                            <when test="2 3 8"> <!-- Hue & Hue oder Hue & Homekit -->
+							            <!-- Hue -->
+                          <choose ParamRefId="%AID%_UP-%T%000003_R-%T%00000301">  
+                            <when test="1"> <!-- Hue -->
                               <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%T%%CCC%031_R-%T%%CCC%03101" /> <!-- In Hue verwenden -->
                             </when>
                           </choose>            
@@ -457,9 +457,9 @@
                           <op:usePart name="ChannelHead" xpath="//ParameterBlock/*" />
                           <op:usePart name="HueSimulation" xpath="//ParameterBlock/*" />
                              
-                          <!-- Bride Mode -->
-                          <choose ParamRefId="%AID%_P-%T%000002_R-%T%00000201">  
-                            <when test="2 3 8"> <!-- Hue & Hue oder Hue & Homekit -->
+                          <!-- Hue -->
+                          <choose ParamRefId="%AID%_UP-%T%000003_R-%T%00000301">  
+                            <when test="1"> <!-- Hue -->
                               <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%T%%CCC%031_R-%T%%CCC%03101" /> <!-- In Hue verwenden -->
                             </when>
                           </choose>            
@@ -492,9 +492,9 @@
                           <op:usePart name="ChannelHead" xpath="//ParameterBlock/*" />
                           <op:usePart name="HueSimulation" xpath="//ParameterBlock/*" />
                        
-                          <!-- Bride Mode -->
-                          <choose ParamRefId="%AID%_P-%T%000002_R-%T%00000201">  
-                            <when test="2 3 8"> <!-- Hue & Hue oder Hue & Homekit -->
+                          <!-- Hue -->
+                          <choose ParamRefId="%AID%_UP-%T%000003_R-%T%00000301">  
+                            <when test="1"> <!-- Hue -->
                               <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%T%%CCC%031_R-%T%%CCC%03101" /> <!-- In Hue verwenden -->
                             </when>
                           </choose>            
@@ -719,8 +719,8 @@
                           <op:usePart name="ChannelHead" xpath="//ParameterBlock/*" />
                           <op:usePart name="HueSimulation" xpath="//ParameterBlock/*" />
                       
-                          <choose ParamRefId="%AID%_P-%T%000002_R-%T%00000201">  <!-- Bride Mode -->
-                            <when test="2 3 8"> <!-- Hue & Hue oder Hue & Homekit -->
+                          <choose ParamRefId="%AID%_UP-%T%000003_R-%T%00000301">  <!--Hue -->
+                            <when test="1"> <!-- Hue  -->
                               <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%T%%CCC%081_R-%T%%CCC%08101" /> <!-- In Hue verwenden -->
                             </when>
                           </choose>
@@ -763,8 +763,8 @@
                           <ParameterSeparator Id="%AID%_PS-nnn" Text="Fenster" UIHint="Headline" />
                           <op:usePart name="ChannelHead" xpath="//ParameterBlock/*" />
                           <op:usePart name="HueSimulation" xpath="//ParameterBlock/*" />   
-                          <choose ParamRefId="%AID%_P-%T%000002_R-%T%00000201">  <!-- Bride Mode -->
-                            <when test="2 3 8"> <!-- Hue & Hue oder Hue & Homekit -->
+                          <choose ParamRefId="%AID%_UP-%T%000003_R-%T%00000301">  <!-- Hue -->
+                            <when test="1"> <!-- Hue -->
                               <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%T%%CCC%096_R-%T%%CCC%09601" /> <!-- In Hue verwenden -->
                             </when>
                           </choose>
@@ -827,8 +827,8 @@
                           <ParameterSeparator Id="%AID%_PS-nnn" Text="Tür" UIHint="Headline" />
                           <op:usePart name="ChannelHead" xpath="//ParameterBlock/*" />
                           <op:usePart name="HueSimulation" xpath="//ParameterBlock/*" />
-                           <choose ParamRefId="%AID%_P-%T%000002_R-%T%00000201">  <!-- Bride Mode -->
-                            <when test="2 3 8"> <!-- Hue & Hue oder Hue & Homekit -->
+                           <choose ParamRefId="%AID%_UP-%T%000003_R-%T%00000301">  <!-- Hue -->
+                            <when test="1"> <!-- Hue -->
                               <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%T%%CCC%096_R-%T%%CCC%09601" /> <!-- In Hue verwenden -->
                             </when>
                           </choose>
@@ -891,8 +891,8 @@
                           <ParameterSeparator Id="%AID%_PS-nnn" Text="Garagentor" UIHint="Headline" />
                           <op:usePart name="ChannelHead" xpath="//ParameterBlock/*" />
                           <op:usePart name="HueSimulation" xpath="//ParameterBlock/*" />
-                           <choose ParamRefId="%AID%_P-%T%000002_R-%T%00000201">  <!-- Bride Mode -->
-                            <when test="2 3 8"> <!-- Hue & Hue oder Hue & Homekit -->
+                           <choose ParamRefId="%AID%_UP-%T%000003_R-%T%00000301">  <!-- Hue-->
+                            <when test="1"> <!-- Hue -->
                               <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%T%%CCC%096_R-%T%%CCC%09601" /> <!-- In Hue verwenden -->
                             </when>
                           </choose>

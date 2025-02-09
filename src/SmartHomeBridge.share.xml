@@ -3,7 +3,13 @@
 <KNX xmlns="http://knx.org/xml/project/20" xmlns:op="http://github.com/OpenKNX/OpenKNXproducer">
  
   <op:config name="%BRI_NumChannelsDefault%" value="0" />
- 
+  <op:config name="%BRI_TabName%" value="Smart Home Bridge" />
+  <op:config name="%BRI_TabIcon%" value="bridge" />
+  <op:config name="%BRI_BridgeSettings%" value="1" />
+  <op:config name="%BRI_HomeKitSupport%" value="1" />
+  <op:config name="%BRI_HueSupport%" value="1" />
+  
+
   <ManufacturerData>
     <Manufacturer RefId="M-00FA">
       <ApplicationPrograms>
@@ -273,32 +279,40 @@
 
             </ParameterTypes>
             <Parameters>
-              
-              <Parameter Id="%AID%_P-%T%000001" Name="BridgeName" ParameterType="%AID%_PT-BRIDeviceName" Text="Name" Value="OpenKNX Smart Home Bridge" >
-                <Memory CodeSegment="%AID%_RS-04-00000" Offset="4" BitOffset="0" />
-              </Parameter>
-              <Parameter Id="%AID%_P-%T%000002" Name="Modus" ParameterType="%AID%_PT-BRIModeSelection" Text="Modus" Value="3">
-                <Memory CodeSegment="%AID%_RS-04-00000" Offset="30" BitOffset="0" />
-              </Parameter>
-           		<!-- Number of channels -->
-              <Parameter Id="%AID%_P-%T%000000" Name="VisibleChannels" ParameterType="%AID%_PT-BRINumChannels" Text="Verfügbare Kanäle" Value="%BRI_NumChannelsDefault%" SuffixText=" von %N%" >
-                <Memory CodeSegment="%AID%_RS-04-00000" Offset="31" BitOffset="0" />
-              </Parameter>
-              <Parameter Id="%AID%_P-%T%000005" Name="PairingCode" ParameterType="%AID%_PT-BRIPairingCode" Text="Kopplungscode" Value="46637726">
-                <Memory CodeSegment="%AID%_RS-04-00000" Offset="127" BitOffset="0" />
-              </Parameter>
+              <!-- Basic Settings -->
+              <Union SizeInBit="296">
+                <Memory CodeSegment="%AID%_RS-04-00000" Offset="0" BitOffset="0" />
+                <Parameter Id="%AID%_UP-%T%000002" Offset="0" BitOffset="0" Name="HomeKitEnabled" ParameterType="%AID%_PT-OnOffYesNo" Text="Apple HomeKit" Value="1" />
+                <Parameter Id="%AID%_UP-%T%000003" Offset="0" BitOffset="1" Name="HueEnabled" ParameterType="%AID%_PT-OnOffYesNo" Text="Hue Emulation (Nur für Alexa)" Value="1" />
+                <Parameter Id="%AID%_UP-%T%000000" Offset="1" BitOffset="0" Name="VisibleChannels" ParameterType="%AID%_PT-BRINumChannels" Text="Verfügbare Geräte" Value="%BRI_NumChannelsDefault%" SuffixText=" von %N%" /> 
+                <Parameter Id="%AID%_UP-%T%000001" Offset="2" BitOffset="0"  Name="BridgeName" ParameterType="%AID%_PT-BRIDeviceName" Text="Name" Value="OpenKNX Smart Home Bridge" />
+                <!-- ^^^ 25 characters + \0 terminator = 26 bytes ^^^ -->
+                <Parameter Id="%AID%_UP-%T%000005" Offset="28" BitOffset="0" Name="PairingCode" ParameterType="%AID%_PT-BRIPairingCode" Text="Kopplungscode" Value="46637726" />
+                <!-- ^^^ 8 characters + \0 terminator = 9 bytes ^^^ -->
+              </Union>
           		<!-- Add not allowed -->
 							<Parameter Id="%AID%_P-%TT%00006" Name="AddNotAllowed" ParameterType="%AID%_PT-OnOffYesNo" Text="AddNotAllowed" Value="0"  Access="None"/> 
+              <!-- HomeKit Supported -->
+							<Parameter Id="%AID%_P-%TT%00007" Name="HomeKitSupport" ParameterType="%AID%_PT-OnOffYesNo" Text="HomeKitSupported" Value="%BRI_HomeKitSupport%"  Access="None"/> 
+			        <!-- Hue Supported -->
+							<Parameter Id="%AID%_P-%TT%00008" Name="HueSupport" ParameterType="%AID%_PT-OnOffYesNo" Text="HueSupported" Value="%BRI_HueSupport%"  Access="None"/> 
+			        <!-- Base Settings -->
+							<Parameter Id="%AID%_P-%TT%00009" Name="BrigdeSettings" ParameterType="%AID%_PT-OnOffYesNo" Text="BrigdeSettings" Value="%BRI_BridgeSettings%"  Access="None"/> 
 				
+              <!-- Next Id="%TT%00010" -->  		
             </Parameters>
             <ParameterRefs>
               <!-- ParameterRef have to be defined for each parameter, pay attention, that the ID-part (number) after R- is unique! -->
               <!-- ParameterRef are used in the ETS UI -->
-              <ParameterRef Id="%AID%_P-%T%000000_R-%T%00000001" RefId="%AID%_P-%T%000000" /> <!-- Visible channels -->
-              <ParameterRef Id="%AID%_P-%T%000001_R-%T%00000101" RefId="%AID%_P-%T%000001" /> <!-- Bridge Name -->
-              <ParameterRef Id="%AID%_P-%T%000002_R-%T%00000201" RefId="%AID%_P-%T%000002" /> <!-- Modus -->
-              <ParameterRef Id="%AID%_P-%T%000005_R-%T%00000501" RefId="%AID%_P-%T%000005" /> <!-- Homekit Pairing Code -->
+              <ParameterRef Id="%AID%_UP-%T%000000_R-%T%00000001" RefId="%AID%_UP-%T%000000" /> <!-- Visible channels -->
+              <ParameterRef Id="%AID%_UP-%T%000001_R-%T%00000101" RefId="%AID%_UP-%T%000001" /> <!-- Bridge Name -->
+              <ParameterRef Id="%AID%_UP-%T%000002_R-%T%00000201" RefId="%AID%_UP-%T%000002" /> <!-- Homekit -->
+              <ParameterRef Id="%AID%_UP-%T%000003_R-%T%00000301" RefId="%AID%_UP-%T%000003" /> <!-- Hue Emulation -->
+              <ParameterRef Id="%AID%_UP-%T%000005_R-%T%00000501" RefId="%AID%_UP-%T%000005" /> <!-- Homekit Pairing Code -->
               <ParameterRef Id="%AID%_P-%T%000006_R-%T%00000601" RefId="%AID%_P-%T%000006" /> <!-- AddNotAllowed -->
+              <ParameterRef Id="%AID%_P-%T%000007_R-%T%00000701" RefId="%AID%_P-%T%000007" /> <!-- HomeKit Supported -->
+              <ParameterRef Id="%AID%_P-%T%000008_R-%T%00000801" RefId="%AID%_P-%T%000008" /> <!-- Hue Supported -->
+              <ParameterRef Id="%AID%_P-%T%000009_R-%T%00000901" RefId="%AID%_P-%T%000009" /> <!-- Brigde Settings -->
             </ParameterRefs>
             <ComObjectTable>
             </ComObjectTable>        
@@ -314,33 +328,56 @@
             </Extension>
 
           </Static>
+
+     
           <!-- Here starts the UI definition -->
           <Dynamic>
-            <Channel Id="%AID%_CH-%T%" Name="Main" Number="%T%" Text="Smart Home Bridge" Icon="bridge">
-          
-
+            <Channel Id="%AID%_CH-%T%" Name="Main" Number="%T%" Text="%BRI_TabName%" Icon="%BRI_TabIcon%">
+             
               <ParameterBlock Id="%AID%_PB-nnn" Name="General" Text="Allgemein" Icon="cog-outline" HelpContext="BRI-Smarthome-Bridge">
                 <!-- <ParameterSeparator Id="%AID%_PS-4" Text="" UIHint="HorizontalRuler" /> -->
-                <ParameterSeparator Id="%AID%_PS-nnn" Text="Smart Home Bridge" UIHint="Headline" />
-            		<ParameterSeparator Id="%AID%_PS-nnn" Text="Version: %ModuleVersion%" />
+                <ParameterSeparator Id="%AID%_PS-nnn" Text="%BRI_TabName%" UIHint="Headline" />
+                <ParameterSeparator Id="%AID%_PS-nnn" Text="Version: %ModuleVersion%" />
 
-								<ParameterSeparator Id="%AID%_PS-nnn" Text="" UIHint="HorizontalRuler" />
-                <ParameterSeparator Id="%AID%_PS-nnn" Text="Basiseinstellungen" UIHint="Headline" />
+                <!-- Bridge Settings -->
+                <choose ParamRefId="%AID%_P-%T%000009_R-%T%00000901" > 
+                  <when test="1"> 
+                    <ParameterSeparator Id="%AID%_PS-nnn" Text="" UIHint="HorizontalRuler" />
+                    <ParameterSeparator Id="%AID%_PS-nnn" Text="Basiseinstellungen" UIHint="Headline" />
+                    <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%T%000001_R-%T%00000101" HelpContext="%DOC%" /> <!-- Bridge Name -->
+                  </when> 
+                </choose>
 
-
-                <ParameterRefRef IndentLevel="1" RefId="%AID%_P-%T%000001_R-%T%00000101" HelpContext="%DOC%" /> <!-- Bridge Name -->
-                <ParameterRefRef IndentLevel="1" RefId="%AID%_P-%T%000002_R-%T%00000201" HelpContext="%DOC%" /> <!-- Modus -->
+            
+                <!-- HomeKit Supported -->
+                <choose ParamRefId="%AID%_P-%T%000007_R-%T%00000701" >  <!-- HomeKit -->
+                  <when test="1"> 
+                    <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%T%000002_R-%T%00000201" HelpContext="%DOC%" /> <!-- Homekit -->
+                  </when>
+                  <when test="0"> 
+                     <Assign TargetParamRefRef="%AID%_UP-%T%000002_R-%T%00000201" Value="0" /> <!-- Homekit -->
+                  </when>
+                </choose>
+                <!-- HomeKit Supported -->
+                <choose ParamRefId="%AID%_P-%T%000008_R-%T%00000801" >  <!-- Hue -->
+                  <when test="1"> 
+                    <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%T%000003_R-%T%00000301" HelpContext="%DOC%" /> <!-- Hue -->
+                  </when>
+                  <when test="0"> 
+                    <Assign TargetParamRefRef="%AID%_UP-%T%000003_R-%T%00000301" Value="0" /> <!-- Hue -->
+                  </when>
+                </choose>
             
                 <!-- <ParameterSeparator Id="%AID%_PS-nnn" Text="" UIHint="HorizontalRuler" />
                 <ParameterSeparator Id="%AID%_PS-nnn" Text="WIFI" UIHint="Headline" /> -->
                 <!--<ParameterRefRef IndentLevel="1" RefId="%AID%_P-%T%000003_R-%T%00000301" />--> <!-- SSID -->
                 <!--<<ParameterRefRef IndentLevel="1" RefId="%AID%_P-%T%000004_R-%T%00000401" />--> <!-- Password -->
             
-                <choose ParamRefId="%AID%_P-%T%000002_R-%T%00000201" >  <!-- Modus -->
-                  <when test="1 3"> <!-- Homekit OR Homekit & Hue -->
+                <choose ParamRefId="%AID%_UP-%T%000002_R-%T%00000201" >  <!-- HomeKit -->
+                  <when test="1"> <!-- Homekit OR Homekit & Hue -->
                     <ParameterSeparator Id="%AID%_PS-nnn" Text="" UIHint="HorizontalRuler" />
                     <ParameterSeparator Id="%AID%_PS-nnn" Text="Homekit" UIHint="Headline" />
-                    <ParameterRefRef IndentLevel="1" RefId="%AID%_P-%T%000005_R-%T%00000501" HelpContext="%DOC%" /> <!-- Pairing Code -->
+                    <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%T%000005_R-%T%00000501" HelpContext="%DOC%" /> <!-- Pairing Code -->
                     <ParameterSeparator Id="%AID%_PS-nnn" Text="Hinweis: Apple lässt beim Koppeln einfache Codes (z.B. nur Einser) nicht zu. Das kann durch ETS nicht geprüft werden. Es wird daher empfohlen den Standard-Wert 46637726 zu verwenden." UIHint="Information" />
                   </when>
                 </choose> 
@@ -348,21 +385,21 @@
                 <ParameterSeparator Id="%AID%_PS-nnn" Text="" UIHint="HorizontalRuler" />
                 <ParameterSeparator Id="%AID%_PS-nnn" Text="Kanalauswahl" UIHint="Headline" />
             
-                <ParameterRefRef IndentLevel="1" RefId="%AID%_P-%T%000000_R-%T%00000001" HelpContext="%DOC%" /> <!-- Visible channels -->
-            		
+                <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%T%000000_R-%T%00000001" HelpContext="%DOC%" /> <!-- Visible channels -->
+                
                 <op:usePart name="ChannelLimitWarning" xpath="//ParameterBlock/*" />
                 
                 <op:include href="SmartHomeBridge.templ.xml" xpath="//Dynamic/ChannelIndependentBlock/ParameterBlock[@Name='Settings']/*" type="template" prefix="BRI" IsInner="true" />
 
                   
               </ParameterBlock>
-            
+        
               <!-- Bridge channel settings -->
               <op:include href="SmartHomeBridge.templ.xml" xpath="//Dynamic/ChannelIndependentBlock/ParameterBlock[@Name='Channel']/*"  type="template" prefix="BRI" IsInner="true" />
                     
 
               <!-- More Page -->
-							<choose ParamRefId="%AID%_P-%T%000000_R-%T%00000001">
+							<choose ParamRefId="%AID%_UP-%T%000000_R-%T%00000001">
 								<when test="&lt;%N%">
 									<ParameterBlock Id="%AID%_PB-nnn" Name="BRIAdditionalChannels" Text="(mehr)" Icon="dots-horizontal" HelpContext="BRI-MorePage">									
 										<ParameterSeparator Id="%AID%_PS-nnn" Text="Kanalauswahl" UIHint="Headline" />

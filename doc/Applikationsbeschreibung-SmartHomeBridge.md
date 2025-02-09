@@ -16,11 +16,11 @@ In den Basiseinstellungen wird die Auswahl der angebunden Smart Home System vorg
 Name der Smart Home Bridge.
 Bei manchen Smart Home Systemen wird dieser beim Koppeln angezeigt.
 
-<!-- DOC HelpContext="Modus" -->
-### Modus 
 
+<!-- DOCEND -->
 Folgende Smart Home Systeme werden unterstüzt:
 
+<!-- DOC -->
 #### Apple HomeKit
 
 Über Apple HomeKit können die KNX Geräte gesteuert werden. Es werden bis zu 149 Geräte unterstützt. Das Limit ergibt sich aus eine Beschränkung der Anzahl der Accessories bei einem HomeKit Gerät mit maximal 150. Eines davon repräsentiert das Bridge Gerät.
@@ -34,7 +34,8 @@ Nachdem die Bridge über ETS programmiert wurde, kann sie mit Apple Homekit verb
 
 Sollte nachträglich eine Gerätetype sich ändern, z.B. eine Lampe wird zu einer Jalousie, oder eine Untertype ändert sich z.B. ein CO2 Sensor wird zu einem Kontakt, muss zuerst das Gerät deaktiviert werden. Danach die in der Home App warten bis das Gerät verschwunden ist und danach kann das Gerät wieder aktiviert werden.
 
-#### Philips Hue Emulation für Amazon Alexa
+<!-- DOC -->
+### Hue Emulation (Nur für Alexa)
 
 Die Philips Hue Emulation funktiontioniert nur für Amazon Echo Geräte, d.h. in der Hue App können die Geräte nicht verwendet werden.
 Philips Hue unterstützt nur Lampen, für einige Gerätetypen gibt es aber die Möglichkeit diese als Lampen in Alexa anzeigen zu lassen.
@@ -56,9 +57,9 @@ Nachdem die Bridge über ETS programmiert wurde, kann sie mit Apple Homekit verb
 Sollte nachträglich eine Gerätetype sich ändern, z.B. eine Lampe wird zu einer Jalousie, oder eine Untertype ändert sich z.B. ein CO2 Sensor wird zu einem Kontakt, muss zuerst das Gerät deaktiviert werden. Danach die in der Home App warten bis das Gerät verschwunden ist und danach kann das Gerät wieder aktiviert werden.
 
 <!-- DOC -->
-### Verfügbare Kanäle
+### Verfügbare Geräte
 
-Einstellung wie viele Kanäle verfügbar sind. 
+Einstellung wie viele Geräte verfügbar sind. 
 
 <!-- DOC HelpContext="MorePage" -->
 ### (mehr)

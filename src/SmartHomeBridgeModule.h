@@ -24,12 +24,6 @@ public:
     virtual void showHelp() = 0;
 };
 
-enum Mode
-{
-    Homekit = 1,
-    HueBridgeEmulation = 2
-};
-
 class SmartHomeBridgeModule : public ChannelOwnerModule
 {
     private:
