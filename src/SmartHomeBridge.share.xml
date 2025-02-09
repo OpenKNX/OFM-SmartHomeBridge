@@ -55,13 +55,6 @@
               <ParameterType Id="%AID%_PT-BRIPairingCode" Name="BRIPairingCode">
                 <TypeText SizeInBit="64" />
               </ParameterType>
-              <ParameterType Id="%AID%_PT-BRIModeSelection" Name="BRIModeSelection">
-                <TypeRestriction Base="Value" SizeInBit="8">
-                  <Enumeration Value="3" Id="%ENID%" Text="Homekit &amp; Hue-Bridge-Emulation (Alexa)" />
-                  <Enumeration Value="1" Id="%ENID%" Text="Homekit"                            />
-                  <Enumeration Value="2" Id="%ENID%" Text="Hue-Bridge-Emulation (Alexa)"               />
-                </TypeRestriction>
-              </ParameterType>
               <ParameterType Id="%AID%_PT-BRIHueEmulation" Name="BRIHueEmulation">
                 <TypeRestriction Base="Value" SizeInBit="1" UIHint="DropDown">
                   <Enumeration Value="0" Id="%ENID%" Text="Nein" />
@@ -291,13 +284,13 @@
                 <!-- ^^^ 8 characters + \0 terminator = 9 bytes ^^^ -->
               </Union>
           		<!-- Add not allowed -->
-							<Parameter Id="%AID%_P-%TT%00006" Name="AddNotAllowed" ParameterType="%AID%_PT-OnOffYesNo" Text="AddNotAllowed" Value="0"  Access="None"/> 
+							<Parameter Id="%AID%_P-%T%000006" Name="AddNotAllowed" ParameterType="%AID%_PT-OnOffYesNo" Text="AddNotAllowed" Value="0"  Access="None"/> 
               <!-- HomeKit Supported -->
-							<Parameter Id="%AID%_P-%TT%00007" Name="HomeKitSupport" ParameterType="%AID%_PT-OnOffYesNo" Text="HomeKitSupported" Value="%BRI_HomeKitSupport%"  Access="None"/> 
+							<Parameter Id="%AID%_P-%T%000007" Name="HomeKitSupport" ParameterType="%AID%_PT-OnOffYesNo" Text="HomeKitSupported" Value="%BRI_HomeKitSupport%"  Access="None"/> 
 			        <!-- Hue Supported -->
-							<Parameter Id="%AID%_P-%TT%00008" Name="HueSupport" ParameterType="%AID%_PT-OnOffYesNo" Text="HueSupported" Value="%BRI_HueSupport%"  Access="None"/> 
+							<Parameter Id="%AID%_P-%T%000008" Name="HueSupport" ParameterType="%AID%_PT-OnOffYesNo" Text="HueSupported" Value="%BRI_HueSupport%"  Access="None"/> 
 			        <!-- Base Settings -->
-							<Parameter Id="%AID%_P-%TT%00009" Name="BrigdeSettings" ParameterType="%AID%_PT-OnOffYesNo" Text="BrigdeSettings" Value="%BRI_BridgeSettings%"  Access="None"/> 
+							<Parameter Id="%AID%_P-%T%000009" Name="BrigdeSettings" ParameterType="%AID%_PT-OnOffYesNo" Text="BrigdeSettings" Value="%BRI_BridgeSettings%"  Access="None"/> 
 				
               <!-- Next Id="%TT%00010" -->  		
             </Parameters>
@@ -339,6 +332,10 @@
                 <ParameterSeparator Id="%AID%_PS-nnn" Text="%BRI_TabName%" UIHint="Headline" />
                 <ParameterSeparator Id="%AID%_PS-nnn" Text="Version: %ModuleVersion%" />
 
+                <ParameterRefRef IndentLevel="1" RefId="%AID%_P-%T%000007_R-%T%00000701" /> <!-- HomeKit Supported -->
+                <ParameterRefRef IndentLevel="1" RefId="%AID%_P-%T%000008_R-%T%00000801" /> <!-- Hue Supported -->
+                <ParameterRefRef IndentLevel="1" RefId="%AID%_P-%T%000009_R-%T%00000901" /> <!-- Brigde Settings -->
+
                 <!-- Bridge Settings -->
                 <choose ParamRefId="%AID%_P-%T%000009_R-%T%00000901" > 
                   <when test="1"> 
@@ -358,7 +355,7 @@
                      <Assign TargetParamRefRef="%AID%_UP-%T%000002_R-%T%00000201" Value="0" /> <!-- Homekit -->
                   </when>
                 </choose>
-                <!-- HomeKit Supported -->
+                <!-- Hue Supported -->
                 <choose ParamRefId="%AID%_P-%T%000008_R-%T%00000801" >  <!-- Hue -->
                   <when test="1"> 
                     <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%T%000003_R-%T%00000301" HelpContext="%DOC%" /> <!-- Hue -->
