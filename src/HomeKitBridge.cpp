@@ -1,6 +1,24 @@
 #include "HomeKitBridge.h"
 #include "SmartHomeBridgeModule.h"
 #include "NetworkModule.h"
+#include "Switch/KnxChannelSwitch.h"
+#include "Switch/HomeKitSwitch.h"
+#include "Dimmer/KnxChannelDimmer.h"
+#include "Dimmer/HomeKitDimmer.h"
+#include "RGB/KnxChannelRGB.h"
+#include "RGB/HomeKitRGB.h"
+#include "Rolladen/KnxChannelRolladen.h"
+#include "Rolladen/HomeKitRolladen.h"
+#include "Thermostat/KnxChannelThermostat.h"
+#include "Thermostat/HomeKitThermostat.h"
+#include "Display/KnxChannelDisplay.h"
+#include "Display/HomeKitDisplay.h"
+#include "Sensor/KnxChannelSensor.h"
+#include "Sensor/HomeKitSensor.h"
+#include "Fan/KnxChannelFan.h"
+#include "Fan/HomeKitFan.h"
+#include "DoorWindow/KnxChannelDoorWindow.h"
+#include "DoorWindow/HomeKitDoorWindow.h"
 
 #ifndef HOMESPAN_STACK_SIZE
 #define HOMESPAN_STACK_SIZE 8192
@@ -34,6 +52,67 @@ void HomeKitBridge::showHelp()
 {
     openknx.console.printHelpLine("HK", "Switch to HomeKit console");
 }
+
+SwitchBridge* HomeKitBridge::createSwitch(uint8_t _channelIndex, uint8_t deviceType)
+{
+    int homekitAID = _channelIndex + 2; // Homekit bridge has AID0
+    return new HomeKitSwitch(homekitAID);
+}
+
+DimmerBridge* HomeKitBridge::createDimmer(uint8_t _channelIndex, uint8_t deviceType)
+{
+    int homekitAID = _channelIndex + 2; // Homekit bridge has AID0
+    return new HomeKitDimmer(homekitAID);
+}
+
+RGBBridge* HomeKitBridge::createRGB(uint8_t _channelIndex, uint8_t deviceType)
+{
+    int homekitAID = _channelIndex + 2; // Homekit bridge has AID0
+    return new HomeKitRGB(homekitAID);
+}
+
+RolladenBridge* HomeKitBridge::createJalousien(uint8_t _channelIndex, uint8_t deviceType)
+{
+    int homekitAID = _channelIndex + 2; // Homekit bridge has AID0
+    return new HomeKitRolladen(homekitAID);
+}
+
+RolladenBridge* HomeKitBridge::createRolladen(uint8_t _channelIndex, uint8_t deviceType)
+{
+    int homekitAID = _channelIndex + 2; // Homekit bridge has AID0
+    return new HomeKitRolladen(homekitAID);
+}
+
+ThermostatBridge* HomeKitBridge::createThermostat(uint8_t _channelIndex, uint8_t deviceType)
+{
+    int homekitAID = _channelIndex + 2; // Homekit bridge has AID0
+    return new HomeKitThermostat(homekitAID);
+}
+
+DisplayBridge* HomeKitBridge::createDisplay(uint8_t _channelIndex, uint8_t deviceType)
+{
+    int homekitAID = _channelIndex + 2; // Homekit bridge has AID0
+    return new HomeKitDisplay(homekitAID);
+}
+
+SensorBridge* HomeKitBridge::createSensor(uint8_t _channelIndex, uint8_t deviceType)
+{
+    int homekitAID = _channelIndex + 2; // Homekit bridge has AID0
+    return new HomeKitSensor(homekitAID);
+}
+
+FanBridge* HomeKitBridge::createFan(uint8_t _channelIndex, uint8_t deviceType)
+{
+    int homekitAID = _channelIndex + 2; // Homekit bridge has AID0
+    return new HomeKitFan(homekitAID);
+}
+
+DoorWindowBridge* HomeKitBridge::createDoorWindow(uint8_t _channelIndex, uint8_t deviceType)
+{
+    int homekitAID = _channelIndex + 2; // Homekit bridge has AID0
+    return new HomeKitDoorWindow(homekitAID);
+}
+
 
 void HomeKitBridge::initWebServer(WebServer &webServer)
 {

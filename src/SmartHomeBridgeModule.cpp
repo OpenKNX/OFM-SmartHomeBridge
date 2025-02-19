@@ -1,9 +1,13 @@
 #include <Arduino.h>
 #include <knx.h>
 #include "hardware.h"
+#ifndef SMARTHOMEBRIDGE_DEVICESONLY
 #include <WiFi.h>
 #include <NetworkModule.h>
 #include "HomeSpan.h"
+#include "HomeKitBridge.h"
+#include "HueBridge.h"
+#endif
 #include "SmartHomeBridgeModule.h"
 #include "./Switch/KnxChannelSwitch.h"
 #include "./Dimmer/KnxChannelDimmer.h"
@@ -16,29 +20,62 @@
 #include "./Fan/KnxChannelFan.h"
 #include "./DoorWindow/KnxChannelDoorWindow.h"
 
-#include "HomeKitBridge.h"
-#include "./Switch/HomeKitSwitch.h"
-#include "./Dimmer/HomeKitDimmer.h"
-#include "./RGB/HomeKitRGB.h"
-#include "./Rolladen/HomeKitRolladen.h"
-#include "./Jalousie/HomeKitJalousie.h"
-#include "./Thermostat/HomeKitThermostat.h"
-#include "./Display/HomeKitDisplay.h"
-#include "./Sensor/HomeKitSensor.h"
-#include "./Fan/HomeKitFan.h"
-#include "./DoorWindow/HomeKitDoorWindow.h"
 
-#include "HueBridge.h"
-#include "./Switch/HueSwitch.h"
-#include "./Dimmer/HueDimmer.h"
-#include "./RGB/HueRGB.h"
-#include "./Rolladen/HueRolladen.h"
-#include "./Jalousie/HueJalousie.h"
-#include "./Fan/HueFan.h"
-#include "./DoorWindow/HueDoorWindow.h"
 
 #include "knxprod.h"
 #include "CP1252ToUTF8.h"
+
+
+SwitchBridge* BridgeBase::createSwitch(uint8_t _channelIndex /* this parameter is used in macros, do not rename */, uint8_t deviceType)
+{
+  return nullptr;
+}
+
+DimmerBridge* BridgeBase::createDimmer(uint8_t _channelIndex /* this parameter is used in macros, do not rename */, uint8_t deviceType)
+{
+  return nullptr;
+}
+
+RGBBridge* BridgeBase::createRGB(uint8_t _channelIndex /* this parameter is used in macros, do not rename */, uint8_t deviceType)
+{
+  return nullptr;
+}
+
+RolladenBridge* BridgeBase::createJalousien(uint8_t _channelIndex /* this parameter is used in macros, do not rename */, uint8_t deviceType)
+{
+  return nullptr;
+}
+
+RolladenBridge* BridgeBase::createRolladen(uint8_t _channelIndex /* this parameter is used in macros, do not rename */, uint8_t deviceType)
+{
+  return nullptr;
+}
+
+ThermostatBridge* BridgeBase::createThermostat(uint8_t _channelIndex /* this parameter is used in macros, do not rename */, uint8_t deviceType)
+{
+  return nullptr;
+}
+
+DisplayBridge* BridgeBase::createDisplay(uint8_t _channelIndex /* this parameter is used in macros, do not rename */, uint8_t deviceType)
+{
+  return nullptr;
+}
+
+SensorBridge* BridgeBase::createSensor(uint8_t _channelIndex /* this parameter is used in macros, do not rename */, uint8_t deviceType)
+{
+  return nullptr;
+}
+
+FanBridge* BridgeBase::createFan(uint8_t _channelIndex /* this parameter is used in macros, do not rename */, uint8_t deviceType)
+{
+  return nullptr;
+}
+
+DoorWindowBridge* BridgeBase::createDoorWindow(uint8_t _channelIndex /* this parameter is used in macros, do not rename */, uint8_t deviceType)
+{
+  return nullptr;
+}
+
 
 SmartHomeBridgeModule::SmartHomeBridgeModule()
 {
@@ -81,35 +118,41 @@ void SmartHomeBridgeModule::setup()
 {
   setNumberOfChannels(ParamBRI_VisibleChannels);
   logDebugP("Setup Bridge");
-  webServer = new WebServer(80);
   _utf8Name = convert1252ToUTF8((const char *)ParamBRI_BridgeName);
 
+#ifndef SMARTHOMEBRIDGE_DEVICESONLY
+  webServer = new WebServer(webServerPort);
+ 
   bool homeKitEnabled = ParamBRI_HomeKitEnabled;
-  bool hueEnabled = ParamBRI_HueEnabled;
   if (homeKitEnabled)
+  {
     logDebugP("Homekit enabled");
-  if (hueEnabled)
-    logDebugP("Hue enabled");
-
-  bridgeInterfaces = new DynamicPointerArray<BridgeBase>();
-  if (homeKitEnabled)
-    bridgeInterfaces->push_back(new HomeKitBridge());
-
+    addBridge(new HomeKitBridge());
+  }
+  
+  bool hueEnabled = ParamBRI_HueEnabled;
   if (hueEnabled)
   {
-    _pHueBridge = new HueBridge();
-    bridgeInterfaces->push_back(_pHueBridge);
-  }
-
+    logDebugP("Hue enabled");
+    addBridge(new HueBridge());
+  }  
+#else
+  startBridge();
+#endif
+  
  // Do not call base class here, because this creates the channels
+}
+
+void SmartHomeBridgeModule::addBridge(BridgeBase *bridge)
+{
+  if (bridgeInterfaces == nullptr)
+    bridgeInterfaces = new DynamicPointerArray<BridgeBase>();
+  bridgeInterfaces->push_back(bridge);
 }
 
 OpenKNX::Channel *SmartHomeBridgeModule::createChannel(uint8_t _channelIndex /* this parameter is used in macros, do not rename */)
 {
 
-  bool homeKitEnabled = ParamBRI_HomeKitEnabled;
-  bool hueEnabled = ParamBRI_HueEnabled;
-  int homekitAID = _channelIndex + 2; // Homekit bridge has AID0
   uint8_t deviceType = ParamBRI_CHDeviceType;
   if (ParamBRI_CHDisableChannel && deviceType != 0)
   {
@@ -120,18 +163,20 @@ OpenKNX::Channel *SmartHomeBridgeModule::createChannel(uint8_t _channelIndex /* 
   {
   case 0:
   {
-    logInfoP("Device: %d AID: %d - Inactive", _channelIndex + 1, homekitAID);
+    logInfoP("Device: %d - Inactive", _channelIndex + 1);
     return nullptr;
   }
   case 10:
   case 11:
   {
-    logInfoP("Device: %d AID: %d - On/Off", _channelIndex + 1, homekitAID);
+    logInfoP("Device: %d - On/Off", _channelIndex + 1);
     auto switchBridges = new DynamicPointerArray<SwitchBridge>();
-    if (homeKitEnabled)
-      switchBridges->push_back(new HomeKitSwitch(homekitAID));
-    if (hueEnabled && ParamBRI_CHSwitchHueEmulation)
-      switchBridges->push_back(new HueSwitch(_pHueBridge));
+    for (auto it = bridgeInterfaces->begin(); it != bridgeInterfaces->end(); ++it)
+    {
+      auto switchBridge = (*it)->createSwitch(_channelIndex, deviceType);
+      if (switchBridge != nullptr)
+          switchBridges->push_back(switchBridge);
+    }
     return new KnxChannelSwitch(switchBridges, _channelIndex);
   }
   case 20:
@@ -140,75 +185,93 @@ OpenKNX::Channel *SmartHomeBridgeModule::createChannel(uint8_t _channelIndex /* 
     {
     case 0:
     {
-      logInfoP("Device: %d AID: %d - On/Off Light", _channelIndex + 1, homekitAID);
+      logInfoP("Device: %d - On/Off Light", _channelIndex + 1);
       auto onOffBridges = new DynamicPointerArray<SwitchBridge>();
-      if (homeKitEnabled)
-        onOffBridges->push_back(new HomeKitSwitch(homekitAID));
-      if (hueEnabled && ParamBRI_CHLightHueEmulation)
-        onOffBridges->push_back(new HueSwitch(_pHueBridge));
+      for (auto it = bridgeInterfaces->begin(); it != bridgeInterfaces->end(); ++it)
+      {
+        auto onOffBridge = (*it)->createSwitch(_channelIndex, deviceType);
+        if (onOffBridge != nullptr)
+          onOffBridges->push_back(onOffBridge);
+      }
       return new KnxChannelSwitch(onOffBridges, _channelIndex);
     }
     case 1:
     {
-      logInfoP("Device: %d AID: %d - Dimmer", _channelIndex + 1, homekitAID);
+      logInfoP("Device: %d - Dimmer", _channelIndex + 1);
       auto dimmerBridges = new DynamicPointerArray<DimmerBridge>();
-      if (homeKitEnabled)
-        dimmerBridges->push_back(new HomeKitDimmer(homekitAID));
-      if (hueEnabled && ParamBRI_CHLightHueEmulation)
-        dimmerBridges->push_back(new HueDimmer(_pHueBridge));
+      for (auto it = bridgeInterfaces->begin(); it != bridgeInterfaces->end(); ++it)
+      {
+        auto dimmerBridge = (*it)->createDimmer(_channelIndex, deviceType);
+        if (dimmerBridge != nullptr)
+          dimmerBridges->push_back(dimmerBridge);
+      }
       return new KnxChannelDimmer(dimmerBridges, _channelIndex);
     }
     case 2:
     {
-      logInfoP("Device: %d AID: %d - RGB", _channelIndex + 1, homekitAID);
+      logInfoP("Device: %d - RGB", _channelIndex + 1);
       auto rdbBridges = new DynamicPointerArray<RGBBridge>();
-      if (homeKitEnabled)
-        rdbBridges->push_back(new HomeKitRGB(homekitAID));
-      if (hueEnabled && ParamBRI_CHLightHueEmulation)
-        rdbBridges->push_back(new HueRGB(_pHueBridge));
+      for (auto it = bridgeInterfaces->begin(); it != bridgeInterfaces->end(); ++it)
+      {
+        auto rdbBridge = (*it)->createRGB(_channelIndex, deviceType);
+        if (rdbBridge != nullptr)
+          rdbBridges->push_back(rdbBridge);
+      }
       return new KnxChannelRGB(rdbBridges, _channelIndex);
     }
     }
-    logInfoP("Device: %d AID: %d - Unkown type subdevice %d for %d", _channelIndex + 1, homekitAID, ParamBRI_CHLightType, deviceType);
+    logInfoP("Device: %d - Unkown type subdevice %d for %d", _channelIndex + 1, ParamBRI_CHLightType, deviceType);
     return nullptr;
   }
   case 30:
   {
-    logInfoP("Device: %d AID: %d - Jalousien", _channelIndex + 1, homekitAID);
+    logInfoP("Device: %d - Jalousien", _channelIndex + 1);
     auto jalousieBridges = new DynamicPointerArray<RolladenBridge>();
-    if (homeKitEnabled)
-      jalousieBridges->push_back(new HomeKitJalousie(homekitAID));
-    if (hueEnabled && ParamBRI_CHJalousieHueEmulation)
-      jalousieBridges->push_back(new HueJalousie(_pHueBridge));
+    for (auto it = bridgeInterfaces->begin(); it != bridgeInterfaces->end(); ++it)
+    {
+      auto jalousieBridge = (*it)->createJalousien(_channelIndex, deviceType);
+      if (jalousieBridge != nullptr)
+        jalousieBridges->push_back(jalousieBridge);
+    }
     return new KnxChannelJalousie(jalousieBridges, _channelIndex);
   }
   case 31:
   case 32:
   {
-    logInfoP("Device: %d AID: %d - Rolladen", _channelIndex + 1, homekitAID);
+    logInfoP("Device: %d - Rolladen", _channelIndex + 1);
     auto rolladenBridges = new DynamicPointerArray<RolladenBridge>();
-    if (homeKitEnabled)
-      rolladenBridges->push_back(new HomeKitRolladen(homekitAID));
-    if (hueEnabled && ParamBRI_CHJalousieHueEmulation)
-      rolladenBridges->push_back(new HueRolladen(_pHueBridge));
+    for (auto it = bridgeInterfaces->begin(); it != bridgeInterfaces->end(); ++it)
+    {
+      auto rolladenBridge = (*it)->createRolladen(_channelIndex, deviceType);
+      if (rolladenBridge != nullptr)
+        rolladenBridges->push_back(rolladenBridge);
+    }
     return new KnxChannelRolladen(rolladenBridges, _channelIndex);
   }
   case 50:
   {
-    logInfoP("Device: %d AID: %d - Thermostat", _channelIndex + 1, homekitAID);
+    logInfoP("Device: %d - Thermostat", _channelIndex + 1);
     auto thermostatBridges = new DynamicPointerArray<ThermostatBridge>();
-    if (homeKitEnabled)
-      thermostatBridges->push_back(new HomeKitThermostat(homekitAID));
+    for (auto it = bridgeInterfaces->begin(); it != bridgeInterfaces->end(); ++it)
+    {
+      auto thermostatBridge = (*it)->createThermostat(_channelIndex, deviceType);
+      if (thermostatBridge != nullptr)
+        thermostatBridges->push_back(thermostatBridge);
+    }
     return new KnxChannelThermostat(thermostatBridges, _channelIndex);
   }
   case 60:
   case 61:
   case 62:
   {
-    logInfoP("Device: %d AID: %d - Display", _channelIndex + 1, homekitAID);
+    logInfoP("Device: %d - Display", _channelIndex + 1);
     auto displayBridges = new DynamicPointerArray<DisplayBridge>();
-    if (homeKitEnabled)
-      displayBridges->push_back(new HomeKitDisplay(homekitAID));
+    for (auto it = bridgeInterfaces->begin(); it != bridgeInterfaces->end(); ++it)
+    {
+      auto displayBridge = (*it)->createDisplay(_channelIndex, deviceType);
+      if (displayBridge != nullptr)
+        displayBridges->push_back(displayBridge);
+    }
     return new KnxChannelDisplay(displayBridges, _channelIndex);
   }
   case 70:
@@ -219,37 +282,45 @@ OpenKNX::Channel *SmartHomeBridgeModule::createChannel(uint8_t _channelIndex /* 
   case 75:
   case 76:
   {
-    logInfoP("Device: %d AID: %d - Sensor", _channelIndex + 1, homekitAID);
+    logInfoP("Device: %d - Sensor", _channelIndex + 1);
     auto sensorBridges = new DynamicPointerArray<SensorBridge>();
-    if (homeKitEnabled)
-      sensorBridges->push_back(new HomeKitSensor(homekitAID));
+    for (auto it = bridgeInterfaces->begin(); it != bridgeInterfaces->end(); ++it)
+    {
+      auto sensorBridge = (*it)->createSensor(_channelIndex, deviceType);
+      if (sensorBridge != nullptr)
+        sensorBridges->push_back(sensorBridge);
+    }
     return new KnxChannelSensor(sensorBridges, _channelIndex);
   }
   case 80:
   {
-    logInfoP("Device: %d AID: %d - Fan", _channelIndex + 1, homekitAID);
+    logInfoP("Device: %d - Fan", _channelIndex + 1);
     auto fanBridges = new DynamicPointerArray<FanBridge>();
-    if (homeKitEnabled)
-      fanBridges->push_back(new HomeKitFan(homekitAID));
-    if (hueEnabled && ParamBRI_CHFanHueEmulation)
-      fanBridges->push_back(new HueFan(_pHueBridge));
+    for (auto it = bridgeInterfaces->begin(); it != bridgeInterfaces->end(); ++it)
+    {
+      auto fanBridge = (*it)->createFan(_channelIndex, deviceType);
+      if (fanBridge != nullptr)
+        fanBridges->push_back(fanBridge);
+    }
     return new KnxChannelFan(fanBridges, _channelIndex);
   }
   case 90:
   case 91:
   case 92:
   {
-    logInfoP("Device: %d AID: %d - DoorWindow", _channelIndex + 1, homekitAID);
+    logInfoP("Device: %d - DoorWindow", _channelIndex + 1);
     auto doorWindowBridges = new DynamicPointerArray<DoorWindowBridge>();
-    if (homeKitEnabled)
-      doorWindowBridges->push_back(new HomeKitDoorWindow(homekitAID));
-    if (hueEnabled && ParamBRI_CHDoorHueEmulation)
-      doorWindowBridges->push_back(new HueDoorWindow(_pHueBridge));
+    for (auto it = bridgeInterfaces->begin(); it != bridgeInterfaces->end(); ++it)
+    {
+      auto doorWindowBridge = (*it)->createDoorWindow(_channelIndex, deviceType);
+      if (doorWindowBridge != nullptr)
+        doorWindowBridges->push_back(doorWindowBridge);
+    }
     return new KnxChannelDoorWindow(doorWindowBridges, _channelIndex);
   }
   default:
   {
-    logInfoP("Device: %d AID: %d - Unkown device type %d", _channelIndex + 1, homekitAID, deviceType);
+    logInfoP("Device: %d - Unkown device type %d", _channelIndex + 1, deviceType);
     return nullptr;
   }
   }
@@ -277,81 +348,95 @@ void SmartHomeBridgeModule::showHelp()
   }
 }
 
+void SmartHomeBridgeModule::startBridge()
+{
+  started = true;
+#ifndef SMARTHOMEBRIDGE_DEVICESONLY
+
+  logDebugP("Start webserver");
+  webServer = new WebServer(80);
+  // serve pages
+  webServer->on("/", HTTP_GET, [this]()
+                { this->serveHomePage(); });
+  webServer->on("/updateFW", HTTP_GET, [this]()
+                { this->serveFirmwareUpdatePage(); });
+  webServer->on("/progMode", HTTP_POST, [this]()
+                { this->serveProgModePage(); });
+  webServer->on("/reboot", HTTP_POST, [this]()
+                { this->serveRebootPage(); });
+  // handling uploading firmware file
+  webServer->on(
+      "/update", HTTP_POST, [this]()
+      {
+    webServer->sendHeader("Connection", "close");
+    webServer->send(200, "text/plain", (Update.hasError()) ? "FAIL" : "OK");
+    ESP.restart(); },
+      [this]()
+      {
+        HTTPUpload &upload = webServer->upload();
+        if (upload.status == UPLOAD_FILE_START)
+        {
+          Serial.printf("Update: %s\n", upload.filename.c_str());
+          if (!Update.begin(UPDATE_SIZE_UNKNOWN))
+          { // start with max available size
+            Update.printError(Serial);
+          }
+        }
+        else if (upload.status == UPLOAD_FILE_WRITE)
+        {
+          /* flashing firmware to ESP*/
+          if (Update.write(upload.buf, upload.currentSize) != upload.currentSize)
+          {
+            Update.printError(Serial);
+          }
+        }
+        else if (upload.status == UPLOAD_FILE_END)
+        {
+          if (Update.end(true))
+          { // true to set the size to the current progress
+            Serial.printf("Update Success: %u\nRebooting...\n", upload.totalSize);
+          }
+          else
+          {
+            Update.printError(Serial);
+          }
+        }
+      });
+#endif
+  logDebugP("Initialize briges");
+  for (auto it = bridgeInterfaces->begin(); it != bridgeInterfaces->end(); ++it)
+    (*it)->initialize(this);
+
+  createChannels();
+
+#ifndef SMARTHOMEBRIDGE_DEVICESONLY  
+  for (auto it = bridgeInterfaces->begin(); it != bridgeInterfaces->end(); ++it)
+    (*it)->initWebServer(*webServer);
+
+  webServer->enableDelay(false);
+#endif
+  for (auto it = bridgeInterfaces->begin(); it != bridgeInterfaces->end(); ++it)
+    (*it)->start(this);
+
+#ifndef SMARTHOMEBRIDGE_DEVICESONLY  
+  webServer->begin();
+#endif
+}
+
+
+
 void SmartHomeBridgeModule::loop()
 {
+#ifndef SMARTHOMEBRIDGE_DEVICESONLY
+
   bool connected = openknxNetwork.connected();
   if (connected && !started)
   {
-    logDebugP("Start webserver");
-    started = true;
-    webServer = new WebServer(80);
-    // serve pages
-    webServer->on("/", HTTP_GET, [this]()
-                  { this->serveHomePage(); });
-    webServer->on("/updateFW", HTTP_GET, [this]()
-                  { this->serveFirmwareUpdatePage(); });
-    webServer->on("/progMode", HTTP_POST, [this]()
-                  { this->serveProgModePage(); });
-    webServer->on("/reboot", HTTP_POST, [this]()
-                  { this->serveRebootPage(); });
-    // handling uploading firmware file
-    webServer->on(
-        "/update", HTTP_POST, [this]()
-        {
-      webServer->sendHeader("Connection", "close");
-      webServer->send(200, "text/plain", (Update.hasError()) ? "FAIL" : "OK");
-      ESP.restart(); },
-        [this]()
-        {
-          HTTPUpload &upload = webServer->upload();
-          if (upload.status == UPLOAD_FILE_START)
-          {
-            Serial.printf("Update: %s\n", upload.filename.c_str());
-            if (!Update.begin(UPDATE_SIZE_UNKNOWN))
-            { // start with max available size
-              Update.printError(Serial);
-            }
-          }
-          else if (upload.status == UPLOAD_FILE_WRITE)
-          {
-            /* flashing firmware to ESP*/
-            if (Update.write(upload.buf, upload.currentSize) != upload.currentSize)
-            {
-              Update.printError(Serial);
-            }
-          }
-          else if (upload.status == UPLOAD_FILE_END)
-          {
-            if (Update.end(true))
-            { // true to set the size to the current progress
-              Serial.printf("Update Success: %u\nRebooting...\n", upload.totalSize);
-            }
-            else
-            {
-              Update.printError(Serial);
-            }
-          }
-        });
-
-    logDebugP("Initialize briges");
-    for (auto it = bridgeInterfaces->begin(); it != bridgeInterfaces->end(); ++it)
-      (*it)->initialize(this);
-
-    createChannels();
-
-    for (auto it = bridgeInterfaces->begin(); it != bridgeInterfaces->end(); ++it)
-      (*it)->initWebServer(*webServer);
-
-    webServer->enableDelay(false);
-    for (auto it = bridgeInterfaces->begin(); it != bridgeInterfaces->end(); ++it)
-      (*it)->start(this);
-
-
-    webServer->begin();
+    startBridge();
   }
   if (webServer != nullptr)
     webServer->handleClient();
-
+#endif
   for (auto it = bridgeInterfaces->begin(); it != bridgeInterfaces->end(); ++it)
     (*it)->loop();
 
