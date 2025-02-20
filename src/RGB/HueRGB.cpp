@@ -1,3 +1,5 @@
+#ifndef SMARTHOMEBRIDGE_DEVICESONLY  
+
 #include "HueRGB.h"
 
 HueRGB::HueRGB(HueBridge* hueBridge)
@@ -51,3 +53,5 @@ void HueRGB::setPower(bool power)
 {
     espalexaDevice->setState(power);
 }
+
+#endif

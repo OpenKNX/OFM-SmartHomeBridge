@@ -1,4 +1,6 @@
 #pragma once
+#ifndef SMARTHOMEBRIDGE_DEVICESONLY  
+
 #include "HomeSpan.h"
 #include "KnxChannelFan.h"
 
@@ -29,3 +31,5 @@ public:
     virtual void setPower(bool power) override;
     virtual void setAutomatic(bool automatic) override;
 };
+
+#endif

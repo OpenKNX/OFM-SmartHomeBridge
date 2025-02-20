@@ -17,12 +17,22 @@
 
 float KnxChannelThermostat::DEFAULT_TEMPERATURE = 22;
 
-KnxChannelThermostat::KnxChannelThermostat(DynamicPointerArray<ThermostatBridge > *thermostatBridges, uint16_t _channelIndex)
+KnxChannelThermostat::KnxChannelThermostat(uint16_t _channelIndex)
     : KnxChannelBase(_channelIndex),
-      thermostatBridges(thermostatBridges)
+      thermostatBridges()
 {
-    for (auto it = thermostatBridges->begin(); it != thermostatBridges->end(); ++it)
-         (*it)->initialize(this);
+}
+
+void KnxChannelThermostat::add(ThermostatBridge* thermostatBridge)
+{
+    thermostatBridges.push_back(thermostatBridge);
+    thermostatBridge->initialize(this);
+}
+
+void KnxChannelThermostat::remove(ThermostatBridge* thermostatBridge)
+{
+    thermostatBridges.remove(thermostatBridge);
+    delete thermostatBridge;
 }
 
 const std::string KnxChannelThermostat::name()
@@ -39,7 +49,7 @@ void KnxChannelThermostat::commandTargetTemperature(ThermostatBridge* thermostat
 {
     logDebugP("Received changed. Temperature %f", temperature);
 
-    for (auto it = thermostatBridges->begin(); it != thermostatBridges->end(); ++it)
+    for (auto it = thermostatBridges.begin(); it != thermostatBridges.end(); ++it)
     {
         if ((*it) != thermostatBridge)
         {
@@ -94,7 +104,7 @@ bool KnxChannelThermostat::commandMode(ThermostatBridge* thermostatBridge, Therm
         koSet(KO_COOLING, !heading, true);
     
     // Inform other bridges
-    for (auto it = thermostatBridges->begin(); it != thermostatBridges->end(); ++it)
+    for (auto it = thermostatBridges.begin(); it != thermostatBridges.end(); ++it)
     {
         if ((*it) != thermostatBridge)
         {
@@ -141,7 +151,7 @@ void KnxChannelThermostat::processInputKo(GroupObject &ko)
         double temperature = koGet(KO_TARGET_TEMPERATURE_FEEDBACK);
         logDebugP("Received ko target temperature: %f", temperature);
 
-        for (auto it = thermostatBridges->begin(); it != thermostatBridges->end(); ++it)
+        for (auto it = thermostatBridges.begin(); it != thermostatBridges.end(); ++it)
         {
             (*it)->setTargetTemperature(temperature);
         }
@@ -150,7 +160,7 @@ void KnxChannelThermostat::processInputKo(GroupObject &ko)
     {
         double temperature = koGet(KO_CURRENT_TEMPERATUR_FEEDBACK);
         logDebugP("Received ko current temperature: %f", temperature);
-        for (auto it = thermostatBridges->begin(); it != thermostatBridges->end(); ++it)
+        for (auto it = thermostatBridges.begin(); it != thermostatBridges.end(); ++it)
         {
             (*it)->setCurrentTemperature(temperature);
         }
@@ -172,7 +182,7 @@ void KnxChannelThermostat::processInputKo(GroupObject &ko)
         else if (heading)
             mode = ThermostatMode::ThermostatModeHeating;
  
-        for (auto it = thermostatBridges->begin(); it != thermostatBridges->end(); ++it)
+        for (auto it = thermostatBridges.begin(); it != thermostatBridges.end(); ++it)
         {
             (*it)->setMode(mode);
         }
@@ -192,7 +202,7 @@ void KnxChannelThermostat::processInputKo(GroupObject &ko)
         if (cooling)
             state = ThermostatCurrentState::ThermostatCurrentStateCooling;
 
-        for (auto it = thermostatBridges->begin(); it != thermostatBridges->end(); ++it)
+        for (auto it = thermostatBridges.begin(); it != thermostatBridges.end(); ++it)
         {
             (*it)->setCurrentState(state);
         }

@@ -1,4 +1,5 @@
 #pragma once
+#ifndef SMARTHOMEBRIDGE_DEVICESONLY  
 #include "HomeSpan.h"
 #include "KnxChannelThermostat.h"
 
@@ -32,3 +33,5 @@ public:
     virtual void setMode(ThermostatMode mode) override;
     virtual void setCurrentState(ThermostatCurrentState state) override;
 };
+
+#endif

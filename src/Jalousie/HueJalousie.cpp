@@ -1,3 +1,5 @@
+#ifndef SMARTHOMEBRIDGE_DEVICESONLY  
+
 #include "HueJalousie.h"
 
 HueJalousie::HueJalousie(HueBridge* bridge) :
@@ -10,3 +12,4 @@ void HueJalousie::setSlatPosition(uint8_t position)
 
 }
 
+#endif

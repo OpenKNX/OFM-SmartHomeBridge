@@ -12,9 +12,11 @@ public:
 
 class KnxChannelFan : public KnxChannelBase
 {
+        DynamicPointerArray<FanBridge> fanBridges; 
     public:
-        DynamicPointerArray<FanBridge>* fanBridges; 
-        KnxChannelFan(DynamicPointerArray<FanBridge>* fanBridges, uint16_t channelIndex);
+        KnxChannelFan(uint16_t channelIndex);
+        void add(FanBridge* fanBridge);
+        void remove(FanBridge* fanBridge);
     protected:
         virtual void setup() override;
         virtual void processInputKo(GroupObject& ko) override;

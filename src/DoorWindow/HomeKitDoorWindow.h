@@ -1,4 +1,7 @@
 #pragma once
+
+#ifndef SMARTHOMEBRIDGE_DEVICESONLY  
+
 #include "HomeSpan.h"
 #include "KnxChannelDoorWindow.h"
 
@@ -72,3 +75,5 @@ public:
     virtual void setMovement(DoorWindowMoveState movement) override;
     virtual void setObstructionDetected(bool obstructionDetected) override;
 };
+
+#endif

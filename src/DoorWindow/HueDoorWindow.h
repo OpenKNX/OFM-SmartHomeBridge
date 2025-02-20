@@ -1,4 +1,6 @@
 #pragma once
+#ifndef SMARTHOMEBRIDGE_DEVICESONLY  
+
 #include "HueBridge.h"
 #include "KnxChannelDoorWindow.h"
 
@@ -16,3 +18,5 @@ public:
     virtual void setMovement(DoorWindowMoveState movement) override;
     virtual void setObstructionDetected(bool obstructionDetected) override;
 };
+
+#endif

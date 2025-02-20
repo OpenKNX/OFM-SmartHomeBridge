@@ -1,3 +1,5 @@
+#ifndef SMARTHOMEBRIDGE_DEVICESONLY  
+
 #include "HueDimmer.h"
 
 HueDimmer::HueDimmer(HueBridge* hueBridge)
@@ -42,3 +44,5 @@ void HueDimmer::setBrightness(uint8_t brightness)
         espalexaDevice->setState(true);
     }
 }
+
+#endif

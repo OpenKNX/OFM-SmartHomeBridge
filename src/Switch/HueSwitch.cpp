@@ -1,3 +1,5 @@
+#ifndef SMARTHOMEBRIDGE_DEVICESONLY  
+
 #include "HueSwitch.h"
 
 HueSwitch::HueSwitch(HueBridge* hueBridge)
@@ -32,3 +34,4 @@ void HueSwitch::setPower(bool value)
     espalexaDevice->setState(value);
 }
 
+#endif

@@ -1,4 +1,6 @@
 #pragma once
+#ifndef SMARTHOMEBRIDGE_DEVICESONLY  
+
 #include "HomeSpan.h"
 #include "KnxChannelDisplay.h"
 
@@ -14,3 +16,5 @@ public:
     boolean update();
     virtual void setValue(double value) override;
 };
+
+#endif

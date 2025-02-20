@@ -28,9 +28,11 @@ public:
 
 class KnxChannelDoorWindow : public KnxChannelBase
 {
+       DynamicPointerArray<DoorWindowBridge> interfaces; 
     public:
-        DynamicPointerArray<DoorWindowBridge>* interfaces; 
-        KnxChannelDoorWindow(DynamicPointerArray<DoorWindowBridge>* interfaces, uint16_t channelIndex);
+        KnxChannelDoorWindow(uint16_t channelIndex);
+        void add(DoorWindowBridge* interface);
+        void remove(DoorWindowBridge* interface);
     protected:
         volatile bool updatePosition = false;
 

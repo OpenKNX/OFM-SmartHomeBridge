@@ -80,6 +80,28 @@ public:
         return u.multipleElements[index];
     }
 
+    void remove(T* element)
+    {
+      if (arraySize == 0)
+        return;
+      if (arraySize == 1)
+      {
+        if (u.singleElement == element)
+        {
+          u.singleElement = nullptr;
+          arraySize = 0;
+        }
+        return;
+      } 
+      for (int i = arraySize - 1; i >= 0; i--)
+      {
+        if (get(i) == element)
+        {
+          remove(i);
+        }
+      }
+    }
+
 
     void remove(uint16_t index)
     {

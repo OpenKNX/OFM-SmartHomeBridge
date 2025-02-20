@@ -13,12 +13,22 @@ enum DimmerSwitchBehavior
 };
 
 
-KnxChannelDimmer::KnxChannelDimmer(DynamicPointerArray<DimmerBridge> *dimmerBridges, uint16_t _channelIndex)
+KnxChannelDimmer::KnxChannelDimmer(uint16_t _channelIndex)
     : KnxChannelBase(_channelIndex),
-      dimmerBridges(dimmerBridges)
+      dimmerBridges()
 {
-    for (auto it = dimmerBridges->begin(); it != dimmerBridges->end(); ++it)
-         (*it)->initialize(this);
+}
+
+void KnxChannelDimmer::add(DimmerBridge *dimmerBridge)
+{
+    dimmerBridges.push_back(dimmerBridge);
+    dimmerBridge->initialize(this);
+}
+
+void KnxChannelDimmer::remove(DimmerBridge *dimmerBridge)
+{
+    dimmerBridges.remove(dimmerBridge);
+    delete dimmerBridge;
 }
 
 const std::string KnxChannelDimmer::name()
@@ -32,7 +42,7 @@ void KnxChannelDimmer::commandBrightness(DimmerBridge* dimmerBridge, uint8_t bri
     if (brightness > 0)
         lastBrighness = brightness;
     uint8_t knxValue = brightness;
-    for (auto it = dimmerBridges->begin(); it != dimmerBridges->end(); ++it)
+    for (auto it = dimmerBridges.begin(); it != dimmerBridges.end(); ++it)
     {
         if ((*it) != dimmerBridge)
         {
@@ -87,7 +97,7 @@ void KnxChannelDimmer::processInputKo(GroupObject &groupObject)
                 lastBrighnessLessThan100 = brightness;
         }    
         koSetWithoutSend(KO_DIMMER, brightness);
-        for (auto it = dimmerBridges->begin(); it != dimmerBridges->end(); ++it)
+        for (auto it = dimmerBridges.begin(); it != dimmerBridges.end(); ++it)
         {
             (*it)->setBrightness(brightness);
         }

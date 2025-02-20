@@ -1,4 +1,6 @@
 #pragma once
+#ifndef SMARTHOMEBRIDGE_DEVICESONLY  
+
 #include "HomeSpan.h"
 #include "KnxChannelSwitch.h"
 
@@ -49,3 +51,5 @@ public:
     boolean update();
     virtual void setPower(bool value) override;
 };
+
+#endif

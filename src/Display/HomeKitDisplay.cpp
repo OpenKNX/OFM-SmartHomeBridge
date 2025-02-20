@@ -1,3 +1,5 @@
+#ifndef SMARTHOMEBRIDGE_DEVICESONLY  
+
 #include "HomeKitDisplay.h"
 
 HomeKitDisplay::HomeKitDisplay(int device) :
@@ -44,3 +46,5 @@ void HomeKitDisplay::setValue(double value)
     if (currentValue != nullptr)
         currentValue->setVal(value);
 }
+
+#endif

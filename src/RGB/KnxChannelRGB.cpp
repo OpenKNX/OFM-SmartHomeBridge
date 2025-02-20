@@ -24,12 +24,22 @@ enum RGBSwitchBehavior
 };
 
 
-KnxChannelRGB::KnxChannelRGB(DynamicPointerArray<RGBBridge> *RGBBridges, uint16_t _channelIndex)
+KnxChannelRGB::KnxChannelRGB(uint16_t _channelIndex)
     : KnxChannelBase(_channelIndex),
-      RGBBridges(RGBBridges)
+      RGBBridges()
 {
-    for (auto it = RGBBridges->begin(); it != RGBBridges->end(); ++it)
-         (*it)->initialize(this);
+}
+
+void KnxChannelRGB::add(RGBBridge* RGBBridge)
+{
+    RGBBridges.push_back(RGBBridge);
+    RGBBridge->initialize(this);
+}
+
+void KnxChannelRGB::remove(RGBBridge* RGBBridge)
+{
+    RGBBridges.remove(RGBBridge);
+    delete RGBBridge;
 }
 
 const std::string KnxChannelRGB::name()
@@ -47,7 +57,7 @@ void KnxChannelRGB::commandRGB(RGBBridge* RGBBridge, uint32_t rgb)
             lastColorLessOtherThanWhite = rgb;
     }
     uint32_t knxValue = rgb;
-    for (auto it = RGBBridges->begin(); it != RGBBridges->end(); ++it)
+    for (auto it = RGBBridges.begin(); it != RGBBridges.end(); ++it)
     {
         if ((*it) != RGBBridge)
         {
@@ -155,7 +165,7 @@ void KnxChannelRGB::processInputKo(GroupObject &groupObject)
                 lastColorLessOtherThanWhite = rgb;
         }    
         koSetWithoutSend(KO_RGB, rgb);
-        for (auto it = RGBBridges->begin(); it != RGBBridges->end(); ++it)
+        for (auto it = RGBBridges.begin(); it != RGBBridges.end(); ++it)
         {
             (*it)->setRGB(rgb);
         }
@@ -164,7 +174,7 @@ void KnxChannelRGB::processInputKo(GroupObject &groupObject)
     {
         bool power = koGet(KO_POWER_FEEDBACK);
         koSetWithoutSend(KO_RGB, power);
-        for (auto it = RGBBridges->begin(); it != RGBBridges->end(); ++it)
+        for (auto it = RGBBridges.begin(); it != RGBBridges.end(); ++it)
         {
             (*it)->setPower(power);
         }

@@ -11,9 +11,11 @@ public:
 
 class KnxChannelDimmer : public KnxChannelBase
 {
+      DynamicPointerArray<DimmerBridge> dimmerBridges;
     public:
-        DynamicPointerArray<DimmerBridge> *dimmerBridges;
-        KnxChannelDimmer(DynamicPointerArray<DimmerBridge> *dimmerBridges, uint16_t channelIndex);
+        KnxChannelDimmer(uint16_t channelIndex);
+        void add(DimmerBridge* dimmerBridge);
+        void remove(DimmerBridge* dimmerBridge);
     protected:
         uint8_t lastBrighness = 100;
         uint8_t lastBrighnessLessThan100 = 50;

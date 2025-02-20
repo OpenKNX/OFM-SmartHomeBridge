@@ -1,12 +1,15 @@
 #pragma once
 #include "../Rolladen/KnxChannelRolladen.h"
+#include "../Jalousie/KnxChannelJalousie.h"
 
 class KnxChannelJalousie;
 
 class KnxChannelJalousie : public KnxChannelRolladen
 {
     public:
-        KnxChannelJalousie(DynamicPointerArray<RolladenBridge>* jalousieBridges, uint16_t channelIndex);
+        KnxChannelJalousie(uint16_t channelIndex);
+        void add(RolladenBridge* interface);
+        void remove(RolladenBridge* interface);
     protected:
         virtual void setup() override;
         virtual void processInputKo(GroupObject& ko) override;

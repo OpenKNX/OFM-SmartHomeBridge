@@ -1,3 +1,5 @@
+#ifndef SMARTHOMEBRIDGE_DEVICESONLY  
+
 #include "HomeKitJalousie.h"
 
 HomeKitJalousie::HomeKitJalousie(int device) :
@@ -58,4 +60,6 @@ void HomeKitJalousie::setMovement(MoveState movement)
     }
     HomeKitRolladen::setMovement(movement);
 }
+
+#endif
 

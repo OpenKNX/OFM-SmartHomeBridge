@@ -9,12 +9,22 @@
 #define KO_MOVE_DOWN_UP           KoBRI_KO5_, DPT_UpDown
 #define KO_STOP                   KoBRI_KO6_, DPT_Step
 
-KnxChannelRolladen::KnxChannelRolladen(DynamicPointerArray<RolladenBridge > *interfaces, uint16_t channelIndex)
+KnxChannelRolladen::KnxChannelRolladen(uint16_t channelIndex)
     : KnxChannelBase(channelIndex),
-      interfaces(interfaces)
+      interfaces()
 {
-    for (auto it = interfaces->begin(); it != interfaces->end(); ++it)
-        (*it)->initialize(this);
+}
+
+void KnxChannelRolladen::add(RolladenBridge* interface)
+{
+    interfaces.push_back(interface);
+    interface->initialize(this);
+}
+
+void KnxChannelRolladen::remove(RolladenBridge* interface)
+{
+    interfaces.remove(interface);
+    delete interface;
 }
 
 const std::string KnxChannelRolladen::name()
@@ -87,7 +97,7 @@ bool KnxChannelRolladen::commandPosition(RolladenBridge* interface, uint8_t posi
     else
         koSetWithoutSend(KO_POSITION, position);
 
-    for (auto it = interfaces->begin(); it != interfaces->end(); ++it)
+    for (auto it = interfaces.begin(); it != interfaces.end(); ++it)
     {
         if ((*it) != interface)
             (*it)->setPosition(position);
@@ -113,7 +123,7 @@ void KnxChannelRolladen::loop()
     {
         updatePosition = false;
         uint8_t currentPosition = KnxChannelRolladen::currentPosition();
-        for (auto it = interfaces->begin(); it != interfaces->end(); ++it)
+        for (auto it = interfaces.begin(); it != interfaces.end(); ++it)
         {
 
             (*it)->setPosition(currentPosition);
@@ -127,7 +137,7 @@ void KnxChannelRolladen::processInputKo(GroupObject &ko)
     {
         uint8_t position = koGet(KO_POSITION_FEEDBACK);
         koSetWithoutSend(KO_POSITION, position);
-        for (auto it = interfaces->begin(); it != interfaces->end(); ++it)
+        for (auto it = interfaces.begin(); it != interfaces.end(); ++it)
         {
             (*it)->setPosition(position);
         }
@@ -154,7 +164,7 @@ void KnxChannelRolladen::processInputKo(GroupObject &ko)
             logDebugP("Stopping move");
         }
         
-        for (auto it = interfaces->begin(); it != interfaces->end(); ++it)
+        for (auto it = interfaces.begin(); it != interfaces.end(); ++it)
         {
             (*it)->setMovement(value);
         }

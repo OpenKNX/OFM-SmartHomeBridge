@@ -22,19 +22,30 @@ class SensorBridge;
 class FanBridge;
 class DoorWindowBridge;
 
+class KnxChannelSwitch;
+class KnxChannelDimmer;
+class KnxChannelRGB;
+class KnxChannelRolladen;
+class KnxChannelJalousie;
+class KnxChannelThermostat;
+class KnxChannelDisplay;
+class KnxChannelSensor;
+class KnxChannelFan;
+class KnxChannelDoorWindow;
+
 class BridgeBase : public OpenKNX::Base
 {
 public:
-    virtual SwitchBridge* createSwitch(uint8_t _channelIndex /* this parameter is used in macros, do not rename */, uint8_t deviceType);
-    virtual DimmerBridge* createDimmer(uint8_t _channelIndex /* this parameter is used in macros, do not rename */, uint8_t deviceType);
-    virtual RGBBridge* createRGB(uint8_t _channelIndex /* this parameter is used in macros, do not rename */, uint8_t deviceType);
-    virtual RolladenBridge* createJalousien(uint8_t _channelIndex /* this parameter is used in macros, do not rename */, uint8_t deviceType);
-    virtual RolladenBridge* createRolladen(uint8_t _channelIndex /* this parameter is used in macros, do not rename */, uint8_t deviceType);
-    virtual ThermostatBridge* createThermostat(uint8_t _channelIndex /* this parameter is used in macros, do not rename */, uint8_t deviceType);
-    virtual DisplayBridge* createDisplay(uint8_t _channelIndex /* this parameter is used in macros, do not rename */, uint8_t deviceType);
-    virtual SensorBridge* createSensor(uint8_t _channelIndex /* this parameter is used in macros, do not rename */, uint8_t deviceType);
-    virtual FanBridge* createFan(uint8_t _channelIndex /* this parameter is used in macros, do not rename */, uint8_t deviceType);
-    virtual DoorWindowBridge* createDoorWindow(uint8_t _channelIndex /* this parameter is used in macros, do not rename */, uint8_t deviceType);     
+    virtual void createSwitch(KnxChannelSwitch& channel, uint8_t _channelIndex /* this parameter is used in macros, do not rename */, uint8_t deviceType);
+    virtual void createDimmer(KnxChannelDimmer& channel, uint8_t _channelIndex /* this parameter is used in macros, do not rename */, uint8_t deviceType);
+    virtual void createRGB(KnxChannelRGB& channel, uint8_t _channelIndex /* this parameter is used in macros, do not rename */, uint8_t deviceType);
+    virtual void createJalousien(KnxChannelJalousie& channel, uint8_t _channelIndex /* this parameter is used in macros, do not rename */, uint8_t deviceType);
+    virtual void createRolladen(KnxChannelRolladen& channel, uint8_t _channelIndex /* this parameter is used in macros, do not rename */, uint8_t deviceType);
+    virtual void createThermostat(KnxChannelThermostat& channel, uint8_t _channelIndex /* this parameter is used in macros, do not rename */, uint8_t deviceType);
+    virtual void createDisplay(KnxChannelDisplay& channel, uint8_t _channelIndex /* this parameter is used in macros, do not rename */, uint8_t deviceType);
+    virtual void createSensor(KnxChannelSensor& channel, uint8_t _channelIndex /* this parameter is used in macros, do not rename */, uint8_t deviceType);
+    virtual void createFan(KnxChannelFan& channel, uint8_t _channelIndex /* this parameter is used in macros, do not rename */, uint8_t deviceType);
+    virtual void createDoorWindow(KnxChannelDoorWindow& channel, uint8_t _channelIndex /* this parameter is used in macros, do not rename */, uint8_t deviceType);     
 
     virtual void initialize(SmartHomeBridgeModule* bridge) = 0;
 #ifndef SMARTHOMEBRIDGE_DEVICESONLY  

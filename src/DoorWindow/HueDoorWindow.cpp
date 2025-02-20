@@ -1,3 +1,5 @@
+#ifndef SMARTHOMEBRIDGE_DEVICESONLY  
+
 #include "HueDoorWindow.h"
 
 HueDoorWindow::HueDoorWindow(HueBridge* hueBridge)
@@ -52,3 +54,5 @@ void HueDoorWindow::setObstructionDetected(bool obstructionDetected)
 {
     
 }
+
+#endif

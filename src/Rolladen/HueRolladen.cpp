@@ -1,3 +1,6 @@
+#ifndef SMARTHOMEBRIDGE_DEVICESONLY  
+
+
 #include "HueRolladen.h"
 
 HueRolladen::HueRolladen(HueBridge* hueBridge)
@@ -47,3 +50,5 @@ void HueRolladen::setPosition(uint8_t position)
         espalexaDevice->setState(true);
     }
 }
+
+#endif

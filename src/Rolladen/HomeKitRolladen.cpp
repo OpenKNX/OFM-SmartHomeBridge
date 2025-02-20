@@ -1,3 +1,4 @@
+#ifndef SMARTHOMEBRIDGE_DEVICESONLY  
 #include "HomeKitRolladen.h"
 
 HomeKitRolladen::HomeKitRolladen(int device) :
@@ -71,3 +72,5 @@ void HomeKitRolladen::setMovement(MoveState movement)
         break; 
     }
 }
+
+#endif

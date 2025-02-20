@@ -1,3 +1,5 @@
+#ifndef SMARTHOMEBRIDGE_DEVICESONLY  
+
 #include "HueFan.h"
 
 HueFan::HueFan(HueBridge* hueBridge)
@@ -36,5 +38,7 @@ void HueFan::setAutomatic(bool automatic)
 {
 
 }
+
+#endif
 
 

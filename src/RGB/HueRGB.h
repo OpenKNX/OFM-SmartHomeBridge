@@ -1,4 +1,6 @@
 #pragma once
+#ifndef SMARTHOMEBRIDGE_DEVICESONLY  
+
 #include "HueBridge.h"
 #include "KnxChannelRGB.h"
 
@@ -15,3 +17,5 @@ public:
     virtual void setRGB(uint32_t rgb) override;
     virtual void setPower(bool on) override;
 };
+
+#endif

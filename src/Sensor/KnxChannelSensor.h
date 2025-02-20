@@ -22,9 +22,11 @@ enum SensorType
              
 class KnxChannelSensor : public KnxChannelBase
 {
+        DynamicPointerArray<SensorBridge > sensorBridges;
     public:
-        DynamicPointerArray<SensorBridge > *sensorBridges;
-        KnxChannelSensor(DynamicPointerArray<SensorBridge > *sensorBridges, uint16_t channelIndex);
+        KnxChannelSensor(uint16_t channelIndex);
+        void add(SensorBridge* sensorBridge);
+        void remove(SensorBridge* sensorBridge);
         SensorType getSensorType();
     protected:
         virtual void setup() override;

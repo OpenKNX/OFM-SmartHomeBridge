@@ -18,10 +18,12 @@ enum DisplayType
 
 class KnxChannelDisplay : public KnxChannelBase
 {
+        DynamicPointerArray<DisplayBridge> displayBridges;
     public:
-        DynamicPointerArray<DisplayBridge> *displayBridges;
-        KnxChannelDisplay(DynamicPointerArray<DisplayBridge> *displayBridges, uint16_t channelIndex);
+        KnxChannelDisplay(uint16_t channelIndex);
         DisplayType getDisplayType();
+        void add(DisplayBridge* displayBridge);
+        void remove(DisplayBridge* displayBridge);
     protected:
         virtual void setup() override;
         virtual void processInputKo(GroupObject& ko) override;

@@ -6,12 +6,22 @@
 #define KO_HUMIDITY_FEEDBACK    KoBRI_KO1_, DPT_Value_Humidity
 #define KO_LUX_FEEDBACK         KoBRI_KO1_, DPT_Value_Lux
 
-KnxChannelDisplay::KnxChannelDisplay(DynamicPointerArray<DisplayBridge> *displayBridges, uint16_t _channelIndex)
+KnxChannelDisplay::KnxChannelDisplay(uint16_t _channelIndex)
     : KnxChannelBase(_channelIndex),
-      displayBridges(displayBridges)
+      displayBridges()
 {
-    for (auto it = displayBridges->begin(); it != displayBridges->end(); ++it)
-         (*it)->initialize(this);
+}
+
+void KnxChannelDisplay::add(DisplayBridge *displayBridge)
+{
+    displayBridges.push_back(displayBridge);
+    displayBridge->initialize(this);
+}
+
+void KnxChannelDisplay::remove(DisplayBridge *displayBridge)
+{
+    displayBridges.remove(displayBridge);
+    delete displayBridge;
 }
 
 const std::string KnxChannelDisplay::name()
@@ -60,7 +70,7 @@ void KnxChannelDisplay::processInputKo(GroupObject &groupObject)
                 value = koGet(KO_LUX_FEEDBACK);
                 break;
         }
-        for (auto it = displayBridges->begin(); it != displayBridges->end(); ++it)
+        for (auto it = displayBridges.begin(); it != displayBridges.end(); ++it)
         {
             (*it)->setValue(value);
         }

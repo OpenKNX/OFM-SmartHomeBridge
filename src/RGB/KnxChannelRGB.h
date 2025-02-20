@@ -13,9 +13,11 @@ public:
 
 class KnxChannelRGB : public KnxChannelBase
 {
+        DynamicPointerArray<RGBBridge> RGBBridges;
     public:
-        DynamicPointerArray<RGBBridge> *RGBBridges;
-        KnxChannelRGB(DynamicPointerArray<RGBBridge> *RGBBridges, uint16_t channelIndex);
+        KnxChannelRGB(uint16_t channelIndex);
+        void add(RGBBridge* RGBBridge);
+        void remove(RGBBridge* RGBBridge);
     protected:
         uint32_t lastColor = 0xFFFFFF;
         uint32_t lastColorLessOtherThanWhite = 0x808080;

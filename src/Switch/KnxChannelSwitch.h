@@ -11,9 +11,11 @@ public:
 
 class KnxChannelSwitch : public KnxChannelBase
 {
+        DynamicPointerArray<SwitchBridge> switchBridges; 
     public:
-        DynamicPointerArray<SwitchBridge>* switchBridges; 
-        KnxChannelSwitch(DynamicPointerArray<SwitchBridge>* switchBridges, uint16_t channelIndex);
+        KnxChannelSwitch(uint16_t channelIndex);
+        void add(SwitchBridge* switchBridge);
+        void remove(SwitchBridge* switchBridge);
     protected:
         virtual void setup() override;
         virtual void processInputKo(GroupObject& ko) override;

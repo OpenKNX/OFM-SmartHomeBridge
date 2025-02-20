@@ -28,9 +28,13 @@ public:
 
 class KnxChannelRolladen : public KnxChannelBase
 {
+    protected:
+       DynamicPointerArray<RolladenBridge> interfaces; 
     public:
-        DynamicPointerArray<RolladenBridge>* interfaces; 
-        KnxChannelRolladen(DynamicPointerArray<RolladenBridge>* interfaces, uint16_t channelIndex);
+        KnxChannelRolladen(uint16_t channelIndex);
+        void add(RolladenBridge* interface);
+        void remove(RolladenBridge* interface);
+    
     protected:
         volatile bool updatePosition = false;
 

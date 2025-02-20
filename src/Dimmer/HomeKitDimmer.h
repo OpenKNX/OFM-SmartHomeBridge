@@ -1,4 +1,6 @@
 #pragma once
+#ifndef SMARTHOMEBRIDGE_DEVICESONLY  
+
 #include "HomeSpan.h"
 #include "KnxChannelDimmer.h"
 
@@ -26,3 +28,5 @@ public:
     boolean update();
     virtual void setBrightness(uint8_t brightness) override;
 };
+
+#endif

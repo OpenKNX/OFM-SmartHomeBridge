@@ -1,3 +1,4 @@
+#ifndef SMARTHOMEBRIDGE_DEVICESONLY  
 #include "HomeKitSensor.h"
 
 HomeKitSensor::HomeKitSensor(int device) :
@@ -64,3 +65,5 @@ void HomeKitSensor::setDetected(bool value)
     if (currentValue != nullptr)
         currentValue->setVal(value ? 1 : 0);
 }
+
+#endif

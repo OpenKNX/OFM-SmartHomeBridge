@@ -1,4 +1,6 @@
 #pragma once
+#ifndef SMARTHOMEBRIDGE_DEVICESONLY  
+
 #include "HueBridge.h"
 #include "KnxChannelJalousie.h"
 #include "../Rolladen/HueRolladen.h"
@@ -10,3 +12,5 @@ public:
  
     virtual void setSlatPosition(uint8_t slatPosition) override;
 };
+
+#endif

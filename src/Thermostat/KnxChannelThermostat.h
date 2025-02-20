@@ -35,10 +35,12 @@ public:
 
 class KnxChannelThermostat : public KnxChannelBase
 {
+        DynamicPointerArray<ThermostatBridge> thermostatBridges;
     public:
         static float DEFAULT_TEMPERATURE;
-        DynamicPointerArray<ThermostatBridge> *thermostatBridges;
-        KnxChannelThermostat(DynamicPointerArray<ThermostatBridge > *thermostatBridges, uint16_t channelIndex);
+        KnxChannelThermostat(uint16_t channelIndex);
+        void add(ThermostatBridge* thermostatBridge);
+        void remove(ThermostatBridge* thermostatBridge);
     protected:
         virtual void setup() override;
         virtual void processInputKo(GroupObject& ko) override;

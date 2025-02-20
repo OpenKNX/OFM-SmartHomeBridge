@@ -4,12 +4,22 @@
 
 #define KO_SENSOR_FEEDBACK   KoBRI_KO1_, DPT_Switch
 
-KnxChannelSensor::KnxChannelSensor(DynamicPointerArray<SensorBridge > *sensorBridges, uint16_t _channelIndex)
+KnxChannelSensor::KnxChannelSensor(uint16_t _channelIndex)
     : KnxChannelBase(_channelIndex),
-      sensorBridges(sensorBridges)
+      sensorBridges()
 {
-    for (auto it = sensorBridges->begin(); it != sensorBridges->end(); ++it)
-         (*it)->initialize(this);
+}
+
+void KnxChannelSensor::add(SensorBridge* sensorBridge)
+{
+    sensorBridges.push_back(sensorBridge);
+    sensorBridge->initialize(this);
+}
+
+void KnxChannelSensor::remove(SensorBridge* sensorBridge)
+{
+    sensorBridges.remove(sensorBridge);
+    delete sensorBridge;
 }
 
 const std::string KnxChannelSensor::name()
@@ -35,7 +45,7 @@ void KnxChannelSensor::processInputKo(GroupObject &ko)
         bool value = koGet(KO_SENSOR_FEEDBACK);
         if (!ParamBRI_CHContactAlarmSensorInvert)
             value = !value;
-        for (auto it = sensorBridges->begin(); it != sensorBridges->end(); ++it)
+        for (auto it = sensorBridges.begin(); it != sensorBridges.end(); ++it)
         {
             (*it)->setDetected(value);
         }

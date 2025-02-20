@@ -1,3 +1,5 @@
+#ifndef SMARTHOMEBRIDGE_DEVICESONLY  
+
 #include "HomeKitSwitch.h"
 
 HomeKitSwitch::HomeKitSwitch(int device) :
@@ -38,3 +40,4 @@ void HomeKitSwitch::setPower(bool value)
 {
     power->setVal(value);
 }
+#endif

@@ -1,3 +1,5 @@
+#ifndef SMARTHOMEBRIDGE_DEVICESONLY  
+
 #include "HomeKitRGB.h"
 
 struct rgb {
@@ -184,3 +186,4 @@ void HomeKitRGB::setRGB(uint32_t rgbValue)
     }
 }
 
+#endif

@@ -4,7 +4,6 @@
 #ifndef SMARTHOMEBRIDGE_DEVICESONLY
 #include <WiFi.h>
 #include <NetworkModule.h>
-#include "HomeSpan.h"
 #include "HomeKitBridge.h"
 #include "HueBridge.h"
 #endif
@@ -26,54 +25,44 @@
 #include "CP1252ToUTF8.h"
 
 
-SwitchBridge* BridgeBase::createSwitch(uint8_t _channelIndex /* this parameter is used in macros, do not rename */, uint8_t deviceType)
+void BridgeBase::createSwitch(KnxChannelSwitch& channel, uint8_t _channelIndex /* this parameter is used in macros, do not rename */, uint8_t deviceType)
 {
-  return nullptr;
 }
 
-DimmerBridge* BridgeBase::createDimmer(uint8_t _channelIndex /* this parameter is used in macros, do not rename */, uint8_t deviceType)
+void BridgeBase::createDimmer(KnxChannelDimmer& channel, uint8_t _channelIndex /* this parameter is used in macros, do not rename */, uint8_t deviceType)
 {
-  return nullptr;
 }
 
-RGBBridge* BridgeBase::createRGB(uint8_t _channelIndex /* this parameter is used in macros, do not rename */, uint8_t deviceType)
+void BridgeBase::createRGB(KnxChannelRGB& channel, uint8_t _channelIndex /* this parameter is used in macros, do not rename */, uint8_t deviceType)
 {
-  return nullptr;
 }
 
-RolladenBridge* BridgeBase::createJalousien(uint8_t _channelIndex /* this parameter is used in macros, do not rename */, uint8_t deviceType)
+void BridgeBase::createJalousien(KnxChannelJalousie& channel, uint8_t _channelIndex /* this parameter is used in macros, do not rename */, uint8_t deviceType)
 {
-  return nullptr;
 }
 
-RolladenBridge* BridgeBase::createRolladen(uint8_t _channelIndex /* this parameter is used in macros, do not rename */, uint8_t deviceType)
+void BridgeBase::createRolladen(KnxChannelRolladen& channel, uint8_t _channelIndex /* this parameter is used in macros, do not rename */, uint8_t deviceType)
 {
-  return nullptr;
 }
 
-ThermostatBridge* BridgeBase::createThermostat(uint8_t _channelIndex /* this parameter is used in macros, do not rename */, uint8_t deviceType)
+void BridgeBase::createThermostat(KnxChannelThermostat& channel, uint8_t _channelIndex /* this parameter is used in macros, do not rename */, uint8_t deviceType)
 {
-  return nullptr;
 }
 
-DisplayBridge* BridgeBase::createDisplay(uint8_t _channelIndex /* this parameter is used in macros, do not rename */, uint8_t deviceType)
+void BridgeBase::createDisplay(KnxChannelDisplay& channel, uint8_t _channelIndex /* this parameter is used in macros, do not rename */, uint8_t deviceType)
 {
-  return nullptr;
 }
 
-SensorBridge* BridgeBase::createSensor(uint8_t _channelIndex /* this parameter is used in macros, do not rename */, uint8_t deviceType)
+void BridgeBase::createSensor(KnxChannelSensor& channel, uint8_t _channelIndex /* this parameter is used in macros, do not rename */, uint8_t deviceType)
 {
-  return nullptr;
 }
 
-FanBridge* BridgeBase::createFan(uint8_t _channelIndex /* this parameter is used in macros, do not rename */, uint8_t deviceType)
+void BridgeBase::createFan(KnxChannelFan& channel, uint8_t _channelIndex /* this parameter is used in macros, do not rename */, uint8_t deviceType)
 {
-  return nullptr;
-}
+} 
 
-DoorWindowBridge* BridgeBase::createDoorWindow(uint8_t _channelIndex /* this parameter is used in macros, do not rename */, uint8_t deviceType)
+void BridgeBase::createDoorWindow(KnxChannelDoorWindow& channel, uint8_t _channelIndex /* this parameter is used in macros, do not rename */, uint8_t deviceType)
 {
-  return nullptr;
 }
 
 
@@ -170,14 +159,12 @@ OpenKNX::Channel *SmartHomeBridgeModule::createChannel(uint8_t _channelIndex /* 
   case 11:
   {
     logInfoP("Device: %d - On/Off", _channelIndex + 1);
-    auto switchBridges = new DynamicPointerArray<SwitchBridge>();
+    auto channel = new KnxChannelSwitch(_channelIndex);
     for (auto it = bridgeInterfaces->begin(); it != bridgeInterfaces->end(); ++it)
     {
-      auto switchBridge = (*it)->createSwitch(_channelIndex, deviceType);
-      if (switchBridge != nullptr)
-          switchBridges->push_back(switchBridge);
+      (*it)->createSwitch(*channel, _channelIndex, deviceType);
     }
-    return new KnxChannelSwitch(switchBridges, _channelIndex);
+    return channel;
   }
   case 20:
   {
@@ -186,38 +173,32 @@ OpenKNX::Channel *SmartHomeBridgeModule::createChannel(uint8_t _channelIndex /* 
     case 0:
     {
       logInfoP("Device: %d - On/Off Light", _channelIndex + 1);
-      auto onOffBridges = new DynamicPointerArray<SwitchBridge>();
+      auto channel = new KnxChannelSwitch(_channelIndex);
       for (auto it = bridgeInterfaces->begin(); it != bridgeInterfaces->end(); ++it)
       {
-        auto onOffBridge = (*it)->createSwitch(_channelIndex, deviceType);
-        if (onOffBridge != nullptr)
-          onOffBridges->push_back(onOffBridge);
+        (*it)->createSwitch(*channel, _channelIndex, deviceType);
       }
-      return new KnxChannelSwitch(onOffBridges, _channelIndex);
+      return channel;
     }
     case 1:
     {
       logInfoP("Device: %d - Dimmer", _channelIndex + 1);
-      auto dimmerBridges = new DynamicPointerArray<DimmerBridge>();
+      auto channel = new KnxChannelDimmer(_channelIndex);
       for (auto it = bridgeInterfaces->begin(); it != bridgeInterfaces->end(); ++it)
       {
-        auto dimmerBridge = (*it)->createDimmer(_channelIndex, deviceType);
-        if (dimmerBridge != nullptr)
-          dimmerBridges->push_back(dimmerBridge);
+        (*it)->createDimmer(*channel, _channelIndex, deviceType);
       }
-      return new KnxChannelDimmer(dimmerBridges, _channelIndex);
+      return channel;
     }
     case 2:
     {
       logInfoP("Device: %d - RGB", _channelIndex + 1);
-      auto rdbBridges = new DynamicPointerArray<RGBBridge>();
+      auto channel = new KnxChannelRGB(_channelIndex);
       for (auto it = bridgeInterfaces->begin(); it != bridgeInterfaces->end(); ++it)
       {
-        auto rdbBridge = (*it)->createRGB(_channelIndex, deviceType);
-        if (rdbBridge != nullptr)
-          rdbBridges->push_back(rdbBridge);
+        (*it)->createRGB(*channel, _channelIndex, deviceType);
       }
-      return new KnxChannelRGB(rdbBridges, _channelIndex);
+      return channel;
     }
     }
     logInfoP("Device: %d - Unkown type subdevice %d for %d", _channelIndex + 1, ParamBRI_CHLightType, deviceType);
@@ -226,53 +207,45 @@ OpenKNX::Channel *SmartHomeBridgeModule::createChannel(uint8_t _channelIndex /* 
   case 30:
   {
     logInfoP("Device: %d - Jalousien", _channelIndex + 1);
-    auto jalousieBridges = new DynamicPointerArray<RolladenBridge>();
+    auto channel = new KnxChannelJalousie(_channelIndex);
     for (auto it = bridgeInterfaces->begin(); it != bridgeInterfaces->end(); ++it)
     {
-      auto jalousieBridge = (*it)->createJalousien(_channelIndex, deviceType);
-      if (jalousieBridge != nullptr)
-        jalousieBridges->push_back(jalousieBridge);
+      (*it)->createJalousien(*channel, _channelIndex, deviceType);
     }
-    return new KnxChannelJalousie(jalousieBridges, _channelIndex);
+    return channel;
   }
   case 31:
   case 32:
   {
     logInfoP("Device: %d - Rolladen", _channelIndex + 1);
-    auto rolladenBridges = new DynamicPointerArray<RolladenBridge>();
+    auto channel = new KnxChannelRolladen(_channelIndex);
     for (auto it = bridgeInterfaces->begin(); it != bridgeInterfaces->end(); ++it)
     {
-      auto rolladenBridge = (*it)->createRolladen(_channelIndex, deviceType);
-      if (rolladenBridge != nullptr)
-        rolladenBridges->push_back(rolladenBridge);
+      (*it)->createRolladen(*channel, _channelIndex, deviceType);
     }
-    return new KnxChannelRolladen(rolladenBridges, _channelIndex);
+    return channel;
   }
   case 50:
   {
     logInfoP("Device: %d - Thermostat", _channelIndex + 1);
-    auto thermostatBridges = new DynamicPointerArray<ThermostatBridge>();
+    auto channel = new KnxChannelThermostat(_channelIndex);
     for (auto it = bridgeInterfaces->begin(); it != bridgeInterfaces->end(); ++it)
     {
-      auto thermostatBridge = (*it)->createThermostat(_channelIndex, deviceType);
-      if (thermostatBridge != nullptr)
-        thermostatBridges->push_back(thermostatBridge);
+      (*it)->createThermostat(*channel, _channelIndex, deviceType);
     }
-    return new KnxChannelThermostat(thermostatBridges, _channelIndex);
+    return channel;
   }
   case 60:
   case 61:
   case 62:
   {
     logInfoP("Device: %d - Display", _channelIndex + 1);
-    auto displayBridges = new DynamicPointerArray<DisplayBridge>();
+    auto channel = new KnxChannelDisplay(_channelIndex);
     for (auto it = bridgeInterfaces->begin(); it != bridgeInterfaces->end(); ++it)
     {
-      auto displayBridge = (*it)->createDisplay(_channelIndex, deviceType);
-      if (displayBridge != nullptr)
-        displayBridges->push_back(displayBridge);
+      (*it)->createDisplay(*channel, _channelIndex, deviceType);
     }
-    return new KnxChannelDisplay(displayBridges, _channelIndex);
+    return channel;
   }
   case 70:
   case 71:
@@ -283,40 +256,34 @@ OpenKNX::Channel *SmartHomeBridgeModule::createChannel(uint8_t _channelIndex /* 
   case 76:
   {
     logInfoP("Device: %d - Sensor", _channelIndex + 1);
-    auto sensorBridges = new DynamicPointerArray<SensorBridge>();
+    auto channel = new KnxChannelSensor(_channelIndex);
     for (auto it = bridgeInterfaces->begin(); it != bridgeInterfaces->end(); ++it)
     {
-      auto sensorBridge = (*it)->createSensor(_channelIndex, deviceType);
-      if (sensorBridge != nullptr)
-        sensorBridges->push_back(sensorBridge);
+      (*it)->createSensor(*channel, _channelIndex, deviceType);
     }
-    return new KnxChannelSensor(sensorBridges, _channelIndex);
+    return channel;
   }
   case 80:
   {
     logInfoP("Device: %d - Fan", _channelIndex + 1);
-    auto fanBridges = new DynamicPointerArray<FanBridge>();
+    auto channel = new KnxChannelFan(_channelIndex);
     for (auto it = bridgeInterfaces->begin(); it != bridgeInterfaces->end(); ++it)
     {
-      auto fanBridge = (*it)->createFan(_channelIndex, deviceType);
-      if (fanBridge != nullptr)
-        fanBridges->push_back(fanBridge);
+      (*it)->createFan(*channel, _channelIndex, deviceType);
     }
-    return new KnxChannelFan(fanBridges, _channelIndex);
+    return channel;
   }
   case 90:
   case 91:
   case 92:
   {
     logInfoP("Device: %d - DoorWindow", _channelIndex + 1);
-    auto doorWindowBridges = new DynamicPointerArray<DoorWindowBridge>();
+    auto channel = new KnxChannelDoorWindow(_channelIndex);
     for (auto it = bridgeInterfaces->begin(); it != bridgeInterfaces->end(); ++it)
     {
-      auto doorWindowBridge = (*it)->createDoorWindow(_channelIndex, deviceType);
-      if (doorWindowBridge != nullptr)
-        doorWindowBridges->push_back(doorWindowBridge);
+      (*it)->createDoorWindow(*channel, _channelIndex, deviceType);
     }
-    return new KnxChannelDoorWindow(doorWindowBridges, _channelIndex);
+    return channel;
   }
   default:
   {
@@ -463,6 +430,7 @@ void SmartHomeBridgeModule::processInputKo(GroupObject &ko)
   ChannelOwnerModule::processInputKo(ko);
 }
 
+#ifndef SMARTHOMEBRIDGE_DEVICESONLY  
 WebServer *SmartHomeBridgeModule::getWebServer()
 {
   return webServer;
@@ -616,5 +584,6 @@ void SmartHomeBridgeModule::serveHomePage()
   res += "</body>";
   webServer->send(200, "text/html;charset=UTF-8", res);
 }
+#endif
 
 SmartHomeBridgeModule openknxSmartHomeBridgeModule;

@@ -1,4 +1,6 @@
 #pragma once
+#ifndef SMARTHOMEBRIDGE_DEVICESONLY  
+
 #include "HomeSpan.h"
 #include "KnxChannelRolladen.h"
 
@@ -35,3 +37,5 @@ public:
     virtual void setPosition(uint8_t position) override;
     virtual void setMovement(MoveState movement) override;
 };
+
+#endif

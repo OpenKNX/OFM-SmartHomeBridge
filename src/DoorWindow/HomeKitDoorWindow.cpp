@@ -1,3 +1,5 @@
+#ifndef SMARTHOMEBRIDGE_DEVICESONLY  
+
 #include "HomeKitDoorWindow.h"
 
 HomeKitDoorWindow::HomeKitDoorWindow(int device) :
@@ -140,3 +142,5 @@ void HomeKitDoorWindow::setObstructionDetected(bool detected)
     if (obstructionDetected != nullptr)
         obstructionDetected->setVal(detected);
 }
+
+#endif

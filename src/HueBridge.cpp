@@ -1,3 +1,5 @@
+
+#ifndef SMARTHOMEBRIDGE_DEVICESONLY  
 #include "HueBridge.h"
 #include "Switch/KnxChannelSwitch.h"
 #include "Switch/HueSwitch.h"
@@ -6,6 +8,7 @@
 #include "RGB/KnxChannelRGB.h"
 #include "RGB/HueRGB.h"
 #include "Rolladen/KnxChannelRolladen.h"
+#include "Jalousie/KnxChannelJalousie.h"
 #include "Rolladen/HueRolladen.h"
 #include "Fan/KnxChannelFan.h"
 #include "Fan/HueFan.h"
@@ -27,39 +30,46 @@ void HueBridge::showHelp()
     
 }
 
-SwitchBridge* HueBridge::createSwitch(uint8_t _channelIndex, uint8_t deviceType)
+void HueBridge::createSwitch(KnxChannelSwitch& channel, uint8_t _channelIndex, uint8_t deviceType)
 {
-    return ParamBRI_CHSwitchHueEmulation ? new HueSwitch(this) : nullptr;
+    if (ParamBRI_CHSwitchHueEmulation)
+         channel.add(new HueSwitch(this));
 }
 
-DimmerBridge* HueBridge::createDimmer(uint8_t _channelIndex, uint8_t deviceType)
+void HueBridge::createDimmer(KnxChannelDimmer& channel, uint8_t _channelIndex, uint8_t deviceType)
 {
-    return ParamBRI_CHSwitchHueEmulation ? new HueDimmer(this) : nullptr;
+    if (ParamBRI_CHSwitchHueEmulation)
+        channel.add(new HueDimmer(this));
 }
 
-RGBBridge* HueBridge::createRGB(uint8_t _channelIndex, uint8_t deviceType)
+void HueBridge::createRGB(KnxChannelRGB& channel, uint8_t _channelIndex, uint8_t deviceType)
 {
-    return ParamBRI_CHSwitchHueEmulation ? new HueRGB(this) : nullptr;
+    if (ParamBRI_CHSwitchHueEmulation)
+        channel.add(new HueRGB(this));
 }
 
-RolladenBridge* HueBridge::createJalousien(uint8_t _channelIndex, uint8_t deviceType)
+void HueBridge::createJalousien(KnxChannelJalousie& channel, uint8_t _channelIndex, uint8_t deviceType)
 {
-    return ParamBRI_CHJalousieHueEmulation ? new HueRolladen(this) : nullptr;
+    if (ParamBRI_CHJalousieHueEmulation)
+        channel.add(new HueRolladen(this));
 }
 
-RolladenBridge* HueBridge::createRolladen(uint8_t _channelIndex, uint8_t deviceType)
+void HueBridge::createRolladen(KnxChannelRolladen& channel, uint8_t _channelIndex, uint8_t deviceType)
 {
-    return ParamBRI_CHJalousieHueEmulation ? new HueRolladen(this) : nullptr;
+    if (ParamBRI_CHJalousieHueEmulation)
+        channel.add(new HueRolladen(this));
 }
 
-FanBridge* HueBridge::createFan(uint8_t _channelIndex, uint8_t deviceType)
+void HueBridge::createFan(KnxChannelFan& channel, uint8_t _channelIndex, uint8_t deviceType)
 {
-    return ParamBRI_CHFanHueEmulation ? new HueFan(this) : nullptr;
+    if (ParamBRI_CHFanHueEmulation)
+        channel.add(new HueFan(this));
 }
 
-DoorWindowBridge* HueBridge::createDoorWindow(uint8_t _channelIndex, uint8_t deviceType)
+void HueBridge::createDoorWindow(KnxChannelDoorWindow& channel, uint8_t _channelIndex, uint8_t deviceType)
 {
-    return ParamBRI_CHDoorHueEmulation ? new HueDoorWindow(this) : nullptr;
+    if (ParamBRI_CHDoorHueEmulation)
+        channel.add(new HueDoorWindow(this));
 }
 
 const std::string HueBridge::name()
@@ -97,3 +107,4 @@ void HueBridge::getInformation(String& result)
     result += "Anzahl der Geräte: " + (String) espalexa.getNumberOfDevices();  
     result += "<br><a href=\"espalexa\">Information (in Englisch)</a>";
 }
+#endif

@@ -1,3 +1,5 @@
+#ifndef SMARTHOMEBRIDGE_DEVICESONLY  
+
 #include "HomeKitDimmer.h"
 
 HomeKitDimmer::HomeKitDimmer(int device) :
@@ -43,3 +45,5 @@ void HomeKitDimmer::setBrightness(uint8_t brightness)
         power->setVal(true);
     }
 }
+
+#endif

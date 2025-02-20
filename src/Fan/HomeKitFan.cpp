@@ -1,3 +1,5 @@
+#ifndef SMARTHOMEBRIDGE_DEVICESONLY  
+
 #include "HomeKitFan.h"
 
 HomeKitFan::HomeKitFan(int device) :
@@ -78,3 +80,5 @@ void HomeKitFan::setAutomatic(bool automatic)
         }
     }
 }
+
+#endif

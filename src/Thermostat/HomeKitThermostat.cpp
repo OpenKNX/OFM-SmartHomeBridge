@@ -1,3 +1,4 @@
+#ifndef SMARTHOMEBRIDGE_DEVICESONLY  
 #include "HomeKitThermostat.h"
 
 HomeKitThermostat::HomeKitThermostat(int device) :
@@ -104,3 +105,5 @@ void HomeKitThermostat::setCurrentState(ThermostatCurrentState state)
             break;
     }
 }
+
+#endif
