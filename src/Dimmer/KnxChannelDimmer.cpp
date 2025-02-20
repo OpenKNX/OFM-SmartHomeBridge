@@ -1,6 +1,7 @@
 #include <knx.h>
 #include "knxprod.h"
 #include "KnxChannelDimmer.h"
+#include "BridgeBase.h"
 
 #define KO_DIMMER           KoBRI_KO1_, DPT_Scaling
 #define KO_DIMMER_FEEDBACK  KoBRI_KO2_, DPT_Scaling
@@ -17,6 +18,16 @@ KnxChannelDimmer::KnxChannelDimmer(uint16_t _channelIndex)
     : KnxChannelBase(_channelIndex),
       dimmerBridges()
 {
+}
+
+void* KnxChannelDimmer::createBridgeDevice(BridgeBase &bridge)
+{
+    return bridge.createDimmer(*this, _channelIndex, ParamBRI_CHDeviceType);
+}
+
+void KnxChannelDimmer::deleteBridgeDevice(void *device)
+{
+    remove((DimmerBridge *)device);
 }
 
 void KnxChannelDimmer::add(DimmerBridge *dimmerBridge)

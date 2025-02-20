@@ -1,6 +1,7 @@
 #include <knx.h>
 #include "knxprod.h"
 #include "KnxChannelDoorWindow.h"
+#include "BridgeBase.h"
 
 #define KO_POSITION                   KoBRI_KO1_, DPT_Scaling
 #define KO_FEEDBACK_PERCENT           KoBRI_KO2_, DPT_Scaling
@@ -22,6 +23,16 @@ KnxChannelDoorWindow::KnxChannelDoorWindow(uint16_t channelIndex)
     : KnxChannelBase(channelIndex),
       interfaces()
 {
+}
+
+void* KnxChannelDoorWindow::createBridgeDevice(BridgeBase &bridge)
+{
+    return bridge.createDoorWindow(*this, _channelIndex, ParamBRI_CHDeviceType);
+}
+
+void KnxChannelDoorWindow::deleteBridgeDevice(void *device)
+{
+    remove((DoorWindowBridge *)device);
 }
 
 void KnxChannelDoorWindow::add(DoorWindowBridge* interface)

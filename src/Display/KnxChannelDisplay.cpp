@@ -1,6 +1,7 @@
 #include <knx.h>
 #include "knxprod.h"
 #include "KnxChannelDisplay.h"
+#include "BridgeBase.h"
 
 #define KO_TEMPERATURE_FEEDBACK KoBRI_KO1_, DPT_Value_Temp
 #define KO_HUMIDITY_FEEDBACK    KoBRI_KO1_, DPT_Value_Humidity
@@ -10,6 +11,16 @@ KnxChannelDisplay::KnxChannelDisplay(uint16_t _channelIndex)
     : KnxChannelBase(_channelIndex),
       displayBridges()
 {
+}
+
+void *KnxChannelDisplay::createBridgeDevice(BridgeBase &bridge)
+{
+    return bridge.createDisplay(*this, _channelIndex, ParamBRI_CHDisplayType);
+}
+
+void KnxChannelDisplay::deleteBridgeDevice(void *device)
+{
+    remove((DisplayBridge *)device);
 }
 
 void KnxChannelDisplay::add(DisplayBridge *displayBridge)

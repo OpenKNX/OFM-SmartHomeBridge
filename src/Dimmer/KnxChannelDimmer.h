@@ -16,6 +16,9 @@ class KnxChannelDimmer : public KnxChannelBase
         KnxChannelDimmer(uint16_t channelIndex);
         void add(DimmerBridge* dimmerBridge);
         void remove(DimmerBridge* dimmerBridge);
+        virtual void* createBridgeDevice(BridgeBase& bridge) override;
+        virtual void deleteBridgeDevice(void* device) override;
+
     protected:
         uint8_t lastBrighness = 100;
         uint8_t lastBrighnessLessThan100 = 50;

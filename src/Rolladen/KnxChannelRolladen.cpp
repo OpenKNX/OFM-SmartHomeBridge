@@ -1,6 +1,7 @@
 #include <knx.h>
 #include "knxprod.h"
 #include "KnxChannelRolladen.h"
+#include "BridgeBase.h"
 
 #define KO_POSITION               KoBRI_KO1_, DPT_Scaling
 #define KO_POSITION_FEEDBACK      KoBRI_KO2_, DPT_Scaling
@@ -13,6 +14,16 @@ KnxChannelRolladen::KnxChannelRolladen(uint16_t channelIndex)
     : KnxChannelBase(channelIndex),
       interfaces()
 {
+}
+
+void* KnxChannelRolladen::createBridgeDevice(BridgeBase &bridge)
+{
+    return bridge.createRolladen(*this, _channelIndex, ParamBRI_CHDeviceType);
+}
+
+void KnxChannelRolladen::deleteBridgeDevice(void *device)
+{
+    remove((RolladenBridge *)device);
 }
 
 void KnxChannelRolladen::add(RolladenBridge* interface)

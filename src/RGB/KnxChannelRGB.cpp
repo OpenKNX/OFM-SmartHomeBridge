@@ -1,6 +1,7 @@
 #include <knx.h>
 #include "knxprod.h"
 #include "KnxChannelRGB.h"
+#include "BridgeBase.h"
 
 #define KO_RGB             KoBRI_KO1_, DPT_Colour_RGB
 #define KO_RGB_FEEDBACK    KoBRI_KO2_, DPT_Colour_RGB
@@ -28,6 +29,16 @@ KnxChannelRGB::KnxChannelRGB(uint16_t _channelIndex)
     : KnxChannelBase(_channelIndex),
       RGBBridges()
 {
+}
+
+void* KnxChannelRGB::createBridgeDevice(BridgeBase &bridge)
+{
+    return bridge.createRGB(*this, _channelIndex, ParamBRI_CHDeviceType);
+}
+
+void KnxChannelRGB::deleteBridgeDevice(void *device)
+{
+    remove((RGBBridge *)device);
 }
 
 void KnxChannelRGB::add(RGBBridge* RGBBridge)

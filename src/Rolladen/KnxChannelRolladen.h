@@ -34,6 +34,8 @@ class KnxChannelRolladen : public KnxChannelBase
         KnxChannelRolladen(uint16_t channelIndex);
         void add(RolladenBridge* interface);
         void remove(RolladenBridge* interface);
+        virtual void* createBridgeDevice(BridgeBase& bridge) override;
+        virtual void deleteBridgeDevice(void* device) override;
     
     protected:
         volatile bool updatePosition = false;
@@ -48,4 +50,5 @@ class KnxChannelRolladen : public KnxChannelBase
     public:
         virtual bool commandPosition(RolladenBridge* interface, uint8_t position);
         virtual const std::string name() override;
+
 };

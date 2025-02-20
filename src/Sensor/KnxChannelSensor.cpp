@@ -1,6 +1,7 @@
 #include <knx.h>
 #include "KnxProd.h"
 #include "KnxChannelSensor.h"
+#include "BridgeBase.h"
 
 #define KO_SENSOR_FEEDBACK   KoBRI_KO1_, DPT_Switch
 
@@ -8,6 +9,16 @@ KnxChannelSensor::KnxChannelSensor(uint16_t _channelIndex)
     : KnxChannelBase(_channelIndex),
       sensorBridges()
 {
+}
+
+void* KnxChannelSensor::createBridgeDevice(BridgeBase &bridge)
+{
+    return bridge.createSensor(*this, _channelIndex, ParamBRI_CHDeviceType);
+}
+
+void KnxChannelSensor::deleteBridgeDevice(void *device)
+{
+    remove((SensorBridge *)device);
 }
 
 void KnxChannelSensor::add(SensorBridge* sensorBridge)

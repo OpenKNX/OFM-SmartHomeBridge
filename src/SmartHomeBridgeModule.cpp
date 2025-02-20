@@ -19,52 +19,8 @@
 #include "./Fan/KnxChannelFan.h"
 #include "./DoorWindow/KnxChannelDoorWindow.h"
 
-
-
 #include "knxprod.h"
 #include "CP1252ToUTF8.h"
-
-
-void BridgeBase::createSwitch(KnxChannelSwitch& channel, uint8_t _channelIndex /* this parameter is used in macros, do not rename */, uint8_t deviceType)
-{
-}
-
-void BridgeBase::createDimmer(KnxChannelDimmer& channel, uint8_t _channelIndex /* this parameter is used in macros, do not rename */, uint8_t deviceType)
-{
-}
-
-void BridgeBase::createRGB(KnxChannelRGB& channel, uint8_t _channelIndex /* this parameter is used in macros, do not rename */, uint8_t deviceType)
-{
-}
-
-void BridgeBase::createJalousien(KnxChannelJalousie& channel, uint8_t _channelIndex /* this parameter is used in macros, do not rename */, uint8_t deviceType)
-{
-}
-
-void BridgeBase::createRolladen(KnxChannelRolladen& channel, uint8_t _channelIndex /* this parameter is used in macros, do not rename */, uint8_t deviceType)
-{
-}
-
-void BridgeBase::createThermostat(KnxChannelThermostat& channel, uint8_t _channelIndex /* this parameter is used in macros, do not rename */, uint8_t deviceType)
-{
-}
-
-void BridgeBase::createDisplay(KnxChannelDisplay& channel, uint8_t _channelIndex /* this parameter is used in macros, do not rename */, uint8_t deviceType)
-{
-}
-
-void BridgeBase::createSensor(KnxChannelSensor& channel, uint8_t _channelIndex /* this parameter is used in macros, do not rename */, uint8_t deviceType)
-{
-}
-
-void BridgeBase::createFan(KnxChannelFan& channel, uint8_t _channelIndex /* this parameter is used in macros, do not rename */, uint8_t deviceType)
-{
-} 
-
-void BridgeBase::createDoorWindow(KnxChannelDoorWindow& channel, uint8_t _channelIndex /* this parameter is used in macros, do not rename */, uint8_t deviceType)
-{
-}
-
 
 SmartHomeBridgeModule::SmartHomeBridgeModule()
 {
@@ -78,10 +34,10 @@ const std::string SmartHomeBridgeModule::name()
 void SmartHomeBridgeModule::showInformations()
 {
 #ifdef MODULE_SmartHomeBridge_Version
-    openknx.logger.logWithPrefixAndValues(logPrefix(), "Smart Home Bridge %s", MODULE_SmartHomeBridge_Version);
+  openknx.logger.logWithPrefixAndValues(logPrefix(), "Smart Home Bridge %s", MODULE_SmartHomeBridge_Version);
 #else
-    openknx.logger.logWithPrefix(logPrefix(), "Smart Home Bridge");
-#endif  
+  openknx.logger.logWithPrefix(logPrefix(), "Smart Home Bridge");
+#endif
 }
 
 const std::string SmartHomeBridgeModule::version()
@@ -111,25 +67,25 @@ void SmartHomeBridgeModule::setup()
 
 #ifndef SMARTHOMEBRIDGE_DEVICESONLY
   webServer = new WebServer(webServerPort);
- 
+
   bool homeKitEnabled = ParamBRI_HomeKitEnabled;
   if (homeKitEnabled)
   {
     logDebugP("Homekit enabled");
     addBridge(new HomeKitBridge());
   }
-  
+
   bool hueEnabled = ParamBRI_HueEnabled;
   if (hueEnabled)
   {
     logDebugP("Hue enabled");
     addBridge(new HueBridge());
-  }  
+  }
 #else
   startBridge();
 #endif
-  
- // Do not call base class here, because this creates the channels
+
+  // Do not call base class here, because this creates the channels
 }
 
 void SmartHomeBridgeModule::addBridge(BridgeBase *bridge)
@@ -148,6 +104,7 @@ OpenKNX::Channel *SmartHomeBridgeModule::createChannel(uint8_t _channelIndex /* 
     logInfoP("Device: %d - Disabled", _channelIndex + 1);
     return nullptr;
   }
+  KnxChannelBase *channel = nullptr;
   switch (deviceType)
   {
   case 0:
@@ -157,96 +114,40 @@ OpenKNX::Channel *SmartHomeBridgeModule::createChannel(uint8_t _channelIndex /* 
   }
   case 10:
   case 11:
-  {
-    logInfoP("Device: %d - On/Off", _channelIndex + 1);
-    auto channel = new KnxChannelSwitch(_channelIndex);
-    for (auto it = bridgeInterfaces->begin(); it != bridgeInterfaces->end(); ++it)
-    {
-      (*it)->createSwitch(*channel, _channelIndex, deviceType);
-    }
-    return channel;
-  }
+    channel = new KnxChannelSwitch(_channelIndex);
+    break;
   case 20:
-  {
     switch (ParamBRI_CHLightType)
     {
     case 0:
-    {
-      logInfoP("Device: %d - On/Off Light", _channelIndex + 1);
-      auto channel = new KnxChannelSwitch(_channelIndex);
-      for (auto it = bridgeInterfaces->begin(); it != bridgeInterfaces->end(); ++it)
-      {
-        (*it)->createSwitch(*channel, _channelIndex, deviceType);
-      }
-      return channel;
-    }
+      channel = new KnxChannelSwitch(_channelIndex);
+      break;
     case 1:
-    {
-      logInfoP("Device: %d - Dimmer", _channelIndex + 1);
-      auto channel = new KnxChannelDimmer(_channelIndex);
-      for (auto it = bridgeInterfaces->begin(); it != bridgeInterfaces->end(); ++it)
-      {
-        (*it)->createDimmer(*channel, _channelIndex, deviceType);
-      }
-      return channel;
-    }
+      channel = new KnxChannelDimmer(_channelIndex);
+      break;
     case 2:
-    {
-      logInfoP("Device: %d - RGB", _channelIndex + 1);
-      auto channel = new KnxChannelRGB(_channelIndex);
-      for (auto it = bridgeInterfaces->begin(); it != bridgeInterfaces->end(); ++it)
-      {
-        (*it)->createRGB(*channel, _channelIndex, deviceType);
-      }
-      return channel;
+      channel = new KnxChannelRGB(_channelIndex);
+      break;
+    default:
+      logInfoP("Device: %d - Unkown type subdevice %d for %d", _channelIndex + 1, ParamBRI_CHLightType, deviceType);
+      return nullptr;
     }
-    }
-    logInfoP("Device: %d - Unkown type subdevice %d for %d", _channelIndex + 1, ParamBRI_CHLightType, deviceType);
-    return nullptr;
-  }
   case 30:
-  {
-    logInfoP("Device: %d - Jalousien", _channelIndex + 1);
-    auto channel = new KnxChannelJalousie(_channelIndex);
-    for (auto it = bridgeInterfaces->begin(); it != bridgeInterfaces->end(); ++it)
-    {
-      (*it)->createJalousien(*channel, _channelIndex, deviceType);
-    }
-    return channel;
-  }
+    channel = new KnxChannelJalousie(_channelIndex);
+    break;
   case 31:
   case 32:
-  {
-    logInfoP("Device: %d - Rolladen", _channelIndex + 1);
-    auto channel = new KnxChannelRolladen(_channelIndex);
-    for (auto it = bridgeInterfaces->begin(); it != bridgeInterfaces->end(); ++it)
-    {
-      (*it)->createRolladen(*channel, _channelIndex, deviceType);
-    }
-    return channel;
-  }
+    channel = new KnxChannelRolladen(_channelIndex);
+    break;
+    break;
   case 50:
-  {
-    logInfoP("Device: %d - Thermostat", _channelIndex + 1);
-    auto channel = new KnxChannelThermostat(_channelIndex);
-    for (auto it = bridgeInterfaces->begin(); it != bridgeInterfaces->end(); ++it)
-    {
-      (*it)->createThermostat(*channel, _channelIndex, deviceType);
-    }
-    return channel;
-  }
+    channel = new KnxChannelThermostat(_channelIndex);
+    break;
   case 60:
   case 61:
   case 62:
-  {
-    logInfoP("Device: %d - Display", _channelIndex + 1);
-    auto channel = new KnxChannelDisplay(_channelIndex);
-    for (auto it = bridgeInterfaces->begin(); it != bridgeInterfaces->end(); ++it)
-    {
-      (*it)->createDisplay(*channel, _channelIndex, deviceType);
-    }
-    return channel;
-  }
+    channel = new KnxChannelDisplay(_channelIndex);
+    break;
   case 70:
   case 71:
   case 72:
@@ -254,43 +155,26 @@ OpenKNX::Channel *SmartHomeBridgeModule::createChannel(uint8_t _channelIndex /* 
   case 74:
   case 75:
   case 76:
-  {
-    logInfoP("Device: %d - Sensor", _channelIndex + 1);
-    auto channel = new KnxChannelSensor(_channelIndex);
-    for (auto it = bridgeInterfaces->begin(); it != bridgeInterfaces->end(); ++it)
-    {
-      (*it)->createSensor(*channel, _channelIndex, deviceType);
-    }
-    return channel;
-  }
+    channel = new KnxChannelSensor(_channelIndex);
+    break;
   case 80:
-  {
-    logInfoP("Device: %d - Fan", _channelIndex + 1);
-    auto channel = new KnxChannelFan(_channelIndex);
-    for (auto it = bridgeInterfaces->begin(); it != bridgeInterfaces->end(); ++it)
-    {
-      (*it)->createFan(*channel, _channelIndex, deviceType);
-    }
-    return channel;
-  }
+    channel = new KnxChannelFan(_channelIndex);
   case 90:
   case 91:
   case 92:
-  {
-    logInfoP("Device: %d - DoorWindow", _channelIndex + 1);
-    auto channel = new KnxChannelDoorWindow(_channelIndex);
-    for (auto it = bridgeInterfaces->begin(); it != bridgeInterfaces->end(); ++it)
-    {
-      (*it)->createDoorWindow(*channel, _channelIndex, deviceType);
-    }
-    return channel;
-  }
+    channel = new KnxChannelDoorWindow(_channelIndex);
+    break;
   default:
-  {
     logInfoP("Device: %d - Unkown device type %d", _channelIndex + 1, deviceType);
     return nullptr;
   }
+  logInfoP("Device: %d - %s", _channelIndex + 1, channel->name().c_str());
+  for (auto it = bridgeInterfaces->begin(); it != bridgeInterfaces->end(); ++it)
+  {
+    channel->createBridgeDevice(**it);
   }
+  return channel;  
+  
 }
 
 bool SmartHomeBridgeModule::processCommand(const std::string cmd, bool diagnoseKo)
@@ -376,7 +260,7 @@ void SmartHomeBridgeModule::startBridge()
 
   createChannels();
 
-#ifndef SMARTHOMEBRIDGE_DEVICESONLY  
+#ifndef SMARTHOMEBRIDGE_DEVICESONLY
   for (auto it = bridgeInterfaces->begin(); it != bridgeInterfaces->end(); ++it)
     (*it)->initWebServer(*webServer);
 
@@ -385,12 +269,10 @@ void SmartHomeBridgeModule::startBridge()
   for (auto it = bridgeInterfaces->begin(); it != bridgeInterfaces->end(); ++it)
     (*it)->start(this);
 
-#ifndef SMARTHOMEBRIDGE_DEVICESONLY  
+#ifndef SMARTHOMEBRIDGE_DEVICESONLY
   webServer->begin();
 #endif
 }
-
-
 
 void SmartHomeBridgeModule::loop()
 {
@@ -430,7 +312,7 @@ void SmartHomeBridgeModule::processInputKo(GroupObject &ko)
   ChannelOwnerModule::processInputKo(ko);
 }
 
-#ifndef SMARTHOMEBRIDGE_DEVICESONLY  
+#ifndef SMARTHOMEBRIDGE_DEVICESONLY
 WebServer *SmartHomeBridgeModule::getWebServer()
 {
   return webServer;

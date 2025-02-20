@@ -1,6 +1,7 @@
 #include <knx.h>
 #include "knxprod.h"
 #include "KnxChannelSwitch.h"
+#include "BridgeBase.h"
 
 #define KO_SWITCH           KoBRI_KO1_, DPT_Switch
 #define KO_SWITCH_FEEDBACK  KoBRI_KO2_, DPT_Switch
@@ -9,6 +10,16 @@ KnxChannelSwitch::KnxChannelSwitch(uint16_t channelIndex)
     : KnxChannelBase(channelIndex),
       switchBridges()
 {
+}
+
+void* KnxChannelSwitch::createBridgeDevice(BridgeBase &bridge)
+{
+    return bridge.createSwitch(*this, _channelIndex, ParamBRI_CHDeviceType);
+}
+
+void KnxChannelSwitch::deleteBridgeDevice(void *device)
+{
+    remove((SwitchBridge *)device);
 }
 
 void KnxChannelSwitch::add(SwitchBridge *switchBridge)

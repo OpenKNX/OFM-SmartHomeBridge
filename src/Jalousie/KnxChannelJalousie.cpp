@@ -1,6 +1,7 @@
 #include <knx.h>
 #include "knxprod.h"
 #include "KnxChannelJalousie.h"
+#include "BridgeBase.h"
 
 #define KO_SLAT_POSITION          KoBRI_KO7_, DPT_Scaling
 #define KO_SLAT_POSITION_FEEDBACK KoBRI_KO8_, DPT_Scaling
@@ -9,6 +10,16 @@ KnxChannelJalousie::KnxChannelJalousie(uint16_t channelIndex)
     : KnxChannelRolladen(channelIndex)
 {  
 
+}
+
+void* KnxChannelJalousie::createBridgeDevice(BridgeBase &bridge)
+{
+    return bridge.createJalousien(*this, _channelIndex, ParamBRI_CHDeviceType);
+}
+
+void KnxChannelJalousie::deleteBridgeDevice(void *device)
+{
+    remove((RolladenBridge *)device);
 }
 
 void KnxChannelJalousie::add(RolladenBridge* interface)

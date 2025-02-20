@@ -1,6 +1,7 @@
 #include <knx.h>
 #include "knxprod.h"
 #include "KnxChannelThermostat.h"
+#include "BridgeBase.h"
 
 #define KO_TARGET_TEMPERATURE              KoBRI_KO1_, DPT_Value_Temp
 #define KO_TARGET_TEMPERATURE_FEEDBACK     KoBRI_KO2_, DPT_Value_Temp
@@ -21,6 +22,16 @@ KnxChannelThermostat::KnxChannelThermostat(uint16_t _channelIndex)
     : KnxChannelBase(_channelIndex),
       thermostatBridges()
 {
+}
+
+void* KnxChannelThermostat::createBridgeDevice(BridgeBase &bridge)
+{
+    return bridge.createThermostat(*this, _channelIndex, ParamBRI_CHDeviceType);
+}
+
+void KnxChannelThermostat::deleteBridgeDevice(void *device)
+{
+    remove((ThermostatBridge *)device);
 }
 
 void KnxChannelThermostat::add(ThermostatBridge* thermostatBridge)

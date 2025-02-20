@@ -4,6 +4,8 @@
 #include "DynamicPointerArray.h"
 #include "MemoryAllocator.h"
 
+class BridgeBase;
+
 template<class T> 
 class ChannelBridgeBase
 {
@@ -19,7 +21,7 @@ public:
     static void* operator new(size_t size)
     {
         return HS_MALLOC(size);
-    }
+    }  
 protected:
     virtual void setup(uint8_t _channelIndex)
     {
@@ -43,4 +45,6 @@ class KnxChannelBase : public OpenKNX::Channel, public Component
         virtual const std::string logPrefix() override;
         virtual const std::string name() = 0;
         const char* getNameInUTF8();
+        virtual void* createBridgeDevice(BridgeBase& bridge) = 0;
+        virtual void deleteBridgeDevice(void* device) = 0;
 };

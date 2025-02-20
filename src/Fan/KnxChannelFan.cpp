@@ -1,6 +1,7 @@
 #include <knx.h>
 #include "knxprod.h"
 #include "KnxChannelFan.h"
+#include "BridgeBase.h"
 
 #define KO_SWITCH             KoBRI_KO1_, DPT_Switch
 #define KO_SWITCH_FEEDBACK    KoBRI_KO2_, DPT_Switch
@@ -11,6 +12,16 @@ KnxChannelFan::KnxChannelFan(uint16_t channelIndex)
     : KnxChannelBase(channelIndex),
       fanBridges()
 {
+}
+
+void *KnxChannelFan::createBridgeDevice(BridgeBase &bridge)
+{
+    return bridge.createFan(*this, _channelIndex, ParamBRI_CHDeviceType);
+}
+
+void KnxChannelFan::deleteBridgeDevice(void *device)
+{
+    remove((FanBridge *)device);
 }
 
 void KnxChannelFan::add(FanBridge *fanBridge)
