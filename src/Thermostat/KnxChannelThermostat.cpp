@@ -24,12 +24,12 @@ KnxChannelThermostat::KnxChannelThermostat(uint16_t _channelIndex)
 {
 }
 
-void* KnxChannelThermostat::createBridgeDevice(BridgeBase &bridge)
+ChannelBridge* KnxChannelThermostat::createBridgeDevice(BridgeBase &bridge)
 {
     return bridge.createThermostat(*this, _channelIndex, ParamBRI_CHDeviceType);
 }
 
-void KnxChannelThermostat::deleteBridgeDevice(void *device)
+void KnxChannelThermostat::deleteBridgeDevice(ChannelBridge *device)
 {
     remove((ThermostatBridge *)device);
 }

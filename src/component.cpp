@@ -46,6 +46,11 @@ const KNXValue Component::koGet(GroupObject& ko, const Dpt& dpt)
     return ko.value(dpt);
 }
 
+bool Component::koInitialized(GroupObject& ko, const Dpt& dpt)
+{
+    return ko.initialized();
+}
+
 void Component::koSendReadRequest(GroupObject& ko, const Dpt& dpte)
 {
     logInfoP("Read request for ko %d", ko.asap());

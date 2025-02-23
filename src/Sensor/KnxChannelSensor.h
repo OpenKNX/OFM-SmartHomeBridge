@@ -27,8 +27,8 @@ class KnxChannelSensor : public KnxChannelBase
         KnxChannelSensor(uint16_t channelIndex);
         void add(SensorBridge* sensorBridge);
         void remove(SensorBridge* sensorBridge);
-        virtual void* createBridgeDevice(BridgeBase& bridge) override;
-        virtual void deleteBridgeDevice(void* device) override;
+        virtual ChannelBridge* createBridgeDevice(BridgeBase& bridge) override;
+        virtual void deleteBridgeDevice(ChannelBridge* device) override;
         SensorType getSensorType();
     protected:
         virtual void setup() override;

@@ -14,12 +14,12 @@ KnxChannelFan::KnxChannelFan(uint16_t channelIndex)
 {
 }
 
-void *KnxChannelFan::createBridgeDevice(BridgeBase &bridge)
+ChannelBridge *KnxChannelFan::createBridgeDevice(BridgeBase &bridge)
 {
     return bridge.createFan(*this, _channelIndex, ParamBRI_CHDeviceType);
 }
 
-void KnxChannelFan::deleteBridgeDevice(void *device)
+void KnxChannelFan::deleteBridgeDevice(ChannelBridge *device)
 {
     remove((FanBridge *)device);
 }

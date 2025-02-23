@@ -33,8 +33,8 @@ class KnxChannelDoorWindow : public KnxChannelBase
         KnxChannelDoorWindow(uint16_t channelIndex);
         void add(DoorWindowBridge* interface);
         void remove(DoorWindowBridge* interface);
-        virtual void* createBridgeDevice(BridgeBase& bridge) override;
-        virtual void deleteBridgeDevice(void* device) override;
+        virtual ChannelBridge* createBridgeDevice(BridgeBase& bridge) override;
+        virtual void deleteBridgeDevice(ChannelBridge* device) override;
 
     protected:
         volatile bool updatePosition = false;

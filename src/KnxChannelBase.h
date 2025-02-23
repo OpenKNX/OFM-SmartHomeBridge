@@ -6,8 +6,17 @@
 
 class BridgeBase;
 
+class ChannelBridge
+{
+    public:
+    static void* operator new(size_t size)
+    {
+        return HS_MALLOC(size);
+    }  
+};
+
 template<class T> 
-class ChannelBridgeBase
+class ChannelBridgeBase : public ChannelBridge
 {
 protected:
     T* _channel = nullptr;
@@ -18,10 +27,7 @@ public:
         setup(_channel->channelIndex());
     }
 
-    static void* operator new(size_t size)
-    {
-        return HS_MALLOC(size);
-    }  
+   
 protected:
     virtual void setup(uint8_t _channelIndex)
     {
@@ -45,6 +51,6 @@ class KnxChannelBase : public OpenKNX::Channel, public Component
         virtual const std::string logPrefix() override;
         virtual const std::string name() = 0;
         const char* getNameInUTF8();
-        virtual void* createBridgeDevice(BridgeBase& bridge) = 0;
-        virtual void deleteBridgeDevice(void* device) = 0;
+        virtual ChannelBridge* createBridgeDevice(BridgeBase& bridge) = 0;
+        virtual void deleteBridgeDevice(ChannelBridge* device) = 0;
 };

@@ -177,6 +177,16 @@ OpenKNX::Channel *SmartHomeBridgeModule::createChannel(uint8_t _channelIndex /* 
   
 }
 
+KnxChannelBase* SmartHomeBridgeModule::getChannel(uint8_t channelIndex)
+{
+  if (_pChannels == nullptr)
+    return nullptr;
+  if (channelIndex >= getNumberOfUsedChannels())
+    return nullptr;
+
+  return (KnxChannelBase*)_pChannels[channelIndex];
+}
+
 bool SmartHomeBridgeModule::processCommand(const std::string cmd, bool diagnoseKo)
 {
   if (bridgeInterfaces != nullptr)

@@ -42,14 +42,14 @@ public:
     virtual FanBridge* createFan(KnxChannelFan& channel, uint8_t _channelIndex /* this parameter is used in macros, do not rename */, uint8_t deviceType);
     virtual DoorWindowBridge* createDoorWindow(KnxChannelDoorWindow& channel, uint8_t _channelIndex /* this parameter is used in macros, do not rename */, uint8_t deviceType);     
 
-    virtual void initialize(SmartHomeBridgeModule* bridge) = 0;
+    virtual void initialize(SmartHomeBridgeModule* bridge) {};
 #ifndef SMARTHOMEBRIDGE_DEVICESONLY  
     virtual void initWebServer(WebServer& webServer) {};
 #endif
     virtual void start(SmartHomeBridgeModule* bridge) {};
-    virtual void loop() = 0;
-    virtual void processInputKo(GroupObject& ko) = 0;
-    virtual void getInformation(String& result) = 0;
-    virtual bool processCommand(const std::string cmd, bool diagnoseKo) = 0;
-    virtual void showHelp() = 0;
+    virtual void loop() {};
+    virtual void processInputKo(GroupObject& ko) {};
+    virtual void getInformation(String& result) {};
+    virtual bool processCommand(const std::string cmd, bool diagnoseKo) { return false;};
+    virtual void showHelp() {};
 };

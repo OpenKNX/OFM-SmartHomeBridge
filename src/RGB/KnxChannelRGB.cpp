@@ -31,12 +31,12 @@ KnxChannelRGB::KnxChannelRGB(uint16_t _channelIndex)
 {
 }
 
-void* KnxChannelRGB::createBridgeDevice(BridgeBase &bridge)
+ChannelBridge* KnxChannelRGB::createBridgeDevice(BridgeBase &bridge)
 {
     return bridge.createRGB(*this, _channelIndex, ParamBRI_CHDeviceType);
 }
 
-void KnxChannelRGB::deleteBridgeDevice(void *device)
+void KnxChannelRGB::deleteBridgeDevice(ChannelBridge *device)
 {
     remove((RGBBridge *)device);
 }

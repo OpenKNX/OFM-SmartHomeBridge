@@ -20,12 +20,12 @@ KnxChannelDimmer::KnxChannelDimmer(uint16_t _channelIndex)
 {
 }
 
-void* KnxChannelDimmer::createBridgeDevice(BridgeBase &bridge)
+ChannelBridge* KnxChannelDimmer::createBridgeDevice(BridgeBase &bridge)
 {
     return bridge.createDimmer(*this, _channelIndex, ParamBRI_CHDeviceType);
 }
 
-void KnxChannelDimmer::deleteBridgeDevice(void *device)
+void KnxChannelDimmer::deleteBridgeDevice(ChannelBridge *device)
 {
     remove((DimmerBridge *)device);
 }

@@ -24,8 +24,8 @@ class KnxChannelDisplay : public KnxChannelBase
         DisplayType getDisplayType();
         void add(DisplayBridge* displayBridge);
         void remove(DisplayBridge* displayBridge);
-        virtual void* createBridgeDevice(BridgeBase& bridge) override;
-        virtual void deleteBridgeDevice(void* device) override;
+        virtual ChannelBridge* createBridgeDevice(BridgeBase& bridge) override;
+        virtual void deleteBridgeDevice(ChannelBridge* device) override;
 
     protected:
         virtual void setup() override;

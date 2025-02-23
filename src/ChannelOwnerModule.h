@@ -6,6 +6,7 @@ class ChannelOwnerModule : public OpenKNX::Module
 private: 
     uint8_t _numberOfChannels = 0;
     uint8_t _currentChannel = 0;
+protected:
     OpenKNX::Channel** _pChannels = nullptr;
 public:
     void setNumberOfChannels(uint8_t numberOfChannels);
@@ -27,7 +28,7 @@ public:
     virtual void loop(bool configured) override;
     virtual void loop() override;
     uint16_t getNumberOfUsedChannels();
-
+ 
 #ifdef OPENKNX_DUALCORE
     /*
         * Called during startup after setup() completed

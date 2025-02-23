@@ -25,12 +25,12 @@ KnxChannelDoorWindow::KnxChannelDoorWindow(uint16_t channelIndex)
 {
 }
 
-void* KnxChannelDoorWindow::createBridgeDevice(BridgeBase &bridge)
+ChannelBridge* KnxChannelDoorWindow::createBridgeDevice(BridgeBase &bridge)
 {
     return bridge.createDoorWindow(*this, _channelIndex, ParamBRI_CHDeviceType);
 }
 
-void KnxChannelDoorWindow::deleteBridgeDevice(void *device)
+void KnxChannelDoorWindow::deleteBridgeDevice(ChannelBridge *device)
 {
     remove((DoorWindowBridge *)device);
 }

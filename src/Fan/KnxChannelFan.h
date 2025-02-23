@@ -17,8 +17,8 @@ class KnxChannelFan : public KnxChannelBase
         KnxChannelFan(uint16_t channelIndex);
         void add(FanBridge* fanBridge);
         void remove(FanBridge* fanBridge);
-        virtual void* createBridgeDevice(BridgeBase& bridge) override;
-        virtual void deleteBridgeDevice(void* device) override;
+        virtual ChannelBridge* createBridgeDevice(BridgeBase& bridge) override;
+        virtual void deleteBridgeDevice(ChannelBridge* device) override;
 
     protected:
         virtual void setup() override;

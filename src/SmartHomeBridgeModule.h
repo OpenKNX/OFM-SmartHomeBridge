@@ -1,6 +1,7 @@
 #pragma once
 #include "OpenKNX.h"
 #include "ChannelOwnerModule.h"
+#include "KnxChannelBase.h"
 #include "Component.h"
 #ifndef SMARTHOMEBRIDGE_DEVICESONLY
     #include <WebServer.h>
@@ -37,6 +38,7 @@ class SmartHomeBridgeModule : public ChannelOwnerModule
     public:
         SmartHomeBridgeModule();
         ~SmartHomeBridgeModule();
+        KnxChannelBase* getChannel(uint8_t channelIndex);
         void addBridge(BridgeBase* bridge);
         const char* getNameInUTF8();
         bool processCommand(const std::string cmd, bool diagnoseKo) override;

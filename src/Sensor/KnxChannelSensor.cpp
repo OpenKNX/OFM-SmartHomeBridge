@@ -11,12 +11,12 @@ KnxChannelSensor::KnxChannelSensor(uint16_t _channelIndex)
 {
 }
 
-void* KnxChannelSensor::createBridgeDevice(BridgeBase &bridge)
+ChannelBridge* KnxChannelSensor::createBridgeDevice(BridgeBase &bridge)
 {
     return bridge.createSensor(*this, _channelIndex, ParamBRI_CHDeviceType);
 }
 
-void KnxChannelSensor::deleteBridgeDevice(void *device)
+void KnxChannelSensor::deleteBridgeDevice(ChannelBridge *device)
 {
     remove((SensorBridge *)device);
 }

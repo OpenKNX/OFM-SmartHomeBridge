@@ -12,6 +12,7 @@ class Component
         bool koSet(GroupObject& ko, const Dpt& dpt, const KNXValue& value, bool forceSend);
         void koSetWithoutSend(GroupObject& ko, const Dpt& dpt, const KNXValue& value);
         const KNXValue koGet(GroupObject& ko, const Dpt& type);
+        bool koInitialized(GroupObject& ko, const Dpt& type);
         void koSendReadRequest(GroupObject& ko, const Dpt& dpt);
         bool isKo(GroupObject& ko, GroupObject& koCompare);
         bool isKo(GroupObject& ko, GroupObject& koCompare, const Dpt& type); 

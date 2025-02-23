@@ -10,8 +10,8 @@ class KnxChannelJalousie : public KnxChannelRolladen
         KnxChannelJalousie(uint16_t channelIndex);
         void add(RolladenBridge* interface);
         void remove(RolladenBridge* interface);
-        virtual void* createBridgeDevice(BridgeBase& bridge) override;
-        virtual void deleteBridgeDevice(void* device) override;
+        virtual ChannelBridge* createBridgeDevice(BridgeBase& bridge) override;
+        virtual void deleteBridgeDevice(ChannelBridge* device) override;
 
     protected:
         virtual void setup() override;

@@ -13,12 +13,12 @@ KnxChannelDisplay::KnxChannelDisplay(uint16_t _channelIndex)
 {
 }
 
-void *KnxChannelDisplay::createBridgeDevice(BridgeBase &bridge)
+ChannelBridge *KnxChannelDisplay::createBridgeDevice(BridgeBase &bridge)
 {
     return bridge.createDisplay(*this, _channelIndex, ParamBRI_CHDisplayType);
 }
 
-void KnxChannelDisplay::deleteBridgeDevice(void *device)
+void KnxChannelDisplay::deleteBridgeDevice(ChannelBridge *device)
 {
     remove((DisplayBridge *)device);
 }

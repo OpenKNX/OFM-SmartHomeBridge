@@ -12,12 +12,12 @@ KnxChannelSwitch::KnxChannelSwitch(uint16_t channelIndex)
 {
 }
 
-void* KnxChannelSwitch::createBridgeDevice(BridgeBase &bridge)
+ChannelBridge* KnxChannelSwitch::createBridgeDevice(BridgeBase &bridge)
 {
     return bridge.createSwitch(*this, _channelIndex, ParamBRI_CHDeviceType);
 }
 
-void KnxChannelSwitch::deleteBridgeDevice(void *device)
+void KnxChannelSwitch::deleteBridgeDevice(ChannelBridge *device)
 {
     remove((SwitchBridge *)device);
 }
@@ -26,6 +26,8 @@ void KnxChannelSwitch::add(SwitchBridge *switchBridge)
 {
     switchBridges.push_back(switchBridge);
     switchBridge->initialize(this);
+    if (koInitialized(KO_SWITCH_FEEDBACK))
+        switchBridge->setPower(koGet(KO_SWITCH_FEEDBACK));
 }
 
 void KnxChannelSwitch::remove(SwitchBridge *switchBridge)
@@ -50,6 +52,7 @@ void KnxChannelSwitch::commandPower(SwitchBridge *switchBridge, bool power)
             (*it)->setPower(power);
     }
 }
+
 
 void KnxChannelSwitch::setup()
 {

@@ -18,8 +18,8 @@ class KnxChannelRGB : public KnxChannelBase
         KnxChannelRGB(uint16_t channelIndex);
         void add(RGBBridge* RGBBridge);
         void remove(RGBBridge* RGBBridge);
-        virtual void* createBridgeDevice(BridgeBase& bridge) override;
-        virtual void deleteBridgeDevice(void* device) override;
+        virtual ChannelBridge* createBridgeDevice(BridgeBase& bridge) override;
+        virtual void deleteBridgeDevice(ChannelBridge* device) override;
 
     protected:
         uint32_t lastColor = 0xFFFFFF;

@@ -12,12 +12,12 @@ KnxChannelJalousie::KnxChannelJalousie(uint16_t channelIndex)
 
 }
 
-void* KnxChannelJalousie::createBridgeDevice(BridgeBase &bridge)
+ChannelBridge* KnxChannelJalousie::createBridgeDevice(BridgeBase &bridge)
 {
     return bridge.createJalousien(*this, _channelIndex, ParamBRI_CHDeviceType);
 }
 
-void KnxChannelJalousie::deleteBridgeDevice(void *device)
+void KnxChannelJalousie::deleteBridgeDevice(ChannelBridge *device)
 {
     remove((RolladenBridge *)device);
 }

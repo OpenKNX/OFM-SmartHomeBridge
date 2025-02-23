@@ -16,12 +16,12 @@ KnxChannelRolladen::KnxChannelRolladen(uint16_t channelIndex)
 {
 }
 
-void* KnxChannelRolladen::createBridgeDevice(BridgeBase &bridge)
+ChannelBridge* KnxChannelRolladen::createBridgeDevice(BridgeBase &bridge)
 {
     return bridge.createRolladen(*this, _channelIndex, ParamBRI_CHDeviceType);
 }
 
-void KnxChannelRolladen::deleteBridgeDevice(void *device)
+void KnxChannelRolladen::deleteBridgeDevice(ChannelBridge *device)
 {
     remove((RolladenBridge *)device);
 }
