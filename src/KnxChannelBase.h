@@ -13,6 +13,7 @@ class ChannelBridge
     {
         return HS_MALLOC(size);
     }  
+    virtual ~ChannelBridge() {};
 };
 
 template<class T> 
