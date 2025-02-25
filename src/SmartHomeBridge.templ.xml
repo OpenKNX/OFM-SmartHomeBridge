@@ -8,7 +8,7 @@
             <Static>
             <Parameters>
               <!-- Bridge Channel -->
-              <Parameter Id="%AID%_P-%T%%CCC%001" Name="CH%C%DeviceType" ParameterType="%AID%_PT-BRIDeviceType" Text="Gerät %C%" Value="0" >
+              <Parameter Id="%AID%_P-%T%%CCC%001" Name="CH%C%DeviceType" ParameterType="%AID%_PT-BRIDeviceType" Text="Gerät %C%" Value="%BRI_DefaultType%" >
                 <!-- Device Type -->
                 <Memory CodeSegment="%AID%_RS-04-00000" Offset="0" BitOffset="0" />
               </Parameter>

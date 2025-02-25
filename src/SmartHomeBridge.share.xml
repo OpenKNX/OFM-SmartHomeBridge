@@ -3,12 +3,12 @@
 <KNX xmlns="http://knx.org/xml/project/20" xmlns:op="http://github.com/OpenKNX/OpenKNXproducer">
  
   <op:config name="%BRI_NumChannelsDefault%" value="0" />
+  <op:config name="%BRI_DefaultType%" value="0" />
   <op:config name="%BRI_TabName%" value="Smart Home Bridge" />
   <op:config name="%BRI_TabIcon%" value="bridge" />
   <op:config name="%BRI_BridgeSettings%" value="1" />
   <op:config name="%BRI_HomeKitSupport%" value="1" />
   <op:config name="%BRI_HueSupport%" value="1" />
-  
 
   <ManufacturerData>
     <Manufacturer RefId="M-00FA">
