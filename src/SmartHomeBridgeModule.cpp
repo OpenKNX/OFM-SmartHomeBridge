@@ -59,10 +59,22 @@ const char *SmartHomeBridgeModule::getNameInUTF8()
   return _utf8Name;
 }
 
+void SmartHomeBridgeModule::setup(bool configured)
+{
+  if (bridgeInterfaces == nullptr)
+    bridgeInterfaces = new DynamicPointerArray<BridgeBase>();
+
+  ChannelOwnerModule::setup(configured);
+}
+
 void SmartHomeBridgeModule::setup()
 {
   setNumberOfChannels(ParamBRI_VisibleChannels);
+#ifdef SMARTHOMEBRIDGE_DEVICESONLY
+  logDebugP("Setup Devices");
+#else
   logDebugP("Setup Bridge");
+#endif
   _utf8Name = convert1252ToUTF8((const char *)ParamBRI_BridgeName);
 
 #ifndef SMARTHOMEBRIDGE_DEVICESONLY

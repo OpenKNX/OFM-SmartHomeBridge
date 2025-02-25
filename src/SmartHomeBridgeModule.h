@@ -28,6 +28,7 @@ class SmartHomeBridgeModule : public ChannelOwnerModule
         virtual const std::string version() override;
         virtual void showInformations() override;
  
+        virtual void setup(bool configured) override;
         virtual void setup() override;
         virtual void loop() override;
 #ifdef OPENKNX_DUALCORE
