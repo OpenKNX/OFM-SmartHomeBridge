@@ -144,13 +144,13 @@ OpenKNX::Channel *SmartHomeBridgeModule::createChannel(uint8_t _channelIndex /* 
       logInfoP("Device: %d - Unkown type subdevice %d for %d", _channelIndex + 1, ParamBRI_CHLightType, deviceType);
       return nullptr;
     }
+    break;
   case 30:
     channel = new KnxChannelJalousie(_channelIndex);
     break;
   case 31:
   case 32:
     channel = new KnxChannelRolladen(_channelIndex);
-    break;
     break;
   case 50:
     channel = new KnxChannelThermostat(_channelIndex);
@@ -171,6 +171,7 @@ OpenKNX::Channel *SmartHomeBridgeModule::createChannel(uint8_t _channelIndex /* 
     break;
   case 80:
     channel = new KnxChannelFan(_channelIndex);
+    break;
   case 90:
   case 91:
   case 92:
