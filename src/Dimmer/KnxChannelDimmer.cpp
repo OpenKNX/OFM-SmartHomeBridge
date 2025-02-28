@@ -34,6 +34,8 @@ void KnxChannelDimmer::add(DimmerBridge *dimmerBridge)
 {
     dimmerBridges.push_back(dimmerBridge);
     dimmerBridge->initialize(this);
+    if (koInitialized(KO_DIMMER_FEEDBACK))
+        dimmerBridge->setBrightness(koGet(KO_DIMMER_FEEDBACK));
 }
 
 void KnxChannelDimmer::remove(DimmerBridge *dimmerBridge)
@@ -94,6 +96,7 @@ void KnxChannelDimmer::setup()
     koSetWithoutSend(KO_DIMMER, (uint8_t) 0);
     koSetWithoutSend(KO_DIMMER_FEEDBACK,(uint8_t) 0);
     koSendReadRequest(KO_DIMMER_FEEDBACK);
+   
 }
 
 void KnxChannelDimmer::processInputKo(GroupObject &groupObject)
