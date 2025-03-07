@@ -28,7 +28,6 @@ public:
     {
         _channel = channel;
         setup(_channel->channelIndex());
-        initialize(channel);
     }
 
    

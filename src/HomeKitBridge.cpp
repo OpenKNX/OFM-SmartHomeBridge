@@ -59,7 +59,7 @@ void HomeKitBridge::showHelp()
 
 SwitchBridge* HomeKitBridge::createSwitch(KnxChannelSwitch& channel,  uint8_t _channelIndex, uint8_t deviceType)
 {
-    int homekitAID = _channelIndex + 2; // Homekit bridge has AID0
+    int homekitAID = _channelIndex + 2; // Homekit bridge has AID1
     auto bridge = new HomeKitSwitch(homekitAID);
     channel.add(bridge);
     return bridge;
@@ -67,7 +67,7 @@ SwitchBridge* HomeKitBridge::createSwitch(KnxChannelSwitch& channel,  uint8_t _c
 
 DimmerBridge* HomeKitBridge::createDimmer(KnxChannelDimmer& channel,  uint8_t _channelIndex, uint8_t deviceType)
 {
-    int homekitAID = _channelIndex + 2; // Homekit bridge has AID0
+    int homekitAID = _channelIndex + 2; // Homekit bridge has AID1
     auto bridge = new HomeKitDimmer(homekitAID);
     channel.add(bridge);
     return bridge;
@@ -75,7 +75,7 @@ DimmerBridge* HomeKitBridge::createDimmer(KnxChannelDimmer& channel,  uint8_t _c
 
 RGBBridge* HomeKitBridge::createRGB(KnxChannelRGB& channel,  uint8_t _channelIndex, uint8_t deviceType)
 {
-    int homekitAID = _channelIndex + 2; // Homekit bridge has AID0
+    int homekitAID = _channelIndex + 2; // Homekit bridge has AID1
     auto bridge = new HomeKitRGB(homekitAID);
     channel.add(bridge);
     return bridge;
@@ -83,7 +83,7 @@ RGBBridge* HomeKitBridge::createRGB(KnxChannelRGB& channel,  uint8_t _channelInd
 
 RolladenBridge* HomeKitBridge::createJalousien(KnxChannelJalousie& channel,  uint8_t _channelIndex, uint8_t deviceType)
 {
-    int homekitAID = _channelIndex + 2; // Homekit bridge has AID0
+    int homekitAID = _channelIndex + 2; // Homekit bridge has AID1
     auto bridge = new HomeKitJalousie(homekitAID);
     channel.add(bridge);
     return bridge;
@@ -91,7 +91,7 @@ RolladenBridge* HomeKitBridge::createJalousien(KnxChannelJalousie& channel,  uin
 
 RolladenBridge* HomeKitBridge::createRolladen(KnxChannelRolladen& channel,  uint8_t _channelIndex, uint8_t deviceType)
 {
-    int homekitAID = _channelIndex + 2; // Homekit bridge has AID0
+    int homekitAID = _channelIndex + 2; // Homekit bridge has AID1
     auto bridge = new HomeKitRolladen(homekitAID);
     channel.add(bridge);
     return bridge;
@@ -99,7 +99,7 @@ RolladenBridge* HomeKitBridge::createRolladen(KnxChannelRolladen& channel,  uint
 
 ThermostatBridge* HomeKitBridge::createThermostat(KnxChannelThermostat& channel,  uint8_t _channelIndex, uint8_t deviceType)
 {
-    int homekitAID = _channelIndex + 2; // Homekit bridge has AID0
+    int homekitAID = _channelIndex + 2; // Homekit bridge has AID1
     auto bridge = new HomeKitThermostat(homekitAID);
     channel.add(bridge);
     return bridge;
@@ -107,7 +107,7 @@ ThermostatBridge* HomeKitBridge::createThermostat(KnxChannelThermostat& channel,
 
 DisplayBridge* HomeKitBridge::createDisplay(KnxChannelDisplay& channel,  uint8_t _channelIndex, uint8_t deviceType)
 {
-    int homekitAID = _channelIndex + 2; // Homekit bridge has AID0
+    int homekitAID = _channelIndex + 2; // Homekit bridge has AID1
     auto bridge = new HomeKitDisplay(homekitAID);
     channel.add(bridge);
     return bridge;
@@ -115,7 +115,7 @@ DisplayBridge* HomeKitBridge::createDisplay(KnxChannelDisplay& channel,  uint8_t
 
 SensorBridge* HomeKitBridge::createSensor(KnxChannelSensor& channel,  uint8_t _channelIndex, uint8_t deviceType)
 {
-    int homekitAID = _channelIndex + 2; // Homekit bridge has AID0
+    int homekitAID = _channelIndex + 2; // Homekit bridge has AID1
     auto bridge = new HomeKitSensor(homekitAID);
     channel.add(bridge);
     return bridge;
@@ -123,7 +123,7 @@ SensorBridge* HomeKitBridge::createSensor(KnxChannelSensor& channel,  uint8_t _c
 
 FanBridge* HomeKitBridge::createFan(KnxChannelFan& channel,  uint8_t _channelIndex, uint8_t deviceType)
 {
-    int homekitAID = _channelIndex + 2; // Homekit bridge has AID0
+    int homekitAID = _channelIndex + 2; // Homekit bridge has AID1
     auto bridge = new HomeKitFan(homekitAID);
     channel.add(bridge);
     return bridge;
@@ -131,7 +131,7 @@ FanBridge* HomeKitBridge::createFan(KnxChannelFan& channel,  uint8_t _channelInd
 
 DoorWindowBridge* HomeKitBridge::createDoorWindow(KnxChannelDoorWindow& channel,  uint8_t _channelIndex, uint8_t deviceType)
 {
-    int homekitAID = _channelIndex + 2; // Homekit bridge has AID0
+    int homekitAID = _channelIndex + 2; // Homekit bridge has AID1
     auto bridge = new HomeKitDoorWindow(homekitAID);
     channel.add(bridge);
     return bridge;
