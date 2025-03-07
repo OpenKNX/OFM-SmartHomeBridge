@@ -24,5 +24,6 @@ class KnxChannelSwitch : public KnxChannelBase
 
     public:
         void commandPower(SwitchBridge* switchBridge, bool on);
+        virtual void commandMainFunctionClick() override;
         virtual const std::string name() override;
 };

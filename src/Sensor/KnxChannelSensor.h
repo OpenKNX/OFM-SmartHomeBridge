@@ -34,4 +34,6 @@ class KnxChannelSensor : public KnxChannelBase
         virtual void setup() override;
         virtual void processInputKo(GroupObject& ko) override;
         virtual const std::string name() override;
+        virtual void commandMainFunctionClick() override;
+        virtual bool supportMainFunctionClick() override { return false; }
 };

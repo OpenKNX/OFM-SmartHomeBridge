@@ -49,7 +49,10 @@ class KnxChannelThermostat : public KnxChannelBase
 
     public:
         void commandTargetTemperature(ThermostatBridge* thermostatBridge, double temperature);
+        
         bool commandMode(ThermostatBridge* thermostatBridge, ThermostatMode mode);
+        virtual void commandMainFunctionClick() override;
+         
         ThermostatDisplayUnit GetDisplayTemperaturUnit();
         virtual const std::string name() override;
 };

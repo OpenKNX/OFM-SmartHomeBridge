@@ -62,3 +62,8 @@ void KnxChannelSensor::processInputKo(GroupObject &ko)
         }
     }
 }
+
+void KnxChannelSensor::commandMainFunctionClick()
+{
+    
+}

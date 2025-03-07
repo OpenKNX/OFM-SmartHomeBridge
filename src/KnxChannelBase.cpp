@@ -20,6 +20,28 @@ const char* KnxChannelBase::getNameInUTF8()
 }
 
 
+void KnxChannelBase::addChangedHandler(MainFunctionChangedHandler& mainFunctionChangedHandler)
+{
+    mainFunctionChangedHandlers.push_back(&mainFunctionChangedHandler);
+}
+
+void KnxChannelBase::removeChangedHandler(MainFunctionChangedHandler& mainFunctionChangedHandler)
+{
+    mainFunctionChangedHandlers.remove(&mainFunctionChangedHandler);
+}
+   
+
+
+void KnxChannelBase::mainFunctionValueChanged()
+{
+    for (auto it = mainFunctionChangedHandlers.begin(); it != mainFunctionChangedHandlers.end(); ++it)
+    {
+        MainFunctionChangedHandler& handler = **it;
+        handler(*this);
+    }
+}
+
+
 KnxChannelBase::~KnxChannelBase()
 {
     if (utf8Name != nullptr)

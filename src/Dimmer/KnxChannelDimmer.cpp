@@ -66,6 +66,38 @@ void KnxChannelDimmer::commandBrightness(DimmerBridge* dimmerBridge, uint8_t bri
     koSet(KO_DIMMER, knxValue, true);
 }
 
+void KnxChannelDimmer::commandMainFunctionClick()
+{
+    uint8_t brightness = koGet(KO_DIMMER_FEEDBACK);
+    if (brightness > 0)
+    {
+        uint8_t targetValue = 0;
+        switch (ParamBRI_CHLightSwitchOn2Behavior)
+        {
+        case DimmerSwitchBehavior::LastBrightness:
+            targetValue = lastBrighness;
+            break;
+        case DimmerSwitchBehavior::LastBrightnessLessThan100:
+            targetValue = lastBrighnessLessThan100;
+            break;
+        default:
+            targetValue = ParamBRI_CHLightSwitchOn2Behavior; // Direct percentage value
+        }
+        if (brightness == targetValue)
+        {
+            commandBrightness(nullptr, 0);
+        }
+        else
+        {
+            commandBrightness(nullptr, targetValue);
+        }
+    }
+    else
+    {
+        commandPower(nullptr, true);
+    }
+}
+
 void KnxChannelDimmer::commandPower(DimmerBridge* dimmerBridge, bool power)
 {
     if (power)

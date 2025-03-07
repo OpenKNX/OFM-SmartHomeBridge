@@ -76,6 +76,23 @@ uint8_t KnxChannelDoorWindow::currentPosition()
     return 0;
 }
 
+void KnxChannelDoorWindow::commandMainFunctionClick()
+{
+    if (ParamBRI_CHDoorWindowMotor == 0)
+    {
+        logDebugP("Received changed. Ignored because no motor control");
+        return;
+    }
+    if (currentPosition() > 0)
+    {
+        commandPosition(nullptr, 0);
+    }
+    else
+    {
+        commandPosition(nullptr, 100);
+    }
+}
+
 bool KnxChannelDoorWindow::commandPosition(DoorWindowBridge* interface, uint8_t position)
 {
     if (ParamBRI_CHDoorWindowMotor == 0)
@@ -101,7 +118,7 @@ bool KnxChannelDoorWindow::commandPosition(DoorWindowBridge* interface, uint8_t 
                 return true;
             }
         }
-         switch (getDoorWindowHandling())
+        switch (getDoorWindowHandling())
         {
             case DoorWindowHandling::DoorWindowHandlingSendOpenAndClose:
                 if (position == 100)

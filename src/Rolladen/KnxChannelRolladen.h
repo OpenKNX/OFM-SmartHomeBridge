@@ -49,6 +49,7 @@ class KnxChannelRolladen : public KnxChannelBase
 
     public:
         virtual bool commandPosition(RolladenBridge* interface, uint8_t position);
+        virtual void commandMainFunctionClick() override;
         virtual const std::string name() override;
 
 };

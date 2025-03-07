@@ -58,6 +58,18 @@ const std::string KnxChannelRGB::name()
     return std::string("RGB");
 }
 
+void KnxChannelRGB::commandMainFunctionClick()
+{
+    if (koGet(KO_POWER_FEEDBACK))
+    {
+        commandPower(nullptr, false);
+    }
+    else
+    {
+        commandPower(nullptr, true);
+    }
+}
+
 void KnxChannelRGB::commandRGB(RGBBridge* RGBBridge, uint32_t rgb)
 {
     logDebugP("Received changed. RGB: %d", rgb);

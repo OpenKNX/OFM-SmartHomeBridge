@@ -26,6 +26,7 @@ class KnxChannelFan : public KnxChannelBase
 
     public:
         void commandPower(FanBridge* fanBridge, bool on);
+        virtual void commandMainFunctionClick() override;
         void commandAutomatic(FanBridge* fanBridge, bool on);
         virtual const std::string name() override;
 };

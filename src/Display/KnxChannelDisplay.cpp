@@ -44,6 +44,10 @@ void KnxChannelDisplay::add(DisplayBridge *displayBridge)
     }
 }
 
+void KnxChannelDisplay::commandMainFunctionClick()
+{
+}
+
 void KnxChannelDisplay::remove(DisplayBridge *displayBridge)
 {
     displayBridges.remove(displayBridge);

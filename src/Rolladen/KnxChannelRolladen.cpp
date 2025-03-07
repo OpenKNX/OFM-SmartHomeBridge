@@ -58,6 +58,18 @@ uint8_t KnxChannelRolladen::currentPosition()
     return koGet(KO_POSITION_FEEDBACK);
 }
 
+void KnxChannelRolladen::commandMainFunctionClick()
+{
+    if ((uint8_t) koGet(KO_POSITION_FEEDBACK) > 0)
+    {
+        commandPosition(nullptr, 0);
+    }
+    else
+    {
+        commandPosition(nullptr, 100);
+    }
+}
+
 bool KnxChannelRolladen::commandPosition(RolladenBridge* interface, uint8_t position)
 {
     logDebugP("Received changed. Position: %d", position);

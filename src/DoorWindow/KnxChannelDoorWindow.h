@@ -48,5 +48,6 @@ class KnxChannelDoorWindow : public KnxChannelBase
 
     public:
         virtual bool commandPosition(DoorWindowBridge* interface, uint8_t position);
+        virtual void commandMainFunctionClick() override;
         virtual const std::string name() override;
 };

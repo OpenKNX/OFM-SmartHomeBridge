@@ -29,6 +29,7 @@ class KnxChannelRGB : public KnxChannelBase
 
     public:
         void commandPower(RGBBridge* RGBBridge, bool on);
+        virtual void commandMainFunctionClick() override;
         void commandRGB(RGBBridge* RGBBridge, uint32_t rgb);
         virtual const std::string name() override;
 };

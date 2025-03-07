@@ -22,5 +22,6 @@ class KnxChannelJalousie : public KnxChannelRolladen
     public:
         virtual bool commandPosition(RolladenBridge* interface, uint8_t position) override;
         void commandSlatPosition(RolladenBridge* interface, uint8_t slatPosition);
+        virtual void commandMainFunctionClick() override;
         virtual const std::string name() override;
 };

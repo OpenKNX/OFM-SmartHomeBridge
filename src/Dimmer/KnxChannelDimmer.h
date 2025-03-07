@@ -28,5 +28,6 @@ class KnxChannelDimmer : public KnxChannelBase
     public:
         void commandPower(DimmerBridge* dimmerBridge, bool on);
         void commandBrightness(DimmerBridge* dimmerBridge, uint8_t brightness);
+        virtual void commandMainFunctionClick() override;
         virtual const std::string name() override;
 };

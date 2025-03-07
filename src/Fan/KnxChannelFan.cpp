@@ -41,6 +41,18 @@ const std::string KnxChannelFan::name()
     return std::string("Fan");
 }
 
+void KnxChannelFan::commandMainFunctionClick()
+{
+    if (koGet(KO_SWITCH_FEEDBACK))
+    {
+        commandPower(nullptr, false);
+    }
+    else
+    {
+        commandPower(nullptr, true);
+    }
+}
+
 void KnxChannelFan::commandPower(FanBridge *fanBridge, bool power)
 {
     logDebugP("Received changed. Power %s", power ? "true" : "false");

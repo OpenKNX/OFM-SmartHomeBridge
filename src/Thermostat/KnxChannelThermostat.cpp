@@ -125,6 +125,46 @@ bool KnxChannelThermostat::commandMode(ThermostatBridge* thermostatBridge, Therm
     return true;
 }
 
+void KnxChannelThermostat::commandMainFunctionClick()
+{
+    // <Enumeration Value="7" Id="%ENID%" Text="Heizen und Kühlen Automatik"             />
+    // <Enumeration Value="3" Id="%ENID%" Text="Heizen oder Kühlen (Manuelle Auswahl)"   />
+    // <Enumeration Value="1" Id="%ENID%" Text="Heizen"                                  />
+    // <Enumeration Value="2" Id="%ENID%" Text="Kühlen"
+    switch (ParamBRI_CHThermostatMode)
+    {
+        case 7:
+            if (koGet(KO_HEADING_FEEDBACK) || koGet(KO_COOLING_FEEDBACK))
+                commandMode(nullptr, ThermostatMode::ThermostatModeOff);
+            else
+                commandMode(nullptr, ThermostatMode::ThermostatModeAutoHeatingCooling);
+        break;
+
+        case 3:
+            if (koGet(KO_HEADING_FEEDBACK))
+                commandMode(nullptr, ThermostatMode::ThermostatModeCooling);
+            else if (koGet(KO_COOLING_FEEDBACK))
+                commandMode(nullptr, ThermostatMode::ThermostatModeOff);
+            else
+                commandMode(nullptr, ThermostatMode::ThermostatModeHeating);
+        break;
+
+        case 1:
+            if (koGet(KO_HEADING_FEEDBACK))
+                commandMode(nullptr, ThermostatMode::ThermostatModeOff);
+            else
+                commandMode(nullptr, ThermostatMode::ThermostatModeHeating);
+        break;
+
+        case 2:
+            if (koGet(KO_COOLING_FEEDBACK))
+                commandMode(nullptr, ThermostatMode::ThermostatModeOff);
+            else
+                commandMode(nullptr, ThermostatMode::ThermostatModeCooling);
+        break;
+    }
+}
+
 void KnxChannelThermostat::setup()
 {
     koSetWithoutSend(KO_CURRENT_TEMPERATUR_FEEDBACK, DEFAULT_TEMPERATURE);

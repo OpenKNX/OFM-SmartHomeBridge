@@ -41,6 +41,18 @@ const std::string KnxChannelSwitch::name()
     return std::string("Switch");
 }
 
+void KnxChannelSwitch::commandMainFunctionClick()
+{
+    if (koGet(KO_SWITCH_FEEDBACK))
+    {
+        commandPower(nullptr, false);
+    }
+    else
+    {
+        commandPower(nullptr, true);
+    }
+}
+
 void KnxChannelSwitch::commandPower(SwitchBridge *switchBridge, bool power)
 {
     logDebugP("Received changed. Power %s", power ? "true" : "false");

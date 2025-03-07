@@ -14,6 +14,8 @@ class ChannelBridge
         return HS_MALLOC(size);
     }  
     virtual ~ChannelBridge() {};
+    virtual void mainFunctionValueChanged() {};
+  
 };
 
 template<class T> 
@@ -26,6 +28,7 @@ public:
     {
         _channel = channel;
         setup(_channel->channelIndex());
+        initialize(channel);
     }
 
    
@@ -42,16 +45,30 @@ protected:
     }
 };
 
+class KnxChannelBase;
+using MainFunctionChangedHandler = std::function<void(KnxChannelBase&)>; // Funktionszeiger-Typ
+
+
 class KnxChannelBase : public OpenKNX::Channel, public Component
 {
     private:
+  
+        DynamicPointerArray<MainFunctionChangedHandler> mainFunctionChangedHandlers;
+ 
         const char* utf8Name = nullptr;
+    protected:
+        void mainFunctionValueChanged();
     public:
         ~KnxChannelBase();
         KnxChannelBase(uint16_t channelIndex);
+        void addChangedHandler(MainFunctionChangedHandler& mainFunctionChangedHandle);
+        void removeChangedHandler(MainFunctionChangedHandler& mainFunctionChangedHandler);
         virtual const std::string logPrefix() override;
         virtual const std::string name() = 0;
         const char* getNameInUTF8();
         virtual ChannelBridge* createBridgeDevice(BridgeBase& bridge) = 0;
         virtual void deleteBridgeDevice(ChannelBridge* device) = 0;
+        virtual void commandMainFunctionClick() = 0;
+        virtual bool supportMainFunctionClick() { return true; }
+
 };
