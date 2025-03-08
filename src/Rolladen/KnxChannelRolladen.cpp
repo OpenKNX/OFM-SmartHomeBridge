@@ -30,6 +30,8 @@ void KnxChannelRolladen::add(RolladenBridge* interface)
 {
     interfaces.push_back(interface);
     interface->initialize(this);
+    if (koInitialized(KO_POSITION_FEEDBACK))
+        interface->setPosition(koGet(KO_POSITION_FEEDBACK));
 }
 
 void KnxChannelRolladen::remove(RolladenBridge* interface)
@@ -125,6 +127,7 @@ bool KnxChannelRolladen::commandPosition(RolladenBridge* interface, uint8_t posi
         if ((*it) != interface)
             (*it)->setPosition(position);
     }
+    mainFunctionValueChanged();
     return true;
 }
 
@@ -151,6 +154,8 @@ void KnxChannelRolladen::loop()
 
             (*it)->setPosition(currentPosition);
         }
+        mainFunctionValueChanged();
+
     }
 }
 
@@ -164,6 +169,8 @@ void KnxChannelRolladen::processInputKo(GroupObject &ko)
         {
             (*it)->setPosition(position);
         }
+        mainFunctionValueChanged();
+
     }
     else if (isKo(ko, KO_MOVING_DOWN_FEEDBACK) || isKo(ko, KO_MOVING_UP_FEEDBACK))
     {
@@ -191,5 +198,17 @@ void KnxChannelRolladen::processInputKo(GroupObject &ko)
         {
             (*it)->setMovement(value);
         }
+        mainFunctionValueChanged();
+
     }
+}
+
+std::string KnxChannelRolladen::currentValueAsString()
+{
+    return std::to_string((uint8_t) koGet(KO_POSITION_FEEDBACK));
+}
+
+bool KnxChannelRolladen::mainFunctionValue()
+{
+    return (uint8_t) koGet(KO_POSITION_FEEDBACK) > 0;
 }

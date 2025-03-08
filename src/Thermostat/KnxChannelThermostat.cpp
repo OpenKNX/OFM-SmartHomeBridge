@@ -38,7 +38,23 @@ void KnxChannelThermostat::add(ThermostatBridge* thermostatBridge)
 {
     thermostatBridges.push_back(thermostatBridge);
     thermostatBridge->initialize(this);
-}
+    if (koInitialized(KO_CURRENT_TEMPERATUR_FEEDBACK))
+        thermostatBridge->setCurrentTemperature(koGet(KO_CURRENT_TEMPERATUR_FEEDBACK));
+    if (koInitialized(KO_TARGET_TEMPERATURE_FEEDBACK))
+        thermostatBridge->setTargetTemperature(koGet(KO_TARGET_TEMPERATURE_FEEDBACK));
+    if (koInitialized(KO_HEADING_FEEDBACK))
+        updateBridgeFromKo(KO_HEADING_FEEDBACK, thermostatBridge);
+    if (koInitialized(KO_COOLING_FEEDBACK))
+        updateBridgeFromKo(KO_COOLING_FEEDBACK, thermostatBridge);
+    if (koInitialized(KO_HEADING_ACTIVE_FEEDBACK))
+        updateBridgeFromKo(KO_HEADING_ACTIVE_FEEDBACK, thermostatBridge);
+    if (koInitialized(KO_COOLING_ACTIVE_FEEDBACK))
+        updateBridgeFromKo(KO_COOLING_ACTIVE_FEEDBACK, thermostatBridge);
+    if (koInitialized(KO_HEADING_ACTIVE_PERCENT_FEEDBACK))
+        updateBridgeFromKo(KO_HEADING_ACTIVE_PERCENT_FEEDBACK, thermostatBridge);
+    if (koInitialized(KO_COOLING_ACTIVE_PERCENT_FEEDBACK))
+        updateBridgeFromKo(KO_COOLING_ACTIVE_PERCENT_FEEDBACK, thermostatBridge);
+}    
 
 void KnxChannelThermostat::remove(ThermostatBridge* thermostatBridge)
 {
@@ -122,6 +138,7 @@ bool KnxChannelThermostat::commandMode(ThermostatBridge* thermostatBridge, Therm
             (*it)->setMode(mode);
         }
     }
+    mainFunctionValueChanged();
     return true;
 }
 
@@ -197,23 +214,45 @@ void KnxChannelThermostat::setup()
 
 void KnxChannelThermostat::processInputKo(GroupObject &ko)
 {
+    updateBridgeFromKo(ko, nullptr);
+}
+
+void KnxChannelThermostat::updateBridgeFromKo(GroupObject &ko, Dpt dummy, ThermostatBridge* thermostatBridge)
+{
+    updateBridgeFromKo(ko, thermostatBridge);
+}
+
+void KnxChannelThermostat::updateBridgeFromKo(GroupObject &ko, ThermostatBridge* thermostatBridge)
+{
     if (isKo(ko, KO_TARGET_TEMPERATURE_FEEDBACK))
     {
         double temperature = koGet(KO_TARGET_TEMPERATURE_FEEDBACK);
         logDebugP("Received ko target temperature: %f", temperature);
 
-        for (auto it = thermostatBridges.begin(); it != thermostatBridges.end(); ++it)
+        if (thermostatBridge != nullptr)
+            thermostatBridge->setTargetTemperature(temperature);
+        else
         {
-            (*it)->setTargetTemperature(temperature);
+            for (auto it = thermostatBridges.begin(); it != thermostatBridges.end(); ++it)
+            {
+                (*it)->setTargetTemperature(temperature);
+            }
+            mainFunctionValueChanged();
         }
     }
     else if (isKo(ko, KO_CURRENT_TEMPERATUR_FEEDBACK))
     {
         double temperature = koGet(KO_CURRENT_TEMPERATUR_FEEDBACK);
         logDebugP("Received ko current temperature: %f", temperature);
-        for (auto it = thermostatBridges.begin(); it != thermostatBridges.end(); ++it)
+        if (thermostatBridge != nullptr)
+            thermostatBridge->setCurrentTemperature(temperature);
+        else
         {
-            (*it)->setCurrentTemperature(temperature);
+            for (auto it = thermostatBridges.begin(); it != thermostatBridges.end(); ++it)
+            {
+                (*it)->setCurrentTemperature(temperature);
+            }
+            mainFunctionValueChanged();
         }
     }
     else if (isKo(KoBRI_KO1_, KO_COOLING_FEEDBACK) || isKo(ko, KO_HEADING_FEEDBACK))
@@ -233,9 +272,15 @@ void KnxChannelThermostat::processInputKo(GroupObject &ko)
         else if (heading)
             mode = ThermostatMode::ThermostatModeHeating;
  
-        for (auto it = thermostatBridges.begin(); it != thermostatBridges.end(); ++it)
+        if (thermostatBridge != nullptr)
+            thermostatBridge->setMode(mode);
+        else
         {
-            (*it)->setMode(mode);
+            for (auto it = thermostatBridges.begin(); it != thermostatBridges.end(); ++it)
+            {
+                (*it)->setMode(mode);
+            }
+            mainFunctionValueChanged();
         }
     }
     else if (isKo(ko, KO_HEADING_ACTIVE_FEEDBACK) || isKo(ko, KO_COOLING_ACTIVE_FEEDBACK))
@@ -253,9 +298,25 @@ void KnxChannelThermostat::processInputKo(GroupObject &ko)
         if (cooling)
             state = ThermostatCurrentState::ThermostatCurrentStateCooling;
 
-        for (auto it = thermostatBridges.begin(); it != thermostatBridges.end(); ++it)
+        if (thermostatBridge != nullptr)
+            thermostatBridge->setCurrentState(state);
+        else
         {
-            (*it)->setCurrentState(state);
+            for (auto it = thermostatBridges.begin(); it != thermostatBridges.end(); ++it)
+            {
+                (*it)->setCurrentState(state);
+            }
+            mainFunctionValueChanged();
         }
     }
+}
+
+std::string KnxChannelThermostat::currentValueAsString()
+{
+    return std::to_string((uint8_t) koGet(KO_CURRENT_TEMPERATUR_FEEDBACK)) + "°C";
+}
+
+bool KnxChannelThermostat::mainFunctionValue()
+{
+    return koGet(KO_HEADING_FEEDBACK) || koGet(KO_COOLING_FEEDBACK);
 }

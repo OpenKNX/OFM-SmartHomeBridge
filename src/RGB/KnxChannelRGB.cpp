@@ -45,6 +45,10 @@ void KnxChannelRGB::add(RGBBridge* RGBBridge)
 {
     RGBBridges.push_back(RGBBridge);
     RGBBridge->initialize(this);
+    if (koInitialized(KO_RGB_FEEDBACK))
+        RGBBridge->setRGB(koGet(KO_RGB_FEEDBACK));
+    if (koInitialized(KO_POWER_FEEDBACK))
+        RGBBridge->setPower(koGet(KO_POWER_FEEDBACK));
 }
 
 void KnxChannelRGB::remove(RGBBridge* RGBBridge)
@@ -86,6 +90,7 @@ void KnxChannelRGB::commandRGB(RGBBridge* RGBBridge, uint32_t rgb)
         {
             (*it)->setRGB(rgb);
         }
+        mainFunctionValueChanged();
     }
     if (knxValue == 0)
     {
@@ -192,6 +197,7 @@ void KnxChannelRGB::processInputKo(GroupObject &groupObject)
         {
             (*it)->setRGB(rgb);
         }
+        mainFunctionValueChanged();
     }
     if (isKo(groupObject, KO_POWER_FEEDBACK))
     {
@@ -201,5 +207,16 @@ void KnxChannelRGB::processInputKo(GroupObject &groupObject)
         {
             (*it)->setPower(power);
         }
+        mainFunctionValueChanged();
     }
+}
+
+std::string KnxChannelRGB::currentValueAsString()
+{
+    return koGet(KO_POWER_FEEDBACK) ? "Ein" : "Aus";
+}
+
+bool KnxChannelRGB::mainFunctionValue()
+{
+    return koGet(KO_POWER_FEEDBACK);
 }

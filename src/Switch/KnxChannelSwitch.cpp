@@ -63,6 +63,7 @@ void KnxChannelSwitch::commandPower(SwitchBridge *switchBridge, bool power)
         if ((*it) != switchBridge)
             (*it)->setPower(power);
     }
+    mainFunctionValueChanged();
 }
 
 
@@ -83,5 +84,16 @@ void KnxChannelSwitch::processInputKo(GroupObject &ko)
         {
             (*it)->setPower(power);
         }
+        mainFunctionValueChanged();
     }
+}
+
+std::string KnxChannelSwitch::currentValueAsString()
+{
+    return koGet(KO_SWITCH_FEEDBACK) ? "Ein" : "Aus";
+}
+
+bool KnxChannelSwitch::mainFunctionValue()
+{
+    return koGet(KO_SWITCH_FEEDBACK);
 }

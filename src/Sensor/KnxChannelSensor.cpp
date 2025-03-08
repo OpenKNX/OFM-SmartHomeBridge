@@ -25,6 +25,14 @@ void KnxChannelSensor::add(SensorBridge* sensorBridge)
 {
     sensorBridges.push_back(sensorBridge);
     sensorBridge->initialize(this);
+    if (koInitialized(KO_SENSOR_FEEDBACK))
+    {
+        auto value = (bool) koGet(KO_SENSOR_FEEDBACK);
+        if (ParamBRI_CHContactAlarmSensorInvert)
+            value = !value;   
+        sensorBridge->setDetected(value);
+    }
+       
 }
 
 void KnxChannelSensor::remove(SensorBridge* sensorBridge)
@@ -60,10 +68,22 @@ void KnxChannelSensor::processInputKo(GroupObject &ko)
         {
             (*it)->setDetected(value);
         }
+        mainFunctionValueChanged();
+
     }
 }
 
 void KnxChannelSensor::commandMainFunctionClick()
 {
     
+}
+
+std::string KnxChannelSensor::currentValueAsString()
+{
+    return koGet(KO_SENSOR_FEEDBACK) ? "Aktiv" : "Inaktiv";
+}
+
+bool KnxChannelSensor::mainFunctionValue()
+{
+    return koGet(KO_SENSOR_FEEDBACK);
 }

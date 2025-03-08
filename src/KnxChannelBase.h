@@ -69,5 +69,7 @@ class KnxChannelBase : public OpenKNX::Channel, public Component
         virtual void deleteBridgeDevice(ChannelBridge* device) = 0;
         virtual void commandMainFunctionClick() = 0;
         virtual bool supportMainFunctionClick() { return true; }
+        virtual std::string currentValueAsString() = 0;
+        virtual bool mainFunctionValue() = 0;
 
 };

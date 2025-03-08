@@ -104,5 +104,25 @@ void KnxChannelDisplay::processInputKo(GroupObject &groupObject)
         {
             (*it)->setValue(value);
         }
+        mainFunctionValueChanged();
     }
+}
+
+std::string KnxChannelDisplay::currentValueAsString()
+{
+    switch (getDisplayType())
+    {
+        case DisplayType::DisplayTypeTemperature:
+            return std::to_string((double) koGet(KO_TEMPERATURE_FEEDBACK)) + "°C";
+        case DisplayType::DisplayTypeHumidity:
+            return std::to_string((double) koGet(KO_HUMIDITY_FEEDBACK)) + "%";
+        case DisplayType::DisplayTypeLux:
+            return std::to_string((double) koGet(KO_LUX_FEEDBACK)) + "Lux";
+    }
+    return "";
+}
+
+bool KnxChannelDisplay::mainFunctionValue()
+{
+    return koInitialized(KO_TEMPERATURE_FEEDBACK);
 }

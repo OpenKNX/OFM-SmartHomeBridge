@@ -64,6 +64,7 @@ void KnxChannelDimmer::commandBrightness(DimmerBridge* dimmerBridge, uint8_t bri
     }
     koSetWithoutSend(KO_DIMMER_FEEDBACK, knxValue);
     koSet(KO_DIMMER, knxValue, true);
+    mainFunctionValueChanged();
 }
 
 void KnxChannelDimmer::commandMainFunctionClick()
@@ -147,5 +148,17 @@ void KnxChannelDimmer::processInputKo(GroupObject &groupObject)
         {
             (*it)->setBrightness(brightness);
         }
+        mainFunctionValueChanged();
+
     }
+}
+
+std::string KnxChannelDimmer::currentValueAsString()
+{
+    return std::to_string((uint8_t) koGet(KO_DIMMER_FEEDBACK)) + "%";
+}
+
+bool KnxChannelDimmer::mainFunctionValue()
+{
+    return (uint8_t) koGet(KO_DIMMER_FEEDBACK) > 0;
 }

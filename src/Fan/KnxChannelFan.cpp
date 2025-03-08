@@ -28,6 +28,10 @@ void KnxChannelFan::add(FanBridge *fanBridge)
 {
     fanBridges.push_back(fanBridge);
     fanBridge->initialize(this);
+    if (koInitialized(KO_SWITCH_FEEDBACK))
+        fanBridge->setPower(koGet(KO_SWITCH_FEEDBACK));
+    if (koInitialized(KO_AUTOMATIC_FEEDBACK))
+        fanBridge->setAutomatic(koGet(KO_AUTOMATIC_FEEDBACK));
 }
 
 void KnxChannelFan::remove(FanBridge *fanBridge)
@@ -63,6 +67,7 @@ void KnxChannelFan::commandPower(FanBridge *fanBridge, bool power)
         if ((*it) != fanBridge)
             (*it)->setPower(power);
     }
+    mainFunctionValueChanged();
 }
 
 void KnxChannelFan::commandAutomatic(FanBridge *fanBridge, bool automatic)
@@ -78,6 +83,7 @@ void KnxChannelFan::commandAutomatic(FanBridge *fanBridge, bool automatic)
         if ((*it) != fanBridge)
             (*it)->setPower(automatic);
     }
+    mainFunctionValueChanged();
 }
 
 void KnxChannelFan::setup()
@@ -101,6 +107,8 @@ void KnxChannelFan::processInputKo(GroupObject &ko)
         {
             (*it)->setPower(power);
         }
+        mainFunctionValueChanged();
+
     }
     else if (isKo(ko, KO_AUTOMATIC_FEEDBACK))
     {
@@ -117,5 +125,16 @@ void KnxChannelFan::processInputKo(GroupObject &ko)
         {
             (*it)->setAutomatic(automatic);
         }
+        mainFunctionValueChanged();
     }
+}
+
+std::string KnxChannelFan::currentValueAsString()
+{
+    return koGet(KO_SWITCH) ? "Ein" : "Aus";
+}
+
+bool KnxChannelFan::mainFunctionValue()
+{
+    return koGet(KO_SWITCH);
 }

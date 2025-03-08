@@ -46,7 +46,9 @@ class KnxChannelThermostat : public KnxChannelBase
     protected:
         virtual void setup() override;
         virtual void processInputKo(GroupObject& ko) override;
-
+    private:
+        void updateBridgeFromKo(GroupObject& ko, Dpt dummy, ThermostatBridge* thermostatBridge);
+        void updateBridgeFromKo(GroupObject& ko, ThermostatBridge* thermostatBridge);
     public:
         void commandTargetTemperature(ThermostatBridge* thermostatBridge, double temperature);
         
@@ -55,4 +57,6 @@ class KnxChannelThermostat : public KnxChannelBase
          
         ThermostatDisplayUnit GetDisplayTemperaturUnit();
         virtual const std::string name() override;
+        virtual std::string currentValueAsString() override;
+        virtual bool mainFunctionValue() override;
 };

@@ -39,6 +39,22 @@ void KnxChannelDoorWindow::add(DoorWindowBridge* interface)
 {
     interfaces.push_back(interface);
     interface->initialize(this);
+    switch ((KnxChannelDoorWindowFeedback) ParamBRI_CHDoorWindowFeedbackType)
+    {
+        case KnxChannelDoorWindowFeedback::DoorWindowFeedbackPercentage:
+           if (koInitialized(KO_FEEDBACK_PERCENT))
+                interface->setPosition(koGet(KO_FEEDBACK_PERCENT));
+            break;
+        case KnxChannelDoorWindowFeedback::DoorWindowFeedbackOpened:
+            if (koInitialized(KO_FEEDBACK_BIT))
+                interface->setPosition(koGet(KO_FEEDBACK_BIT) ? 100 : 0);
+            break;
+        case KnxChannelDoorWindowFeedback::DoorWindowFeedbackClosed:
+            if (koInitialized(KO_FEEDBACK_BIT))
+                interface->setPosition(koGet(KO_FEEDBACK_BIT) ? 0 : 100);
+            break;    
+    }
+
 }
 
 void KnxChannelDoorWindow::remove(DoorWindowBridge* interface)
@@ -154,6 +170,7 @@ bool KnxChannelDoorWindow::commandPosition(DoorWindowBridge* interface, uint8_t 
         if ((*it) != interface)
             (*it)->setPosition(position);
     }
+    mainFunctionValueChanged();
     return true;
 }
 
@@ -203,6 +220,8 @@ void KnxChannelDoorWindow::processInputKo(GroupObject &ko)
         {
             (*it)->setPosition(position);
         }
+        mainFunctionValueChanged();
+
     }
     else if (isKo(ko, KO_OBSTRUCTION_DETECTED))
     {
@@ -211,6 +230,7 @@ void KnxChannelDoorWindow::processInputKo(GroupObject &ko)
         {
             (*it)->setObstructionDetected(obstructionDetected);
         }
+        mainFunctionValueChanged();
     }
     else if (isKo(ko, KO_CLOSING_FEEDBACK) || isKo(ko, KO_OPENING_FEEDBACK))
     {
@@ -238,5 +258,26 @@ void KnxChannelDoorWindow::processInputKo(GroupObject &ko)
         {
             (*it)->setMovement(value);
         }
+        mainFunctionValueChanged();
+
     }
+}
+
+std::string KnxChannelDoorWindow::currentValueAsString()
+{
+    switch ((KnxChannelDoorWindowFeedback) ParamBRI_CHDoorWindowFeedbackType)
+    {
+        case KnxChannelDoorWindowFeedback::DoorWindowFeedbackPercentage:
+            return std::to_string((uint8_t) koGet(KO_FEEDBACK_PERCENT)) + "%";
+        case KnxChannelDoorWindowFeedback::DoorWindowFeedbackOpened:
+            return koGet(KO_FEEDBACK_BIT) ? "Offen" : "Geschlossen";
+        case KnxChannelDoorWindowFeedback::DoorWindowFeedbackClosed:
+            return koGet(KO_FEEDBACK_BIT) ? "Geschlossen" : "Offen";
+    }
+    return "";
+}
+
+bool KnxChannelDoorWindow::mainFunctionValue()
+{
+    return currentPosition() > 0;
 }
