@@ -26,8 +26,7 @@ void KnxChannelSwitch::add(SwitchBridge *switchBridge)
 {
     switchBridges.push_back(switchBridge);
     switchBridge->initialize(this);
-    if (koInitialized(KO_SWITCH_FEEDBACK))
-        switchBridge->setPower(koGet(KO_SWITCH_FEEDBACK));
+    switchBridge->setPower(koGet(KO_SWITCH_FEEDBACK));
 }
 
 void KnxChannelSwitch::remove(SwitchBridge *switchBridge)

@@ -45,10 +45,8 @@ void KnxChannelRGB::add(RGBBridge* RGBBridge)
 {
     RGBBridges.push_back(RGBBridge);
     RGBBridge->initialize(this);
-    if (koInitialized(KO_RGB_FEEDBACK))
-        RGBBridge->setRGB(koGet(KO_RGB_FEEDBACK));
-    if (koInitialized(KO_POWER_FEEDBACK))
-        RGBBridge->setPower(koGet(KO_POWER_FEEDBACK));
+    RGBBridge->setRGB(koGet(KO_RGB_FEEDBACK));
+    RGBBridge->setPower(koGet(KO_POWER_FEEDBACK));
 }
 
 void KnxChannelRGB::remove(RGBBridge* RGBBridge)

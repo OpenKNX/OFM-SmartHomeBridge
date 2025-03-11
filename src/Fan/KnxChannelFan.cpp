@@ -28,10 +28,8 @@ void KnxChannelFan::add(FanBridge *fanBridge)
 {
     fanBridges.push_back(fanBridge);
     fanBridge->initialize(this);
-    if (koInitialized(KO_SWITCH_FEEDBACK))
-        fanBridge->setPower(koGet(KO_SWITCH_FEEDBACK));
-    if (koInitialized(KO_AUTOMATIC_FEEDBACK))
-        fanBridge->setAutomatic(koGet(KO_AUTOMATIC_FEEDBACK));
+    fanBridge->setPower(koGet(KO_SWITCH_FEEDBACK));
+    fanBridge->setAutomatic(koGet(KO_AUTOMATIC_FEEDBACK));
 }
 
 void KnxChannelFan::remove(FanBridge *fanBridge)

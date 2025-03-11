@@ -29,9 +29,8 @@ void KnxChannelRolladen::deleteBridgeDevice(ChannelBridge *device)
 void KnxChannelRolladen::add(RolladenBridge* interface)
 {
     interfaces.push_back(interface);
-    interface->initialize(this);
-    if (koInitialized(KO_POSITION_FEEDBACK))
-        interface->setPosition(koGet(KO_POSITION_FEEDBACK));
+    interface->initialize(this);   
+    interface->setPosition(koGet(KO_POSITION_FEEDBACK));
 }
 
 void KnxChannelRolladen::remove(RolladenBridge* interface)

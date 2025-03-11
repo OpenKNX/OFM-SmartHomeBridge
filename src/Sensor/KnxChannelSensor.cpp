@@ -25,14 +25,10 @@ void KnxChannelSensor::add(SensorBridge* sensorBridge)
 {
     sensorBridges.push_back(sensorBridge);
     sensorBridge->initialize(this);
-    if (koInitialized(KO_SENSOR_FEEDBACK))
-    {
-        auto value = (bool) koGet(KO_SENSOR_FEEDBACK);
-        if (ParamBRI_CHContactAlarmSensorInvert)
-            value = !value;   
-        sensorBridge->setDetected(value);
-    }
-       
+    auto value = (bool) koGet(KO_SENSOR_FEEDBACK);
+    if (ParamBRI_CHContactAlarmSensorInvert)
+        value = !value;   
+    sensorBridge->setDetected(value);       
 }
 
 void KnxChannelSensor::remove(SensorBridge* sensorBridge)

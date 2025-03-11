@@ -38,22 +38,14 @@ void KnxChannelThermostat::add(ThermostatBridge* thermostatBridge)
 {
     thermostatBridges.push_back(thermostatBridge);
     thermostatBridge->initialize(this);
-    if (koInitialized(KO_CURRENT_TEMPERATUR_FEEDBACK))
-        thermostatBridge->setCurrentTemperature(koGet(KO_CURRENT_TEMPERATUR_FEEDBACK));
-    if (koInitialized(KO_TARGET_TEMPERATURE_FEEDBACK))
-        thermostatBridge->setTargetTemperature(koGet(KO_TARGET_TEMPERATURE_FEEDBACK));
-    if (koInitialized(KO_HEADING_FEEDBACK))
-        updateBridgeFromKo(KO_HEADING_FEEDBACK, thermostatBridge);
-    if (koInitialized(KO_COOLING_FEEDBACK))
-        updateBridgeFromKo(KO_COOLING_FEEDBACK, thermostatBridge);
-    if (koInitialized(KO_HEADING_ACTIVE_FEEDBACK))
-        updateBridgeFromKo(KO_HEADING_ACTIVE_FEEDBACK, thermostatBridge);
-    if (koInitialized(KO_COOLING_ACTIVE_FEEDBACK))
-        updateBridgeFromKo(KO_COOLING_ACTIVE_FEEDBACK, thermostatBridge);
-    if (koInitialized(KO_HEADING_ACTIVE_PERCENT_FEEDBACK))
-        updateBridgeFromKo(KO_HEADING_ACTIVE_PERCENT_FEEDBACK, thermostatBridge);
-    if (koInitialized(KO_COOLING_ACTIVE_PERCENT_FEEDBACK))
-        updateBridgeFromKo(KO_COOLING_ACTIVE_PERCENT_FEEDBACK, thermostatBridge);
+    thermostatBridge->setCurrentTemperature(koGet(KO_CURRENT_TEMPERATUR_FEEDBACK));
+    thermostatBridge->setTargetTemperature(koGet(KO_TARGET_TEMPERATURE_FEEDBACK));
+    updateBridgeFromKo(KO_HEADING_FEEDBACK, thermostatBridge);
+    updateBridgeFromKo(KO_COOLING_FEEDBACK, thermostatBridge);
+    updateBridgeFromKo(KO_HEADING_ACTIVE_FEEDBACK, thermostatBridge);
+    updateBridgeFromKo(KO_COOLING_ACTIVE_FEEDBACK, thermostatBridge);
+    updateBridgeFromKo(KO_HEADING_ACTIVE_PERCENT_FEEDBACK, thermostatBridge);
+    updateBridgeFromKo(KO_COOLING_ACTIVE_PERCENT_FEEDBACK, thermostatBridge);
 }    
 
 void KnxChannelThermostat::remove(ThermostatBridge* thermostatBridge)

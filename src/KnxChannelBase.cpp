@@ -23,6 +23,7 @@ const char* KnxChannelBase::getNameInUTF8()
 void KnxChannelBase::addChangedHandler(MainFunctionChangedHandler& mainFunctionChangedHandler)
 {
     mainFunctionChangedHandlers.push_back(&mainFunctionChangedHandler);
+    mainFunctionChangedHandler(*this);
 }
 
 void KnxChannelBase::removeChangedHandler(MainFunctionChangedHandler& mainFunctionChangedHandler)

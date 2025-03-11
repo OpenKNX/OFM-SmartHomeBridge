@@ -42,16 +42,13 @@ void KnxChannelDoorWindow::add(DoorWindowBridge* interface)
     switch ((KnxChannelDoorWindowFeedback) ParamBRI_CHDoorWindowFeedbackType)
     {
         case KnxChannelDoorWindowFeedback::DoorWindowFeedbackPercentage:
-           if (koInitialized(KO_FEEDBACK_PERCENT))
-                interface->setPosition(koGet(KO_FEEDBACK_PERCENT));
+            interface->setPosition(koGet(KO_FEEDBACK_PERCENT));
             break;
         case KnxChannelDoorWindowFeedback::DoorWindowFeedbackOpened:
-            if (koInitialized(KO_FEEDBACK_BIT))
-                interface->setPosition(koGet(KO_FEEDBACK_BIT) ? 100 : 0);
+            interface->setPosition(koGet(KO_FEEDBACK_BIT) ? 100 : 0);
             break;
         case KnxChannelDoorWindowFeedback::DoorWindowFeedbackClosed:
-            if (koInitialized(KO_FEEDBACK_BIT))
-                interface->setPosition(koGet(KO_FEEDBACK_BIT) ? 0 : 100);
+            interface->setPosition(koGet(KO_FEEDBACK_BIT) ? 0 : 100);
             break;    
     }
 

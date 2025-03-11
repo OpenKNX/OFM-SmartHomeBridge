@@ -30,16 +30,13 @@ void KnxChannelDisplay::add(DisplayBridge *displayBridge)
     switch (getDisplayType())
     {
         case DisplayType::DisplayTypeTemperature:
-            if (koInitialized(KO_TEMPERATURE_FEEDBACK))
-                displayBridge->setValue(koGet(KO_TEMPERATURE_FEEDBACK));
+            displayBridge->setValue(koGet(KO_TEMPERATURE_FEEDBACK));
             break;
         case DisplayType::DisplayTypeHumidity:
-            if (koInitialized(KO_HUMIDITY_FEEDBACK))
-                displayBridge->setValue(koGet(KO_HUMIDITY_FEEDBACK));
+            displayBridge->setValue(koGet(KO_HUMIDITY_FEEDBACK));
             break;
             case DisplayType::DisplayTypeLux:
-            if (koInitialized(KO_LUX_FEEDBACK))
-                displayBridge->setValue(koGet(KO_LUX_FEEDBACK));
+            displayBridge->setValue(koGet(KO_LUX_FEEDBACK));
             break;
     }
 }
