@@ -51,3 +51,11 @@ KnxChannelBase::~KnxChannelBase()
         utf8Name = nullptr;
     }
 }
+
+std::string KnxChannelBase::mainFunctionImage()
+{
+    std::string image = "Type";
+    image += std::to_string(ParamBRI_CHDeviceType);
+    image += ".png";
+    return image;
+}

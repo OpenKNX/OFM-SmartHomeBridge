@@ -336,7 +336,7 @@
                       <when test="10">
                         <!-- ************** Schalten ************ -->
                         <ParameterBlock Id="%AID%_PB-nnn" Name="f%CC%FCB_Switch" Text="%C% Schalten: {{0: ...}}"      TextParameterRefId="%AID%_P-%T%%CCC%002_R-%T%%CCC%00201" Icon="light-switch-off" ShowInComObjectTree="true" HelpContext="BRI-Schalten">
-                          <ParameterSeparator Id="%AID%_PS-nnn" Text="Schalten" UIHint="Headline" />
+                          <ParameterSeparator Id="%AID%_PS-nnn" Text="Ein-/Aus. Gerät" UIHint="Headline" />
          			            <op:usePart name="ChannelHead" xpath="//ParameterBlock/*" />
 
                           <!-- Hue -->

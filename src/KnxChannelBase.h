@@ -71,5 +71,6 @@ class KnxChannelBase : public OpenKNX::Channel, public Component
         virtual bool supportMainFunctionClick() { return true; }
         virtual std::string currentValueAsString() = 0;
         virtual bool mainFunctionValue() = 0;
+        virtual std::string mainFunctionImage();
 
 };
