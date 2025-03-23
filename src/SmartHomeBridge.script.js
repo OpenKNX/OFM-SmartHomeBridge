@@ -13,7 +13,7 @@ function briAddChannel(device, online, progress, context) {
     else
     {
         notAllowed.value = 0;
-        numberOfChannelds.value = numberOfChannelds.value + 1;
+        numberOfChannelds.value = newNumberOfChannels;
     }
 }
 

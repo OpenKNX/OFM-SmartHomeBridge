@@ -9,6 +9,7 @@
   <op:config name="%BRI_BridgeSettings%" value="1" />
   <op:config name="%BRI_HomeKitSupport%" value="1" />
   <op:config name="%BRI_HueSupport%" value="1" />
+  <op:config name="%BRI_DisplaySettings%" value="1" />
 
   <ManufacturerData>
     <Manufacturer RefId="M-00FA">
@@ -270,6 +271,10 @@
                 </TypeRestriction>
               </ParameterType>
 
+              <ParameterType Id="%AID%_PT-BRIIconNumber" Name="BRIIconNumber">
+                  <TypeNumber SizeInBit="16" Type="unsignedInt" minInclusive="1" maxInclusive="65535" />
+              </ParameterType>
+
             </ParameterTypes>
             <Parameters>
               <!-- Basic Settings -->
@@ -291,8 +296,10 @@
 							<Parameter Id="%AID%_P-%T%000008" Name="HueSupport" ParameterType="%AID%_PT-OnOffYesNo" Text="HueSupported" Value="%BRI_HueSupport%"  Access="None"/> 
 			        <!-- Base Settings -->
 							<Parameter Id="%AID%_P-%T%000009" Name="BrigdeSettings" ParameterType="%AID%_PT-OnOffYesNo" Text="BrigdeSettings" Value="%BRI_BridgeSettings%"  Access="None"/> 
+			       <!-- Base Settings -->
+							<Parameter Id="%AID%_P-%T%000010" Name="DisplaySettings" ParameterType="%AID%_PT-OnOffYesNo" Text="DisplaySettings" Value="%BRI_DisplaySettings%"  Access="None"/> 
 				
-              <!-- Next Id="%TT%00010" -->  		
+              <!-- Next Id="%TT%00011" -->  		
             </Parameters>
             <ParameterRefs>
               <!-- ParameterRef have to be defined for each parameter, pay attention, that the ID-part (number) after R- is unique! -->
@@ -306,6 +313,7 @@
               <ParameterRef Id="%AID%_P-%T%000007_R-%T%00000701" RefId="%AID%_P-%T%000007" /> <!-- HomeKit Supported -->
               <ParameterRef Id="%AID%_P-%T%000008_R-%T%00000801" RefId="%AID%_P-%T%000008" /> <!-- Hue Supported -->
               <ParameterRef Id="%AID%_P-%T%000009_R-%T%00000901" RefId="%AID%_P-%T%000009" /> <!-- Brigde Settings -->
+              <ParameterRef Id="%AID%_P-%T%000010_R-%T%00001001" RefId="%AID%_P-%T%000010" /> <!-- Display Settings -->
             </ParameterRefs>
             <ComObjectTable>
             </ComObjectTable>        
@@ -335,6 +343,7 @@
                 <ParameterRefRef IndentLevel="1" RefId="%AID%_P-%T%000007_R-%T%00000701" /> <!-- HomeKit Supported -->
                 <ParameterRefRef IndentLevel="1" RefId="%AID%_P-%T%000008_R-%T%00000801" /> <!-- Hue Supported -->
                 <ParameterRefRef IndentLevel="1" RefId="%AID%_P-%T%000009_R-%T%00000901" /> <!-- Brigde Settings -->
+                <ParameterRefRef IndentLevel="1" RefId="%AID%_P-%T%000010_R-%T%00001001" /> <!-- Display Settings -->
 
                 <!-- Bridge Settings -->
                 <choose ParamRefId="%AID%_P-%T%000009_R-%T%00000901" > 

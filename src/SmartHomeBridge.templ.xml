@@ -25,11 +25,20 @@
           
           
               <!-- Switch -->
-              <Union SizeInBit="8">
+              <Union SizeInBit="40">
                 <Memory CodeSegment="%AID%_RS-04-00000" Offset="30" BitOffset="0" />
                 <!-- Switch Hue Emulation -->
                 <Parameter Id="%AID%_UP-%T%%CCC%012" Offset="0" BitOffset="0" Name="CH%C%SwitchHueEmulation" ParameterType="%AID%_PT-BRIHueEmulation"          Text="Gerät in Hue verwenden" Value="1" />
-                <!-- 7 bits free -->
+
+                <Parameter Id="%AID%_UP-%T%%CCC%013" Offset="0" BitOffset="1" Name="CH%C%SwitchIcon" ParameterType="%AID%_PT-OnOffYesNo"  Text="Benutzerdefiniertes Bild" Value="0" />
+                <Parameter Id="%AID%_UP-%T%%CCC%014" Offset="0" BitOffset="2" Name="CH%C%SwitchIconCol0" ParameterType="%AID%_PT-OnOffYesNo"  Text="Style und Statuseinfärbung" Value="1" />
+                <Parameter Id="%AID%_UP-%T%%CCC%016" Offset="0" BitOffset="2" Name="CH%C%SwitchIconCol100" ParameterType="%AID%_PT-OnOffYesNo"  Text="Style und Statuseinfärbung" Value="1" />
+                <!-- 4 bits free -->
+       
+                <Parameter Id="%AID%_UP-%T%%CCC%015" Offset="1" BitOffset="0" Name="CH%C%SwitchIcon0"    ParameterType="%AID%_PT-BRIIconNumber"  Text="Bilddatei" Value="1" SuffixText=".png" />
+                <!-- ^^^ 2 bytes ^^^ -->
+                <Parameter Id="%AID%_UP-%T%%CCC%017" Offset="3" BitOffset="0" Name="CH%C%SwitchIcon100"  ParameterType="%AID%_PT-BRIIconNumber"  Text="Bilddatei" Value="1" SuffixText=".png" />
+                <!-- ^^^ 2 bytes ^^^ -->
               </Union> 
               
               <!-- Light -->
@@ -147,6 +156,17 @@
               <!-- Switch -->
               <!-- Switch Hue Emulation -->
               <ParameterRef Id="%AID%_UP-%T%%CCC%012_R-%T%%CCC%01201" RefId="%AID%_UP-%T%%CCC%012" />
+              <!-- Switch Icon -->
+              <ParameterRef Id="%AID%_UP-%T%%CCC%013_R-%T%%CCC%01301" RefId="%AID%_UP-%T%%CCC%013" />
+              <!-- Switch Icon Col 0-->
+              <ParameterRef Id="%AID%_UP-%T%%CCC%014_R-%T%%CCC%01401" RefId="%AID%_UP-%T%%CCC%014" />
+              <!-- Switch Icon 0-->
+              <ParameterRef Id="%AID%_UP-%T%%CCC%015_R-%T%%CCC%01501" RefId="%AID%_UP-%T%%CCC%015" />
+              <!-- Switch Icon Col 100-->
+              <ParameterRef Id="%AID%_UP-%T%%CCC%016_R-%T%%CCC%01601" RefId="%AID%_UP-%T%%CCC%016" />
+              <!-- Switch Icon 100-->
+              <ParameterRef Id="%AID%_UP-%T%%CCC%017_R-%T%%CCC%01701" RefId="%AID%_UP-%T%%CCC%017" />
+
 
               <!-- Light -->
               <!-- Light Hue Emulation -->
@@ -302,6 +322,9 @@
                 <!-- Anzahl der Kanäle -->
                 <choose ParamRefId="%AID%_UP-%T%000000_R-%T%00000001">
                   <when test="&gt;=%C%">
+                    <ParameterSeparator Id="%AID%_PS-nnn" Text="" UIHint="HorizontalRuler" />
+                    <!-- Devie Name -->
+                    <ParameterRefRef IndentLevel="1" RefId="%AID%_P-%T%%CCC%002_R-%T%%CCC%00201" />           
                     <!-- Device Typ -->
                     <ParameterRefRef IndentLevel="1" RefId="%AID%_P-%T%%CCC%001_R-%T%%CCC%00101" HelpContext="BRI-Kanalauswahl" />
                   </when>
@@ -312,6 +335,8 @@
                 <!-- Anzahl der Kanäle -->
                 <choose ParamRefId="%AID%_UP-%T%000000_R-%T%00000001">
                   <when test="=%C-1%">
+                    <!-- Devie Name -->
+                    <ParameterRefRef IndentLevel="1" RefId="%AID%_P-%T%%CCC%002_R-%T%%CCC%00201" /> 
                     <!-- Device Typ -->
                     <ParameterRefRef IndentLevel="1" RefId="%AID%_P-%T%%CCC%001_R-%T%%CCC%00101" HelpContext="BRI-Kanalauswahl" />
                     <choose ParamRefId="%AID%_P-%T%%CCC%001_R-%T%%CCC%00101">
@@ -349,6 +374,37 @@
 
                           <ComObjectRefRef RefId="%AID%_O-%T%%CCC%001_R-%T%%CCC%00101" />
                           <ComObjectRefRef RefId="%AID%_O-%T%%CCC%002_R-%T%%CCC%00201" />
+
+                          <!-- DisplaySettings -->
+                          <choose ParamRefId="%AID%_P-%T%000010_R-%T%00001001">
+                            <when test="1">
+                             
+                              <ParameterSeparator Id="%AID%_PS-nnn" Text="" UIHint="HorizontalRuler" />
+                              <ParameterSeparator Id="%AID%_PS-nnn" Text="Touch Display Einstellungen" UIHint="Headline" />
+
+                              <!-- Switch Icon -->
+                              <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%T%%CCC%013_R-%T%%CCC%01301" />
+                              <choose ParamRefId="%AID%_UP-%T%%CCC%013_R-%T%%CCC%01301">
+                                <when test="1">
+                                  <ParameterSeparator Id="%AID%_PS-nnn" Text="Bild Aus" />
+                                  <!-- Switch Icon Col 0-->
+                                  <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%T%%CCC%014_R-%T%%CCC%01401" />
+                                  <!-- Switch Icon 0-->
+                                  <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%T%%CCC%015_R-%T%%CCC%01501" />
+                                  
+                                  <ParameterSeparator Id="%AID%_PS-nnn" Text="Bild Ein" />
+                                  <!-- Switch Icon Col 100-->
+                                  <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%T%%CCC%016_R-%T%%CCC%01601" />
+                                  <!-- Switch Icon 100-->
+                                  <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%T%%CCC%017_R-%T%%CCC%01701" />
+                       
+                                </when>
+                              </choose>
+            
+                            </when>
+                          
+                          </choose>
+
                         </ParameterBlock>
                       </when>
                        <when test="11">
@@ -367,6 +423,9 @@
 
                           <ComObjectRefRef RefId="%AID%_O-%T%%CCC%001_R-%T%%CCC%00101" />
                           <ComObjectRefRef RefId="%AID%_O-%T%%CCC%002_R-%T%%CCC%00201" />
+
+                     
+
                         </ParameterBlock>
                       </when>
                       <when test="20">
