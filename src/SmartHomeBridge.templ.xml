@@ -8,7 +8,7 @@
             <Static>
             <Parameters>
               <!-- Bridge Channel -->
-              <Parameter Id="%AID%_P-%T%%CCC%001" Name="CH%C%DeviceType" ParameterType="%AID%_PT-BRIDeviceType" Text="Gerät %C%" Value="%BRI_DefaultType%" >
+              <Parameter Id="%AID%_P-%T%%CCC%001" Name="CH%C%DeviceType" ParameterType="%AID%_PT-BRIDeviceType" Text="Type" Value="%BRI_DefaultType%" >
                 <!-- Device Type -->
                 <Memory CodeSegment="%AID%_RS-04-00000" Offset="0" BitOffset="0" />
               </Parameter>
@@ -322,7 +322,7 @@
                 <!-- Anzahl der Kanäle -->
                 <choose ParamRefId="%AID%_UP-%T%000000_R-%T%00000001">
                   <when test="&gt;=%C%">
-                    <ParameterSeparator Id="%AID%_PS-nnn" Text="" UIHint="HorizontalRuler" />
+                    <ParameterSeparator Id="%AID%_PS-nnn" Text="Gerät %C%" />
                     <!-- Devie Name -->
                     <ParameterRefRef IndentLevel="1" RefId="%AID%_P-%T%%CCC%002_R-%T%%CCC%00201" />           
                     <!-- Device Typ -->
@@ -335,6 +335,7 @@
                 <!-- Anzahl der Kanäle -->
                 <choose ParamRefId="%AID%_UP-%T%000000_R-%T%00000001">
                   <when test="=%C-1%">
+                    <ParameterSeparator Id="%AID%_PS-nnn" Text="Gerät %C%" />  
                     <!-- Devie Name -->
                     <ParameterRefRef IndentLevel="1" RefId="%AID%_P-%T%%CCC%002_R-%T%%CCC%00201" /> 
                     <!-- Device Typ -->
