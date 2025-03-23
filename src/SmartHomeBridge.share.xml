@@ -271,8 +271,8 @@
                 </TypeRestriction>
               </ParameterType>
 
-              <ParameterType Id="%AID%_PT-BRIIconNumber" Name="BRIIconNumber">
-                  <TypeNumber SizeInBit="16" Type="unsignedInt" minInclusive="1" maxInclusive="65535" />
+              <ParameterType Id="%AID%_PT-BRIIconName" Name="BRIIconName">
+                  <TypeText  SizeInBit="64"  Pattern="^[A-Za-z0-9_-]*$" />
               </ParameterType>
 
             </ParameterTypes>

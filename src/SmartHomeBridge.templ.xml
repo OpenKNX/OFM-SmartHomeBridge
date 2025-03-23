@@ -21,27 +21,26 @@
               <Parameter Id="%AID%_P-%T%%CCC%003" Name="CH%C%DisableChannel" ParameterType="%AID%_PT-BRICheckBoxDisable" Text="Gerät deaktivieren (Konfiguration bleibt erhalten)" Value="0" >
                 <Memory CodeSegment="%AID%_RS-04-00000" Offset="27" BitOffset="0" />
               </Parameter>
-              <!-- 2 Byte free -->
-          
+            
               <!-- Icons -->
-              <Union SizeInBit="56" >
-                <Memory CodeSegment="%AID%_RS-04-00000" Offset="30" BitOffset="0" />
+              <Union SizeInBit="200" > <!-- 25 Bytes -->
+                <Memory CodeSegment="%AID%_RS-04-00000" Offset="28" BitOffset="0" />
                 <Parameter Id="%AID%_UP-%T%%CCC%004" Offset="0" BitOffset="0" Name="CH%C%Icon"       ParameterType="%AID%_PT-OnOffYesNo"  Text="Benutzerdefiniertes Bild" Value="0" />
                 <Parameter Id="%AID%_UP-%T%%CCC%005" Offset="0" BitOffset="1" Name="CH%C%IconCol0"   ParameterType="%AID%_PT-OnOffYesNo"  Text="Anzeigemodus und Statuseinfärbung" Value="1" />
                 <Parameter Id="%AID%_UP-%T%%CCC%007" Offset="0" BitOffset="2" Name="CH%C%IconCol50"  ParameterType="%AID%_PT-OnOffYesNo"  Text="Anzeigemodus und Statuseinfärbung" Value="1" />
                 <Parameter Id="%AID%_UP-%T%%CCC%009" Offset="0" BitOffset="3" Name="CH%C%IconCol100" ParameterType="%AID%_PT-OnOffYesNo"  Text="Anzeigemodus und Statuseinfärbung" Value="1" />
                 <!-- 4 bits free -->
-                <Parameter Id="%AID%_UP-%T%%CCC%006" Offset="1" BitOffset="0" Name="CH%C%Icon0"   ParameterType="%AID%_PT-BRIIconNumber"  Text="Bilddatei" Value="1" SuffixText=".png" />
-                <!-- ^^^ 2 bytes ^^^ -->
-                <Parameter Id="%AID%_UP-%T%%CCC%008" Offset="3" BitOffset="0" Name="CH%C%Icon50"  ParameterType="%AID%_PT-BRIIconNumber"  Text="Bilddatei" Value="1" SuffixText=".png" />
-                <!-- ^^^ 2 bytes ^^^ -->
-                <Parameter Id="%AID%_UP-%T%%CCC%010" Offset="5" BitOffset="0" Name="CH%C%Icon100" ParameterType="%AID%_PT-BRIIconNumber"  Text="Bilddatei" Value="1" SuffixText=".png" />
-                <!-- ^^^ 2 bytes ^^^ -->
+                <Parameter Id="%AID%_UP-%T%%CCC%006" Offset="1" BitOffset="0" Name="CH%C%Icon0"   ParameterType="%AID%_PT-BRIIconName"  Text="Bilddatei" Value="Bild1" SuffixText=".png" />
+                <!-- ^^^ 8 bytes ^^^ -->
+                <Parameter Id="%AID%_UP-%T%%CCC%008" Offset="9" BitOffset="0" Name="CH%C%Icon50"  ParameterType="%AID%_PT-BRIIconName"  Text="Bilddatei" Value="Bild2" SuffixText=".png" />
+                <!-- ^^^ 8 bytes ^^^ -->
+                <Parameter Id="%AID%_UP-%T%%CCC%010" Offset="17" BitOffset="0" Name="CH%C%Icon100" ParameterType="%AID%_PT-BRIIconName"  Text="Bilddatei" Value="Bild3" SuffixText=".png" />
+                <!-- ^^^ 8 bytes ^^^ -->
               </Union>
 
               <!-- Switch -->
-              <Union SizeInBit="40">
-                <Memory CodeSegment="%AID%_RS-04-00000" Offset="37" BitOffset="0" />
+              <Union SizeInBit="8">
+                <Memory CodeSegment="%AID%_RS-04-00000" Offset="53" BitOffset="0" />
                 <!-- Switch Hue Emulation -->
                 <Parameter Id="%AID%_UP-%T%%CCC%012" Offset="0" BitOffset="0" Name="CH%C%SwitchHueEmulation" ParameterType="%AID%_PT-BRIHueEmulation"          Text="Gerät in Hue verwenden" Value="1" />
 
@@ -49,7 +48,7 @@
               
               <!-- Light -->
               <Union SizeInBit="40">
-                <Memory CodeSegment="%AID%_RS-04-00000" Offset="37" BitOffset="0" />
+                <Memory CodeSegment="%AID%_RS-04-00000" Offset="53" BitOffset="0" />
                 <!-- Light Hue Emulation -->
                 <Parameter Id="%AID%_UP-%T%%CCC%022" Offset="0" BitOffset="0" Name="CH%C%LightHueEmulation" ParameterType="%AID%_PT-BRIHueEmulation"          Text="Lampe in Hue verwenden" Value="1" />        
                 <!-- Light RGB Use Switch KO -->
@@ -71,7 +70,7 @@
               
               <!-- Jalousie -->
               <Union SizeInBit="16">
-                <Memory CodeSegment="%AID%_RS-04-00000" Offset="37" BitOffset="0" />
+                <Memory CodeSegment="%AID%_RS-04-00000" Offset="53" BitOffset="0" />
                 <!-- Jalousie Hue Emulation -->
                 <Parameter Id="%AID%_UP-%T%%CCC%031" Offset="0" BitOffset="0" Name="CH%C%JalousieHueEmulation" ParameterType="%AID%_PT-BRIHueEmulation" Text="In HUE als dimmbare Lampe darstellen" Value="0" />
                 <!-- Jalousie Use Stop -->
@@ -86,7 +85,7 @@
 
               <!-- Thermostat -->
               <Union SizeInBit="16">
-                <Memory CodeSegment="%AID%_RS-04-00000" Offset="37" BitOffset="0" />
+                <Memory CodeSegment="%AID%_RS-04-00000" Offset="53" BitOffset="0" />
                 <!-- Temperature Unit -->
                 <Parameter Id="%AID%_UP-%T%%CCC%051" Offset="0" BitOffset="0" Name="CH%C%ThermostatTemperaturUnitType" ParameterType="%AID%_PT-BRIThermostatTemperaturUnitType" Text="Einheit" Value="0" />                         
                 <!-- Thermostat Ko Mod Heating -->
@@ -108,7 +107,7 @@
 
               <!-- Kontakte/Alarme/Sensoren -->
               <Union SizeInBit="8">
-                <Memory CodeSegment="%AID%_RS-04-00000" Offset="37" BitOffset="0" />
+                <Memory CodeSegment="%AID%_RS-04-00000" Offset="53" BitOffset="0" />
                 <!-- Sensor Inverted -->
                 <Parameter Id="%AID%_UP-%T%%CCC%071" Offset="0" BitOffset="0" Name="CH%C%ContactAlarmSensorInvert"  ParameterType="%AID%_PT-BRIContactAlarmSensorInvert" Text="Eingang Invertieren" Value="0" />
                 <!-- 7 Bits free -->
@@ -116,14 +115,14 @@
 
               <!-- Anzeige -->
               <Union SizeInBit="8">
-                <Memory CodeSegment="%AID%_RS-04-00000" Offset="37" BitOffset="0" />
+                <Memory CodeSegment="%AID%_RS-04-00000" Offset="53" BitOffset="0" />
                 <!-- Display Type -->
                 <Parameter Id="%AID%_UP-%T%%CCC%061" Offset="0" BitOffset="0" Name="CH%C%DisplayType" ParameterType="%AID%_PT-BRIDisplayType" Text="Messwert" Value="0" />    
               </Union>
 
               <!-- Fan -->
               <Union SizeInBit="8">
-                <Memory CodeSegment="%AID%_RS-04-00000" Offset="37" BitOffset="0" />
+                <Memory CodeSegment="%AID%_RS-04-00000" Offset="53" BitOffset="0" />
                 <!-- Fan Hue Emulation -->
                 <Parameter Id="%AID%_UP-%T%%CCC%081" Offset="0" BitOffset="0" Name="CH%C%FanHueEmulation" ParameterType="%AID%_PT-BRIHueEmulation"           Text="Lüfter in HUE als Lampe darstellen" Value="0" />        
                 <!-- Fan Automatic -->
@@ -137,7 +136,7 @@
 
               <!-- Door/Window -->
               <Union SizeInBit="16">
-                <Memory CodeSegment="%AID%_RS-04-00000" Offset="37" BitOffset="0" />
+                <Memory CodeSegment="%AID%_RS-04-00000" Offset="53" BitOffset="0" />
                 <!-- Door/Window HUE Emulation -->
                 <Parameter Id="%AID%_UP-%T%%CCC%096" Offset="0" BitOffset="0" Name="CH%C%DoorHueEmulation" ParameterType="%AID%_PT-BRIHueEmulation"          Text="In Hue als dimmbare Lampe darstellen" Value="0" />
                 <!-- Door/Window Motor -->
@@ -411,9 +410,9 @@
                                   
                                   <ParameterSeparator Id="%AID%_PS-nnn" Text="Bild Ein" />
                                   <!-- Icon Col 100-->
-                                  <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%T%%CCC%008_R-%T%%CCC%00801" />
-                                  <!-- Icon 100-->
                                   <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%T%%CCC%009_R-%T%%CCC%00901" />
+                                  <!-- Icon 100-->
+                                  <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%T%%CCC%010_R-%T%%CCC%01001" />
                                 </when>
                               </choose>
             
@@ -460,9 +459,9 @@
                                   
                                   <ParameterSeparator Id="%AID%_PS-nnn" Text="Bild Ein" />
                                   <!-- Icon Col 100-->
-                                  <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%T%%CCC%008_R-%T%%CCC%00801" />
-                                  <!-- Icon 100-->
                                   <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%T%%CCC%009_R-%T%%CCC%00901" />
+                                  <!-- Icon 100-->
+                                  <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%T%%CCC%010_R-%T%%CCC%01001" />
                                 </when>
                               </choose>
             
@@ -513,9 +512,9 @@
                                       
                                       <ParameterSeparator Id="%AID%_PS-nnn" Text="Bild Ein" />
                                       <!-- Icon Col 100-->
-                                      <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%T%%CCC%008_R-%T%%CCC%00801" />
-                                      <!-- Icon 100-->
                                       <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%T%%CCC%009_R-%T%%CCC%00901" />
+                                      <!-- Icon 100-->
+                                      <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%T%%CCC%010_R-%T%%CCC%01001" />
                                     </when>
                                   </choose>
                 
@@ -556,9 +555,9 @@
                                       
                                       <ParameterSeparator Id="%AID%_PS-nnn" Text="Bild 100%" />
                                       <!-- Icon Col 100-->
-                                      <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%T%%CCC%008_R-%T%%CCC%00801" />
-                                      <!-- Icon 100-->
                                       <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%T%%CCC%009_R-%T%%CCC%00901" />
+                                      <!-- Icon 100-->
+                                      <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%T%%CCC%010_R-%T%%CCC%01001" />
                                     </when>
                                   </choose>
                                 </when>
@@ -596,9 +595,9 @@
                            
                                       <ParameterSeparator Id="%AID%_PS-nnn" Text="Bild Ein" />
                                       <!-- Icon Col 100-->
-                                      <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%T%%CCC%008_R-%T%%CCC%00801" />
-                                      <!-- Icon 100-->
                                       <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%T%%CCC%009_R-%T%%CCC%00901" />
+                                      <!-- Icon 100-->
+                                      <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%T%%CCC%010_R-%T%%CCC%01001" />
                                     </when>
                                   </choose>
                                 </when>
@@ -671,9 +670,9 @@
                                   
                                   <ParameterSeparator Id="%AID%_PS-nnn" Text="Bild 91-100%" />
                                   <!-- Icon Col 100-->
-                                  <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%T%%CCC%008_R-%T%%CCC%00801" />
-                                  <!-- Icon 100-->
                                   <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%T%%CCC%009_R-%T%%CCC%00901" />
+                                  <!-- Icon 100-->
+                                  <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%T%%CCC%010_R-%T%%CCC%01001" />
                                 </when>
                               </choose>
                             </when>
@@ -739,9 +738,9 @@
                                   
                                   <ParameterSeparator Id="%AID%_PS-nnn" Text="Bild 100%" />
                                   <!-- Icon Col 100-->
-                                  <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%T%%CCC%008_R-%T%%CCC%00801" />
-                                  <!-- Icon 100-->
                                   <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%T%%CCC%009_R-%T%%CCC%00901" />
+                                  <!-- Icon 100-->
+                                  <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%T%%CCC%010_R-%T%%CCC%01001" />
                                 </when>
                               </choose>
                             </when>
@@ -805,9 +804,9 @@
                                   
                                   <ParameterSeparator Id="%AID%_PS-nnn" Text="Bild 100%" />
                                   <!-- Icon Col 100-->
-                                  <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%T%%CCC%008_R-%T%%CCC%00801" />
-                                  <!-- Icon 100-->
                                   <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%T%%CCC%009_R-%T%%CCC%00901" />
+                                  <!-- Icon 100-->
+                                  <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%T%%CCC%010_R-%T%%CCC%01001" />
                                 </when>
                               </choose>
                             </when>
@@ -932,9 +931,9 @@
                                     <when test="2 3 7"> <!-- Cooling -->
                                       <ParameterSeparator Id="%AID%_PS-nnn" Text="Bild Kühlen" />
                                       <!-- Icon Col 100-->
-                                      <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%T%%CCC%008_R-%T%%CCC%00801" />
-                                      <!-- Icon 100-->
                                       <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%T%%CCC%009_R-%T%%CCC%00901" />
+                                      <!-- Icon 100-->
+                                      <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%T%%CCC%010_R-%T%%CCC%01001" />
                                     </when>
                                 </choose>
                                 </when>
@@ -1019,9 +1018,9 @@
 
                                   <ParameterSeparator Id="%AID%_PS-nnn" Text="Bild 'Alarm'" />
                                   <!-- Icon Col 100-->
-                                  <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%T%%CCC%008_R-%T%%CCC%00801" />
-                                  <!-- Icon 100-->
                                   <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%T%%CCC%009_R-%T%%CCC%00901" />
+                                  <!-- Icon 100-->
+                                  <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%T%%CCC%010_R-%T%%CCC%01001" />
                                 </when>
                               </choose>
                             </when>
@@ -1058,9 +1057,9 @@
 
                                   <ParameterSeparator Id="%AID%_PS-nnn" Text="Bild 'Alarm'" />
                                   <!-- Icon Col 100-->
-                                  <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%T%%CCC%008_R-%T%%CCC%00801" />
-                                  <!-- Icon 100-->
                                   <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%T%%CCC%009_R-%T%%CCC%00901" />
+                                  <!-- Icon 100-->
+                                  <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%T%%CCC%010_R-%T%%CCC%01001" />
                                 </when>
                               </choose>
                             </when>
@@ -1097,9 +1096,9 @@
 
                                   <ParameterSeparator Id="%AID%_PS-nnn" Text="Bild 'Alarm'" />
                                   <!-- Icon Col 100-->
-                                  <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%T%%CCC%008_R-%T%%CCC%00801" />
-                                  <!-- Icon 100-->
                                   <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%T%%CCC%009_R-%T%%CCC%00901" />
+                                  <!-- Icon 100-->
+                                  <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%T%%CCC%010_R-%T%%CCC%01001" />
                                 </when>
                               </choose>
                             </when>
@@ -1136,9 +1135,9 @@
 
                                   <ParameterSeparator Id="%AID%_PS-nnn" Text="Bild 'Alarm'" />
                                   <!-- Icon Col 100-->
-                                  <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%T%%CCC%008_R-%T%%CCC%00801" />
-                                  <!-- Icon 100-->
                                   <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%T%%CCC%009_R-%T%%CCC%00901" />
+                                  <!-- Icon 100-->
+                                  <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%T%%CCC%010_R-%T%%CCC%01001" />
                                 </when>
                               </choose>
                             </when>
@@ -1175,9 +1174,9 @@
 
                                   <ParameterSeparator Id="%AID%_PS-nnn" Text="Bild 'Alarm'" />
                                   <!-- Icon Col 100-->
-                                  <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%T%%CCC%008_R-%T%%CCC%00801" />
-                                  <!-- Icon 100-->
                                   <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%T%%CCC%009_R-%T%%CCC%00901" />
+                                  <!-- Icon 100-->
+                                  <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%T%%CCC%010_R-%T%%CCC%01001" />
                                 </when>
                               </choose>
                             </when>
@@ -1214,9 +1213,9 @@
 
                                   <ParameterSeparator Id="%AID%_PS-nnn" Text="Bild 'Alarm'" />
                                   <!-- Icon Col 100-->
-                                  <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%T%%CCC%008_R-%T%%CCC%00801" />
-                                  <!-- Icon 100-->
                                   <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%T%%CCC%009_R-%T%%CCC%00901" />
+                                  <!-- Icon 100-->
+                                  <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%T%%CCC%010_R-%T%%CCC%01001" />
                                 </when>
                               </choose>
                             </when>
@@ -1253,9 +1252,9 @@
 
                                   <ParameterSeparator Id="%AID%_PS-nnn" Text="Bild 'Alarm'" />
                                   <!-- Icon Col 100-->
-                                  <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%T%%CCC%008_R-%T%%CCC%00801" />
-                                  <!-- Icon 100-->
                                   <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%T%%CCC%009_R-%T%%CCC%00901" />
+                                  <!-- Icon 100-->
+                                  <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%T%%CCC%010_R-%T%%CCC%01001" />
                                 </when>
                               </choose>
                             </when>
@@ -1325,9 +1324,9 @@
 
                                   <ParameterSeparator Id="%AID%_PS-nnn" Text="Bild Aus" />
                                   <!-- Icon Col 100-->
-                                  <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%T%%CCC%008_R-%T%%CCC%00801" />
-                                  <!-- Icon 100-->
                                   <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%T%%CCC%009_R-%T%%CCC%00901" />
+                                  <!-- Icon 100-->
+                                  <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%T%%CCC%010_R-%T%%CCC%01001" />
                                 </when>
                               </choose>
                             </when>
@@ -1427,9 +1426,9 @@
                                   </choose>    
                                   <ParameterSeparator Id="%AID%_PS-nnn" Text="Bild geöffnet" />
                                   <!-- Icon Col 100-->
-                                  <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%T%%CCC%008_R-%T%%CCC%00801" />
-                                  <!-- Icon 100-->
                                   <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%T%%CCC%009_R-%T%%CCC%00901" />
+                                  <!-- Icon 100-->
+                                  <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%T%%CCC%010_R-%T%%CCC%01001" />
                                 </when>
                               </choose>
                             </when>
@@ -1528,9 +1527,9 @@
                                   </choose>    
                                   <ParameterSeparator Id="%AID%_PS-nnn" Text="Bild geöffnet" />
                                   <!-- Icon Col 100-->
-                                  <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%T%%CCC%008_R-%T%%CCC%00801" />
-                                  <!-- Icon 100-->
                                   <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%T%%CCC%009_R-%T%%CCC%00901" />
+                                  <!-- Icon 100-->
+                                  <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%T%%CCC%010_R-%T%%CCC%01001" />
                                 </when>
                               </choose>
                             </when>
@@ -1630,9 +1629,9 @@
                                   </choose>    
                                   <ParameterSeparator Id="%AID%_PS-nnn" Text="Bild geöffnet" />
                                   <!-- Icon Col 100-->
-                                  <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%T%%CCC%008_R-%T%%CCC%00801" />
-                                  <!-- Icon 100-->
                                   <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%T%%CCC%009_R-%T%%CCC%00901" />
+                                  <!-- Icon 100-->
+                                  <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%T%%CCC%010_R-%T%%CCC%01001" />
                                 </when>
                               </choose>
                             </when>
