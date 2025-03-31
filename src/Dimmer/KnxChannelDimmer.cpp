@@ -161,3 +161,18 @@ bool KnxChannelDimmer::mainFunctionValue()
 {
     return (uint8_t) koGet(KO_DIMMER_FEEDBACK) > 0;
 }
+
+std::string KnxChannelDimmer::mainFunctionImage()
+{
+    if (!ParamBRI_CHIcon)
+        return KnxChannelBase::mainFunctionImage();
+    int parameterIndex;
+    auto brightness = (uint8_t) koGet(KO_DIMMER_FEEDBACK);
+    if (brightness == 0)
+        parameterIndex = BRI_CHIcon0;
+    else if (brightness < 100)
+        parameterIndex = BRI_CHIcon50;
+    else
+        parameterIndex = BRI_CHIcon100;
+    return getImageFileName(parameterIndex);
+}

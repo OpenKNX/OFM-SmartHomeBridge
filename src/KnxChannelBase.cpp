@@ -52,6 +52,17 @@ KnxChannelBase::~KnxChannelBase()
     }
 }
 
+std::string KnxChannelBase::getImageFileName(int channelParameterIndex)
+{
+    auto fileName = (const char*) (knx.paramData(BRI_ParamCalcIndex(channelParameterIndex)));
+    int len = 0;
+    while (fileName[len] != 0 && len < IconNameParameterLength)
+    {
+        len++;
+    }
+    return std::string(fileName, len) + ".png";
+}
+
 std::string KnxChannelBase::mainFunctionImage()
 {
     std::string image = "Type";

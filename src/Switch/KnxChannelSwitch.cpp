@@ -51,6 +51,12 @@ void KnxChannelSwitch::commandMainFunctionClick()
         commandPower(nullptr, true);
     }
 }
+std::string KnxChannelSwitch::mainFunctionImage()
+{
+    if (!ParamBRI_CHIcon)
+        return KnxChannelBase::mainFunctionImage();
+    return getImageFileName(koGet(KO_SWITCH_FEEDBACK) ? BRI_CHIcon100  : BRI_CHIcon0);
+}
 
 void KnxChannelSwitch::commandPower(SwitchBridge *switchBridge, bool power)
 {

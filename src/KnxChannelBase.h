@@ -47,15 +47,23 @@ protected:
 class KnxChannelBase;
 using MainFunctionChangedHandler = std::function<void(KnxChannelBase&)>; // Funktionszeiger-Typ
 
+struct MainFunctionState
+{
+    bool state;
+    std::string image;
+    bool colorImage;
+};
 
 class KnxChannelBase : public OpenKNX::Channel, public Component
 {
     private:
   
         DynamicPointerArray<MainFunctionChangedHandler> mainFunctionChangedHandlers;
- 
+        const int IconNameParameterLength = 8; 
         const char* utf8Name = nullptr;
     protected:
+        std::string getImageFileName(int parameterIndex);
+
         void mainFunctionValueChanged();
     public:
         ~KnxChannelBase();
