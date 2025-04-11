@@ -2,7 +2,8 @@
 #include "knxprod.h"
 #include "KnxChannelJalousie.h"
 #include "BridgeBase.h"
-
+#define KO_POSITION               KoBRI_KO1_, DPT_Scaling
+#define KO_POSITION_FEEDBACK      KoBRI_KO2_, DPT_Scaling
 #define KO_SLAT_POSITION          KoBRI_KO7_, DPT_Scaling
 #define KO_SLAT_POSITION_FEEDBACK KoBRI_KO8_, DPT_Scaling
 
@@ -118,4 +119,10 @@ void KnxChannelJalousie::processInputKo(GroupObject &ko)
         }
         mainFunctionValueChanged();
     }
+}
+
+
+MainFunctionStateImage KnxChannelJalousie::mainFunctionImage()
+{
+   return calculateMainFunctionImage(KO_POSITION_FEEDBACK, 0, 90, 100);
 }

@@ -59,4 +59,5 @@ class KnxChannelThermostat : public KnxChannelBase
         virtual const std::string name() override;
         virtual std::string currentValueAsString() override;
         virtual bool mainFunctionValue() override;
+        virtual MainFunctionStateImage mainFunctionImage() override;
 };

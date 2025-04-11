@@ -129,10 +129,15 @@ void KnxChannelFan::processInputKo(GroupObject &ko)
 
 std::string KnxChannelFan::currentValueAsString()
 {
-    return koGet(KO_SWITCH) ? "Ein" : "Aus";
+    return koGet(KO_SWITCH_FEEDBACK) ? "Ein" : "Aus";
 }
 
 bool KnxChannelFan::mainFunctionValue()
 {
-    return koGet(KO_SWITCH);
+    return koGet(KO_SWITCH_FEEDBACK);
+}
+
+MainFunctionStateImage KnxChannelFan::mainFunctionImage()
+{
+   return calculateMainFunctionImage(KO_SWITCH_FEEDBACK, 0, LIMIT_NOT_USED, 100);
 }

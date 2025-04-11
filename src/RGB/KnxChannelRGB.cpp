@@ -218,3 +218,8 @@ bool KnxChannelRGB::mainFunctionValue()
 {
     return koGet(KO_POWER_FEEDBACK);
 }
+
+MainFunctionStateImage KnxChannelRGB::mainFunctionImage()
+{
+   return calculateMainFunctionImage(KO_POWER_FEEDBACK, 0, LIMIT_NOT_USED, 100);
+}

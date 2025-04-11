@@ -312,3 +312,12 @@ bool KnxChannelThermostat::mainFunctionValue()
 {
     return koGet(KO_HEADING_FEEDBACK) || koGet(KO_COOLING_FEEDBACK);
 }
+
+MainFunctionStateImage KnxChannelThermostat::mainFunctionImage()
+{
+    if (koGet(KO_HEADING_FEEDBACK))
+        return calculateMainFunctionImage(100, LIMIT_NOT_USED, 100, LIMIT_NOT_USED);
+    if (koGet(KO_COOLING_FEEDBACK))
+        return calculateMainFunctionImage(100, LIMIT_NOT_USED, LIMIT_NOT_USED, 100);
+   return calculateMainFunctionImage(0, 0, LIMIT_NOT_USED, LIMIT_NOT_USED);
+}

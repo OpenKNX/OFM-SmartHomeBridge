@@ -977,7 +977,7 @@
                                 <when test="1">
                                   <ParameterSeparator Id="%AID%_PS-nnn" Text="Bild" />
                                   <!-- Icon Col 0-->
-                                  <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%T%%CCC%005_R-%T%%CCC%00501" />
+                                  <!-- <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%T%%CCC%005_R-%T%%CCC%00501" /> -->
                                   <!-- Icon 0-->
                                   <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%T%%CCC%006_R-%T%%CCC%00601" />
 

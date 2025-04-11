@@ -211,3 +211,8 @@ bool KnxChannelRolladen::mainFunctionValue()
 {
     return (uint8_t) koGet(KO_POSITION_FEEDBACK) > 0;
 }
+
+MainFunctionStateImage KnxChannelRolladen::mainFunctionImage()
+{
+   return calculateMainFunctionImage(KO_POSITION_FEEDBACK, 0, 99, 100);
+}

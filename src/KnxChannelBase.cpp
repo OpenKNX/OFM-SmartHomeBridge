@@ -63,10 +63,42 @@ std::string KnxChannelBase::getImageFileName(int channelParameterIndex)
     return std::string(fileName, len) + ".png";
 }
 
-std::string KnxChannelBase::mainFunctionImage()
+MainFunctionStateImage KnxChannelBase::mainFunctionTypeImage()
 {
     std::string image = "Type";
     image += std::to_string(ParamBRI_CHDeviceType);
     image += ".png";
-    return image;
+    return {true, image};
+}
+
+MainFunctionStateImage KnxChannelBase::calculateMainFunctionImage(GroupObject& feedbackKo, const Dpt& dpt, uint8_t limit0, uint8_t limit50, uint8_t limit100)
+{
+    return calculateMainFunctionImage(koGet(feedbackKo, dpt), limit0, limit50, limit100);
+}
+MainFunctionStateImage KnxChannelBase::calculateMainFunctionImage(uint8_t value, uint8_t limit0, uint8_t limit50, uint8_t limit100)
+{
+    if (!ParamBRI_CHIcon)
+        return mainFunctionTypeImage();
+    int parameterIndex = -1;
+    bool allowRecolor;
+    if (limit0 != LIMIT_NOT_USED && value <= limit0)
+    {
+        parameterIndex = BRI_CHIcon0;
+        allowRecolor = ParamBRI_CHIconCol0;
+    }
+    else if (limit50 != LIMIT_NOT_USED && value <= limit50)
+    {
+        parameterIndex = BRI_CHIcon50;
+        allowRecolor = ParamBRI_CHIconCol50;
+    }
+    else if (limit100 != LIMIT_NOT_USED && value <= limit100)
+    {
+        parameterIndex = BRI_CHIcon100;
+        allowRecolor = ParamBRI_CHIconCol100;
+    }
+    else
+    {
+        return mainFunctionTypeImage();
+    }
+    return {allowRecolor, getImageFileName(parameterIndex)};
 }

@@ -54,6 +54,12 @@ struct MainFunctionState
     bool colorImage;
 };
 
+struct MainFunctionStateImage
+{
+    bool allowRecolor;
+    std::string imageFile;
+};
+
 class KnxChannelBase : public OpenKNX::Channel, public Component
 {
     private:
@@ -62,8 +68,11 @@ class KnxChannelBase : public OpenKNX::Channel, public Component
         const int IconNameParameterLength = 8; 
         const char* utf8Name = nullptr;
     protected:
+        const uint8_t LIMIT_NOT_USED = 255;
         std::string getImageFileName(int parameterIndex);
-
+        MainFunctionStateImage mainFunctionTypeImage();
+        MainFunctionStateImage calculateMainFunctionImage(GroupObject& feedbackKo, const Dpt& dpt, uint8_t limit0, uint8_t limit50, uint8_t limit100);
+        MainFunctionStateImage calculateMainFunctionImage(uint8_t currentValue, uint8_t limit0, uint8_t limit50, uint8_t limit100);
         void mainFunctionValueChanged();
     public:
         ~KnxChannelBase();
@@ -79,6 +88,5 @@ class KnxChannelBase : public OpenKNX::Channel, public Component
         virtual bool supportMainFunctionClick() { return true; }
         virtual std::string currentValueAsString() = 0;
         virtual bool mainFunctionValue() = 0;
-        virtual std::string mainFunctionImage();
-
+        virtual MainFunctionStateImage mainFunctionImage() = 0;
 };

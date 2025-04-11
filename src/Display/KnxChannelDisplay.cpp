@@ -123,3 +123,11 @@ bool KnxChannelDisplay::mainFunctionValue()
 {
     return koInitialized(KO_TEMPERATURE_FEEDBACK);
 }
+
+MainFunctionStateImage KnxChannelDisplay::mainFunctionImage()
+{
+    if (!ParamBRI_CHIcon)
+        return { false, mainFunctionTypeImage().imageFile };
+    return { false, getImageFileName(BRI_CHIcon) };
+    
+}

@@ -278,3 +278,8 @@ bool KnxChannelDoorWindow::mainFunctionValue()
 {
     return currentPosition() > 0;
 }
+
+MainFunctionStateImage KnxChannelDoorWindow::mainFunctionImage()
+{
+   return calculateMainFunctionImage(currentPosition(), 0, 99, 100);
+}

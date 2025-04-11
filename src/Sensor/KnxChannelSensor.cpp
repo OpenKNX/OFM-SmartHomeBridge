@@ -83,3 +83,8 @@ bool KnxChannelSensor::mainFunctionValue()
 {
     return koGet(KO_SENSOR_FEEDBACK);
 }
+
+MainFunctionStateImage KnxChannelSensor::mainFunctionImage()
+{
+   return calculateMainFunctionImage(KO_SENSOR_FEEDBACK, 0, LIMIT_NOT_USED, 100);
+}
