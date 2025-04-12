@@ -89,4 +89,5 @@ class KnxChannelBase : public OpenKNX::Channel, public Component
         virtual std::string currentValueAsString() = 0;
         virtual bool mainFunctionValue() = 0;
         virtual MainFunctionStateImage mainFunctionImage() = 0;
+        virtual bool mainFunctionPreferValueDisplay();
 };

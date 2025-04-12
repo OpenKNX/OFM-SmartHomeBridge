@@ -15,6 +15,7 @@ public:
 
     boolean update();
     virtual void setValue(double value) override;
+    virtual void setValue(const char* value) override;
 };
 
 #endif

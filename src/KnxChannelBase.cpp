@@ -63,6 +63,11 @@ std::string KnxChannelBase::getImageFileName(int channelParameterIndex)
     return std::string(fileName, len) + ".png";
 }
 
+bool KnxChannelBase::mainFunctionPreferValueDisplay()
+{
+    return false;
+}
+
 MainFunctionStateImage KnxChannelBase::mainFunctionTypeImage()
 {
     std::string image = "Type";
@@ -70,6 +75,7 @@ MainFunctionStateImage KnxChannelBase::mainFunctionTypeImage()
     image += ".png";
     return {true, image};
 }
+
 
 MainFunctionStateImage KnxChannelBase::calculateMainFunctionImage(GroupObject& feedbackKo, const Dpt& dpt, uint8_t limit0, uint8_t limit50, uint8_t limit100)
 {

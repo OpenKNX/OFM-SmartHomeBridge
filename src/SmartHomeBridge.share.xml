@@ -205,6 +205,22 @@
                   <Enumeration Value="0" Id="%ENID%" Text="Temperatur"       />
                   <Enumeration Value="1" Id="%ENID%" Text="Luftfeuchtigkeit" />
                   <Enumeration Value="2" Id="%ENID%" Text="Helligkeit"       />
+                  <Enumeration Value="3" Id="%ENID%" Text="Regenprognose"    />
+                  <Enumeration Value="4" Id="%ENID%" Text="Schneeprognose"   />
+                  <Enumeration Value="5" Id="%ENID%" Text="Wind"   />
+                  <Enumeration Value="9" Id="%ENID%" Text="Text"   />
+                </TypeRestriction>
+              </ParameterType>
+
+              <ParameterType Id="%AID%_PT-BRICompareValue" Name="BRICompareValue">
+								<TypeFloat Encoding="IEEE-754 Single" minInclusive="-50000" maxInclusive="50000" />
+							</ParameterType>
+
+              <ParameterType Id="%AID%_PT-BRIIconState" Name="BRIIconState">
+                <TypeRestriction Base="Value" SizeInBit="2">
+                  <Enumeration Value="0" Id="%ENID%" Text="Keine Einfärbung"       />
+                  <Enumeration Value="1" Id="%ENID%" Text="Als AUS darstellen"     />
+                  <Enumeration Value="2" Id="%ENID%" Text="Als EIN darstellen "    />
                 </TypeRestriction>
               </ParameterType>
 

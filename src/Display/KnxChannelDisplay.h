@@ -7,6 +7,7 @@ class DisplayBridge : public ChannelBridgeBase<KnxChannelDisplay>
 {
 public:
     virtual void setValue(double value) = 0;
+    virtual void setValue(const char* value) = 0;
 };
 
 enum DisplayType
@@ -14,11 +15,19 @@ enum DisplayType
     DisplayTypeTemperature,
     DisplayTypeHumidity,
     DisplayTypeLux,
+    DisplayTyppeRain,
+    DisplayTypeSnow,
+    DisplayTypeWind,
+    DisplayTypeText,
 };
 
 class KnxChannelDisplay : public KnxChannelBase
 {
         DynamicPointerArray<DisplayBridge> displayBridges;
+
+        double lastValue = 0;
+        const char* lastCharValue = "";
+        bool hasValue = false;
     public:
         KnxChannelDisplay(uint16_t channelIndex);
         DisplayType getDisplayType();
@@ -37,5 +46,7 @@ class KnxChannelDisplay : public KnxChannelBase
         virtual std::string currentValueAsString() override;
         virtual bool mainFunctionValue() override;
         virtual MainFunctionStateImage mainFunctionImage() override;
+        virtual bool mainFunctionPreferValueDisplay() override;
+        int getIconState();
 
 };

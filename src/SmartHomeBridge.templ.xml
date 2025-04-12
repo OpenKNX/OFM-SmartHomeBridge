@@ -114,10 +114,23 @@
               </Union>
 
               <!-- Anzeige -->
-              <Union SizeInBit="8">
+              <Union SizeInBit="80">
                 <Memory CodeSegment="%AID%_RS-04-00000" Offset="53" BitOffset="0" />
                 <!-- Display Type -->
-                <Parameter Id="%AID%_UP-%T%%CCC%061" Offset="0" BitOffset="0" Name="CH%C%DisplayType" ParameterType="%AID%_PT-BRIDisplayType" Text="Messwert" Value="0" />    
+                <Parameter Id="%AID%_UP-%T%%CCC%061" Offset="0" BitOffset="0" Name="CH%C%DisplayType" ParameterType="%AID%_PT-BRIDisplayType" Text="Anzeigewert" Value="0" />    
+                <!-- Display Lower -->
+                <Parameter Id="%AID%_UP-%T%%CCC%062" Offset="1" BitOffset="0" Name="CH%C%DisplayLower" ParameterType="%AID%_PT-BRICompareValue" Text="Wert" Value="5"  />    
+                <!-- ^^^ 4 Bytes ^^^ -->
+                <!-- Display Upper -->
+                <Parameter Id="%AID%_UP-%T%%CCC%063" Offset="5" BitOffset="0" Name="CH%C%DisplayUpper" ParameterType="%AID%_PT-BRICompareValue" Text="Wert" Value="25"  />    
+                <!-- ^^^ 4 Bytes ^^^ -->
+                <!-- Display Icon State 1 -->
+                <Parameter Id="%AID%_UP-%T%%CCC%064" Offset="9" BitOffset="0" Name="CH%C%DisplayIconState1" ParameterType="%AID%_PT-BRIIconState" Text="Anzeigemodus und Statuseinfärbung" Value="0" />
+                <!-- Display Icon State 2 -->
+                <Parameter Id="%AID%_UP-%T%%CCC%065" Offset="9" BitOffset="2" Name="CH%C%DisplayIconState2" ParameterType="%AID%_PT-BRIIconState" Text="Anzeigemodus und Statuseinfärbung" Value="0" />
+                <!-- Display Icon State 3 -->
+                <Parameter Id="%AID%_UP-%T%%CCC%066" Offset="9" BitOffset="6" Name="CH%C%DisplayIconState3" ParameterType="%AID%_PT-BRIIconState" Text="Anzeigemodus und Statuseinfärbung" Value="0" />
+
               </Union>
 
               <!-- Fan -->
@@ -210,6 +223,11 @@
 
               <!-- Anzeige -->
               <ParameterRef Id="%AID%_UP-%T%%CCC%061_R-%T%%CCC%06101" RefId="%AID%_UP-%T%%CCC%061" />
+              <ParameterRef Id="%AID%_UP-%T%%CCC%062_R-%T%%CCC%06201" RefId="%AID%_UP-%T%%CCC%062" />
+              <ParameterRef Id="%AID%_UP-%T%%CCC%063_R-%T%%CCC%06301" RefId="%AID%_UP-%T%%CCC%063" />
+              <ParameterRef Id="%AID%_UP-%T%%CCC%064_R-%T%%CCC%06401" RefId="%AID%_UP-%T%%CCC%064" />
+              <ParameterRef Id="%AID%_UP-%T%%CCC%065_R-%T%%CCC%06501" RefId="%AID%_UP-%T%%CCC%065" />
+              <ParameterRef Id="%AID%_UP-%T%%CCC%066_R-%T%%CCC%06601" RefId="%AID%_UP-%T%%CCC%066" />
 
               <!-- Kontakte/Alarme/Sensoren -->
               <ParameterRef Id="%AID%_UP-%T%%CCC%071_R-%T%%CCC%07101" RefId="%AID%_UP-%T%%CCC%071" />
@@ -290,9 +308,14 @@
               <ComObjectRef Id="%AID%_O-%T%%CCC%009_R-%T%%CCC%00915" RefId="%AID%_O-%T%%CCC%009" Name="KÜHLEN_STELLWERT_RÜCKMELDUNG_DPT_05"   Text="%C%: Kühlen Stellwert Rückmeldung" FunctionText="{{0:-}} Kühlen Stellwert Rückmeldung"  Priority="Low" ObjectSize="1 Byte" WriteFlag="Enabled"   TransmitFlag="Disabled" UpdateFlag="Enabled"  DatapointType="DPST-5-1" TextParameterRefId="%AID%_P-%T%%CCC%002_R-%T%%CCC%00201" />
     
               <!-- Anzeige -->
-              <ComObjectRef Id="%AID%_O-%T%%CCC%001_R-%T%%CCC%00106" RefId="%AID%_O-%T%%CCC%001" Name="TEMPERATUR_DPT_09"                     Text="%C%: Temperatur Rückmeldung"       FunctionText="{{0:-}} Temperatur Rückmeldung"        Priority="Low" ObjectSize="2 Bytes" WriteFlag="Enabled" TransmitFlag="Disabled" UpdateFlag="Enabled" DatapointType="DPST-9-1" TextParameterRefId="%AID%_P-%T%%CCC%002_R-%T%%CCC%00201" />
-              <ComObjectRef Id="%AID%_O-%T%%CCC%001_R-%T%%CCC%00116" RefId="%AID%_O-%T%%CCC%001" Name="LUFTFEUCHTIGKEIT_DPT_09"               Text="%C%: Luftfeuchtigkeit Rückmeldung" FunctionText="{{0:-}} Luftfeuchtigkeit Rückmeldung"  Priority="Low" ObjectSize="2 Bytes" WriteFlag="Enabled" TransmitFlag="Disabled" UpdateFlag="Enabled" DatapointType="DPST-9-7" TextParameterRefId="%AID%_P-%T%%CCC%002_R-%T%%CCC%00201" />
-              <ComObjectRef Id="%AID%_O-%T%%CCC%001_R-%T%%CCC%00126" RefId="%AID%_O-%T%%CCC%001" Name="HELLIGKEIT_DPT_09"                     Text="%C%: Helligkeit Rückmeldung"       FunctionText="{{0:-}} Helligkeit Rückmeldung"        Priority="Low" ObjectSize="2 Bytes" WriteFlag="Enabled" TransmitFlag="Disabled" UpdateFlag="Enabled" DatapointType="DPST-9-4" TextParameterRefId="%AID%_P-%T%%CCC%002_R-%T%%CCC%00201" />
+              <ComObjectRef Id="%AID%_O-%T%%CCC%001_R-%T%%CCC%00106" RefId="%AID%_O-%T%%CCC%001" Name="TEMPERATUR_DPT_09"                     Text="%C%: Temperatur Rückmeldung"       FunctionText="{{0:-}} Temperatur Rückmeldung"        Priority="Low" ObjectSize="2 Bytes"  WriteFlag="Enabled" TransmitFlag="Disabled" UpdateFlag="Enabled" DatapointType="DPST-9-1"  TextParameterRefId="%AID%_P-%T%%CCC%002_R-%T%%CCC%00201" />
+              <ComObjectRef Id="%AID%_O-%T%%CCC%001_R-%T%%CCC%00116" RefId="%AID%_O-%T%%CCC%001" Name="LUFTFEUCHTIGKEIT_DPT_09"               Text="%C%: Luftfeuchtigkeit Rückmeldung" FunctionText="{{0:-}} Luftfeuchtigkeit Rückmeldung"  Priority="Low" ObjectSize="2 Bytes"  WriteFlag="Enabled" TransmitFlag="Disabled" UpdateFlag="Enabled" DatapointType="DPST-9-7"  TextParameterRefId="%AID%_P-%T%%CCC%002_R-%T%%CCC%00201" />
+              <ComObjectRef Id="%AID%_O-%T%%CCC%001_R-%T%%CCC%00126" RefId="%AID%_O-%T%%CCC%001" Name="HELLIGKEIT_DPT_09"                     Text="%C%: Helligkeit Rückmeldung"       FunctionText="{{0:-}} Helligkeit Rückmeldung"        Priority="Low" ObjectSize="2 Bytes"  WriteFlag="Enabled" TransmitFlag="Disabled" UpdateFlag="Enabled" DatapointType="DPST-9-4"  TextParameterRefId="%AID%_P-%T%%CCC%002_R-%T%%CCC%00201" />
+              <ComObjectRef Id="%AID%_O-%T%%CCC%001_R-%T%%CCC%00136" RefId="%AID%_O-%T%%CCC%001" Name="REGEN_DPT_09"                          Text="%C%: Regenprognose Eingang"        FunctionText="{{0:-}} Regenprognose Eingang"         Priority="Low" ObjectSize="2 Bytes"  WriteFlag="Enabled" TransmitFlag="Disabled" UpdateFlag="Enabled" DatapointType="DPST-9-26" TextParameterRefId="%AID%_P-%T%%CCC%002_R-%T%%CCC%00201" />
+              <ComObjectRef Id="%AID%_O-%T%%CCC%001_R-%T%%CCC%00146" RefId="%AID%_O-%T%%CCC%001" Name="SCHNEE_DPT_07"                         Text="%C%: Schneeprognose Eingang"       FunctionText="{{0:-}} Schneeprognose Eingang"        Priority="Low" ObjectSize="2 Bytes"  WriteFlag="Enabled" TransmitFlag="Disabled" UpdateFlag="Enabled" DatapointType="DPST-7-11" TextParameterRefId="%AID%_P-%T%%CCC%002_R-%T%%CCC%00201" />
+              <ComObjectRef Id="%AID%_O-%T%%CCC%001_R-%T%%CCC%00156" RefId="%AID%_O-%T%%CCC%001" Name="WIND_DPT_09"                           Text="%C%: Wind km/h Eingang"            FunctionText="{{0:-}} Wind km/h Eingang"             Priority="Low" ObjectSize="2 Bytes"  WriteFlag="Enabled" TransmitFlag="Disabled" UpdateFlag="Enabled" DatapointType="DPST-9-28" TextParameterRefId="%AID%_P-%T%%CCC%002_R-%T%%CCC%00201" />
+             
+              <ComObjectRef Id="%AID%_O-%T%%CCC%001_R-%T%%CCC%00196" RefId="%AID%_O-%T%%CCC%001" Name="TEXT_DPT_16"                           Text="%C%: Text Eingang"                 FunctionText="{{0:-}} Text Eingang"                  Priority="Low" ObjectSize="14 Bytes" WriteFlag="Enabled" TransmitFlag="Disabled" UpdateFlag="Enabled" DatapointType="DPST-16-1" TextParameterRefId="%AID%_P-%T%%CCC%002_R-%T%%CCC%00201" />
               
               <!-- Kontakte/Alarme/Sensoren -->
               <ComObjectRef Id="%AID%_O-%T%%CCC%001_R-%T%%CCC%00107" RefId="%AID%_O-%T%%CCC%001" Name="CONTACT_DPT_01"                        Text="%C%: Kontakt Rückmeldung"   FunctionText="{{0:-}} Kontakt Rückmeldung"      Priority="Low" ObjectSize="1 Bit" WriteFlag="Enabled" TransmitFlag="Disabled" UpdateFlag="Enabled" DatapointType="DPST-1-19" TextParameterRefId="%AID%_P-%T%%CCC%002_R-%T%%CCC%00201" />
@@ -962,6 +985,48 @@
                             <when test="2"> <!-- Helligkeit -->
                               <ComObjectRefRef RefId="%AID%_O-%T%%CCC%001_R-%T%%CCC%00126" />
                             </when>
+                            <when test="3"> <!-- Regen -->
+                              <ComObjectRefRef RefId="%AID%_O-%T%%CCC%001_R-%T%%CCC%00136" />
+
+                               <!-- Homekit -->
+                               <choose ParamRefId="%AID%_UP-%T%000002_R-%T%00000201"> 
+                                <when test="1"> <!-- Homekit -->
+                                  <ParameterSeparator Id="%AID%_PS-nnn" Text="Dieser Anzeigewert wird in Homekit nicht unterstütz" UIHint="Information" />
+                                </when>
+                              </choose>
+                            </when>
+                            <when test="4"> <!-- Schnee -->
+                              <ComObjectRefRef RefId="%AID%_O-%T%%CCC%001_R-%T%%CCC%00146" />
+
+                              <!-- Homekit -->
+                              <choose ParamRefId="%AID%_UP-%T%000002_R-%T%00000201"> 
+                                <when test="1"> <!-- Homekit -->
+                                  <ParameterSeparator Id="%AID%_PS-nnn" Text="Dieser Anzeigewert wird in Homekit nicht unterstütz" UIHint="Information" />
+                                </when>
+                              </choose>
+                            </when>
+                            <when test="5"> <!-- Wind -->
+                              <ComObjectRefRef RefId="%AID%_O-%T%%CCC%001_R-%T%%CCC%00156" />
+
+                               <!-- Homekit -->
+                               <choose ParamRefId="%AID%_UP-%T%000002_R-%T%00000201"> 
+                                <when test="1"> <!-- Homekit -->
+                                  <ParameterSeparator Id="%AID%_PS-nnn" Text="Dieser Anzeigewert wird in Homekit nicht unterstütz" UIHint="Information" />
+                                </when>
+                              </choose>
+                            </when>
+
+
+                            <when test="9"> <!-- Text -->
+                              <ComObjectRefRef RefId="%AID%_O-%T%%CCC%001_R-%T%%CCC%00196" />
+
+                               <!-- Homekit -->
+                               <choose ParamRefId="%AID%_UP-%T%000002_R-%T%00000201"> 
+                                <when test="1"> <!-- Homekit -->
+                                  <ParameterSeparator Id="%AID%_PS-nnn" Text="Dieser Anzeigewert wird in Homekit nicht unterstütz" UIHint="Information" />
+                                </when>
+                              </choose>
+                            </when>
                           </choose>
 
                           <!-- DisplaySettings -->
@@ -975,11 +1040,48 @@
                               <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%T%%CCC%004_R-%T%%CCC%00401" />
                               <choose ParamRefId="%AID%_UP-%T%%CCC%004_R-%T%%CCC%00401">
                                 <when test="1">
-                                  <ParameterSeparator Id="%AID%_PS-nnn" Text="Bild" />
-                                  <!-- Icon Col 0-->
-                                  <!-- <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%T%%CCC%005_R-%T%%CCC%00501" /> -->
-                                  <!-- Icon 0-->
-                                  <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%T%%CCC%006_R-%T%%CCC%00601" />
+                                  <choose ParamRefId="%AID%_UP-%T%%CCC%061_R-%T%%CCC%06101">  <!-- DisplayType  -->
+                                    <when test="!=9"> <!-- Not Text -->
+                              
+
+                                      <ParameterSeparator Id="%AID%_PS-nnn" Text="Bild bei Werte bis" />
+                                      <!-- Wert unter -->
+                                      <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%T%%CCC%062_R-%T%%CCC%06201" />
+                                      <!-- Icon State 1-->
+                                      <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%T%%CCC%064_R-%T%%CCC%06401" />
+                                      <!-- Icon 0-->
+                                      <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%T%%CCC%006_R-%T%%CCC%00601" />
+
+                                      <ParameterSeparator Id="%AID%_PS-nnn" Text="Standard Bild" />
+                                      <!-- Icon State 2 -->
+                                      <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%T%%CCC%065_R-%T%%CCC%06501" />
+                                      <!-- Icon 50 -->
+                                      <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%T%%CCC%008_R-%T%%CCC%00801" />
+
+                                      <ParameterSeparator Id="%AID%_PS-nnn" Text="Bild bei Werte ab" />
+                                      <!-- Wert ab -->
+                                      <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%T%%CCC%063_R-%T%%CCC%06301" />
+                                      <!-- Icon State 3 -->
+                                      <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%T%%CCC%066_R-%T%%CCC%06601" />
+                                      <!-- Icon 100-->
+                                      <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%T%%CCC%010_R-%T%%CCC%01001" />
+
+                                    </when>
+                                    <when test="=9"> <!-- Text -->
+                         
+                                      <ParameterSeparator Id="%AID%_PS-nnn" Text="Bild wenn Text leer" />
+                                      <!-- Icon State 1-->
+                                      <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%T%%CCC%064_R-%T%%CCC%06401" />
+                                      <!-- Icon 0-->
+                                      <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%T%%CCC%006_R-%T%%CCC%00601" />
+
+                                      <ParameterSeparator Id="%AID%_PS-nnn" Text="Bild wenn Text vorhanden" />
+                                      <!-- Icon State 3 -->
+                                      <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%T%%CCC%066_R-%T%%CCC%06601" />
+                                      <!-- Icon 100-->
+                                      <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%T%%CCC%010_R-%T%%CCC%01001" />
+                                    </when>
+                                  </choose>
 
                                 </when>
                               </choose>

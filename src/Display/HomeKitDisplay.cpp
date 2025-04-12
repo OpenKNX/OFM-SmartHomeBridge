@@ -9,10 +9,19 @@ HomeKitDisplay::HomeKitDisplay(int device) :
 
 void HomeKitDisplay::createAccessory()
 {
-    new SpanAccessory(device);
-        new Service::AccessoryInformation();
-        new Characteristic::Identify();
-        new Characteristic::Name(_channel->getNameInUTF8());
+    switch (_channel->getDisplayType())
+    {
+        case DisplayType::DisplayTypeTemperature:
+        case DisplayType::DisplayTypeHumidity:
+        case DisplayType::DisplayTypeLux:
+        {
+            new SpanAccessory(device);
+                new Service::AccessoryInformation();
+                new Characteristic::Identify();
+                new Characteristic::Name(_channel->getNameInUTF8());
+        }
+        break;
+    }
 }
 
 void HomeKitDisplay::setup(uint8_t _channelIndex)
@@ -45,6 +54,11 @@ void HomeKitDisplay::setValue(double value)
 {
     if (currentValue != nullptr)
         currentValue->setVal(value);
+}
+
+void HomeKitDisplay::setValue(const char* value)
+{
+  
 }
 
 #endif

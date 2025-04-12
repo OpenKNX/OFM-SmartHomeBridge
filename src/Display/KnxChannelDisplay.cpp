@@ -6,6 +6,10 @@
 #define KO_TEMPERATURE_FEEDBACK KoBRI_KO1_, DPT_Value_Temp
 #define KO_HUMIDITY_FEEDBACK    KoBRI_KO1_, DPT_Value_Humidity
 #define KO_LUX_FEEDBACK         KoBRI_KO1_, DPT_Value_Lux
+#define KO_RAIN_INPUT           KoBRI_KO1_, DPT_Rain_Amount
+#define KO_SNOW_INPUT           KoBRI_KO1_, DPT_Length_mm
+#define KO_WIND_INPUT           KoBRI_KO1_, DPT_Value_Wsp_kmh
+#define KO_TEXT_INPUT           KoBRI_KO1_, DPT_String_8859_1
 
 KnxChannelDisplay::KnxChannelDisplay(uint16_t _channelIndex)
     : KnxChannelBase(_channelIndex),
@@ -27,17 +31,13 @@ void KnxChannelDisplay::add(DisplayBridge *displayBridge)
 {
     displayBridges.push_back(displayBridge);
     displayBridge->initialize(this);
-    switch (getDisplayType())
+    if (getDisplayType() == DisplayType::DisplayTypeText)
     {
-        case DisplayType::DisplayTypeTemperature:
-            displayBridge->setValue(koGet(KO_TEMPERATURE_FEEDBACK));
-            break;
-        case DisplayType::DisplayTypeHumidity:
-            displayBridge->setValue(koGet(KO_HUMIDITY_FEEDBACK));
-            break;
-            case DisplayType::DisplayTypeLux:
-            displayBridge->setValue(koGet(KO_LUX_FEEDBACK));
-            break;
+        displayBridge->setValue(lastCharValue);
+    }
+    else
+    {
+        displayBridge->setValue(lastValue);
     }
 }
 
@@ -73,10 +73,27 @@ void KnxChannelDisplay::setup()
             koSetWithoutSend(KO_HUMIDITY_FEEDBACK, 0.F);
             koSendReadRequest(KO_HUMIDITY_FEEDBACK);
             break;
-            case DisplayType::DisplayTypeLux:
+        case DisplayType::DisplayTypeLux:
             koSetWithoutSend(KO_LUX_FEEDBACK,  0.F);
             koSendReadRequest(KO_LUX_FEEDBACK);
             break;
+        case DisplayType::DisplayTyppeRain:
+            koSetWithoutSend(KO_RAIN_INPUT, 0.F);
+            koSendReadRequest(KO_RAIN_INPUT);
+            break;
+        case DisplayType::DisplayTypeSnow:
+            koSetWithoutSend(KO_SNOW_INPUT, 0.F);
+            koSendReadRequest(KO_SNOW_INPUT);
+            break;
+        case DisplayType::DisplayTypeWind:
+            koSetWithoutSend(KO_WIND_INPUT, 0.F);
+            koSendReadRequest(KO_WIND_INPUT);
+            break;
+        case DisplayType::DisplayTypeText:
+            koSetWithoutSend(KO_TEXT_INPUT, "");
+            koSendReadRequest(KO_TEXT_INPUT);
+            break;
+
     }
 }
 
@@ -84,22 +101,46 @@ void KnxChannelDisplay::processInputKo(GroupObject &groupObject)
 {
     if (isKo(groupObject, KoBRI_KO1_))
     {
-        double value = 0;
+        hasValue = true;
         switch (getDisplayType())
         {
             case DisplayType::DisplayTypeTemperature:
-                value = koGet(KO_TEMPERATURE_FEEDBACK);
+                lastValue = koGet(KO_TEMPERATURE_FEEDBACK);
                 break;
             case DisplayType::DisplayTypeHumidity:
-                value = koGet(KO_HUMIDITY_FEEDBACK);
+                lastValue = koGet(KO_HUMIDITY_FEEDBACK);
                 break;
             case DisplayType::DisplayTypeLux:
-                value = koGet(KO_LUX_FEEDBACK);
+                lastValue = koGet(KO_LUX_FEEDBACK);
+                break;
+            case DisplayType::DisplayTyppeRain:
+                lastValue = koGet(KO_RAIN_INPUT);
+                break;
+            case DisplayType::DisplayTypeSnow:
+                lastValue = koGet(KO_SNOW_INPUT);
+                break;
+            case DisplayType::DisplayTypeWind:
+                lastValue = koGet(KO_WIND_INPUT);
+                break;
+            case DisplayType::DisplayTypeText:
+                lastCharValue  = (const char*) koGet(KO_TEXT_INPUT);
+                if (lastCharValue == nullptr)
+                    lastCharValue = "";
                 break;
         }
-        for (auto it = displayBridges.begin(); it != displayBridges.end(); ++it)
+        if (getDisplayType() == DisplayType::DisplayTypeText)
         {
-            (*it)->setValue(value);
+            for (auto it = displayBridges.begin(); it != displayBridges.end(); ++it)
+            {
+                (*it)->setValue(lastCharValue);
+            }
+        }
+        else
+        {
+            for (auto it = displayBridges.begin(); it != displayBridges.end(); ++it)
+            {
+                (*it)->setValue(lastValue);
+            }
         }
         mainFunctionValueChanged();
     }
@@ -107,27 +148,89 @@ void KnxChannelDisplay::processInputKo(GroupObject &groupObject)
 
 std::string KnxChannelDisplay::currentValueAsString()
 {
+    
+    char buffer[50] = {0};
     switch (getDisplayType())
     {
         case DisplayType::DisplayTypeTemperature:
-            return std::to_string((double) koGet(KO_TEMPERATURE_FEEDBACK)) + "°C";
+            snprintf(buffer, sizeof(buffer), "%.1lf °C", (double) lastValue);
+            break;
         case DisplayType::DisplayTypeHumidity:
-            return std::to_string((double) koGet(KO_HUMIDITY_FEEDBACK)) + "%";
+            snprintf(buffer, sizeof(buffer), "%.0lf %%", (double) lastValue);
+            break;
         case DisplayType::DisplayTypeLux:
-            return std::to_string((double) koGet(KO_LUX_FEEDBACK)) + "Lux";
+            snprintf(buffer, sizeof(buffer), "%.0lf Lux", (double) lastValue);
+            break;
+        case DisplayType::DisplayTyppeRain:
+            snprintf(buffer, sizeof(buffer), "%.1lf l/h", (double) lastValue);
+            break;
+        case DisplayType::DisplayTypeSnow:
+            snprintf(buffer, sizeof(buffer), "%.0lf mm", (double) lastValue);
+            break;
+        case DisplayType::DisplayTypeWind:
+            snprintf(buffer, sizeof(buffer), "%.1lf km/h", (double) lastValue);
+            break;
+        case DisplayType::DisplayTypeText:
+            return std::string(lastCharValue);
+        default:
+            return std::string("?");
     }
-    return "";
+    return std::string(buffer);
 }
 
 bool KnxChannelDisplay::mainFunctionValue()
 {
-    return koInitialized(KO_TEMPERATURE_FEEDBACK);
+    if (!ParamBRI_CHIcon)
+        return koInitialized(KO_TEMPERATURE_FEEDBACK);
+
+    if (!hasValue)
+        return false;
+    
+    if (getDisplayType() == DisplayType::DisplayTypeText)
+    {
+        return strlen(lastCharValue) > 0;
+    }
+    else
+    {
+        return getIconState() == 2;
+    }
+}
+bool KnxChannelDisplay::mainFunctionPreferValueDisplay()
+{
+    return true;
+}
+
+int KnxChannelDisplay::getIconState()
+{
+    int iconState = 0;
+    if (lastValue <= ParamBRI_CHDisplayLower)
+    {
+        iconState = ParamBRI_CHDisplayIconState1;
+    }
+    else if (lastValue >= ParamBRI_CHDisplayUpper)
+    {
+        iconState = ParamBRI_CHDisplayIconState3;
+    }
+    else
+    {
+        iconState = ParamBRI_CHDisplayIconState2;
+    }
+    return iconState;
 }
 
 MainFunctionStateImage KnxChannelDisplay::mainFunctionImage()
 {
     if (!ParamBRI_CHIcon)
         return { false, mainFunctionTypeImage().imageFile };
-    return { false, getImageFileName(BRI_CHIcon) };
-    
+
+    bool allowRecolor = getIconState() != 0;
+    if (getDisplayType() == DisplayType::DisplayTypeText)
+    {
+        return { allowRecolor, mainFunctionValue() ? getImageFileName(BRI_CHIcon100) : getImageFileName(BRI_CHIcon0)};
+    }
+    if (lastValue <= ParamBRI_CHDisplayLower)
+        return { allowRecolor, getImageFileName(BRI_CHIcon0)};
+    if (lastValue >= ParamBRI_CHDisplayUpper)
+        return { allowRecolor, getImageFileName(BRI_CHIcon100)};
+    return { allowRecolor, getImageFileName(BRI_CHIcon50) };
 }
