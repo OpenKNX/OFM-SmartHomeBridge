@@ -18,7 +18,7 @@ enum DisplayType
     DisplayTyppeRain,
     DisplayTypeSnow,
     DisplayTypeWind,
-    DisplayTypeText,
+    DisplayTypeText = 9,
 };
 
 class KnxChannelDisplay : public KnxChannelBase
@@ -26,7 +26,7 @@ class KnxChannelDisplay : public KnxChannelBase
         DynamicPointerArray<DisplayBridge> displayBridges;
 
         double lastValue = 0;
-        const char* lastCharValue = "";
+        std::string lastStringValue = std::string();
         bool hasValue = false;
     public:
         KnxChannelDisplay(uint16_t channelIndex);

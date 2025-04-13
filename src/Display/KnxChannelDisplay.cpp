@@ -33,7 +33,7 @@ void KnxChannelDisplay::add(DisplayBridge *displayBridge)
     displayBridge->initialize(this);
     if (getDisplayType() == DisplayType::DisplayTypeText)
     {
-        displayBridge->setValue(lastCharValue);
+        displayBridge->setValue(lastStringValue.c_str());
     }
     else
     {
@@ -123,16 +123,15 @@ void KnxChannelDisplay::processInputKo(GroupObject &groupObject)
                 lastValue = koGet(KO_WIND_INPUT);
                 break;
             case DisplayType::DisplayTypeText:
-                lastCharValue  = (const char*) koGet(KO_TEXT_INPUT);
-                if (lastCharValue == nullptr)
-                    lastCharValue = "";
+                
+                lastStringValue = std::string((const char*) KoBRI_KO1_.valueRef());
                 break;
         }
         if (getDisplayType() == DisplayType::DisplayTypeText)
         {
             for (auto it = displayBridges.begin(); it != displayBridges.end(); ++it)
             {
-                (*it)->setValue(lastCharValue);
+                (*it)->setValue(lastStringValue.c_str());
             }
         }
         else
@@ -171,7 +170,7 @@ std::string KnxChannelDisplay::currentValueAsString()
             snprintf(buffer, sizeof(buffer), "%.1lf km/h", (double) lastValue);
             break;
         case DisplayType::DisplayTypeText:
-            return std::string(lastCharValue);
+            return lastStringValue;
         default:
             return std::string("?");
     }
@@ -188,7 +187,7 @@ bool KnxChannelDisplay::mainFunctionValue()
     
     if (getDisplayType() == DisplayType::DisplayTypeText)
     {
-        return strlen(lastCharValue) > 0;
+        return lastStringValue.length() > 0;
     }
     else
     {
