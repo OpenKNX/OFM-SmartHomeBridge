@@ -26,7 +26,7 @@ class KnxChannelDisplay : public KnxChannelBase
         DynamicPointerArray<DisplayBridge> displayBridges;
 
         double lastValue = 0;
-        std::string lastStringValue = std::string();
+        const char* lastStringValue = "";
         bool hasValue = false;
     public:
         KnxChannelDisplay(uint16_t channelIndex);

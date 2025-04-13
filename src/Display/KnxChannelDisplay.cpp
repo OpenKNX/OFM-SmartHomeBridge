@@ -33,7 +33,7 @@ void KnxChannelDisplay::add(DisplayBridge *displayBridge)
     displayBridge->initialize(this);
     if (getDisplayType() == DisplayType::DisplayTypeText)
     {
-        displayBridge->setValue(lastStringValue.c_str());
+        displayBridge->setValue(lastStringValue);
     }
     else
     {
@@ -122,16 +122,15 @@ void KnxChannelDisplay::processInputKo(GroupObject &groupObject)
             case DisplayType::DisplayTypeWind:
                 lastValue = koGet(KO_WIND_INPUT);
                 break;
-            case DisplayType::DisplayTypeText:
-                
-                lastStringValue = std::string((const char*) KoBRI_KO1_.valueRef());
+            case DisplayType::DisplayTypeText:  
+                lastStringValue = (const char*) KoBRI_KO1_.valueRef();
                 break;
         }
         if (getDisplayType() == DisplayType::DisplayTypeText)
         {
             for (auto it = displayBridges.begin(); it != displayBridges.end(); ++it)
             {
-                (*it)->setValue(lastStringValue.c_str());
+                (*it)->setValue(lastStringValue);
             }
         }
         else
@@ -170,7 +169,7 @@ std::string KnxChannelDisplay::currentValueAsString()
             snprintf(buffer, sizeof(buffer), "%.1lf km/h", (double) lastValue);
             break;
         case DisplayType::DisplayTypeText:
-            return lastStringValue;
+            return std::string(lastStringValue);
         default:
             return std::string("?");
     }
@@ -185,15 +184,24 @@ bool KnxChannelDisplay::mainFunctionValue()
     if (!hasValue)
         return false;
     
-    if (getDisplayType() == DisplayType::DisplayTypeText)
+    // <Enumeration Value="0" Id="%ENID%" Text="Keine Einfärbung"       />
+    // <Enumeration Value="1" Id="%ENID%" Text="Als AUS darstellen"     />
+    // <Enumeration Value="2" Id="%ENID%" Text="Als EIN darstellen "    />
+    switch (getIconState())
     {
-        return lastStringValue.length() > 0;
+        case 0:
+            if (getDisplayType() == DisplayType::DisplayTypeText)
+                return lastStringValue[0] != 0;
+            else
+                return true;
+        case 1:
+            return false;
+        case 2:
+            return true;
     }
-    else
-    {
-        return getIconState() == 2;
-    }
+    return false;
 }
+
 bool KnxChannelDisplay::mainFunctionPreferValueDisplay()
 {
     return true;
@@ -202,17 +210,21 @@ bool KnxChannelDisplay::mainFunctionPreferValueDisplay()
 int KnxChannelDisplay::getIconState()
 {
     int iconState = 0;
-    if (lastValue <= ParamBRI_CHDisplayLower)
+    if (getDisplayType() == DisplayType::DisplayTypeText)
     {
-        iconState = ParamBRI_CHDisplayIconState1;
-    }
-    else if (lastValue >= ParamBRI_CHDisplayUpper)
-    {
-        iconState = ParamBRI_CHDisplayIconState3;
+        if (lastStringValue[0] != 0)
+            iconState = ParamBRI_CHDisplayIconState3;
+        else
+            iconState = ParamBRI_CHDisplayIconState1;
     }
     else
     {
-        iconState = ParamBRI_CHDisplayIconState2;
+        if (lastValue <= ParamBRI_CHDisplayLower)
+            iconState = ParamBRI_CHDisplayIconState1;
+        else if (lastValue >= ParamBRI_CHDisplayUpper)
+            iconState = ParamBRI_CHDisplayIconState3;
+        else
+            iconState = ParamBRI_CHDisplayIconState2;
     }
     return iconState;
 }
@@ -225,7 +237,8 @@ MainFunctionStateImage KnxChannelDisplay::mainFunctionImage()
     bool allowRecolor = getIconState() != 0;
     if (getDisplayType() == DisplayType::DisplayTypeText)
     {
-        return { allowRecolor, mainFunctionValue() ? getImageFileName(BRI_CHIcon100) : getImageFileName(BRI_CHIcon0)};
+        bool textSet = lastStringValue[0] != 0;
+        return { allowRecolor, textSet ? getImageFileName(BRI_CHIcon100) : getImageFileName(BRI_CHIcon0)};
     }
     if (lastValue <= ParamBRI_CHDisplayLower)
         return { allowRecolor, getImageFileName(BRI_CHIcon0)};
