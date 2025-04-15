@@ -4,7 +4,7 @@
 #include "HomeSpan.h"
 #include "KnxChannelDisplay.h"
 
-class HomeKitDisplay : public DisplayBridge
+class HomeKitDisplay : public DeviceBridge
 {
     int device;
     SpanCharacteristic *currentValue = nullptr;

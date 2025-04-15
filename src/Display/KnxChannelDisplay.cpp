@@ -13,7 +13,7 @@
 
 KnxChannelDisplay::KnxChannelDisplay(uint16_t _channelIndex)
     : KnxChannelBase(_channelIndex),
-      displayBridges()
+      DeviceBridges()
 {
 }
 
@@ -24,20 +24,20 @@ ChannelBridge *KnxChannelDisplay::createBridgeDevice(BridgeBase &bridge)
 
 void KnxChannelDisplay::deleteBridgeDevice(ChannelBridge *device)
 {
-    remove((DisplayBridge *)device);
+    remove((DeviceBridge *)device);
 }
 
-void KnxChannelDisplay::add(DisplayBridge *displayBridge)
+void KnxChannelDisplay::add(DeviceBridge *DeviceBridge)
 {
-    displayBridges.push_back(displayBridge);
-    displayBridge->initialize(this);
+    DeviceBridges.push_back(DeviceBridge);
+    DeviceBridge->initialize(this);
     if (getDisplayType() == DisplayType::DisplayTypeText)
     {
-        displayBridge->setValue(lastStringValue);
+        DeviceBridge->setValue(lastStringValue);
     }
     else
     {
-        displayBridge->setValue(lastValue);
+        DeviceBridge->setValue(lastValue);
     }
 }
 
@@ -45,10 +45,10 @@ void KnxChannelDisplay::commandMainFunctionClick()
 {
 }
 
-void KnxChannelDisplay::remove(DisplayBridge *displayBridge)
+void KnxChannelDisplay::remove(DeviceBridge *DeviceBridge)
 {
-    displayBridges.remove(displayBridge);
-    delete displayBridge;
+    DeviceBridges.remove(DeviceBridge);
+    delete DeviceBridge;
 }
 
 const std::string KnxChannelDisplay::name()
@@ -128,14 +128,14 @@ void KnxChannelDisplay::processInputKo(GroupObject &groupObject)
         }
         if (getDisplayType() == DisplayType::DisplayTypeText)
         {
-            for (auto it = displayBridges.begin(); it != displayBridges.end(); ++it)
+            for (auto it = DeviceBridges.begin(); it != DeviceBridges.end(); ++it)
             {
                 (*it)->setValue(lastStringValue);
             }
         }
         else
         {
-            for (auto it = displayBridges.begin(); it != displayBridges.end(); ++it)
+            for (auto it = DeviceBridges.begin(); it != DeviceBridges.end(); ++it)
             {
                 (*it)->setValue(lastValue);
             }

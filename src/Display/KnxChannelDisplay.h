@@ -3,7 +3,7 @@
 
 class KnxChannelDisplay;
 
-class DisplayBridge : public ChannelBridgeBase<KnxChannelDisplay>
+class DeviceBridge : public ChannelBridgeBase<KnxChannelDisplay>
 {
 public:
     virtual void setValue(double value) = 0;
@@ -23,7 +23,7 @@ enum DisplayType
 
 class KnxChannelDisplay : public KnxChannelBase
 {
-        DynamicPointerArray<DisplayBridge> displayBridges;
+        DynamicPointerArray<DeviceBridge> DeviceBridges;
 
         double lastValue = 0;
         const char* lastStringValue = "";
@@ -31,8 +31,8 @@ class KnxChannelDisplay : public KnxChannelBase
     public:
         KnxChannelDisplay(uint16_t channelIndex);
         DisplayType getDisplayType();
-        void add(DisplayBridge* displayBridge);
-        void remove(DisplayBridge* displayBridge);
+        void add(DeviceBridge* DeviceBridge);
+        void remove(DeviceBridge* DeviceBridge);
         virtual ChannelBridge* createBridgeDevice(BridgeBase& bridge) override;
         virtual void deleteBridgeDevice(ChannelBridge* device) override;
 

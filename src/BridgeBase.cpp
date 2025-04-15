@@ -41,7 +41,7 @@ ThermostatBridge* BridgeBase::createThermostat(KnxChannelThermostat& channel, ui
     return nullptr;
 }
 
-DisplayBridge* BridgeBase::createDisplay(KnxChannelDisplay& channel, uint8_t _channelIndex /* this parameter is used in macros, do not rename */, uint8_t deviceType)
+DeviceBridge* BridgeBase::createDisplay(KnxChannelDisplay& channel, uint8_t _channelIndex /* this parameter is used in macros, do not rename */, uint8_t deviceType)
 {
     return nullptr;
 }

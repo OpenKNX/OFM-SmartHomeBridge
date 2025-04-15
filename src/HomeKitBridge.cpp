@@ -105,7 +105,7 @@ ThermostatBridge* HomeKitBridge::createThermostat(KnxChannelThermostat& channel,
     return bridge;
 }
 
-DisplayBridge* HomeKitBridge::createDisplay(KnxChannelDisplay& channel,  uint8_t _channelIndex, uint8_t deviceType)
+DeviceBridge* HomeKitBridge::createDisplay(KnxChannelDisplay& channel,  uint8_t _channelIndex, uint8_t deviceType)
 {
     int homekitAID = _channelIndex + 2; // Homekit bridge has AID1
     auto bridge = new HomeKitDisplay(homekitAID);
