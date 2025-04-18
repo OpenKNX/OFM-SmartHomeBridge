@@ -232,7 +232,14 @@ int KnxChannelDisplay::getIconState()
 MainFunctionStateImage KnxChannelDisplay::mainFunctionImage()
 {
     if (!ParamBRI_CHIcon)
-        return { false, mainFunctionTypeImage().imageFile };
+    {
+        std::string image = "Type";
+        image += std::to_string(ParamBRI_CHDeviceType);
+        image += "_";
+        image += std::to_string(ParamBRI_CHDisplayType);
+        image += ".png";
+        return {false, image};
+    }
 
     bool allowRecolor = getIconState() != 0;
     if (getDisplayType() == DisplayType::DisplayTypeText)
