@@ -305,7 +305,9 @@ void KnxChannelThermostat::updateBridgeFromKo(GroupObject &ko, ThermostatBridge*
 
 std::string KnxChannelThermostat::currentValueAsString()
 {
-    return std::to_string((uint8_t) koGet(KO_CURRENT_TEMPERATUR_FEEDBACK)) + "°C";
+    char buffer[20];
+    snprintf(buffer, sizeof(buffer), "%0.1f°", (double) koGet(KO_TARGET_TEMPERATURE_FEEDBACK));
+    return std::string(buffer);
 }
 
 bool KnxChannelThermostat::mainFunctionValue()
