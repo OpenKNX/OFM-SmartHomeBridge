@@ -38,6 +38,7 @@ class KnxChannelThermostat : public KnxChannelBase
         DynamicPointerArray<ThermostatBridge> thermostatBridges;
     public:
         static float DEFAULT_TEMPERATURE;
+        ThermostatMode _currentMode = ThermostatModeOff;
         KnxChannelThermostat(uint16_t channelIndex);
         void add(ThermostatBridge* thermostatBridge);
         void remove(ThermostatBridge* thermostatBridge);

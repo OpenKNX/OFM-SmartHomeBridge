@@ -65,7 +65,10 @@ void KnxChannelSwitch::commandPower(SwitchBridge *switchBridge, bool power)
     for (auto it = switchBridges.begin(); it != switchBridges.end(); ++it)
     {
         if ((*it) != switchBridge)
+        {
             (*it)->setPower(power);
+            (*it)->mainFunctionValueChanged();
+        }
     }
     mainFunctionValueChanged();
 }
@@ -87,6 +90,7 @@ void KnxChannelSwitch::processInputKo(GroupObject &ko)
         for (auto it = switchBridges.begin(); it != switchBridges.end(); ++it)
         {
             (*it)->setPower(power);
+            (*it)->mainFunctionValueChanged();
         }
         mainFunctionValueChanged();
     }

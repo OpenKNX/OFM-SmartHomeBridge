@@ -63,7 +63,10 @@ void KnxChannelFan::commandPower(FanBridge *fanBridge, bool power)
     for (auto it = fanBridges.begin(); it != fanBridges.end(); ++it)
     {
         if ((*it) != fanBridge)
+        {
             (*it)->setPower(power);
+            (*it)->mainFunctionValueChanged();
+        }
     }
     mainFunctionValueChanged();
 }
@@ -79,7 +82,10 @@ void KnxChannelFan::commandAutomatic(FanBridge *fanBridge, bool automatic)
     for (auto it = fanBridges.begin(); it != fanBridges.end(); ++it)
     {
         if ((*it) != fanBridge)
+        {
             (*it)->setPower(automatic);
+            (*it)->mainFunctionValueChanged();
+        }
     }
     mainFunctionValueChanged();
 }
@@ -104,6 +110,7 @@ void KnxChannelFan::processInputKo(GroupObject &ko)
         for (auto it = fanBridges.begin(); it != fanBridges.end(); ++it)
         {
             (*it)->setPower(power);
+            (*it)->mainFunctionValueChanged();
         }
         mainFunctionValueChanged();
 
@@ -123,7 +130,6 @@ void KnxChannelFan::processInputKo(GroupObject &ko)
         {
             (*it)->setAutomatic(automatic);
         }
-        mainFunctionValueChanged();
     }
 }
 

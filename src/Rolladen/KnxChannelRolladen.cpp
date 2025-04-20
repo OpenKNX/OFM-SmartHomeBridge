@@ -124,7 +124,10 @@ bool KnxChannelRolladen::commandPosition(RolladenBridge* interface, uint8_t posi
     for (auto it = interfaces.begin(); it != interfaces.end(); ++it)
     {
         if ((*it) != interface)
+        {
             (*it)->setPosition(position);
+            (*it)->mainFunctionValueChanged();
+        }
     }
     mainFunctionValueChanged();
     return true;
@@ -152,6 +155,7 @@ void KnxChannelRolladen::loop()
         {
 
             (*it)->setPosition(currentPosition);
+            (*it)->mainFunctionValueChanged();
         }
         mainFunctionValueChanged();
 
@@ -167,6 +171,7 @@ void KnxChannelRolladen::processInputKo(GroupObject &ko)
         for (auto it = interfaces.begin(); it != interfaces.end(); ++it)
         {
             (*it)->setPosition(position);
+            (*it)->mainFunctionValueChanged();
         }
         mainFunctionValueChanged();
 
@@ -197,7 +202,6 @@ void KnxChannelRolladen::processInputKo(GroupObject &ko)
         {
             (*it)->setMovement(value);
         }
-        mainFunctionValueChanged();
 
     }
 }

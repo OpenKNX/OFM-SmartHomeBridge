@@ -88,7 +88,6 @@ void KnxChannelRGB::commandRGB(RGBBridge* RGBBridge, uint32_t rgb)
         {
             (*it)->setRGB(rgb);
         }
-        mainFunctionValueChanged();
     }
     if (knxValue == 0)
     {
@@ -195,7 +194,6 @@ void KnxChannelRGB::processInputKo(GroupObject &groupObject)
         {
             (*it)->setRGB(rgb);
         }
-        mainFunctionValueChanged();
     }
     if (isKo(groupObject, KO_POWER_FEEDBACK))
     {
@@ -204,6 +202,7 @@ void KnxChannelRGB::processInputKo(GroupObject &groupObject)
         for (auto it = RGBBridges.begin(); it != RGBBridges.end(); ++it)
         {
             (*it)->setPower(power);
+            (*it)->mainFunctionValueChanged();
         }
         mainFunctionValueChanged();
     }

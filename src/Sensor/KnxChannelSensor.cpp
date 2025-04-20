@@ -63,6 +63,7 @@ void KnxChannelSensor::processInputKo(GroupObject &ko)
         for (auto it = sensorBridges.begin(); it != sensorBridges.end(); ++it)
         {
             (*it)->setDetected(value);
+            (*it)->mainFunctionValueChanged();
         }
         mainFunctionValueChanged();
 

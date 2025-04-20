@@ -94,7 +94,6 @@ void KnxChannelJalousie::commandSlatPosition(RolladenBridge* interface, uint8_t 
         if ((*it) != (RolladenBridge*)interface)
             (*it)->setSlatPosition(slatPosition);
     }
-    mainFunctionValueChanged();
 }
 
 void KnxChannelJalousie::setup()
@@ -116,7 +115,6 @@ void KnxChannelJalousie::processInputKo(GroupObject &ko)
         {
             (*it)->setSlatPosition(slatPosition);
         }
-        mainFunctionValueChanged();
     }
 }
 
