@@ -3,14 +3,14 @@
 
 class KnxChannelDoorWindow;
 
-enum DoorWindowMoveState
+enum DoorWindowMoveState : byte
 {
     DoorWindowMoveStateHold,
     DoorWindowMoveStateClosing,
     DoorWindowMoveStateOpening
 };
 
-enum DoorWindowHandling
+enum DoorWindowHandling : byte
 {
     DoorWindowHandlingNothing,
     DoorWindowHandlingSendClose,
@@ -28,7 +28,8 @@ public:
 
 class KnxChannelDoorWindow : public KnxChannelBase
 {
-       DynamicPointerArray<DoorWindowBridge> interfaces; 
+        DoorWindowMoveState _currentMovement = DoorWindowMoveStateHold;
+        DynamicPointerArray<DoorWindowBridge> interfaces; 
     public:
         KnxChannelDoorWindow(uint16_t channelIndex);
         void add(DoorWindowBridge* interface);

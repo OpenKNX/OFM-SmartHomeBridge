@@ -203,6 +203,7 @@ void KnxChannelDoorWindow::loop()
         {
 
             (*it)->setPosition(currentPosition);
+            (*it)->mainFunctionValueChanged();
         }
     }
 }
@@ -216,6 +217,7 @@ void KnxChannelDoorWindow::processInputKo(GroupObject &ko)
         for (auto it = interfaces.begin(); it != interfaces.end(); ++it)
         {
             (*it)->setPosition(position);
+            (*it)->mainFunctionValueChanged();
         }
         mainFunctionValueChanged();
 
@@ -227,7 +229,6 @@ void KnxChannelDoorWindow::processInputKo(GroupObject &ko)
         {
             (*it)->setObstructionDetected(obstructionDetected);
         }
-        mainFunctionValueChanged();
     }
     else if (isKo(ko, KO_CLOSING_FEEDBACK) || isKo(ko, KO_OPENING_FEEDBACK))
     {
@@ -250,10 +251,11 @@ void KnxChannelDoorWindow::processInputKo(GroupObject &ko)
         {
             logDebugP("Stopping move");
         }
-        
+        _currentMovement = value;
         for (auto it = interfaces.begin(); it != interfaces.end(); ++it)
         {
             (*it)->setMovement(value);
+            (*it)->mainFunctionValueChanged();
         }
         mainFunctionValueChanged();
 
@@ -262,14 +264,22 @@ void KnxChannelDoorWindow::processInputKo(GroupObject &ko)
 
 std::string KnxChannelDoorWindow::currentValueAsString()
 {
+    if (_currentMovement == DoorWindowMoveState::DoorWindowMoveStateClosing)
+    {
+        return "Schließen";
+    }
+    if (_currentMovement == DoorWindowMoveState::DoorWindowMoveStateOpening)
+    {
+        return "Öffnen";
+    }
     switch ((KnxChannelDoorWindowFeedback) ParamBRI_CHDoorWindowFeedbackType)
     {
         case KnxChannelDoorWindowFeedback::DoorWindowFeedbackPercentage:
             return std::to_string((uint8_t) koGet(KO_FEEDBACK_PERCENT)) + "%";
         case KnxChannelDoorWindowFeedback::DoorWindowFeedbackOpened:
-            return koGet(KO_FEEDBACK_BIT) ? "Offen" : "Geschlossen";
+            return koGet(KO_FEEDBACK_BIT) ? "Offen" : "Zu";
         case KnxChannelDoorWindowFeedback::DoorWindowFeedbackClosed:
-            return koGet(KO_FEEDBACK_BIT) ? "Geschlossen" : "Offen";
+            return koGet(KO_FEEDBACK_BIT) ? "Zu" : "Offen";
     }
     return "";
 }
