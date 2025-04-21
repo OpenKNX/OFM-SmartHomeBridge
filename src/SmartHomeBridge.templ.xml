@@ -838,7 +838,7 @@
                       </when>
                       <when test="50">
                         <!-- ************** Thermostat ************ -->
-                        <ParameterBlock Id="%AID%_PB-nnn" Name="f%CC%FCB_Switch" Text="%C% Thermostat: {{0: ...}}"      TextParameterRefId="%AID%_P-%T%%CCC%002_R-%T%%CCC%00201" Icon="thermostat" ShowInComObjectTree="true" HelpContext="BRI-Thermostat">
+                        <ParameterBlock Id="%AID%_PB-nnn" Name="f%CC%FCB_Switch" Text="%C% Thermostat: {{0: ...}}"      TextParameterRefId="%AID%_P-%T%%CCC%002_R-%T%%CCC%00201" Icon="thermometer-lines" ShowInComObjectTree="true" HelpContext="BRI-Thermostat">
                         <ParameterSeparator Id="%AID%_PS-nnn" Text="Thermostat" UIHint="Headline" />
                           <op:usePart name="ChannelHead" xpath="//ParameterBlock/*" />
                           <op:usePart name="HueNotSupported" xpath="//ParameterBlock/*" />    
