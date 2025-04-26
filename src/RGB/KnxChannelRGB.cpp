@@ -2,7 +2,7 @@
 #include "knxprod.h"
 #include "KnxChannelRGB.h"
 #include "BridgeBase.h"
-
+#include "rgbconvert.h"
 #define KO_RGB             KoBRI_KO1_, DPT_Colour_RGB
 #define KO_RGB_FEEDBACK    KoBRI_KO2_, DPT_Colour_RGB
 #define KO_POWER           KoBRI_KO3_, DPT_Switch
@@ -29,6 +29,7 @@ KnxChannelRGB::KnxChannelRGB(uint16_t _channelIndex)
     : KnxChannelBase(_channelIndex),
       RGBBridges()
 {
+    
 }
 
 ChannelBridge* KnxChannelRGB::createBridgeDevice(BridgeBase &bridge)
@@ -45,8 +46,11 @@ void KnxChannelRGB::add(RGBBridge* RGBBridge)
 {
     RGBBridges.push_back(RGBBridge);
     RGBBridge->initialize(this);
-    RGBBridge->setRGB(koGet(KO_RGB_FEEDBACK));
-    RGBBridge->setPower(koGet(KO_POWER_FEEDBACK));
+    RGBBridge->setRGB(lastColor);
+    if (ParamBRI_CHLightRGBUseSwitchKO)
+        RGBBridge->setPower(koGet(KO_POWER_FEEDBACK));
+    else
+        RGBBridge->setPower((uint32_t) koGet(KO_RGB_FEEDBACK) > 0);
 }
 
 void KnxChannelRGB::remove(RGBBridge* RGBBridge)
@@ -62,9 +66,18 @@ const std::string KnxChannelRGB::name()
 
 void KnxChannelRGB::commandMainFunctionClick()
 {
-    if (koGet(KO_POWER_FEEDBACK))
+    if (mainFunctionValue())
     {
-        commandPower(nullptr, false);
+        uint32_t targetColor = getColorForBehavior(ParamBRI_CHLightRGBSwitchOn2Behavior);
+        logErrorP("Target Color: %lu Last Color: %d", (unsigned long) targetColor, (unsigned long) lastColor);
+        if (targetColor == 0 || targetColor == lastColor)
+        {
+            commandPower(nullptr, false);
+        }
+        else
+        {
+            commandRGB(nullptr, targetColor);
+        }
     }
     else
     {
@@ -74,7 +87,7 @@ void KnxChannelRGB::commandMainFunctionClick()
 
 void KnxChannelRGB::commandRGB(RGBBridge* RGBBridge, uint32_t rgb)
 {
-    logDebugP("Received changed. RGB: %d", rgb);
+    logErrorP("Received changed. RGB: %lu", (unsigned long) rgb);
     if (rgb > 0)
     {
         lastColor = rgb;
@@ -86,14 +99,22 @@ void KnxChannelRGB::commandRGB(RGBBridge* RGBBridge, uint32_t rgb)
     {
         if ((*it) != RGBBridge)
         {
-            (*it)->setRGB(rgb);
+            if (rgb > 0)
+                (*it)->setRGB(rgb);
+            else
+                (*it)->setPower(false);
+            (*it)->mainFunctionValueChanged();
         }
+        mainFunctionValueChanged();
     }
     if (knxValue == 0)
     {
-        koSetWithoutSend(KO_POWER_FEEDBACK, false);
-        koSet(KO_POWER, true, true);
-        if (!ParamBRI_CHLightRGBUseSwitchKO)
+        if (ParamBRI_CHLightRGBUseSwitchKO)
+        {
+            koSetWithoutSend(KO_POWER_FEEDBACK, false);
+            koSet(KO_POWER, false, true);
+        }
+        else
         {
             koSetWithoutSend(KO_RGB_FEEDBACK, (uint32_t) 0x000000);
             koSet(KO_RGB, (uint32_t) 0x000000, true);
@@ -102,20 +123,62 @@ void KnxChannelRGB::commandRGB(RGBBridge* RGBBridge, uint32_t rgb)
     else
     {
         koSetWithoutSend(KO_RGB_FEEDBACK, knxValue);
+        koSet(KO_RGB, knxValue, true);
         if (ParamBRI_CHLightRGBUseSwitchKO)
-            koSet(KO_RGB, knxValue, true);
-        koSetWithoutSend(KO_POWER_FEEDBACK, true);
-        koSetWithoutSend(KO_POWER, true);
+        {
+            koSetWithoutSend(KO_POWER_FEEDBACK, true);
+            koSetWithoutSend(KO_POWER, true);
+        }
     }
+}
+
+uint32_t KnxChannelRGB::getColorForBehavior(uint8_t behavior)
+{
+    logErrorP("getColorForBehavior: %d", (int) behavior);
+    switch((RGBSwitchBehavior) behavior)
+    {
+        case RGBSwitchBehavior::SendPower:      
+            return 0;
+        case RGBSwitchBehavior::White:
+            return 0xFFFFFF;
+        case RGBSwitchBehavior::Dark:
+            return 0x808080;
+            break;
+        case RGBSwitchBehavior::Red:
+            return 0xFF0000;
+        case RGBSwitchBehavior::Green:
+            return 0x00FF00;
+        case RGBSwitchBehavior::Blue:
+            return 0x0000FF;
+        case RGBSwitchBehavior::Yellow:
+            return 0xFFFF00;
+        case RGBSwitchBehavior::Magenta:
+            return 0xFF00FF;
+        case RGBSwitchBehavior::Cyan:
+            return 0x00FFFF;
+        case RGBSwitchBehavior::LastBrightness:
+            return lastColor;
+        case RGBSwitchBehavior::LastBrightnessLessOtherThenWhite:
+            return lastColorLessOtherThanWhite;
+    }
+    return 0;
 }
 
 void KnxChannelRGB::commandPower(RGBBridge* RGBBridge, bool power)
 {
+    for (auto it = RGBBridges.begin(); it != RGBBridges.end(); ++it)
+    {
+        if ((*it) != RGBBridge)
+        {
+            (*it)->setPower(power);
+        }
+    }
     if (power)
     {
-        uint32_t configValue = 0 == (uint32_t) koGet(KO_RGB_FEEDBACK) 
-            ? ParamBRI_CHLightRGBSwitchOnBehavior 
-            : ParamBRI_CHLightRGBSwitchOn2Behavior;
+        uint32_t configValue = (mainFunctionValue())
+            ? ParamBRI_CHLightRGBSwitchOn2Behavior 
+            : ParamBRI_CHLightRGBSwitchOnBehavior;
+        logErrorP("Switch on: %d behavior: %d", (int) mainFunctionValue(), (int) configValue);
         switch((RGBSwitchBehavior) configValue)
         {
             case RGBSwitchBehavior::SendPower:      
@@ -163,9 +226,24 @@ void KnxChannelRGB::commandPower(RGBBridge* RGBBridge, bool power)
     }
     else
     {
-        koSetWithoutSend(KO_POWER_FEEDBACK, false);
-        koSet(KO_POWER, false, true);
-    }
+        if (ParamBRI_CHLightRGBUseSwitchKO)
+        {
+            koSetWithoutSend(KO_POWER_FEEDBACK, false);
+            koSet(KO_POWER, false, true);    
+        }
+        else
+        {
+            commandRGB(nullptr, 0x000000);
+        }
+   }
+   for (auto it = RGBBridges.begin(); it != RGBBridges.end(); ++it)
+   {
+       if ((*it) != RGBBridge)
+       {
+           (*it)->mainFunctionValueChanged();
+       }
+       mainFunctionValueChanged();
+   }
 }
 
 void KnxChannelRGB::setup()
@@ -173,8 +251,11 @@ void KnxChannelRGB::setup()
     koSetWithoutSend(KO_RGB, (uint32_t) 0x000000);
     koSetWithoutSend(KO_RGB_FEEDBACK, (uint32_t) 0x000000);
     koSendReadRequest(KO_RGB_FEEDBACK);
-    koSetWithoutSend(KO_POWER, false);
-    koSetWithoutSend(KO_POWER_FEEDBACK, false);
+    if (ParamBRI_CHLightRGBUseSwitchKO)
+    {
+        koSetWithoutSend(KO_POWER, false);
+        koSetWithoutSend(KO_POWER_FEEDBACK, false);
+    }
     koSendReadRequest(KO_RGB_FEEDBACK);
 }
 
@@ -192,8 +273,26 @@ void KnxChannelRGB::processInputKo(GroupObject &groupObject)
         koSetWithoutSend(KO_RGB, rgb);
         for (auto it = RGBBridges.begin(); it != RGBBridges.end(); ++it)
         {
-            (*it)->setRGB(rgb);
+            if (rgb > 0)
+                (*it)->setRGB(rgb);
+            if (rgb == 0)
+            {
+                (*it)->setPower(false);
+            }
+            else
+            {
+                if (ParamBRI_CHLightRGBUseSwitchKO)
+                {
+                    (*it)->setPower(koGet(KO_POWER_FEEDBACK));
+                }
+                else
+                {
+                    (*it)->setPower(true);
+                }
+            }
+            (*it)->mainFunctionValueChanged();
         }
+        mainFunctionValueChanged();
     }
     if (isKo(groupObject, KO_POWER_FEEDBACK))
     {
@@ -210,12 +309,35 @@ void KnxChannelRGB::processInputKo(GroupObject &groupObject)
 
 std::string KnxChannelRGB::currentValueAsString()
 {
-    return koGet(KO_POWER_FEEDBACK) ? "Ein" : "Aus";
+    // rgb rgb;
+    // rgb.r = (lastColor >> 16) & 0xFF;
+    // rgb.g = (lastColor >> 8) & 0xFF;
+    // rgb.b = (lastColor) & 0xFF;
+    // auto hsv = rgb2hsv(rgb);
+    if (ParamBRI_CHLightRGBUseSwitchKO)
+    {
+        return koGet(KO_POWER_FEEDBACK) ? "Ein" : "Aus";
+    }
+    else
+    {
+        auto rgb = lastColor;
+        if (rgb != 0x000000)
+        {
+            return "Ein";// std::to_string(hsv.v) + "%";
+        }
+        else
+        {
+            return "Aus";
+        }
+    }            
 }
 
 bool KnxChannelRGB::mainFunctionValue()
 {
-    return koGet(KO_POWER_FEEDBACK);
+    if (ParamBRI_CHLightRGBUseSwitchKO)
+        return koGet(KO_POWER_FEEDBACK);
+    else
+        return (uint32_t) koGet(KO_RGB_FEEDBACK) > 0;
 }
 
 MainFunctionStateImage KnxChannelRGB::mainFunctionImage()

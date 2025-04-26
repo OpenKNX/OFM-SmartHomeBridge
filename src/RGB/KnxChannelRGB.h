@@ -14,6 +14,7 @@ public:
 class KnxChannelRGB : public KnxChannelBase
 {
         DynamicPointerArray<RGBBridge> RGBBridges;
+        uint32_t getColorForBehavior(uint8_t behavior);
     public:
         KnxChannelRGB(uint16_t channelIndex);
         void add(RGBBridge* RGBBridge);
