@@ -179,8 +179,9 @@ std::string KnxChannelDisplay::currentValueAsString()
 bool KnxChannelDisplay::mainFunctionValue()
 {
     if (!ParamBRI_CHIcon)
-        return koInitialized(KO_TEMPERATURE_FEEDBACK);
-
+    {
+        return (lastValue >= ParamBRI_CHDisplayUpper);
+    }
     if (!hasValue)
         return false;
     
@@ -238,7 +239,7 @@ MainFunctionStateImage KnxChannelDisplay::mainFunctionImage()
         image += "_";
         image += std::to_string(ParamBRI_CHDisplayType);
         image += ".png";
-        return {false, image};
+        return {true, image};
     }
 
     bool allowRecolor = getIconState() != 0;

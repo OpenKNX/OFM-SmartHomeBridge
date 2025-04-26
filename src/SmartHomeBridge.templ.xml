@@ -1039,6 +1039,11 @@
                               <!-- Icons -->
                               <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%T%%CCC%004_R-%T%%CCC%00401" />
                               <choose ParamRefId="%AID%_UP-%T%%CCC%004_R-%T%%CCC%00401">
+                                <when test="0">
+                                  <ParameterSeparator Id="%AID%_PS-nnn" Text="Ein bei Werte ab" />
+                                  <!-- Wert ab -->
+                                  <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%T%%CCC%063_R-%T%%CCC%06301" />
+                                </when>
                                 <when test="1">
                                   <choose ParamRefId="%AID%_UP-%T%%CCC%061_R-%T%%CCC%06101">  <!-- DisplayType  -->
                                     <when test="!=9"> <!-- Not Text -->
