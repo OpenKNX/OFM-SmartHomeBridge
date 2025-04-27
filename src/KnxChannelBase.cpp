@@ -72,8 +72,6 @@ MainFunctionStateImage KnxChannelBase::mainFunctionTypeImage()
 {
     std::string image = "Type";
     image += std::to_string(ParamBRI_CHDeviceType);
-    image += "_";
-    image += std::to_string(ParamBRI_CHAlarmType);
     image += ".png";
     return {true, image};
 }

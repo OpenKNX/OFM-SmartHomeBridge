@@ -34,6 +34,7 @@ class KnxChannelAlarm : public KnxChannelBase
         virtual void setup() override;
         virtual void processInputKo(GroupObject& ko) override;
         virtual const std::string name() override;
+        virtual MainFunctionStateImage mainFunctionTypeImage() override;
     public:
         virtual void commandMainFunctionClick() override;
         virtual bool supportMainFunctionClick() override { return false; }

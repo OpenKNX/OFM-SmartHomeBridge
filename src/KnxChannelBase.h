@@ -70,7 +70,7 @@ class KnxChannelBase : public OpenKNX::Channel, public Component
     protected:
         const uint8_t LIMIT_NOT_USED = 255;
         std::string getImageFileName(int parameterIndex);
-        MainFunctionStateImage mainFunctionTypeImage();
+        virtual MainFunctionStateImage mainFunctionTypeImage();
         MainFunctionStateImage calculateMainFunctionImage(GroupObject& feedbackKo, const Dpt& dpt, uint8_t limit0, uint8_t limit50, uint8_t limit100);
         MainFunctionStateImage calculateMainFunctionImage(uint8_t currentValue, uint8_t limit0, uint8_t limit50, uint8_t limit100);
         void mainFunctionValueChanged();
