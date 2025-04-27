@@ -131,6 +131,7 @@ void KnxChannelDisplay::processInputKo(GroupObject &groupObject)
             for (auto it = DeviceBridges.begin(); it != DeviceBridges.end(); ++it)
             {
                 (*it)->setValue(lastStringValue);
+                (*it)->mainFunctionValueChanged();
             }
         }
         else
@@ -138,6 +139,7 @@ void KnxChannelDisplay::processInputKo(GroupObject &groupObject)
             for (auto it = DeviceBridges.begin(); it != DeviceBridges.end(); ++it)
             {
                 (*it)->setValue(lastValue);
+                (*it)->mainFunctionValueChanged();
             }
         }
         mainFunctionValueChanged();
