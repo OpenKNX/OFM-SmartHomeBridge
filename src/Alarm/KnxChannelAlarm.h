@@ -1,35 +1,35 @@
 #pragma once
 #include "KnxChannelBase.h"
 
-class KnxChannelSensor;
+class KnxChannelAlarm;
 
-class SensorBridge : public ChannelBridgeBase<KnxChannelSensor>
+class AlarmBridge : public ChannelBridgeBase<KnxChannelAlarm>
 {
 public:
     virtual void setDetected(bool detected) = 0;
 };
 
-enum SensorType
+enum AlarmType
 {
-    SensorTypeContact = 70,
-    SensorTypeMotion = 71,
-    SensorTypeOccupancy = 72,
-    SensorTypeLeak = 73,
-    SensorTypeSmoke = 74,
-    SensorTypeCarbonDioxid = 75,
-    SensorTypeCarbonMonoxid = 76
+    AlarmTypeContact = 7,
+    AlarmTypeMotion = 7,
+    AlarmTypeOccupancy = 7,
+    AlarmTypeLeak = 7,
+    AlarmTypeSmoke = 7,
+    AlarmTypeCarbonDioxid = 7,
+    AlarmTypeCarbonMonoxid = 7
 };
              
-class KnxChannelSensor : public KnxChannelBase
+class KnxChannelAlarm : public KnxChannelBase
 {
-        DynamicPointerArray<SensorBridge > sensorBridges;
+        DynamicPointerArray<AlarmBridge > sensorBridges;
     public:
-        KnxChannelSensor(uint16_t channelIndex);
-        void add(SensorBridge* sensorBridge);
-        void remove(SensorBridge* sensorBridge);
+        KnxChannelAlarm(uint16_t channelIndex);
+        void add(AlarmBridge* sensorBridge);
+        void remove(AlarmBridge* sensorBridge);
         virtual ChannelBridge* createBridgeDevice(BridgeBase& bridge) override;
         virtual void deleteBridgeDevice(ChannelBridge* device) override;
-        SensorType getSensorType();
+        AlarmType getAlarmType();
     protected:
         virtual void setup() override;
         virtual void processInputKo(GroupObject& ko) override;

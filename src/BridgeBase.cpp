@@ -7,7 +7,7 @@
 #include "./Jalousie/KnxChannelJalousie.h"
 #include "./Thermostat/KnxChannelThermostat.h"
 #include "./Display/KnxChannelDisplay.h"
-#include "./Sensor/KnxChannelSensor.h"
+#include "./Alarm/KnxChannelAlarm.h"
 #include "./Fan/KnxChannelFan.h"
 #include "./DoorWindow/KnxChannelDoorWindow.h"
 
@@ -46,7 +46,7 @@ DeviceBridge* BridgeBase::createDisplay(KnxChannelDisplay& channel, uint8_t _cha
     return nullptr;
 }
 
-SensorBridge* BridgeBase::createSensor(KnxChannelSensor& channel, uint8_t _channelIndex /* this parameter is used in macros, do not rename */, uint8_t deviceType)
+AlarmBridge* BridgeBase::createSensor(KnxChannelAlarm& channel, uint8_t _channelIndex /* this parameter is used in macros, do not rename */, uint8_t deviceType)
 {
     return nullptr;
 }

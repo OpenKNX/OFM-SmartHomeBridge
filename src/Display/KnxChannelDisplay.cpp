@@ -178,13 +178,11 @@ std::string KnxChannelDisplay::currentValueAsString()
 
 bool KnxChannelDisplay::mainFunctionValue()
 {
-    if (!ParamBRI_CHIcon)
-    {
-        return (lastValue >= ParamBRI_CHDisplayUpper);
-    }
     if (!hasValue)
         return false;
-    
+    if (!ParamBRI_CHIcon)
+        return lastValue >= ParamBRI_CHDisplayUpper;
+        
     // <Enumeration Value="0" Id="%ENID%" Text="Keine Einfärbung"       />
     // <Enumeration Value="1" Id="%ENID%" Text="Als AUS darstellen"     />
     // <Enumeration Value="2" Id="%ENID%" Text="Als EIN darstellen "    />

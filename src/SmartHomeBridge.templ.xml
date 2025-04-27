@@ -105,12 +105,14 @@
                 <!-- 5 Bits free -->
               </Union>
 
-              <!-- Kontakte/Alarme/Sensoren -->
+              <!-- Alarme -->
               <Union SizeInBit="8">
                 <Memory CodeSegment="%AID%_RS-04-00000" Offset="53" BitOffset="0" />
                 <!-- Sensor Inverted -->
-                <Parameter Id="%AID%_UP-%T%%CCC%071" Offset="0" BitOffset="0" Name="CH%C%ContactAlarmSensorInvert"  ParameterType="%AID%_PT-BRIContactAlarmSensorInvert" Text="Eingang Invertieren" Value="0" />
-                <!-- 7 Bits free -->
+                <Parameter Id="%AID%_UP-%T%%CCC%071" Offset="0" BitOffset="0" Name="CH%C%AlarmInvert"  ParameterType="%AID%_PT-BRIAlarmInvert" Text="Eingang Invertieren" Value="0" />
+                <!-- 3 Bits free -->
+                <!-- Alarm Type -->
+                <Parameter Id="%AID%_UP-%T%%CCC%072" Offset="0" BitOffset="4" Name="CH%C%AlarmType"  ParameterType="%AID%_PT-BRIAlarmType" Text="Type" Value="0" />         
               </Union>
 
               <!-- Anzeige -->
@@ -229,8 +231,9 @@
               <ParameterRef Id="%AID%_UP-%T%%CCC%065_R-%T%%CCC%06501" RefId="%AID%_UP-%T%%CCC%065" />
               <ParameterRef Id="%AID%_UP-%T%%CCC%066_R-%T%%CCC%06601" RefId="%AID%_UP-%T%%CCC%066" />
 
-              <!-- Kontakte/Alarme/Sensoren -->
+              <!-- Alarme -->
               <ParameterRef Id="%AID%_UP-%T%%CCC%071_R-%T%%CCC%07101" RefId="%AID%_UP-%T%%CCC%071" />
+              <ParameterRef Id="%AID%_UP-%T%%CCC%072_R-%T%%CCC%07201" RefId="%AID%_UP-%T%%CCC%072" />
 
                <!-- Fan -->
               <ParameterRef Id="%AID%_UP-%T%%CCC%081_R-%T%%CCC%08101" RefId="%AID%_UP-%T%%CCC%081" />
@@ -317,7 +320,7 @@
              
               <ComObjectRef Id="%AID%_O-%T%%CCC%001_R-%T%%CCC%00196" RefId="%AID%_O-%T%%CCC%001" Name="TEXT_DPT_16"                           Text="%C%: Text Eingang"                 FunctionText="{{0:-}} Text Eingang"                  Priority="Low" ObjectSize="14 Bytes" WriteFlag="Enabled" TransmitFlag="Disabled" UpdateFlag="Enabled" DatapointType="DPST-16-1" TextParameterRefId="%AID%_P-%T%%CCC%002_R-%T%%CCC%00201" />
               
-              <!-- Kontakte/Alarme/Sensoren -->
+              <!-- Alarme -->
               <ComObjectRef Id="%AID%_O-%T%%CCC%001_R-%T%%CCC%00107" RefId="%AID%_O-%T%%CCC%001" Name="CONTACT_DPT_01"                        Text="%C%: Kontakt Rückmeldung"   FunctionText="{{0:-}} Kontakt Rückmeldung"      Priority="Low" ObjectSize="1 Bit" WriteFlag="Enabled" TransmitFlag="Disabled" UpdateFlag="Enabled" DatapointType="DPST-1-19" TextParameterRefId="%AID%_P-%T%%CCC%002_R-%T%%CCC%00201" />
               <ComObjectRef Id="%AID%_O-%T%%CCC%001_R-%T%%CCC%00117" RefId="%AID%_O-%T%%CCC%001" Name="MOTION_DPT_01"                         Text="%C%: Bewegung Rückmeldung"  FunctionText="{{0:-}} Bewegung Rückmeldung"     Priority="Low" ObjectSize="1 Bit" WriteFlag="Enabled" TransmitFlag="Disabled" UpdateFlag="Enabled" DatapointType="DPST-1-1"  TextParameterRefId="%AID%_P-%T%%CCC%002_R-%T%%CCC%00201" />
               <ComObjectRef Id="%AID%_O-%T%%CCC%001_R-%T%%CCC%00127" RefId="%AID%_O-%T%%CCC%001" Name="OCCUPANCY_DPT_01"                      Text="%C%: Präsenz Rückmeldung"   FunctionText="{{0:-}} Präsenz Rückmeldung"      Priority="Low" ObjectSize="1 Bit" WriteFlag="Enabled" TransmitFlag="Disabled" UpdateFlag="Enabled" DatapointType="DPST-1-1"  TextParameterRefId="%AID%_P-%T%%CCC%002_R-%T%%CCC%00201" />
@@ -968,7 +971,7 @@
                       </when>
                       <when test="60">
                         <!-- ************** Anzeige ************ -->
-                        <ParameterBlock Id="%AID%_PB-nnn" Name="f%CC%FCB_Switch" Text="%C% Anzeige: {{0: ...}}"      TextParameterRefId="%AID%_P-%T%%CCC%002_R-%T%%CCC%00201" Icon="card-text-outline" ShowInComObjectTree="true" HelpContext="BRI-Anzeige">
+                        <ParameterBlock Id="%AID%_PB-nnn" Name="f%CC%FCB_Switch" Text="%C% Anzeige: {{0: ...}}"      TextParameterRefId="%AID%_P-%T%%CCC%002_R-%T%%CCC%00201" Icon="tablet-dashboard" ShowInComObjectTree="true" HelpContext="BRI-Anzeige">
                           <ParameterSeparator Id="%AID%_PS-nnn" Text="Anzeige" UIHint="Headline" />
                           <op:usePart name="ChannelHead" xpath="//ParameterBlock/*" />
                           <op:usePart name="HueNotSupported" xpath="//ParameterBlock/*" />                 
@@ -1096,15 +1099,38 @@
                         
                       </when>
                       <when test="70">
-                        <!-- ************** Kontakt ************ -->
-                        <ParameterBlock Id="%AID%_PB-nnn" Name="f%CC%FCB_Switch" Text="%C% Kontakt: {{0: ...}}"      TextParameterRefId="%AID%_P-%T%%CCC%002_R-%T%%CCC%00201" Icon="electric-switch" ShowInComObjectTree="true" HelpContext="BRI-Kontakt">
-                          <ParameterSeparator Id="%AID%_PS-nnn" Text="Kontakt" UIHint="Headline" />
+                        <!-- ************** Alarm ************ -->
+                        <ParameterBlock Id="%AID%_PB-nnn" Name="f%CC%FCB_Switch" Text="%C% Alarm: {{0: ...}}"      TextParameterRefId="%AID%_P-%T%%CCC%002_R-%T%%CCC%00201" Icon="alarm-light-outline" ShowInComObjectTree="true" HelpContext="BRI-Kontakt">
+                          <ParameterSeparator Id="%AID%_PS-nnn" Text="Alarm" UIHint="Headline" />
                           <op:usePart name="ChannelHead" xpath="//ParameterBlock/*" />
                           <op:usePart name="HueNotSupported" xpath="//ParameterBlock/*" />   
 
                           <ParameterSeparator Id="%AID%_PS-nnn" Text="" UIHint="HorizontalRuler" />
-                          <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%T%%CCC%071_R-%T%%CCC%07101" /> <!-- ContactAlarmSensor Invert Input -->
-                          <ComObjectRefRef RefId="%AID%_O-%T%%CCC%001_R-%T%%CCC%00107" />
+                          <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%T%%CCC%072_R-%T%%CCC%07201" /> <!-- Alarm Type -->
+                          <choose ParamRefId="%AID%_UP-%T%%CCC%072_R-%T%%CCC%07201">           <!-- Alarm Type --> 
+                            <when test="0"> <!-- Contact -->
+                              <ComObjectRefRef RefId="%AID%_O-%T%%CCC%001_R-%T%%CCC%00107" /> <!-- Contact -->
+                            </when>
+                            <when test="1"> <!-- Bewegung -->
+                              <ComObjectRefRef RefId="%AID%_O-%T%%CCC%001_R-%T%%CCC%00117" />  <!-- Bewegung -->
+                            </when>
+                            <when test="2"> <!-- Präsens -->
+                              <ComObjectRefRef RefId="%AID%_O-%T%%CCC%001_R-%T%%CCC%00127" /> <!-- Präsens -->
+                            </when>
+                            <when test="3"> <!-- Leck -->
+                              <ComObjectRefRef RefId="%AID%_O-%T%%CCC%001_R-%T%%CCC%00137" /> <!-- Leck -->
+                            </when>
+                            <when test="4"> <!-- Rauch -->
+                              <ComObjectRefRef RefId="%AID%_O-%T%%CCC%001_R-%T%%CCC%00147" /> <!-- Rauch -->
+                            </when>
+                            <when test="5"> <!-- Kohlendioxidmelder (CO2) -->
+                              <ComObjectRefRef RefId="%AID%_O-%T%%CCC%001_R-%T%%CCC%00157" /> <!-- Kohlendioxidmelder (CO2) -->
+                            </when>
+                            <when test="6"> <!-- Kohlendioxidmelder (CO) -->
+                              <ComObjectRefRef RefId="%AID%_O-%T%%CCC%001_R-%T%%CCC%00167" /> <!--  Kohlendioxidmelder (CO) -->
+                            </when>
+                          </choose>
+                          <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%T%%CCC%071_R-%T%%CCC%07101" /> <!-- Alarm Invert Input -->
 
                           <!-- DisplaySettings -->
                           <choose ParamRefId="%AID%_P-%T%000010_R-%T%00001001">
@@ -1132,240 +1158,6 @@
                               </choose>
                             </when>
                           </choose>                 
-                        </ParameterBlock>
-                      </when>
-                      <when test="71">
-                        <!-- ************** Bewegungsmelder ************ -->
-                        <ParameterBlock Id="%AID%_PB-nnn" Name="f%CC%FCB_Switch" Text="%C% Bewegungsmelder: {{0: ...}}"      TextParameterRefId="%AID%_P-%T%%CCC%002_R-%T%%CCC%00201" Icon="walk" ShowInComObjectTree="true" HelpContext="BRI-Bewegungsmelder">
-                          <ParameterSeparator Id="%AID%_PS-nnn" Text="Bewegungsmelder" UIHint="Headline" />
-                          <op:usePart name="ChannelHead" xpath="//ParameterBlock/*" />
-                          <op:usePart name="HueNotSupported" xpath="//ParameterBlock/*" />    
-                          <ParameterSeparator Id="%AID%_PS-nnn" Text="" UIHint="HorizontalRuler" />
-
-                          <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%T%%CCC%071_R-%T%%CCC%07101" /> <!-- ContactAlarmSensor Invert Input -->         
-                          <ComObjectRefRef RefId="%AID%_O-%T%%CCC%001_R-%T%%CCC%00117" />    
-
-                           <!-- DisplaySettings -->
-                          <choose ParamRefId="%AID%_P-%T%000010_R-%T%00001001">
-                            <when test="1">
-                            
-                              <ParameterSeparator Id="%AID%_PS-nnn" Text="" UIHint="HorizontalRuler" />
-                              <ParameterSeparator Id="%AID%_PS-nnn" Text="Touch Display Einstellungen" UIHint="Headline" />
-
-                              <!-- Icons -->
-                              <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%T%%CCC%004_R-%T%%CCC%00401" />
-                              <choose ParamRefId="%AID%_UP-%T%%CCC%004_R-%T%%CCC%00401">
-                                <when test="1">
-                                  <ParameterSeparator Id="%AID%_PS-nnn" Text="Bild 'Kein Alarm'" />
-                                  <!-- Icon Col 0-->
-                                  <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%T%%CCC%005_R-%T%%CCC%00501" />
-                                  <!-- Icon 0-->
-                                  <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%T%%CCC%006_R-%T%%CCC%00601" />
-
-                                  <ParameterSeparator Id="%AID%_PS-nnn" Text="Bild 'Alarm'" />
-                                  <!-- Icon Col 100-->
-                                  <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%T%%CCC%009_R-%T%%CCC%00901" />
-                                  <!-- Icon 100-->
-                                  <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%T%%CCC%010_R-%T%%CCC%01001" />
-                                </when>
-                              </choose>
-                            </when>
-                          </choose>         
-                        </ParameterBlock>
-                      </when>
-                      <when test="72">
-                        <!-- ************** Präsensmelder ************ -->
-                        <ParameterBlock Id="%AID%_PB-nnn" Name="f%CC%FCB_Switch" Text="%C% Präsensmelder: {{0: ...}}"      TextParameterRefId="%AID%_P-%T%%CCC%002_R-%T%%CCC%00201" Icon="human-male-female" ShowInComObjectTree="true" HelpContext="BRI-Praesensmelder">
-                          <ParameterSeparator Id="%AID%_PS-nnn" Text="Präsensmelder" UIHint="Headline" />
-                          <op:usePart name="ChannelHead" xpath="//ParameterBlock/*" />
-                          <op:usePart name="HueNotSupported" xpath="//ParameterBlock/*" />    
-                          <ParameterSeparator Id="%AID%_PS-nnn" Text="" UIHint="HorizontalRuler" />
-
-                          <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%T%%CCC%071_R-%T%%CCC%07101" /> <!-- ContactAlarmSensor Invert Input -->
-                          <ComObjectRefRef RefId="%AID%_O-%T%%CCC%001_R-%T%%CCC%00127" />
-
-                          <!-- DisplaySettings -->
-                          <choose ParamRefId="%AID%_P-%T%000010_R-%T%00001001">
-                            <when test="1">
-                            
-                              <ParameterSeparator Id="%AID%_PS-nnn" Text="" UIHint="HorizontalRuler" />
-                              <ParameterSeparator Id="%AID%_PS-nnn" Text="Touch Display Einstellungen" UIHint="Headline" />
-
-                              <!-- Icons -->
-                              <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%T%%CCC%004_R-%T%%CCC%00401" />
-                              <choose ParamRefId="%AID%_UP-%T%%CCC%004_R-%T%%CCC%00401">
-                                <when test="1">
-                                  <ParameterSeparator Id="%AID%_PS-nnn" Text="Bild 'Kein Alarm'" />
-                                  <!-- Icon Col 0-->
-                                  <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%T%%CCC%005_R-%T%%CCC%00501" />
-                                  <!-- Icon 0-->
-                                  <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%T%%CCC%006_R-%T%%CCC%00601" />
-
-                                  <ParameterSeparator Id="%AID%_PS-nnn" Text="Bild 'Alarm'" />
-                                  <!-- Icon Col 100-->
-                                  <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%T%%CCC%009_R-%T%%CCC%00901" />
-                                  <!-- Icon 100-->
-                                  <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%T%%CCC%010_R-%T%%CCC%01001" />
-                                </when>
-                              </choose>
-                            </when>
-                          </choose>         
-                        </ParameterBlock>
-                      </when>
-                      <when test="73">
-                        <!-- ************** Leckmelder ************ -->
-                        <ParameterBlock Id="%AID%_PB-nnn" Name="f%CC%FCB_Switch" Text="%C% Leckmelder: {{0: ...}}"      TextParameterRefId="%AID%_P-%T%%CCC%002_R-%T%%CCC%00201" Icon="water-alert-outline" ShowInComObjectTree="true" HelpContext="BRI-Leckmelder">
-                          <ParameterSeparator Id="%AID%_PS-nnn" Text="Leckmelder" UIHint="Headline" />
-                          <op:usePart name="ChannelHead" xpath="//ParameterBlock/*" />
-                          <op:usePart name="HueNotSupported" xpath="//ParameterBlock/*" />             
-                          <ParameterSeparator Id="%AID%_PS-nnn" Text="" UIHint="HorizontalRuler" />
-        
-                          <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%T%%CCC%071_R-%T%%CCC%07101" /> <!-- ContactAlarmSensor Invert Input -->
-                          <ComObjectRefRef RefId="%AID%_O-%T%%CCC%001_R-%T%%CCC%00137" />   
-
-                          <!-- DisplaySettings -->
-                          <choose ParamRefId="%AID%_P-%T%000010_R-%T%00001001">
-                            <when test="1">
-                            
-                              <ParameterSeparator Id="%AID%_PS-nnn" Text="" UIHint="HorizontalRuler" />
-                              <ParameterSeparator Id="%AID%_PS-nnn" Text="Touch Display Einstellungen" UIHint="Headline" />
-
-                              <!-- Icons -->
-                              <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%T%%CCC%004_R-%T%%CCC%00401" />
-                              <choose ParamRefId="%AID%_UP-%T%%CCC%004_R-%T%%CCC%00401">
-                                <when test="1">
-                                  <ParameterSeparator Id="%AID%_PS-nnn" Text="Bild 'Kein Alarm'" />
-                                  <!-- Icon Col 0-->
-                                  <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%T%%CCC%005_R-%T%%CCC%00501" />
-                                  <!-- Icon 0-->
-                                  <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%T%%CCC%006_R-%T%%CCC%00601" />
-
-                                  <ParameterSeparator Id="%AID%_PS-nnn" Text="Bild 'Alarm'" />
-                                  <!-- Icon Col 100-->
-                                  <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%T%%CCC%009_R-%T%%CCC%00901" />
-                                  <!-- Icon 100-->
-                                  <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%T%%CCC%010_R-%T%%CCC%01001" />
-                                </when>
-                              </choose>
-                            </when>
-                          </choose>                      
-                        </ParameterBlock>
-                      </when>
-                      <when test="74">
-                        <!-- ************** Rauchmelder ************ -->
-                        <ParameterBlock Id="%AID%_PB-nnn" Name="f%CC%FCB_Switch" Text="%C% Rauchmelder: {{0: ...}}"      TextParameterRefId="%AID%_P-%T%%CCC%002_R-%T%%CCC%00201" Icon="smoke" ShowInComObjectTree="true" HelpContext="BRI-Rauchmelder">
-                          <ParameterSeparator Id="%AID%_PS-nnn" Text="Rauchmelder" UIHint="Headline" />
-                          <op:usePart name="ChannelHead" xpath="//ParameterBlock/*" />
-                          <op:usePart name="HueNotSupported" xpath="//ParameterBlock/*" />    
-                          <ParameterSeparator Id="%AID%_PS-nnn" Text="" UIHint="HorizontalRuler" />
-           
-                          <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%T%%CCC%071_R-%T%%CCC%07101" /> <!-- ContactAlarmSensor Invert Input -->     
-                          <ComObjectRefRef RefId="%AID%_O-%T%%CCC%001_R-%T%%CCC%00147" />  
-
-                          <!-- DisplaySettings -->
-                          <choose ParamRefId="%AID%_P-%T%000010_R-%T%00001001">
-                            <when test="1">
-                            
-                              <ParameterSeparator Id="%AID%_PS-nnn" Text="" UIHint="HorizontalRuler" />
-                              <ParameterSeparator Id="%AID%_PS-nnn" Text="Touch Display Einstellungen" UIHint="Headline" />
-
-                              <!-- Icons -->
-                              <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%T%%CCC%004_R-%T%%CCC%00401" />
-                              <choose ParamRefId="%AID%_UP-%T%%CCC%004_R-%T%%CCC%00401">
-                                <when test="1">
-                                  <ParameterSeparator Id="%AID%_PS-nnn" Text="Bild 'Kein Alarm'" />
-                                  <!-- Icon Col 0-->
-                                  <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%T%%CCC%005_R-%T%%CCC%00501" />
-                                  <!-- Icon 0-->
-                                  <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%T%%CCC%006_R-%T%%CCC%00601" />
-
-                                  <ParameterSeparator Id="%AID%_PS-nnn" Text="Bild 'Alarm'" />
-                                  <!-- Icon Col 100-->
-                                  <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%T%%CCC%009_R-%T%%CCC%00901" />
-                                  <!-- Icon 100-->
-                                  <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%T%%CCC%010_R-%T%%CCC%01001" />
-                                </when>
-                              </choose>
-                            </when>
-                          </choose>         
-                        </ParameterBlock>
-                      </when>
-                      <when test="75">
-                        <!-- ************** Kohlendioxidmelder (CO2) ************ -->
-                        <ParameterBlock Id="%AID%_PB-nnn" Name="f%CC%FCB_Switch" Text="%C% Kohlendioxidmelder (CO2): {{0: ...}}"      TextParameterRefId="%AID%_P-%T%%CCC%002_R-%T%%CCC%00201" Icon="molecule-co2" ShowInComObjectTree="true" HelpContext="BRI-Kohlendioxidmelder-CO2">
-                          <ParameterSeparator Id="%AID%_PS-nnn" Text="Kohlendioxidmelder (CO2)" UIHint="Headline" />
-                          <op:usePart name="ChannelHead" xpath="//ParameterBlock/*" />
-                          <op:usePart name="HueNotSupported" xpath="//ParameterBlock/*" />    
-                          <ParameterSeparator Id="%AID%_PS-nnn" Text="" UIHint="HorizontalRuler" />
-
-                          <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%T%%CCC%071_R-%T%%CCC%07101" /> <!-- ContactAlarmSensor Invert Input -->
-                          <ComObjectRefRef RefId="%AID%_O-%T%%CCC%001_R-%T%%CCC%00157" />    
-
-                          <!-- DisplaySettings -->
-                          <choose ParamRefId="%AID%_P-%T%000010_R-%T%00001001">
-                            <when test="1">
-                            
-                              <ParameterSeparator Id="%AID%_PS-nnn" Text="" UIHint="HorizontalRuler" />
-                              <ParameterSeparator Id="%AID%_PS-nnn" Text="Touch Display Einstellungen" UIHint="Headline" />
-
-                              <!-- Icons -->
-                              <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%T%%CCC%004_R-%T%%CCC%00401" />
-                              <choose ParamRefId="%AID%_UP-%T%%CCC%004_R-%T%%CCC%00401">
-                                <when test="1">
-                                  <ParameterSeparator Id="%AID%_PS-nnn" Text="Bild 'Kein Alarm'" />
-                                  <!-- Icon Col 0-->
-                                  <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%T%%CCC%005_R-%T%%CCC%00501" />
-                                  <!-- Icon 0-->
-                                  <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%T%%CCC%006_R-%T%%CCC%00601" />
-
-                                  <ParameterSeparator Id="%AID%_PS-nnn" Text="Bild 'Alarm'" />
-                                  <!-- Icon Col 100-->
-                                  <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%T%%CCC%009_R-%T%%CCC%00901" />
-                                  <!-- Icon 100-->
-                                  <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%T%%CCC%010_R-%T%%CCC%01001" />
-                                </when>
-                              </choose>
-                            </when>
-                          </choose>                  
-                        </ParameterBlock>
-                      </when>
-                      <when test="76">
-                        <!-- ************** Kohlenmonoxidmelder (CO) ************ -->
-                        <ParameterBlock Id="%AID%_PB-nnn" Name="f%CC%FCB_Switch" Text="%C% Kohlenmonoxidmelder (CO): {{0: ...}}"      TextParameterRefId="%AID%_P-%T%%CCC%002_R-%T%%CCC%00201" Icon="molecule-co" ShowInComObjectTree="true" HelpContext="BRI-Kohlenmonoxidmelder-CO">
-                          <ParameterSeparator Id="%AID%_PS-nnn" Text="Kohlenmonoxidmelder (CO)" UIHint="Headline" />
-                          <op:usePart name="ChannelHead" xpath="//ParameterBlock/*" />
-                          <op:usePart name="HueNotSupported" xpath="//ParameterBlock/*" />    
-                          <ParameterSeparator Id="%AID%_PS-nnn" Text="" UIHint="HorizontalRuler" />
-
-                          <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%T%%CCC%071_R-%T%%CCC%07101" /> <!-- ContactAlarmSensor Invert Input -->
-                          <ComObjectRefRef RefId="%AID%_O-%T%%CCC%001_R-%T%%CCC%00167" />   
-
-                          <!-- DisplaySettings -->
-                          <choose ParamRefId="%AID%_P-%T%000010_R-%T%00001001">
-                            <when test="1">
-                            
-                              <ParameterSeparator Id="%AID%_PS-nnn" Text="" UIHint="HorizontalRuler" />
-                              <ParameterSeparator Id="%AID%_PS-nnn" Text="Touch Display Einstellungen" UIHint="Headline" />
-
-                              <!-- Icons -->
-                              <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%T%%CCC%004_R-%T%%CCC%00401" />
-                              <choose ParamRefId="%AID%_UP-%T%%CCC%004_R-%T%%CCC%00401">
-                                <when test="1">
-                                  <ParameterSeparator Id="%AID%_PS-nnn" Text="Bild 'Kein Alarm'" />
-                                  <!-- Icon Col 0-->
-                                  <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%T%%CCC%005_R-%T%%CCC%00501" />
-                                  <!-- Icon 0-->
-                                  <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%T%%CCC%006_R-%T%%CCC%00601" />
-
-                                  <ParameterSeparator Id="%AID%_PS-nnn" Text="Bild 'Alarm'" />
-                                  <!-- Icon Col 100-->
-                                  <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%T%%CCC%009_R-%T%%CCC%00901" />
-                                  <!-- Icon 100-->
-                                  <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%T%%CCC%010_R-%T%%CCC%01001" />
-                                </when>
-                              </choose>
-                            </when>
-                          </choose>                
                         </ParameterBlock>
                       </when>
                       <when test="80">

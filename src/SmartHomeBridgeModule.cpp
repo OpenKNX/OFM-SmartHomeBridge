@@ -15,7 +15,7 @@
 #include "./Jalousie/KnxChannelJalousie.h"
 #include "./Thermostat/KnxChannelThermostat.h"
 #include "./Display/KnxChannelDisplay.h"
-#include "./Sensor/KnxChannelSensor.h"
+#include "./Alarm/KnxChannelAlarm.h"
 #include "./Fan/KnxChannelFan.h"
 #include "./DoorWindow/KnxChannelDoorWindow.h"
 
@@ -161,13 +161,7 @@ OpenKNX::Channel *SmartHomeBridgeModule::createChannel(uint8_t _channelIndex /* 
     channel = new KnxChannelDisplay(_channelIndex);
     break;
   case 70:
-  case 71:
-  case 72:
-  case 73:
-  case 74:
-  case 75:
-  case 76:
-    channel = new KnxChannelSensor(_channelIndex);
+    channel = new KnxChannelAlarm(_channelIndex);
     break;
   case 80:
     channel = new KnxChannelFan(_channelIndex);

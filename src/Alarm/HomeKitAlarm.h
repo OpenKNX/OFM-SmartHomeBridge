@@ -2,14 +2,14 @@
 #ifndef SMARTHOMEBRIDGE_DEVICESONLY  
 
 #include "HomeSpan.h"
-#include "KnxChannelSensor.h"
+#include "KnxChannelAlarm.h"
 
-class HomeKitSensor : public SensorBridge
+class HomeKitAlarm : public AlarmBridge
 {
     int device;
     SpanCharacteristic *currentValue = nullptr;
 public:
-    HomeKitSensor(int device);
+    HomeKitAlarm(int device);
     virtual void setup(uint8_t _channelIndex) override;
     void createAccessory();
 

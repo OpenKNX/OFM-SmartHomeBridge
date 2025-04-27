@@ -36,20 +36,15 @@
                   <Enumeration Value="31" Id="%ENID%" Text="Rolladen" Icon="roller-shade-closed" />
                   <Enumeration Value="32" Id="%ENID%" Text="Markise" Icon="storefront-outline" />
                   <Enumeration Value="50" Id="%ENID%" Text="Thermostat" Icon="thermometer-lines" />
-                  <Enumeration Value="60" Id="%ENID%" Text="Anzeige" Icon="card-text-outline" />
-                  <Enumeration Value="70" Id="%ENID%" Text="Kontakt" Icon="electric-switch"/>
-                  <Enumeration Value="71" Id="%ENID%" Text="Bewegungsmelder" Icon="walk" />
-                  <Enumeration Value="72" Id="%ENID%" Text="Präsensmelder" Icon="human-male-female"/>
-                  <Enumeration Value="73" Id="%ENID%" Text="Leckmelder" Icon="water-alert-outline" />
-                  <Enumeration Value="74" Id="%ENID%" Text="Rauchmelder" Icon="smoke" />
-                  <Enumeration Value="75" Id="%ENID%" Text="Kohlendioxidmelder (CO2)" Icon="molecule-co2"  />
-                  <Enumeration Value="76" Id="%ENID%" Text="Kohlenmonoxidmelder (CO)" Icon="molecule-co" />
+                  <Enumeration Value="60" Id="%ENID%" Text="Anzeige" Icon="tablet-dashboard" />
+                  <Enumeration Value="70" Id="%ENID%" Text="Alarm" Icon="alarm-light-outline"/>
                   <Enumeration Value="80" Id="%ENID%" Text="Lüfter" Icon="fan" />
                   <Enumeration Value="90" Id="%ENID%" Text="Fenster" Icon="window-closed-variant" />
                   <Enumeration Value="91" Id="%ENID%" Text="Tür" Icon="door" />
                   <Enumeration Value="92" Id="%ENID%" Text="Garagentor" Icon="garage-open-variant" />
                 </TypeRestriction>
               </ParameterType>
+              
               <ParameterType Id="%AID%_PT-BRIDeviceName" Name="BRIDeviceName" >
                 <TypeText  SizeInBit="200" />
               </ParameterType>
@@ -202,13 +197,13 @@
               <!-- Anzeige -->
               <ParameterType Id="%AID%_PT-BRIDisplayType" Name="BRIDisplayType">
                 <TypeRestriction Base="Value" SizeInBit="8">
-                  <Enumeration Value="0" Id="%ENID%" Text="Temperatur"       />
-                  <Enumeration Value="1" Id="%ENID%" Text="Luftfeuchtigkeit" />
-                  <Enumeration Value="2" Id="%ENID%" Text="Helligkeit"       />
-                  <Enumeration Value="3" Id="%ENID%" Text="Regenprognose"    />
-                  <Enumeration Value="4" Id="%ENID%" Text="Schneeprognose"   />
-                  <Enumeration Value="5" Id="%ENID%" Text="Wind"   />
-                  <Enumeration Value="9" Id="%ENID%" Text="Text"   />
+                  <Enumeration Value="0" Id="%ENID%" Text="Temperatur"       Icon="thermometer" />
+                  <Enumeration Value="1" Id="%ENID%" Text="Luftfeuchtigkeit" Icon="water-percent" />
+                  <Enumeration Value="2" Id="%ENID%" Text="Helligkeit"       Icon="brightness-7" />
+                  <Enumeration Value="3" Id="%ENID%" Text="Regenprognose"    Icon="weather-pouring" />
+                  <Enumeration Value="4" Id="%ENID%" Text="Schneeprognose"   Icon="weather-snowy-heavy" />
+                  <Enumeration Value="5" Id="%ENID%" Text="Wind"             Icon="weather-windy" />
+                  <Enumeration Value="9" Id="%ENID%" Text="Text"             Icon="card-text-outline" />
                 </TypeRestriction>
               </ParameterType>
 
@@ -225,10 +220,22 @@
               </ParameterType>
 
               <!-- Kontakte/Alarme/Sensoren -->
-              <ParameterType Id="%AID%_PT-BRIContactAlarmSensorInvert" Name="BRIContactAlarmSensorInvert">
+              <ParameterType Id="%AID%_PT-BRIAlarmInvert" Name="BRIAlarmInvert">
                 <TypeRestriction Base="Value" SizeInBit="1" UIHint="DropDown">
                   <Enumeration Value="0" Id="%ENID%" Text="Nein" />
                   <Enumeration Value="1" Id="%ENID%" Text="Ja"   />
+                </TypeRestriction>
+              </ParameterType>
+
+              <ParameterType Id="%AID%_PT-BRIAlarmType" Name="BRIAlarmType">
+                <TypeRestriction Base="Value" SizeInBit="4">
+                  <Enumeration Value="0" Id="%ENID%" Text="Kontakt" Icon="electric-switch"/>
+                  <Enumeration Value="1" Id="%ENID%" Text="Bewegungsmelder" Icon="walk" />
+                  <Enumeration Value="2" Id="%ENID%" Text="Präsensmelder" Icon="human-male-female"/>
+                  <Enumeration Value="3" Id="%ENID%" Text="Leckmelder" Icon="water-alert-outline" />
+                  <Enumeration Value="4" Id="%ENID%" Text="Rauchmelder" Icon="smoke" />
+                  <Enumeration Value="5" Id="%ENID%" Text="Kohlendioxidmelder (CO2)" Icon="molecule-co2"  />
+                  <Enumeration Value="6" Id="%ENID%" Text="Kohlenmonoxidmelder (CO)" Icon="molecule-co" />
                 </TypeRestriction>
               </ParameterType>
 

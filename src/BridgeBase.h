@@ -13,7 +13,7 @@ class RGBBridge;
 class RolladenBridge;
 class ThermostatBridge;
 class DeviceBridge;
-class SensorBridge;
+class AlarmBridge;
 class FanBridge;
 class DoorWindowBridge;
 
@@ -24,7 +24,7 @@ class KnxChannelRolladen;
 class KnxChannelJalousie;
 class KnxChannelThermostat;
 class KnxChannelDisplay;
-class KnxChannelSensor;
+class KnxChannelAlarm;
 class KnxChannelFan;
 class KnxChannelDoorWindow;
 
@@ -38,7 +38,7 @@ public:
     virtual RolladenBridge* createRolladen(KnxChannelRolladen& channel, uint8_t _channelIndex /* this parameter is used in macros, do not rename */, uint8_t deviceType);
     virtual ThermostatBridge* createThermostat(KnxChannelThermostat& channel, uint8_t _channelIndex /* this parameter is used in macros, do not rename */, uint8_t deviceType);
     virtual DeviceBridge* createDisplay(KnxChannelDisplay& channel, uint8_t _channelIndex /* this parameter is used in macros, do not rename */, uint8_t deviceType);
-    virtual SensorBridge*createSensor(KnxChannelSensor& channel, uint8_t _channelIndex /* this parameter is used in macros, do not rename */, uint8_t deviceType);
+    virtual AlarmBridge*createSensor(KnxChannelAlarm& channel, uint8_t _channelIndex /* this parameter is used in macros, do not rename */, uint8_t deviceType);
     virtual FanBridge* createFan(KnxChannelFan& channel, uint8_t _channelIndex /* this parameter is used in macros, do not rename */, uint8_t deviceType);
     virtual DoorWindowBridge* createDoorWindow(KnxChannelDoorWindow& channel, uint8_t _channelIndex /* this parameter is used in macros, do not rename */, uint8_t deviceType);     
 

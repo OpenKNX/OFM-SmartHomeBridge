@@ -17,8 +17,8 @@
 #include "Thermostat/HomeKitThermostat.h"
 #include "Display/KnxChannelDisplay.h"
 #include "Display/HomeKitDisplay.h"
-#include "Sensor/KnxChannelSensor.h"
-#include "Sensor/HomeKitSensor.h"
+#include "Sensor/KnxChannelAlarm.h"
+#include "Sensor/HomeKitAlarm.h"
 #include "Fan/KnxChannelFan.h"
 #include "Fan/HomeKitFan.h"
 #include "DoorWindow/KnxChannelDoorWindow.h"
@@ -113,10 +113,10 @@ DeviceBridge* HomeKitBridge::createDisplay(KnxChannelDisplay& channel,  uint8_t 
     return bridge;
 }
 
-SensorBridge* HomeKitBridge::createSensor(KnxChannelSensor& channel,  uint8_t _channelIndex, uint8_t deviceType)
+AlarmBridge* HomeKitBridge::createSensor(KnxChannelAlarm& channel,  uint8_t _channelIndex, uint8_t deviceType)
 {
     int homekitAID = _channelIndex + 2; // Homekit bridge has AID1
-    auto bridge = new HomeKitSensor(homekitAID);
+    auto bridge = new HomeKitAlarm(homekitAID);
     channel.add(bridge);
     return bridge;
 }

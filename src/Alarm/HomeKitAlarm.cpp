@@ -1,12 +1,12 @@
 #ifndef SMARTHOMEBRIDGE_DEVICESONLY  
-#include "HomeKitSensor.h"
+#include "HomeKitAlarm.h"
 
-HomeKitSensor::HomeKitSensor(int device) :
+HomeKitAlarm::HomeKitAlarm(int device) :
     device(device)
 {
 }
 
-void HomeKitSensor::createAccessory()
+void HomeKitAlarm::createAccessory()
 {
     new SpanAccessory(device);
         new Service::AccessoryInformation();
@@ -14,53 +14,53 @@ void HomeKitSensor::createAccessory()
         new Characteristic::Name(_channel->getNameInUTF8());
 }
 
-void HomeKitSensor::setup(uint8_t _channelIndex)
+void HomeKitAlarm::setup(uint8_t _channelIndex)
 {
-    switch (_channel->getSensorType())
+    switch (_channel->getAlarmType())
     {
-        case SensorType::SensorTypeContact:
+        case AlarmType::AlarmTypeContact:
             createAccessory();
             new Service::ContactSensor();
             currentValue = new Characteristic::ContactSensorState(0);
             break;
-        case SensorType::SensorTypeMotion:
+        case AlarmType::AlarmTypeMotion:
             createAccessory();
             new Service::MotionSensor();
             currentValue = new Characteristic::MotionDetected();
             break;
-        case SensorType::SensorTypeOccupancy:
+        case AlarmType::AlarmTypeOccupancy:
             createAccessory();
             new Service::OccupancySensor();
             currentValue = new Characteristic::OccupancyDetected();
             break;
-        case SensorType::SensorTypeLeak:
+        case AlarmType::AlarmTypeLeak:
             createAccessory();
             new Service::LeakSensor();
             currentValue = new Characteristic::LeakDetected();
             break;
-        case SensorType::SensorTypeSmoke:
+        case AlarmType::AlarmTypeSmoke:
             createAccessory();
             new Service::SmokeSensor();
             currentValue = new Characteristic::SmokeDetected();
             break;
-        case SensorType::SensorTypeCarbonDioxid:
+        case AlarmType::AlarmTypeCarbonDioxid:
             createAccessory();
             new Service::CarbonDioxideSensor();
             currentValue = new Characteristic::CarbonDioxideDetected();
             break;
-        case SensorType::SensorTypeCarbonMonoxid:
+        case AlarmType::AlarmTypeCarbonMonoxid:
             createAccessory();
             new Service::CarbonMonoxideSensor();
             currentValue = new Characteristic::CarbonMonoxideDetected();
             break;
         default:
             Serial.print("Unkown Sensor Type ");
-            Serial.print(_channel->getSensorType());
+            Serial.print(_channel->getAlarmType());
         break;
     }
 }
 
-void HomeKitSensor::setDetected(bool value)
+void HomeKitAlarm::setDetected(bool value)
 {
     if (currentValue != nullptr)
         currentValue->setVal(value ? 1 : 0);
