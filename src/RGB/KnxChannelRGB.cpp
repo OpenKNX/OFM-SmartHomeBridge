@@ -69,7 +69,6 @@ void KnxChannelRGB::commandMainFunctionClick()
     if (mainFunctionValue())
     {
         uint32_t targetColor = getColorForBehavior(ParamBRI_CHLightRGBSwitchOn2Behavior);
-        logErrorP("Target Color: %lu Last Color: %d", (unsigned long) targetColor, (unsigned long) lastColor);
         if (targetColor == 0 || targetColor == lastColor)
         {
             commandPower(nullptr, false);
@@ -87,7 +86,6 @@ void KnxChannelRGB::commandMainFunctionClick()
 
 void KnxChannelRGB::commandRGB(RGBBridge* RGBBridge, uint32_t rgb)
 {
-    logErrorP("Received changed. RGB: %lu", (unsigned long) rgb);
     if (rgb > 0)
     {
         lastColor = rgb;
@@ -134,7 +132,6 @@ void KnxChannelRGB::commandRGB(RGBBridge* RGBBridge, uint32_t rgb)
 
 uint32_t KnxChannelRGB::getColorForBehavior(uint8_t behavior)
 {
-    logErrorP("getColorForBehavior: %d", (int) behavior);
     switch((RGBSwitchBehavior) behavior)
     {
         case RGBSwitchBehavior::SendPower:      
@@ -178,7 +175,6 @@ void KnxChannelRGB::commandPower(RGBBridge* RGBBridge, bool power)
         uint32_t configValue = (mainFunctionValue())
             ? ParamBRI_CHLightRGBSwitchOn2Behavior 
             : ParamBRI_CHLightRGBSwitchOnBehavior;
-        logErrorP("Switch on: %d behavior: %d", (int) mainFunctionValue(), (int) configValue);
         switch((RGBSwitchBehavior) configValue)
         {
             case RGBSwitchBehavior::SendPower:      
