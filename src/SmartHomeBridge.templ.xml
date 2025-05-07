@@ -67,7 +67,7 @@
               
               
               </Union>
-              
+
               <!-- Jalousie -->
               <Union SizeInBit="16">
                 <Memory CodeSegment="%AID%_RS-04-00000" Offset="53" BitOffset="0" />
@@ -82,6 +82,16 @@
                 <Parameter Id="%AID%_UP-%T%%CCC%034" Offset="1" BitOffset="0" Name="CH%C%SlatHandling" ParameterType="%AID%_PT-BRISlatHandling" Text="Lamellenposition bei Fahrt" Value="0" />
                 <!-- 4 Bits free -->
               </Union>       
+
+              <!-- Scene -->
+              <Union SizeInBit="16">
+                <Memory CodeSegment="%AID%_RS-04-00000" Offset="53" BitOffset="0" />
+                <!-- Jalousie Hue Emulation -->
+                <Parameter Id="%AID%_UP-%T%%CCC%041" Offset="0" BitOffset="0" Name="CH%C%SceneHueEmulation" ParameterType="%AID%_PT-BRIHueEmulation" Text="In HUE als Lampe darstellen" Value="0" />
+                <!-- 7 bits free -->
+                <!-- Scene Number -->
+                <Parameter Id="%AID%_UP-%T%%CCC%042" Offset="1" BitOffset="0" Name="CH%C%SceneNumber" ParameterType="%AID%_PT-BRISceneNumber"          Text="Szene Nummer" Value="1" />                    
+              </Union>      
 
               <!-- Thermostat -->
               <Union SizeInBit="16">
@@ -213,6 +223,10 @@
               <ParameterRef Id="%AID%_UP-%T%%CCC%033_R-%T%%CCC%03301" RefId="%AID%_UP-%T%%CCC%033" />
               <ParameterRef Id="%AID%_UP-%T%%CCC%034_R-%T%%CCC%03401" RefId="%AID%_UP-%T%%CCC%034" />
 
+              <!-- Scene -->
+              <ParameterRef Id="%AID%_UP-%T%%CCC%041_R-%T%%CCC%04101" RefId="%AID%_UP-%T%%CCC%041" />
+              <ParameterRef Id="%AID%_UP-%T%%CCC%042_R-%T%%CCC%04201" RefId="%AID%_UP-%T%%CCC%042" />
+
               <!-- Thermostat -->
               <ParameterRef Id="%AID%_UP-%T%%CCC%051_R-%T%%CCC%05101" RefId="%AID%_UP-%T%%CCC%051" />
               <ParameterRef Id="%AID%_UP-%T%%CCC%052_R-%T%%CCC%05201" RefId="%AID%_UP-%T%%CCC%052" />
@@ -288,10 +302,13 @@
               <ComObjectRef Id="%AID%_O-%T%%CCC%003_R-%T%%CCC%00303" RefId="%AID%_O-%T%%CCC%003" Name="FÄHRT_AB_RÜCKMELDUNG_DPT_01"           Text="%C%: Fährt Ab Rückmeldung"  FunctionText="{{0:-}} Fährt Ab Rückmeldung"             Priority="Low" ObjectSize="1 Bit"  WriteFlag="Enabled"  TransmitFlag="Disabled" UpdateFlag="Enabled"  DatapointType="DPST-1-1" TextParameterRefId="%AID%_P-%T%%CCC%002_R-%T%%CCC%00201" />
               <ComObjectRef Id="%AID%_O-%T%%CCC%004_R-%T%%CCC%00403" RefId="%AID%_O-%T%%CCC%004" Name="FÄHRT_AUF_RÜCKMELDUNG_DPT_01"          Text="%C%: Fährt Auf Rückmeldung" FunctionText="{{0:-}} Fährt Auf Rückmeldung"            Priority="Low" ObjectSize="1 Bit"  WriteFlag="Enabled"  TransmitFlag="Disabled" UpdateFlag="Enabled"  DatapointType="DPST-1-1" TextParameterRefId="%AID%_P-%T%%CCC%002_R-%T%%CCC%00201" />
               <ComObjectRef Id="%AID%_O-%T%%CCC%005_R-%T%%CCC%00503" RefId="%AID%_O-%T%%CCC%005" Name="AUF_AB_DPT_01"                         Text="%C%: Auf/Ab"                FunctionText="{{0:-}} Auf/Ab"                           Priority="Low" ObjectSize="1 Bit"  WriteFlag="Disabled" TransmitFlag="Enabled"  UpdateFlag="Disabled" DatapointType="DPST-1-8" TextParameterRefId="%AID%_P-%T%%CCC%002_R-%T%%CCC%00201" />
-              <ComObjectRef Id="%AID%_O-%T%%CCC%006_R-%T%%CCC%00603" RefId="%AID%_O-%T%%CCC%006" Name="STOP_DPT_01"                           Text="%C%: Stopp"                  FunctionText="{{0:-}} Stopp"                             Priority="Low" ObjectSize="1 Bit"  WriteFlag="Disabled" TransmitFlag="Enabled"  UpdateFlag="Disabled" DatapointType="DPST-1-7" TextParameterRefId="%AID%_P-%T%%CCC%002_R-%T%%CCC%00201" />
+              <ComObjectRef Id="%AID%_O-%T%%CCC%006_R-%T%%CCC%00603" RefId="%AID%_O-%T%%CCC%006" Name="STOP_DPT_01"                           Text="%C%: Stopp"                 FunctionText="{{0:-}} Stopp"                            Priority="Low" ObjectSize="1 Bit"  WriteFlag="Disabled" TransmitFlag="Enabled"  UpdateFlag="Disabled" DatapointType="DPST-1-7" TextParameterRefId="%AID%_P-%T%%CCC%002_R-%T%%CCC%00201" />
               <ComObjectRef Id="%AID%_O-%T%%CCC%007_R-%T%%CCC%00703" RefId="%AID%_O-%T%%CCC%007" Name="LAMELLEN_POSITION_DPT_05"              Text="%C%: Lammelen Position"     FunctionText="{{0:-}} Lammelen Position"                Priority="Low" ObjectSize="1 Byte" WriteFlag="Disabled" TransmitFlag="Enabled"  UpdateFlag="Disabled" DatapointType="DPST-5-1" TextParameterRefId="%AID%_P-%T%%CCC%002_R-%T%%CCC%00201" />
               <ComObjectRef Id="%AID%_O-%T%%CCC%008_R-%T%%CCC%00803" RefId="%AID%_O-%T%%CCC%008" Name="LAMELLEN_POSITION_RÜCKMELDUNG_DPT_05"  Text="%C%: Lammelen Rückmeldung"  FunctionText="{{0:-}} Lammelen Position Rückmeldung"    Priority="Low" ObjectSize="1 Byte" WriteFlag="Enabled"  TransmitFlag="Disabled" UpdateFlag="Enabled"  DatapointType="DPST-5-1" TextParameterRefId="%AID%_P-%T%%CCC%002_R-%T%%CCC%00201" />
-                         
+                  
+              <!-- Scene -->
+              <ComObjectRef Id="%AID%_O-%T%%CCC%001_R-%T%%CCC%00104" RefId="%AID%_O-%T%%CCC%001" Name="SZENE_DPT_17"                          Text="%C%: Szene"                 FunctionText="{{0:-}} Szene"                            Priority="Low" ObjectSize="1 Byte"  WriteFlag="Enabled" TransmitFlag="Enabled"  UpdateFlag="Disabled" DatapointType="DPST-17-1" TextParameterRefId="%AID%_P-%T%%CCC%002_R-%T%%CCC%00201" />
+
               <!-- Thermostat -->
               <ComObjectRef Id="%AID%_O-%T%%CCC%001_R-%T%%CCC%00105" RefId="%AID%_O-%T%%CCC%001" Name="SOLL_TEMPERATUR_DPT_09"                Text="%C%: Soll Temperatur"                FunctionText="{{0:-}} Soll Temperatur"                Priority="Low" ObjectSize="2 Bytes" WriteFlag="Disabled" TransmitFlag="Enabled"  UpdateFlag="Disabled" DatapointType="DPST-9-1" TextParameterRefId="%AID%_P-%T%%CCC%002_R-%T%%CCC%00201" />
               <ComObjectRef Id="%AID%_O-%T%%CCC%002_R-%T%%CCC%00205" RefId="%AID%_O-%T%%CCC%002" Name="SOLL_TEMPERATUR_RÜCKMELDUNG_DPT_09"    Text="%C%: Soll Temperatur Rückmeldung"    FunctionText="{{0:-}} Soll Rückmeldung Temperatur"    Priority="Low" ObjectSize="2 Bytes" WriteFlag="Enabled"  TransmitFlag="Disabled" UpdateFlag="Enabled"  DatapointType="DPST-9-1" TextParameterRefId="%AID%_P-%T%%CCC%002_R-%T%%CCC%00201" />
@@ -448,7 +465,7 @@
 
                         </ParameterBlock>
                       </when>
-                       <when test="11">
+                      <when test="11">
                         <!-- ************** Steckdose ************ -->
                         <ParameterBlock Id="%AID%_PB-nnn" Name="f%CC%FCB_Switch" Text="%C% Steckdose: {{0: ...}}"      TextParameterRefId="%AID%_P-%T%%CCC%002_R-%T%%CCC%00201" Icon="power-socket-eu" ShowInComObjectTree="true" HelpContext="BRI-Steckdose">
                           <ParameterSeparator Id="%AID%_PS-nnn" Text="Steckdose" UIHint="Headline" />
@@ -829,6 +846,52 @@
                                   <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%T%%CCC%008_R-%T%%CCC%00801" />
                                   
                                   <ParameterSeparator Id="%AID%_PS-nnn" Text="Bild 100%" />
+                                  <!-- Icon Col 100-->
+                                  <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%T%%CCC%009_R-%T%%CCC%00901" />
+                                  <!-- Icon 100-->
+                                  <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%T%%CCC%010_R-%T%%CCC%01001" />
+                                </when>
+                              </choose>
+                            </when>
+                          </choose>
+                        </ParameterBlock>
+                      </when>
+                      <when test="40">
+                        <!-- ************** Szene ************ -->
+                        <ParameterBlock Id="%AID%_PB-nnn" Name="f%CC%FCB_Scene" Text="%C% Szene: {{0: ...}}"      TextParameterRefId="%AID%_P-%T%%CCC%002_R-%T%%CCC%00201" Icon="ceiling-light-multiple-outline" ShowInComObjectTree="true" HelpContext="BRI-Szene">
+                        <ParameterSeparator Id="%AID%_PS-nnn" Text="Szene" UIHint="Headline" />
+                          <op:usePart name="ChannelHead" xpath="//ParameterBlock/*" />
+                          <op:usePart name="HueSimulation" xpath="//ParameterBlock/*" />
+                       
+                          <!-- Hue -->
+                          <choose ParamRefId="%AID%_UP-%T%000003_R-%T%00000301">  
+                            <when test="1"> <!-- Hue -->
+                              <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%T%%CCC%041_R-%T%%CCC%04101" /> <!-- In Hue verwenden -->
+                            </when>
+                          </choose>            
+                          <ParameterSeparator Id="%AID%_PS-nnn" Text="" UIHint="HorizontalRuler" />
+          
+                          <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%T%%CCC%042_R-%T%%CCC%04201" /> <!-- Szene Nummer -->
+                          <ComObjectRefRef RefId="%AID%_O-%T%%CCC%001_R-%T%%CCC%00104" /> <!-- Szene --> 
+                       
+                          <!-- DisplaySettings -->
+                          <choose ParamRefId="%AID%_P-%T%000010_R-%T%00001001">
+                            <when test="1">
+                            
+                              <ParameterSeparator Id="%AID%_PS-nnn" Text="" UIHint="HorizontalRuler" />
+                              <ParameterSeparator Id="%AID%_PS-nnn" Text="Touch Display Einstellungen" UIHint="Headline" />
+
+                              <!-- Icons -->
+                              <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%T%%CCC%004_R-%T%%CCC%00401" />
+                              <choose ParamRefId="%AID%_UP-%T%%CCC%004_R-%T%%CCC%00401">
+                                <when test="1">
+                                  <ParameterSeparator Id="%AID%_PS-nnn" Text="Bild" />
+                                  <!-- Icon Col 0-->
+                                  <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%T%%CCC%005_R-%T%%CCC%00501" />
+                                  <!-- Icon 0-->
+                                  <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%T%%CCC%006_R-%T%%CCC%00601" />
+                                  
+                                  <ParameterSeparator Id="%AID%_PS-nnn" Text="Bild Aktivierung" />
                                   <!-- Icon Col 100-->
                                   <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%T%%CCC%009_R-%T%%CCC%00901" />
                                   <!-- Icon 100-->

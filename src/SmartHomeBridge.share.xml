@@ -42,6 +42,7 @@
                   <Enumeration Value="90" Id="%ENID%" Text="Fenster" Icon="window-closed-variant" />
                   <Enumeration Value="91" Id="%ENID%" Text="Tür" Icon="door" />
                   <Enumeration Value="92" Id="%ENID%" Text="Garagentor" Icon="garage-open-variant" />
+                  <Enumeration Value="40" Id="%ENID%" Text="Szene" Icon="ceiling-light-multiple-outline" />
                 </TypeRestriction>
               </ParameterType>
               
@@ -133,6 +134,11 @@
                   <Enumeration Value="0" Id="%ENID%" Text="Nein" />
                   <Enumeration Value="1" Id="%ENID%" Text="Ja"   />              
                 </TypeRestriction>
+              </ParameterType>
+
+              <!-- Szene -->
+              <ParameterType Id="%AID%_PT-BRISceneNumber" Name="BRISceneNumber">
+                <TypeNumber SizeInBit="8" Type="unsignedInt" minInclusive="1" maxInclusive="64" />
               </ParameterType>
               
               <!-- Jalousie/Rolladen/Markisen -->

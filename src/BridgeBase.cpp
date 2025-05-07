@@ -26,6 +26,11 @@ RGBBridge* BridgeBase::createRGB(KnxChannelRGB& channel, uint8_t _channelIndex /
     return nullptr;
 }
 
+SceneBridge* BridgeBase::createScene(KnxChannelScene& channel, uint8_t _channelIndex /* this parameter is used in macros, do not rename */, uint8_t deviceType)
+{
+    return nullptr;
+}
+
 RolladenBridge* BridgeBase::createJalousien(KnxChannelJalousie& channel, uint8_t _channelIndex /* this parameter is used in macros, do not rename */, uint8_t deviceType)
 {
     return nullptr;

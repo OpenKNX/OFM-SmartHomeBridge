@@ -11,6 +11,7 @@
 #include "./Switch/KnxChannelSwitch.h"
 #include "./Dimmer/KnxChannelDimmer.h"
 #include "./RGB/KnxChannelRGB.h"
+#include "./Scene/KnxChannelScene.h"
 #include "./Rolladen/KnxChannelRolladen.h"
 #include "./Jalousie/KnxChannelJalousie.h"
 #include "./Thermostat/KnxChannelThermostat.h"
@@ -151,6 +152,10 @@ OpenKNX::Channel *SmartHomeBridgeModule::createChannel(uint8_t _channelIndex /* 
   case 31:
   case 32:
     channel = new KnxChannelRolladen(_channelIndex);
+    break;
+  case 40:
+  case 41:
+    channel = new KnxChannelScene(_channelIndex);
     break;
   case 50:
     channel = new KnxChannelThermostat(_channelIndex);

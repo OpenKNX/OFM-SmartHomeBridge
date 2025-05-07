@@ -113,6 +113,9 @@ Zur Auswahl stehen:
 ## Thermostat
 
 <!-- DOC -->
+## Szene
+
+<!-- DOC -->
 ## Anzeige
 
 <!-- DOC -->
