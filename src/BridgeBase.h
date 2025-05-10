@@ -17,6 +17,7 @@ class DeviceBridge;
 class AlarmBridge;
 class FanBridge;
 class DoorWindowBridge;
+class MediaBridge;
 
 class KnxChannelSwitch;
 class KnxChannelDimmer;
@@ -29,6 +30,7 @@ class KnxChannelDisplay;
 class KnxChannelAlarm;
 class KnxChannelFan;
 class KnxChannelDoorWindow;
+class KnxChannelMedia;
 
 class BridgeBase : public OpenKNX::Base
 {
@@ -44,6 +46,7 @@ public:
     virtual AlarmBridge*createSensor(KnxChannelAlarm& channel, uint8_t _channelIndex /* this parameter is used in macros, do not rename */, uint8_t deviceType);
     virtual FanBridge* createFan(KnxChannelFan& channel, uint8_t _channelIndex /* this parameter is used in macros, do not rename */, uint8_t deviceType);
     virtual DoorWindowBridge* createDoorWindow(KnxChannelDoorWindow& channel, uint8_t _channelIndex /* this parameter is used in macros, do not rename */, uint8_t deviceType);     
+    virtual MediaBridge* createMedia(KnxChannelMedia& channel, uint8_t _channelIndex /* this parameter is used in macros, do not rename */, uint8_t deviceType);
 
     virtual void initialize(SmartHomeBridgeModule* bridge) {};
 #ifndef SMARTHOMEBRIDGE_DEVICESONLY  

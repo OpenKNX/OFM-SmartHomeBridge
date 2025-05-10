@@ -10,6 +10,7 @@
 #include "./Alarm/KnxChannelAlarm.h"
 #include "./Fan/KnxChannelFan.h"
 #include "./DoorWindow/KnxChannelDoorWindow.h"
+#include "./Media/KnxChannelMedia.h"
 
 SwitchBridge* BridgeBase::createSwitch(KnxChannelSwitch& channel, uint8_t _channelIndex /* this parameter is used in macros, do not rename */, uint8_t deviceType)
 {
@@ -62,6 +63,11 @@ FanBridge* BridgeBase::createFan(KnxChannelFan& channel, uint8_t _channelIndex /
 } 
 
 DoorWindowBridge* BridgeBase::createDoorWindow(KnxChannelDoorWindow& channel, uint8_t _channelIndex /* this parameter is used in macros, do not rename */, uint8_t deviceType)
+{
+    return nullptr;
+}
+
+MediaBridge* BridgeBase::createMedia(KnxChannelMedia& channel, uint8_t _channelIndex /* this parameter is used in macros, do not rename */, uint8_t deviceType)
 {
     return nullptr;
 }

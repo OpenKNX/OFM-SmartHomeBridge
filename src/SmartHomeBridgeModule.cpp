@@ -19,6 +19,7 @@
 #include "./Alarm/KnxChannelAlarm.h"
 #include "./Fan/KnxChannelFan.h"
 #include "./DoorWindow/KnxChannelDoorWindow.h"
+#include "./Media/KnxChannelMedia.h"
 
 #include "knxprod.h"
 #include "CP1252ToUTF8.h"
@@ -154,8 +155,10 @@ OpenKNX::Channel *SmartHomeBridgeModule::createChannel(uint8_t _channelIndex /* 
     channel = new KnxChannelRolladen(_channelIndex);
     break;
   case 40:
-  case 41:
     channel = new KnxChannelScene(_channelIndex);
+    break;
+  case 41:
+    channel = new KnxChannelMedia(_channelIndex);
     break;
   case 50:
     channel = new KnxChannelThermostat(_channelIndex);

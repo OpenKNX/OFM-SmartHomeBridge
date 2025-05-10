@@ -12,13 +12,15 @@ public:
 
 enum DisplayType
 {
-    DisplayTypeTemperature,
-    DisplayTypeHumidity,
-    DisplayTypeLux,
-    DisplayTyppeRain,
-    DisplayTypeSnow,
-    DisplayTypeWind,
-    DisplayTypePercent,
+    DisplayTypeTemperature = 0,
+    DisplayTypeHumidity = 1,
+    DisplayTypeLux = 2,
+    DisplayTyppeRain = 3,
+    DisplayTypeSnow = 4,
+    DisplayTypeWind = 5,
+    DisplayTypePercent = 6,
+
+    DisplayTypeCustom= 8,
     DisplayTypeText = 9,
 };
 
@@ -29,6 +31,7 @@ class KnxChannelDisplay : public KnxChannelBase
         double lastValue = 0;
         const char* lastStringValue = "";
         bool hasValue = false;
+        Dpt _customDpt;
     public:
         KnxChannelDisplay(uint16_t channelIndex);
         DisplayType getDisplayType();

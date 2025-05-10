@@ -50,7 +50,7 @@ const std::string KnxChannelDimmer::name()
 
 void KnxChannelDimmer::commandBrightness(DimmerBridge* dimmerBridge, uint8_t brightness)
 {
-    logDebugP("Received changed. Brightness: %d", brightness);
+    logDebugP("Received changed. Brightness: %d", (int) brightness);
     if (brightness > 0)
         lastBrighness = brightness;
     uint8_t knxValue = brightness;
@@ -146,6 +146,7 @@ void KnxChannelDimmer::processInputKo(GroupObject &groupObject)
         for (auto it = dimmerBridges.begin(); it != dimmerBridges.end(); ++it)
         {
             (*it)->setBrightness(brightness);
+            (*it)->mainFunctionValueChanged();
         }
         mainFunctionValueChanged();
 
