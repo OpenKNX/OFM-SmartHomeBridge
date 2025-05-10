@@ -166,7 +166,7 @@ std::string KnxChannelMedia::currentValueAsString()
         if (strlen(title) > 0)
             return std::string(title);   
     }
-    return std::string(koGet(KO_PLAY_FEEDBACK) ? "Spielt" : "-");
+    return std::string(koGet(KO_PLAY_FEEDBACK) ? "Spielt" : "");
 }
 
 bool KnxChannelMedia::mainFunctionValue()
