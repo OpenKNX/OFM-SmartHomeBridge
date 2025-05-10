@@ -18,6 +18,7 @@ enum DisplayType
     DisplayTyppeRain,
     DisplayTypeSnow,
     DisplayTypeWind,
+    DisplayTypePercent,
     DisplayTypeText = 9,
 };
 

@@ -9,6 +9,7 @@
 #define KO_RAIN_INPUT           KoBRI_KO1_, DPT_Rain_Amount
 #define KO_SNOW_INPUT           KoBRI_KO1_, DPT_Length_mm
 #define KO_WIND_INPUT           KoBRI_KO1_, DPT_Value_Wsp_kmh
+#define KO_PERCENT_INPUT        KoBRI_KO1_, DPT_Scaling
 #define KO_TEXT_INPUT           KoBRI_KO1_, DPT_String_8859_1
 
 KnxChannelDisplay::KnxChannelDisplay(uint16_t _channelIndex)
@@ -89,6 +90,10 @@ void KnxChannelDisplay::setup()
             koSetWithoutSend(KO_WIND_INPUT, 0.F);
             koSendReadRequest(KO_WIND_INPUT);
             break;
+        case DisplayType::DisplayTypePercent:
+            koSetWithoutSend(KO_PERCENT_INPUT, (uint8_t) 0);
+            koSendReadRequest(KO_PERCENT_INPUT);
+            break;
         case DisplayType::DisplayTypeText:
             koSetWithoutSend(KO_TEXT_INPUT, "");
             koSendReadRequest(KO_TEXT_INPUT);
@@ -121,6 +126,9 @@ void KnxChannelDisplay::processInputKo(GroupObject &groupObject)
                 break;
             case DisplayType::DisplayTypeWind:
                 lastValue = koGet(KO_WIND_INPUT);
+                break;
+            case DisplayType::DisplayTypePercent:
+                lastValue = koGet(KO_PERCENT_INPUT);
                 break;
             case DisplayType::DisplayTypeText:  
                 lastStringValue = (const char*) KoBRI_KO1_.valueRef();
@@ -169,6 +177,9 @@ std::string KnxChannelDisplay::currentValueAsString()
             break;
         case DisplayType::DisplayTypeWind:
             snprintf(buffer, sizeof(buffer), "%.1lf km/h", (double) lastValue);
+            break;
+        case DisplayType::DisplayTypePercent:
+            snprintf(buffer, sizeof(buffer), "%.0lf %%", (double) lastValue);
             break;
         case DisplayType::DisplayTypeText:
             return std::string(lastStringValue);

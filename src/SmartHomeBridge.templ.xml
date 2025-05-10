@@ -92,6 +92,15 @@
                 <!-- Scene Number -->
                 <Parameter Id="%AID%_UP-%T%%CCC%042" Offset="1" BitOffset="0" Name="CH%C%SceneNumber" ParameterType="%AID%_PT-BRISceneNumber"          Text="Szene Nummer" Value="1" />                    
               </Union>      
+              <!-- Media -->
+              <Union SizeInBit="16">
+                <Memory CodeSegment="%AID%_RS-04-00000" Offset="53" BitOffset="0" />
+                <!-- Medien Hue Emulation -->
+                <Parameter Id="%AID%_UP-%T%%CCC%043" Offset="0" BitOffset="0" Name="CH%C%MediaHueEmulation" ParameterType="%AID%_PT-BRIHueEmulation" Text="In HUE als dimmbare Lampe darstellen" Value="0" />
+                <!-- Medien Text KO -->
+                <Parameter Id="%AID%_UP-%T%%CCC%044" Offset="0" BitOffset="1" Name="CH%C%MediaTextInput" ParameterType="%AID%_PT-BRIMediaTextInput" Text="Objekt für Mediatitel" Value="0" /> 
+                <!-- 6 bits free -->
+             </Union>      
 
               <!-- Thermostat -->
               <Union SizeInBit="16">
@@ -126,7 +135,7 @@
               </Union>
 
               <!-- Anzeige -->
-              <Union SizeInBit="80">
+              <Union SizeInBit="128">
                 <Memory CodeSegment="%AID%_RS-04-00000" Offset="53" BitOffset="0" />
                 <!-- Display Type -->
                 <Parameter Id="%AID%_UP-%T%%CCC%061" Offset="0" BitOffset="0" Name="CH%C%DisplayType" ParameterType="%AID%_PT-BRIDisplayType" Text="Anzeigewert" Value="0" />    
@@ -142,7 +151,13 @@
                 <Parameter Id="%AID%_UP-%T%%CCC%065" Offset="9" BitOffset="2" Name="CH%C%DisplayIconState2" ParameterType="%AID%_PT-BRIIconState" Text="Anzeigemodus und Statuseinfärbung" Value="0" />
                 <!-- Display Icon State 3 -->
                 <Parameter Id="%AID%_UP-%T%%CCC%066" Offset="9" BitOffset="6" Name="CH%C%DisplayIconState3" ParameterType="%AID%_PT-BRIIconState" Text="Anzeigemodus und Statuseinfärbung" Value="0" />
-
+                <!-- Display Unit -->
+                <Parameter Id="%AID%_UP-%T%%CCC%067" Offset="10" BitOffset="0" Name="CH%C%DisplayUnit" ParameterType="%AID%_PT-BRIDisplayUnit" Text="Einheit" Value="" />
+                <!-- ^^^ 5 Bytes ^^^ -->
+                <!-- Display Input -->
+                <Parameter Id="%AID%_UP-%T%%CCC%068" Offset="15" BitOffset="0" Name="CH%C%DisplayInput" ParameterType="%AID%_PT-BRIDisplayInput" Text="Eingang" Value="7" />
+                <!-- 4 Bits free -->
+          
               </Union>
 
               <!-- Fan -->
@@ -160,7 +175,7 @@
               </Union>
 
               <!-- Door/Window -->
-              <Union SizeInBit="16">
+              <Union SizeInBit="24">
                 <Memory CodeSegment="%AID%_RS-04-00000" Offset="53" BitOffset="0" />
                 <!-- Door/Window HUE Emulation -->
                 <Parameter Id="%AID%_UP-%T%%CCC%096" Offset="0" BitOffset="0" Name="CH%C%DoorHueEmulation" ParameterType="%AID%_PT-BRIHueEmulation"          Text="In Hue als dimmbare Lampe darstellen" Value="0" />
@@ -168,13 +183,16 @@
                 <Parameter Id="%AID%_UP-%T%%CCC%091" Offset="0" BitOffset="1" Name="CH%C%DoorWindowMotor" ParameterType="%AID%_PT-BRIDoorWindowMotor"                 Text="Motorantrieb" Value="1" />         
                 <!-- Door/Window Obstruction Detection -->
                 <Parameter Id="%AID%_UP-%T%%CCC%092" Offset="0" BitOffset="2" Name="CH%C%DoorWindowObstructionDetection" ParameterType="%AID%_PT-BRIDoorWindowObstructionDetection"  Text="Blockadenerkennung" Value="0" />        
-                <!-- 1 Bits free -->    
+                <!-- Door/Window Use Percent -->
+                <Parameter Id="%AID%_UP-%T%%CCC%097" Offset="0" BitOffset="3" Name="CH%C%DoorWindowUsePercent" ParameterType="%AID%_PT-BRIDoorWindowUsePercent"  Text="Prozent Steuerung Objekt" Value="1" />        
                 <!-- Door/Window Up Down Handling -->
-                <Parameter Id="%AID%_UP-%T%%CCC%093" Offset="0" BitOffset="4" Name="CH%C%DoorWindowUpDownHandling" ParameterType="%AID%_PT-BRIDoorWindowUpDownHandling"    Text="Auf/Ab Objekt verwenden" Value="0" />
+                <Parameter Id="%AID%_UP-%T%%CCC%093" Offset="0" BitOffset="4" Name="CH%C%DoorWindowUpDownHandling" ParameterType="%AID%_PT-BRIDoorWindowUpDownHandling"    Text="Öffnen/Schließen Objekt" Value="0" />
                 <!-- Door/Window  Use Stop-->
-                <Parameter Id="%AID%_UP-%T%%CCC%094" Offset="1" BitOffset="0" Name="CH%C%DoorWindowUseStop"  ParameterType="%AID%_PT-BRIDoorWindowUseStop" Text="Stopp Objekt verwenden" Value="0" />  
+                <Parameter Id="%AID%_UP-%T%%CCC%094" Offset="1" BitOffset="0" Name="CH%C%DoorWindowUseStop"  ParameterType="%AID%_PT-BRIDoorWindowUseStop" Text="Stopp Objekt" Value="0" />  
                 <!-- Door/Window Feedback Type -->
                 <Parameter Id="%AID%_UP-%T%%CCC%095" Offset="1" BitOffset="4" Name="CH%C%DoorWindowFeedbackType" ParameterType="%AID%_PT-BRIDoorWindowFeedbackType" Text="Rückmeldung" Value="0" />
+                <!-- Door/Window Direction -->
+                <Parameter Id="%AID%_UP-%T%%CCC%098" Offset="2" BitOffset="0" Name="CH%C%DoorWindowOpenDirection" ParameterType="%AID%_PT-BRIDoorWindowOpenDirection" Text="Öffnungsrichtung" Value="0" />
               </Union>
 
             </Parameters>
@@ -227,6 +245,10 @@
               <ParameterRef Id="%AID%_UP-%T%%CCC%041_R-%T%%CCC%04101" RefId="%AID%_UP-%T%%CCC%041" />
               <ParameterRef Id="%AID%_UP-%T%%CCC%042_R-%T%%CCC%04201" RefId="%AID%_UP-%T%%CCC%042" />
 
+              <!-- Media -->
+              <ParameterRef Id="%AID%_UP-%T%%CCC%043_R-%T%%CCC%04301" RefId="%AID%_UP-%T%%CCC%043" />
+              <ParameterRef Id="%AID%_UP-%T%%CCC%044_R-%T%%CCC%04401" RefId="%AID%_UP-%T%%CCC%044" />
+
               <!-- Thermostat -->
               <ParameterRef Id="%AID%_UP-%T%%CCC%051_R-%T%%CCC%05101" RefId="%AID%_UP-%T%%CCC%051" />
               <ParameterRef Id="%AID%_UP-%T%%CCC%052_R-%T%%CCC%05201" RefId="%AID%_UP-%T%%CCC%052" />
@@ -244,6 +266,8 @@
               <ParameterRef Id="%AID%_UP-%T%%CCC%064_R-%T%%CCC%06401" RefId="%AID%_UP-%T%%CCC%064" />
               <ParameterRef Id="%AID%_UP-%T%%CCC%065_R-%T%%CCC%06501" RefId="%AID%_UP-%T%%CCC%065" />
               <ParameterRef Id="%AID%_UP-%T%%CCC%066_R-%T%%CCC%06601" RefId="%AID%_UP-%T%%CCC%066" />
+              <ParameterRef Id="%AID%_UP-%T%%CCC%067_R-%T%%CCC%06701" RefId="%AID%_UP-%T%%CCC%067" />
+              <ParameterRef Id="%AID%_UP-%T%%CCC%068_R-%T%%CCC%06801" RefId="%AID%_UP-%T%%CCC%068" />
 
               <!-- Alarme -->
               <ParameterRef Id="%AID%_UP-%T%%CCC%071_R-%T%%CCC%07101" RefId="%AID%_UP-%T%%CCC%071" />
@@ -262,6 +286,8 @@
               <ParameterRef Id="%AID%_UP-%T%%CCC%094_R-%T%%CCC%09401" RefId="%AID%_UP-%T%%CCC%094" />
               <ParameterRef Id="%AID%_UP-%T%%CCC%095_R-%T%%CCC%09501" RefId="%AID%_UP-%T%%CCC%095" />
               <ParameterRef Id="%AID%_UP-%T%%CCC%096_R-%T%%CCC%09601" RefId="%AID%_UP-%T%%CCC%096" />
+              <ParameterRef Id="%AID%_UP-%T%%CCC%097_R-%T%%CCC%09701" RefId="%AID%_UP-%T%%CCC%097" />
+              <ParameterRef Id="%AID%_UP-%T%%CCC%098_R-%T%%CCC%09801" RefId="%AID%_UP-%T%%CCC%098" />
      
             </ParameterRefs>
             <ComObjectTable>
@@ -309,6 +335,14 @@
               <!-- Scene -->
               <ComObjectRef Id="%AID%_O-%T%%CCC%001_R-%T%%CCC%00104" RefId="%AID%_O-%T%%CCC%001" Name="SZENE_DPT_17"                          Text="%C%: Szene"                 FunctionText="{{0:-}} Szene"                            Priority="Low" ObjectSize="1 Byte"  WriteFlag="Enabled" TransmitFlag="Enabled"  UpdateFlag="Disabled" DatapointType="DPST-17-1" TextParameterRefId="%AID%_P-%T%%CCC%002_R-%T%%CCC%00201" />
 
+              <!-- Media -->
+              <ComObjectRef Id="%AID%_O-%T%%CCC%001_R-%T%%CCC%00114" RefId="%AID%_O-%T%%CCC%001" Name="VOLUME_DPT_5"                          Text="%C%: Lautstärke"                 FunctionText="{{0:-}} Lautstärke"                  Priority="Low" ObjectSize="1 Byte" WriteFlag="Disabled" TransmitFlag="Enabled"  UpdateFlag="Disabled" DatapointType="DPST-5-1" TextParameterRefId="%AID%_P-%T%%CCC%002_R-%T%%CCC%00201" />
+              <ComObjectRef Id="%AID%_O-%T%%CCC%002_R-%T%%CCC%00214" RefId="%AID%_O-%T%%CCC%002" Name="VOLUME_RÜCKMELDUNG_DPT_5"              Text="%C%: Lautstärke Rückmeldung"     FunctionText="{{0:-}} Lautstärke Rückmeldung"      Priority="Low" ObjectSize="1 Byte" WriteFlag="Enabled"  TransmitFlag="Disabled" UpdateFlag="Enabled"  DatapointType="DPST-5-1" TextParameterRefId="%AID%_P-%T%%CCC%002_R-%T%%CCC%00201" />
+              <ComObjectRef Id="%AID%_O-%T%%CCC%003_R-%T%%CCC%00314" RefId="%AID%_O-%T%%CCC%003" Name="SPIELEN_DPT_01"                        Text="%C%: Spielen"                    FunctionText="{{0:-}} Spielen"                     Priority="Low" ObjectSize="1 Bit"  WriteFlag="Disabled" TransmitFlag="Enabled"  UpdateFlag="Disabled" DatapointType="DPST-1-10" TextParameterRefId="%AID%_P-%T%%CCC%002_R-%T%%CCC%00201" />
+              <ComObjectRef Id="%AID%_O-%T%%CCC%004_R-%T%%CCC%00414" RefId="%AID%_O-%T%%CCC%004" Name="SPIELEN_RÜCKMELDUNG_DPT_01"            Text="%C%: Spielt Rückmeldung"         FunctionText="{{0:-}} Spielt Rückmeldung"          Priority="Low" ObjectSize="1 Bit"  WriteFlag="Enabled"  TransmitFlag="Disabled" UpdateFlag="Enabled"  DatapointType="DPST-1-11" TextParameterRefId="%AID%_P-%T%%CCC%002_R-%T%%CCC%00201" />
+              <ComObjectRef Id="%AID%_O-%T%%CCC%005_R-%T%%CCC%00514" RefId="%AID%_O-%T%%CCC%005" Name="VOR_ZURUECK_DPT_01"                    Text="%C%: Vorheriger/Nächster Titel"  FunctionText="{{0:-}} Vorheriger/Nächster Titel"   Priority="Low" ObjectSize="1 Bit"  WriteFlag="Disabled" TransmitFlag="Enabled"  UpdateFlag="Disabled" DatapointType="DPST-1-8" TextParameterRefId="%AID%_P-%T%%CCC%002_R-%T%%CCC%00201" />
+              <ComObjectRef Id="%AID%_O-%T%%CCC%006_R-%T%%CCC%00614" RefId="%AID%_O-%T%%CCC%006" Name="TITEL_DPT_16"                          Text="%C%: Titel Eingang"              FunctionText="{{0:-}} Titel Eingang"               Priority="Low" ObjectSize="14 Bytes" WriteFlag="Enabled" TransmitFlag="Disabled" UpdateFlag="Enabled" DatapointType="DPST-16-1" TextParameterRefId="%AID%_P-%T%%CCC%002_R-%T%%CCC%00201" />                  
+
               <!-- Thermostat -->
               <ComObjectRef Id="%AID%_O-%T%%CCC%001_R-%T%%CCC%00105" RefId="%AID%_O-%T%%CCC%001" Name="SOLL_TEMPERATUR_DPT_09"                Text="%C%: Soll Temperatur"                FunctionText="{{0:-}} Soll Temperatur"                Priority="Low" ObjectSize="2 Bytes" WriteFlag="Disabled" TransmitFlag="Enabled"  UpdateFlag="Disabled" DatapointType="DPST-9-1" TextParameterRefId="%AID%_P-%T%%CCC%002_R-%T%%CCC%00201" />
               <ComObjectRef Id="%AID%_O-%T%%CCC%002_R-%T%%CCC%00205" RefId="%AID%_O-%T%%CCC%002" Name="SOLL_TEMPERATUR_RÜCKMELDUNG_DPT_09"    Text="%C%: Soll Temperatur Rückmeldung"    FunctionText="{{0:-}} Soll Rückmeldung Temperatur"    Priority="Low" ObjectSize="2 Bytes" WriteFlag="Enabled"  TransmitFlag="Disabled" UpdateFlag="Enabled"  DatapointType="DPST-9-1" TextParameterRefId="%AID%_P-%T%%CCC%002_R-%T%%CCC%00201" />
@@ -328,15 +362,28 @@
               <ComObjectRef Id="%AID%_O-%T%%CCC%009_R-%T%%CCC%00915" RefId="%AID%_O-%T%%CCC%009" Name="KÜHLEN_STELLWERT_RÜCKMELDUNG_DPT_05"   Text="%C%: Kühlen Stellwert Rückmeldung" FunctionText="{{0:-}} Kühlen Stellwert Rückmeldung"  Priority="Low" ObjectSize="1 Byte" WriteFlag="Enabled"   TransmitFlag="Disabled" UpdateFlag="Enabled"  DatapointType="DPST-5-1" TextParameterRefId="%AID%_P-%T%%CCC%002_R-%T%%CCC%00201" />
     
               <!-- Anzeige -->
-              <ComObjectRef Id="%AID%_O-%T%%CCC%001_R-%T%%CCC%00106" RefId="%AID%_O-%T%%CCC%001" Name="TEMPERATUR_DPT_09"                     Text="%C%: Temperatur Rückmeldung"       FunctionText="{{0:-}} Temperatur Rückmeldung"        Priority="Low" ObjectSize="2 Bytes"  WriteFlag="Enabled" TransmitFlag="Disabled" UpdateFlag="Enabled" DatapointType="DPST-9-1"  TextParameterRefId="%AID%_P-%T%%CCC%002_R-%T%%CCC%00201" />
-              <ComObjectRef Id="%AID%_O-%T%%CCC%001_R-%T%%CCC%00116" RefId="%AID%_O-%T%%CCC%001" Name="LUFTFEUCHTIGKEIT_DPT_09"               Text="%C%: Luftfeuchtigkeit Rückmeldung" FunctionText="{{0:-}} Luftfeuchtigkeit Rückmeldung"  Priority="Low" ObjectSize="2 Bytes"  WriteFlag="Enabled" TransmitFlag="Disabled" UpdateFlag="Enabled" DatapointType="DPST-9-7"  TextParameterRefId="%AID%_P-%T%%CCC%002_R-%T%%CCC%00201" />
-              <ComObjectRef Id="%AID%_O-%T%%CCC%001_R-%T%%CCC%00126" RefId="%AID%_O-%T%%CCC%001" Name="HELLIGKEIT_DPT_09"                     Text="%C%: Helligkeit Rückmeldung"       FunctionText="{{0:-}} Helligkeit Rückmeldung"        Priority="Low" ObjectSize="2 Bytes"  WriteFlag="Enabled" TransmitFlag="Disabled" UpdateFlag="Enabled" DatapointType="DPST-9-4"  TextParameterRefId="%AID%_P-%T%%CCC%002_R-%T%%CCC%00201" />
-              <ComObjectRef Id="%AID%_O-%T%%CCC%001_R-%T%%CCC%00136" RefId="%AID%_O-%T%%CCC%001" Name="REGEN_DPT_09"                          Text="%C%: Regenprognose Eingang"        FunctionText="{{0:-}} Regenprognose Eingang"         Priority="Low" ObjectSize="2 Bytes"  WriteFlag="Enabled" TransmitFlag="Disabled" UpdateFlag="Enabled" DatapointType="DPST-9-26" TextParameterRefId="%AID%_P-%T%%CCC%002_R-%T%%CCC%00201" />
-              <ComObjectRef Id="%AID%_O-%T%%CCC%001_R-%T%%CCC%00146" RefId="%AID%_O-%T%%CCC%001" Name="SCHNEE_DPT_07"                         Text="%C%: Schneeprognose Eingang"       FunctionText="{{0:-}} Schneeprognose Eingang"        Priority="Low" ObjectSize="2 Bytes"  WriteFlag="Enabled" TransmitFlag="Disabled" UpdateFlag="Enabled" DatapointType="DPST-7-11" TextParameterRefId="%AID%_P-%T%%CCC%002_R-%T%%CCC%00201" />
-              <ComObjectRef Id="%AID%_O-%T%%CCC%001_R-%T%%CCC%00156" RefId="%AID%_O-%T%%CCC%001" Name="WIND_DPT_09"                           Text="%C%: Wind km/h Eingang"            FunctionText="{{0:-}} Wind km/h Eingang"             Priority="Low" ObjectSize="2 Bytes"  WriteFlag="Enabled" TransmitFlag="Disabled" UpdateFlag="Enabled" DatapointType="DPST-9-28" TextParameterRefId="%AID%_P-%T%%CCC%002_R-%T%%CCC%00201" />
+              <ComObjectRef Id="%AID%_O-%T%%CCC%001_R-%T%%CCC%00106" RefId="%AID%_O-%T%%CCC%001" Name="TEMPERATUR_DPT_09"                     Text="%C%: Eingang Temperatur"       FunctionText="{{0:-}} Temperatur"        Priority="Low" ObjectSize="2 Bytes"  WriteFlag="Enabled" TransmitFlag="Disabled" UpdateFlag="Enabled" DatapointType="DPST-9-1"  TextParameterRefId="%AID%_P-%T%%CCC%002_R-%T%%CCC%00201" />
+              <ComObjectRef Id="%AID%_O-%T%%CCC%001_R-%T%%CCC%00116" RefId="%AID%_O-%T%%CCC%001" Name="LUFTFEUCHTIGKEIT_DPT_09"               Text="%C%: Eingang Luftfeuchtigkeit" FunctionText="{{0:-}} Luftfeuchtigkeit"  Priority="Low" ObjectSize="2 Bytes"  WriteFlag="Enabled" TransmitFlag="Disabled" UpdateFlag="Enabled" DatapointType="DPST-9-7"  TextParameterRefId="%AID%_P-%T%%CCC%002_R-%T%%CCC%00201" />
+              <ComObjectRef Id="%AID%_O-%T%%CCC%001_R-%T%%CCC%00126" RefId="%AID%_O-%T%%CCC%001" Name="HELLIGKEIT_DPT_09"                     Text="%C%: Eingang Helligkeit"       FunctionText="{{0:-}} Helligkeit"        Priority="Low" ObjectSize="2 Bytes"  WriteFlag="Enabled" TransmitFlag="Disabled" UpdateFlag="Enabled" DatapointType="DPST-9-4"  TextParameterRefId="%AID%_P-%T%%CCC%002_R-%T%%CCC%00201" />
+              <ComObjectRef Id="%AID%_O-%T%%CCC%001_R-%T%%CCC%00136" RefId="%AID%_O-%T%%CCC%001" Name="REGEN_DPT_09"                          Text="%C%: Eingang Regenprognose"        FunctionText="{{0:-}} Regenprognose"         Priority="Low" ObjectSize="2 Bytes"  WriteFlag="Enabled" TransmitFlag="Disabled" UpdateFlag="Enabled" DatapointType="DPST-9-26" TextParameterRefId="%AID%_P-%T%%CCC%002_R-%T%%CCC%00201" />
+              <ComObjectRef Id="%AID%_O-%T%%CCC%001_R-%T%%CCC%00146" RefId="%AID%_O-%T%%CCC%001" Name="SCHNEE_DPT_07"                         Text="%C%: Eingang Schneeprognose"       FunctionText="{{0:-}} Schneeprognose"        Priority="Low" ObjectSize="2 Bytes"  WriteFlag="Enabled" TransmitFlag="Disabled" UpdateFlag="Enabled" DatapointType="DPST-7-11" TextParameterRefId="%AID%_P-%T%%CCC%002_R-%T%%CCC%00201" />
+              <ComObjectRef Id="%AID%_O-%T%%CCC%001_R-%T%%CCC%00156" RefId="%AID%_O-%T%%CCC%001" Name="WIND_DPT_09"                           Text="%C%: Eingang Wind km/h"            FunctionText="{{0:-}} Wind km/h"             Priority="Low" ObjectSize="2 Bytes"  WriteFlag="Enabled" TransmitFlag="Disabled" UpdateFlag="Enabled" DatapointType="DPST-9-28" TextParameterRefId="%AID%_P-%T%%CCC%002_R-%T%%CCC%00201" />
+              <ComObjectRef Id="%AID%_O-%T%%CCC%001_R-%T%%CCC%00166" RefId="%AID%_O-%T%%CCC%001" Name="PROZENT_DPT_05"                        Text="%C%: Eingang Prozent"              FunctionText="{{0:-}} Prozent"               Priority="Low" ObjectSize="1 Byte"   WriteFlag="Enabled" TransmitFlag="Disabled" UpdateFlag="Enabled" DatapointType="DPST-5-1"  TextParameterRefId="%AID%_P-%T%%CCC%002_R-%T%%CCC%00201" />
              
-              <ComObjectRef Id="%AID%_O-%T%%CCC%001_R-%T%%CCC%00196" RefId="%AID%_O-%T%%CCC%001" Name="TEXT_DPT_16"                           Text="%C%: Text Eingang"                 FunctionText="{{0:-}} Text Eingang"                  Priority="Low" ObjectSize="14 Bytes" WriteFlag="Enabled" TransmitFlag="Disabled" UpdateFlag="Enabled" DatapointType="DPST-16-1" TextParameterRefId="%AID%_P-%T%%CCC%002_R-%T%%CCC%00201" />
-              
+              <ComObjectRef Id="%AID%_O-%T%%CCC%001_R-%T%%CCC%00196" RefId="%AID%_O-%T%%CCC%001" Name="TEXT_DPT_16"                           Text="%C%: Eingang Text"                 FunctionText="{{0:-}} Text"                  Priority="Low" ObjectSize="14 Bytes" WriteFlag="Enabled" TransmitFlag="Disabled" UpdateFlag="Enabled" DatapointType="DPST-16-1" TextParameterRefId="%AID%_P-%T%%CCC%002_R-%T%%CCC%00201" />
+           
+              <ComObjectRef Id="%AID%_O-%T%%CCC%001_R-%T%%CCC%00100" RefId="%AID%_O-%T%%CCC%001" Name="INPUT_DPT_01"                          Text="%C%: Eingang 1-Bit"                FunctionText="{{0:-}} 1-Bit"                         Priority="Low" ObjectSize="1 Bit"    WriteFlag="Enabled" TransmitFlag="Disabled" UpdateFlag="Enabled" DatapointType="DPST-1-1"   TextParameterRefId="%AID%_P-%T%%CCC%002_R-%T%%CCC%00201" />
+              <ComObjectRef Id="%AID%_O-%T%%CCC%001_R-%T%%CCC%00110" RefId="%AID%_O-%T%%CCC%001" Name="INPUT_DPT_05"                          Text="%C%: Eingang 1-Byte"               FunctionText="{{0:-}} 1-Byte"                        Priority="Low" ObjectSize="1 Byte"   WriteFlag="Enabled" TransmitFlag="Disabled" UpdateFlag="Enabled" DatapointType="DPST-5-5"   TextParameterRefId="%AID%_P-%T%%CCC%002_R-%T%%CCC%00201" />
+              <ComObjectRef Id="%AID%_O-%T%%CCC%001_R-%T%%CCC%00121" RefId="%AID%_O-%T%%CCC%001" Name="INPUT_DPT_05_1"                        Text="%C%: Eingang Prozent"              FunctionText="{{0:-}} Prozent"                       Priority="Low" ObjectSize="1 Byte"   WriteFlag="Enabled" TransmitFlag="Disabled" UpdateFlag="Enabled" DatapointType="DPST-5-1"   TextParameterRefId="%AID%_P-%T%%CCC%002_R-%T%%CCC%00201" />
+              <ComObjectRef Id="%AID%_O-%T%%CCC%001_R-%T%%CCC%00131" RefId="%AID%_O-%T%%CCC%001" Name="INPUT_DPT_06"                          Text="%C%: Eingang 1-Byte-Vorzeichen"    FunctionText="{{0:-}} 1-Byte-Vorzeichen"             Priority="Low" ObjectSize="1 Byte"   WriteFlag="Enabled" TransmitFlag="Disabled" UpdateFlag="Enabled" DatapointType="DPST-6-10"  TextParameterRefId="%AID%_P-%T%%CCC%002_R-%T%%CCC%00201" />
+              <ComObjectRef Id="%AID%_O-%T%%CCC%001_R-%T%%CCC%00141" RefId="%AID%_O-%T%%CCC%001" Name="INPUT_DPT_07"                          Text="%C%: Eingang 2-Byte"               FunctionText="{{0:-}} 2-Byte"                        Priority="Low" ObjectSize="2 Bytes"  WriteFlag="Enabled" TransmitFlag="Disabled" UpdateFlag="Enabled" DatapointType="DPST-7-1"   TextParameterRefId="%AID%_P-%T%%CCC%002_R-%T%%CCC%00201" />
+              <ComObjectRef Id="%AID%_O-%T%%CCC%001_R-%T%%CCC%00151" RefId="%AID%_O-%T%%CCC%001" Name="INPUT_DPT_08"                          Text="%C%: Eingang 2-Byte-Vorzeichen"    FunctionText="{{0:-}} 2-Byte-Vorzeichen"             Priority="Low" ObjectSize="2 Bytes"  WriteFlag="Enabled" TransmitFlag="Disabled" UpdateFlag="Enabled" DatapointType="DPST-8-1"   TextParameterRefId="%AID%_P-%T%%CCC%002_R-%T%%CCC%00201" />
+              <ComObjectRef Id="%AID%_O-%T%%CCC%001_R-%T%%CCC%00161" RefId="%AID%_O-%T%%CCC%001" Name="INPUT_DPT_09"                          Text="%C%: Eingang 2-Byte-Fließkomma"    FunctionText="{{0:-}} 2-Byte-Fließkomma"             Priority="Low" ObjectSize="2 Bytes"  WriteFlag="Enabled" TransmitFlag="Disabled" UpdateFlag="Enabled" DatapointType="DPST-9-1"   TextParameterRefId="%AID%_P-%T%%CCC%002_R-%T%%CCC%00201" />
+              <ComObjectRef Id="%AID%_O-%T%%CCC%001_R-%T%%CCC%00171" RefId="%AID%_O-%T%%CCC%001" Name="INPUT_DPT_12"                          Text="%C%: Eingang 4-Byte"               FunctionText="{{0:-}} 4-Byte"                        Priority="Low" ObjectSize="4 Bytes"  WriteFlag="Enabled" TransmitFlag="Disabled" UpdateFlag="Enabled" DatapointType="DPST-12-1"  TextParameterRefId="%AID%_P-%T%%CCC%002_R-%T%%CCC%00201" />
+              <ComObjectRef Id="%AID%_O-%T%%CCC%001_R-%T%%CCC%00181" RefId="%AID%_O-%T%%CCC%001" Name="INPUT_DPT_13"                          Text="%C%: Eingang 4-Byte-Vorzeichen"    FunctionText="{{0:-}} 4-Byte-Vorzeichen"             Priority="Low" ObjectSize="4 Bytes"  WriteFlag="Enabled" TransmitFlag="Disabled" UpdateFlag="Enabled" DatapointType="DPST-13-1"  TextParameterRefId="%AID%_P-%T%%CCC%002_R-%T%%CCC%00201" />
+              <ComObjectRef Id="%AID%_O-%T%%CCC%001_R-%T%%CCC%00191" RefId="%AID%_O-%T%%CCC%001" Name="INPUT_DPT_14"                          Text="%C%: Eingang 4-Byte-Fließkomma"    FunctionText="{{0:-}} 4-Byte-Fließkomma"             Priority="Low" ObjectSize="4 Bytes"  WriteFlag="Enabled" TransmitFlag="Disabled" UpdateFlag="Enabled" DatapointType="DPST-14-68" TextParameterRefId="%AID%_P-%T%%CCC%002_R-%T%%CCC%00201" />
+               
+
               <!-- Alarme -->
               <ComObjectRef Id="%AID%_O-%T%%CCC%001_R-%T%%CCC%00107" RefId="%AID%_O-%T%%CCC%001" Name="CONTACT_DPT_01"                        Text="%C%: Kontakt Rückmeldung"   FunctionText="{{0:-}} Kontakt Rückmeldung"      Priority="Low" ObjectSize="1 Bit" WriteFlag="Enabled" TransmitFlag="Disabled" UpdateFlag="Enabled" DatapointType="DPST-1-19" TextParameterRefId="%AID%_P-%T%%CCC%002_R-%T%%CCC%00201" />
               <ComObjectRef Id="%AID%_O-%T%%CCC%001_R-%T%%CCC%00117" RefId="%AID%_O-%T%%CCC%001" Name="MOTION_DPT_01"                         Text="%C%: Bewegung Rückmeldung"  FunctionText="{{0:-}} Bewegung Rückmeldung"     Priority="Low" ObjectSize="1 Bit" WriteFlag="Enabled" TransmitFlag="Disabled" UpdateFlag="Enabled" DatapointType="DPST-1-1"  TextParameterRefId="%AID%_P-%T%%CCC%002_R-%T%%CCC%00201" />
@@ -902,6 +949,62 @@
                           </choose>
                         </ParameterBlock>
                       </when>
+                      <when test="41">
+                        <!-- ************** Media ************ -->
+                        <ParameterBlock Id="%AID%_PB-nnn" Name="f%CC%FCB_Media" Text="%C% Media: {{0: ...}}"      TextParameterRefId="%AID%_P-%T%%CCC%002_R-%T%%CCC%00201" Icon="music" ShowInComObjectTree="true" HelpContext="BRI-Media">
+                        <ParameterSeparator Id="%AID%_PS-nnn" Text="Media" UIHint="Headline" />
+                          <op:usePart name="ChannelHead" xpath="//ParameterBlock/*" />
+                          <op:usePart name="HueSimulation" xpath="//ParameterBlock/*" />
+                       
+                          <!-- Hue -->
+                          <choose ParamRefId="%AID%_UP-%T%000003_R-%T%00000301">  
+                            <when test="1"> <!-- Hue -->
+                              <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%T%%CCC%043_R-%T%%CCC%04301" /> <!-- In Hue verwenden -->
+                            </when>
+                          </choose>            
+                          <ParameterSeparator Id="%AID%_PS-nnn" Text="" UIHint="HorizontalRuler" />
+          
+                          <ComObjectRefRef RefId="%AID%_O-%T%%CCC%001_R-%T%%CCC%00114" /> <!-- Lautstärke --> 
+                          <ComObjectRefRef RefId="%AID%_O-%T%%CCC%002_R-%T%%CCC%00214" /> <!-- Lautstärke Rückmeldung --> 
+                          <ComObjectRefRef RefId="%AID%_O-%T%%CCC%003_R-%T%%CCC%00314" /> <!-- Spielen --> 
+                          <ComObjectRefRef RefId="%AID%_O-%T%%CCC%004_R-%T%%CCC%00414" /> <!-- Spielt Rückmeldung --> 
+                          <ComObjectRefRef RefId="%AID%_O-%T%%CCC%005_R-%T%%CCC%00514" /> <!-- Vor- Zurück --> 
+
+                          <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%T%%CCC%044_R-%T%%CCC%04401" /> <!-- Titel Input verwenden -->
+                          <choose ParamRefId="%AID%_UP-%T%%CCC%044_R-%T%%CCC%04401">
+                            <when test="1">
+                              <ComObjectRefRef RefId="%AID%_O-%T%%CCC%006_R-%T%%CCC%00614" /> <!-- Titel --> 
+                           </when>
+                          </choose>
+                       
+                          <!-- DisplaySettings -->
+                          <choose ParamRefId="%AID%_P-%T%000010_R-%T%00001001">
+                            <when test="1">
+                            
+                              <ParameterSeparator Id="%AID%_PS-nnn" Text="" UIHint="HorizontalRuler" />
+                              <ParameterSeparator Id="%AID%_PS-nnn" Text="Touch Display Einstellungen" UIHint="Headline" />
+
+                              <!-- Icons -->
+                              <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%T%%CCC%004_R-%T%%CCC%00401" />
+                              <choose ParamRefId="%AID%_UP-%T%%CCC%004_R-%T%%CCC%00401">
+                                <when test="1">
+                                  <ParameterSeparator Id="%AID%_PS-nnn" Text="Bild" />
+                                  <!-- Icon Col 0-->
+                                  <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%T%%CCC%005_R-%T%%CCC%00501" />
+                                  <!-- Icon 0-->
+                                  <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%T%%CCC%006_R-%T%%CCC%00601" />
+                                  
+                                  <ParameterSeparator Id="%AID%_PS-nnn" Text="Bild Aktivierung" />
+                                  <!-- Icon Col 100-->
+                                  <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%T%%CCC%009_R-%T%%CCC%00901" />
+                                  <!-- Icon 100-->
+                                  <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%T%%CCC%010_R-%T%%CCC%01001" />
+                                </when>
+                              </choose>
+                            </when>
+                          </choose>
+                        </ParameterBlock>
+                      </when>
                       <when test="50">
                         <!-- ************** Thermostat ************ -->
                         <ParameterBlock Id="%AID%_PB-nnn" Name="f%CC%FCB_Switch" Text="%C% Thermostat: {{0: ...}}"      TextParameterRefId="%AID%_P-%T%%CCC%002_R-%T%%CCC%00201" Icon="thermometer-lines" ShowInComObjectTree="true" HelpContext="BRI-Thermostat">
@@ -1082,6 +1185,61 @@
                               </choose>
                             </when>
 
+                            <when test="6"> <!-- Prozent -->
+                              <ComObjectRefRef RefId="%AID%_O-%T%%CCC%001_R-%T%%CCC%00166" />
+
+                               <!-- Homekit -->
+                               <choose ParamRefId="%AID%_UP-%T%000002_R-%T%00000201"> 
+                                <when test="1"> <!-- Homekit -->
+                                  <ParameterSeparator Id="%AID%_PS-nnn" Text="Dieser Anzeigewert wird in Homekit nicht unterstütz" UIHint="Information" />
+                                </when>
+                              </choose>
+                            </when>
+                    
+                            <when test="8"> <!-- Individuell -->              
+                               <!-- Homekit -->
+                               <choose ParamRefId="%AID%_UP-%T%000002_R-%T%00000201"> 
+                                <when test="1"> <!-- Homekit -->
+                                  <ParameterSeparator Id="%AID%_PS-nnn" Text="Dieser Anzeigewert wird in Homekit nicht unterstütz" UIHint="Information" />
+                                </when>
+                              </choose>
+                              <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%T%%CCC%068_R-%T%%CCC%06801" /> <!-- Input Type  -->    
+                              <choose ParamRefId="%AID%_UP-%T%%CCC%068_R-%T%%CCC%06801">  <!-- Input Type  -->
+                                <when test="0"> 
+                                  <ComObjectRefRef RefId="%AID%_O-%T%%CCC%001_R-%T%%CCC%00100" />
+                                </when>
+                                <when test="2"> 
+                                  <ComObjectRefRef RefId="%AID%_O-%T%%CCC%001_R-%T%%CCC%00110" />
+                                </when>
+                                <when test="3"> 
+                                  <ComObjectRefRef RefId="%AID%_O-%T%%CCC%001_R-%T%%CCC%00121" />
+                                </when>
+                                <when test="4"> 
+                                  <ComObjectRefRef RefId="%AID%_O-%T%%CCC%001_R-%T%%CCC%00131" />
+                                </when>
+                                <when test="5"> 
+                                  <ComObjectRefRef RefId="%AID%_O-%T%%CCC%001_R-%T%%CCC%00141" />
+                                </when>
+                                <when test="6"> 
+                                  <ComObjectRefRef RefId="%AID%_O-%T%%CCC%001_R-%T%%CCC%00151" />
+                                </when>
+                                <when test="7"> 
+                                  <ComObjectRefRef RefId="%AID%_O-%T%%CCC%001_R-%T%%CCC%00161" />
+                                </when>
+                                <when test="13"> 
+                                  <ComObjectRefRef RefId="%AID%_O-%T%%CCC%001_R-%T%%CCC%00171" />
+                                </when>
+                                <when test="14"> 
+                                  <ComObjectRefRef RefId="%AID%_O-%T%%CCC%001_R-%T%%CCC%00181" />
+                                </when>
+                                <when test="15"> 
+                                  <ComObjectRefRef RefId="%AID%_O-%T%%CCC%001_R-%T%%CCC%00191" />
+                                </when>
+
+                              </choose>
+                              <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%T%%CCC%067_R-%T%%CCC%06701" /> <!-- Unit  -->                   
+                     
+                            </when>
 
                             <when test="9"> <!-- Text -->
                               <ComObjectRefRef RefId="%AID%_O-%T%%CCC%001_R-%T%%CCC%00196" />
@@ -1312,10 +1470,11 @@
 
                           <choose ParamRefId="%AID%_UP-%T%%CCC%091_R-%T%%CCC%09101">    <!-- Motor-->
                             <when test="1">  
-                              <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%T%%CCC%092_R-%T%%CCC%09201" /> <!-- Blockade -->
-
+                              <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%T%%CCC%097_R-%T%%CCC%09701" /> <!-- Prozent Ausgang -->
                               <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%T%%CCC%093_R-%T%%CCC%09301" /> <!-- Up Down Handling -->
                               <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%T%%CCC%094_R-%T%%CCC%09401" /> <!-- Use Stop -->
+                              <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%T%%CCC%092_R-%T%%CCC%09201" /> <!-- Blockade -->
+
                             </when>
                           </choose>
 
@@ -1323,7 +1482,12 @@
 
                           <choose ParamRefId="%AID%_UP-%T%%CCC%091_R-%T%%CCC%09101">    <!-- Motor-->
                             <when test="1">
-                              <ComObjectRefRef RefId="%AID%_O-%T%%CCC%001_R-%T%%CCC%00109" /> <!-- Position --> 
+                              <choose ParamRefId="%AID%_UP-%T%%CCC%097_R-%T%%CCC%09701">    <!-- Prozent Ausgang -->
+                                <when test="0">
+                         
+                                  <ComObjectRefRef RefId="%AID%_O-%T%%CCC%001_R-%T%%CCC%00109" /> <!-- Position --> 
+                                </when>
+                              </choose>
 
                               <choose ParamRefId="%AID%_UP-%T%%CCC%093_R-%T%%CCC%09301">    <!-- Up Down Handling -->
                                 <when test="!=0">
@@ -1358,7 +1522,6 @@
                             </when>
                           </choose>
 
-
                           <!-- DisplaySettings -->
                           <choose ParamRefId="%AID%_P-%T%000010_R-%T%00001001">
                             <when test="1">
@@ -1366,6 +1529,8 @@
                               <ParameterSeparator Id="%AID%_PS-nnn" Text="" UIHint="HorizontalRuler" />
                               <ParameterSeparator Id="%AID%_PS-nnn" Text="Touch Display Einstellungen" UIHint="Headline" />
 
+                              <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%T%%CCC%098_R-%T%%CCC%09801" /> <!--Öffnungsrichtung -->
+                             
                               <!-- Icons -->
                               <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%T%%CCC%004_R-%T%%CCC%00401" />
                               <choose ParamRefId="%AID%_UP-%T%%CCC%004_R-%T%%CCC%00401">
@@ -1402,22 +1567,23 @@
                         <ParameterBlock Id="%AID%_PB-nnn" Name="f%CC%FCB_Switch" Text="%C% Tür: {{0: ...}}"      TextParameterRefId="%AID%_P-%T%%CCC%002_R-%T%%CCC%00201" Icon="door" ShowInComObjectTree="true" HelpContext="BRI-Tuer">
                           <ParameterSeparator Id="%AID%_PS-nnn" Text="Tür" UIHint="Headline" />
                           <op:usePart name="ChannelHead" xpath="//ParameterBlock/*" />
-                          <op:usePart name="HueSimulation" xpath="//ParameterBlock/*" />
-                           <choose ParamRefId="%AID%_UP-%T%000003_R-%T%00000301">  <!-- Hue -->
+                          <op:usePart name="HueSimulation" xpath="//ParameterBlock/*" />   
+                          <choose ParamRefId="%AID%_UP-%T%000003_R-%T%00000301">  <!-- Hue -->
                             <when test="1"> <!-- Hue -->
                               <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%T%%CCC%096_R-%T%%CCC%09601" /> <!-- In Hue verwenden -->
                             </when>
                           </choose>
                           <ParameterSeparator Id="%AID%_PS-nnn" Text="" UIHint="HorizontalRuler" />
-                
+                        
                           <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%T%%CCC%091_R-%T%%CCC%09101" /> <!-- Motor -->
 
                           <choose ParamRefId="%AID%_UP-%T%%CCC%091_R-%T%%CCC%09101">    <!-- Motor-->
                             <when test="1">  
-                              <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%T%%CCC%092_R-%T%%CCC%09201" /> <!-- Blockade -->
-
+                              <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%T%%CCC%097_R-%T%%CCC%09701" /> <!-- Prozent Ausgang -->
                               <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%T%%CCC%093_R-%T%%CCC%09301" /> <!-- Up Down Handling -->
                               <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%T%%CCC%094_R-%T%%CCC%09401" /> <!-- Use Stop -->
+                              <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%T%%CCC%092_R-%T%%CCC%09201" /> <!-- Blockade -->
+
                             </when>
                           </choose>
 
@@ -1425,7 +1591,12 @@
 
                           <choose ParamRefId="%AID%_UP-%T%%CCC%091_R-%T%%CCC%09101">    <!-- Motor-->
                             <when test="1">
-                              <ComObjectRefRef RefId="%AID%_O-%T%%CCC%001_R-%T%%CCC%00109" /> <!-- Position --> 
+                              <choose ParamRefId="%AID%_UP-%T%%CCC%097_R-%T%%CCC%09701">    <!-- Prozent Ausgang -->
+                                <when test="0">
+                         
+                                  <ComObjectRefRef RefId="%AID%_O-%T%%CCC%001_R-%T%%CCC%00109" /> <!-- Position --> 
+                                </when>
+                              </choose>
 
                               <choose ParamRefId="%AID%_UP-%T%%CCC%093_R-%T%%CCC%09301">    <!-- Up Down Handling -->
                                 <when test="!=0">
@@ -1467,6 +1638,8 @@
                               <ParameterSeparator Id="%AID%_PS-nnn" Text="" UIHint="HorizontalRuler" />
                               <ParameterSeparator Id="%AID%_PS-nnn" Text="Touch Display Einstellungen" UIHint="Headline" />
 
+                              <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%T%%CCC%098_R-%T%%CCC%09801" /> <!--Öffnungsrichtung -->
+                             
                               <!-- Icons -->
                               <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%T%%CCC%004_R-%T%%CCC%00401" />
                               <choose ParamRefId="%AID%_UP-%T%%CCC%004_R-%T%%CCC%00401">
@@ -1496,7 +1669,6 @@
                               </choose>
                             </when>
                           </choose>
-
                         </ParameterBlock>
                       </when>
                       <when test="92">
@@ -1504,22 +1676,23 @@
                         <ParameterBlock Id="%AID%_PB-nnn" Name="f%CC%FCB_Switch" Text="%C% Garagentor: {{0: ...}}"      TextParameterRefId="%AID%_P-%T%%CCC%002_R-%T%%CCC%00201" Icon="garage-open-variant" ShowInComObjectTree="true" HelpContext="BRI-Garagentor">
                           <ParameterSeparator Id="%AID%_PS-nnn" Text="Garagentor" UIHint="Headline" />
                           <op:usePart name="ChannelHead" xpath="//ParameterBlock/*" />
-                          <op:usePart name="HueSimulation" xpath="//ParameterBlock/*" />
-                           <choose ParamRefId="%AID%_UP-%T%000003_R-%T%00000301">  <!-- Hue-->
+                          <op:usePart name="HueSimulation" xpath="//ParameterBlock/*" />   
+                          <choose ParamRefId="%AID%_UP-%T%000003_R-%T%00000301">  <!-- Hue -->
                             <when test="1"> <!-- Hue -->
                               <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%T%%CCC%096_R-%T%%CCC%09601" /> <!-- In Hue verwenden -->
                             </when>
                           </choose>
                           <ParameterSeparator Id="%AID%_PS-nnn" Text="" UIHint="HorizontalRuler" />
-                              
+                        
                           <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%T%%CCC%091_R-%T%%CCC%09101" /> <!-- Motor -->
 
                           <choose ParamRefId="%AID%_UP-%T%%CCC%091_R-%T%%CCC%09101">    <!-- Motor-->
                             <when test="1">  
-                              <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%T%%CCC%092_R-%T%%CCC%09201" /> <!-- Blockade -->
-
+                              <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%T%%CCC%097_R-%T%%CCC%09701" /> <!-- Prozent Ausgang -->
                               <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%T%%CCC%093_R-%T%%CCC%09301" /> <!-- Up Down Handling -->
                               <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%T%%CCC%094_R-%T%%CCC%09401" /> <!-- Use Stop -->
+                              <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%T%%CCC%092_R-%T%%CCC%09201" /> <!-- Blockade -->
+
                             </when>
                           </choose>
 
@@ -1527,7 +1700,12 @@
 
                           <choose ParamRefId="%AID%_UP-%T%%CCC%091_R-%T%%CCC%09101">    <!-- Motor-->
                             <when test="1">
-                              <ComObjectRefRef RefId="%AID%_O-%T%%CCC%001_R-%T%%CCC%00109" /> <!-- Position --> 
+                              <choose ParamRefId="%AID%_UP-%T%%CCC%097_R-%T%%CCC%09701">    <!-- Prozent Ausgang -->
+                                <when test="0">
+                         
+                                  <ComObjectRefRef RefId="%AID%_O-%T%%CCC%001_R-%T%%CCC%00109" /> <!-- Position --> 
+                                </when>
+                              </choose>
 
                               <choose ParamRefId="%AID%_UP-%T%%CCC%093_R-%T%%CCC%09301">    <!-- Up Down Handling -->
                                 <when test="!=0">
@@ -1569,6 +1747,8 @@
                               <ParameterSeparator Id="%AID%_PS-nnn" Text="" UIHint="HorizontalRuler" />
                               <ParameterSeparator Id="%AID%_PS-nnn" Text="Touch Display Einstellungen" UIHint="Headline" />
 
+                              <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%T%%CCC%098_R-%T%%CCC%09801" /> <!--Öffnungsrichtung -->
+                             
                               <!-- Icons -->
                               <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%T%%CCC%004_R-%T%%CCC%00401" />
                               <choose ParamRefId="%AID%_UP-%T%%CCC%004_R-%T%%CCC%00401">
@@ -1598,6 +1778,7 @@
                               </choose>
                             </when>
                           </choose>
+                    
 
                         </ParameterBlock>
                       </when>
