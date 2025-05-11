@@ -221,7 +221,7 @@
                   <Enumeration Value="5" Id="%ENID%" Text="Wind"             Icon="weather-windy" />
                   <Enumeration Value="6" Id="%ENID%" Text="Prozent"          Icon="percent" />
                   
-                  <Enumeration Value="8" Id="%ENID%" Text="Individuell"      Icon="card-text-outline" />
+                  <Enumeration Value="8" Id="%ENID%" Text="Individuell"      Icon="artboard" />
                   <Enumeration Value="9" Id="%ENID%" Text="Text"             Icon="card-text-outline" />
                 </TypeRestriction>
               </ParameterType>
