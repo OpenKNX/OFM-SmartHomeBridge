@@ -83,13 +83,13 @@ void KnxChannelMedia::commandPlay(MediaBridge* mediaBridge, bool play)
 void KnxChannelMedia::commandPrevious(MediaBridge* mediaBridge)
 {
     logDebugP("Received changed. Previous");
-    koSet(KO_NEXT_PREVIOUS, true, true);
+    koSet(KO_NEXT_PREVIOUS, false, true);
 }
 
 void KnxChannelMedia::commandNext(MediaBridge* mediaBridge)
 {
     logDebugP("Received changed. Next");
-    koSet(KO_NEXT_PREVIOUS, false, true);
+    koSet(KO_NEXT_PREVIOUS, true, true);
 }
 
 void KnxChannelMedia::commandMainFunctionClick()
