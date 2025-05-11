@@ -1471,7 +1471,11 @@
                           <choose ParamRefId="%AID%_UP-%T%%CCC%091_R-%T%%CCC%09101">    <!-- Motor-->
                             <when test="1">  
                               <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%T%%CCC%097_R-%T%%CCC%09701" /> <!-- Prozent Ausgang -->
-                              <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%T%%CCC%093_R-%T%%CCC%09301" /> <!-- Up Down Handling -->
+                              <choose ParamRefId="%AID%_UP-%T%%CCC%097_R-%T%%CCC%09701">    <!-- Prozent Ausgang -->
+                                <when test="1">
+                                  <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%T%%CCC%093_R-%T%%CCC%09301" /> <!-- Up Down Handling -->
+                                </when>
+                              </choose>
                               <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%T%%CCC%094_R-%T%%CCC%09401" /> <!-- Use Stop -->
                               <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%T%%CCC%092_R-%T%%CCC%09201" /> <!-- Blockade -->
 
@@ -1483,8 +1487,7 @@
                           <choose ParamRefId="%AID%_UP-%T%%CCC%091_R-%T%%CCC%09101">    <!-- Motor-->
                             <when test="1">
                               <choose ParamRefId="%AID%_UP-%T%%CCC%097_R-%T%%CCC%09701">    <!-- Prozent Ausgang -->
-                                <when test="0">
-                         
+                                <when test="1">
                                   <ComObjectRefRef RefId="%AID%_O-%T%%CCC%001_R-%T%%CCC%00109" /> <!-- Position --> 
                                 </when>
                               </choose>
@@ -1494,6 +1497,12 @@
                                   <ComObjectRefRef RefId="%AID%_O-%T%%CCC%005_R-%T%%CCC%00509" /> <!-- Öffnen / Schließen -->
                                 </when>
                               </choose>
+                              <choose ParamRefId="%AID%_UP-%T%%CCC%097_R-%T%%CCC%09701">    <!-- Prozent Ausgang -->
+                                <when test="0">
+                                  <ComObjectRefRef RefId="%AID%_O-%T%%CCC%005_R-%T%%CCC%00509" /> <!-- Öffnen / Schließen -->
+                                </when>
+                              </choose>
+
                               <choose ParamRefId="%AID%_UP-%T%%CCC%094_R-%T%%CCC%09401">    <!-- Use Stop-->
                                 <when test="!=0">
                                   <ComObjectRefRef RefId="%AID%_O-%T%%CCC%006_R-%T%%CCC%00609" /> <!-- Stop -->
@@ -1580,7 +1589,11 @@
                           <choose ParamRefId="%AID%_UP-%T%%CCC%091_R-%T%%CCC%09101">    <!-- Motor-->
                             <when test="1">  
                               <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%T%%CCC%097_R-%T%%CCC%09701" /> <!-- Prozent Ausgang -->
-                              <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%T%%CCC%093_R-%T%%CCC%09301" /> <!-- Up Down Handling -->
+                              <choose ParamRefId="%AID%_UP-%T%%CCC%097_R-%T%%CCC%09701">    <!-- Prozent Ausgang -->
+                                <when test="1">
+                                  <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%T%%CCC%093_R-%T%%CCC%09301" /> <!-- Up Down Handling -->
+                                </when>
+                              </choose>
                               <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%T%%CCC%094_R-%T%%CCC%09401" /> <!-- Use Stop -->
                               <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%T%%CCC%092_R-%T%%CCC%09201" /> <!-- Blockade -->
 
@@ -1592,8 +1605,7 @@
                           <choose ParamRefId="%AID%_UP-%T%%CCC%091_R-%T%%CCC%09101">    <!-- Motor-->
                             <when test="1">
                               <choose ParamRefId="%AID%_UP-%T%%CCC%097_R-%T%%CCC%09701">    <!-- Prozent Ausgang -->
-                                <when test="0">
-                         
+                                <when test="1">
                                   <ComObjectRefRef RefId="%AID%_O-%T%%CCC%001_R-%T%%CCC%00109" /> <!-- Position --> 
                                 </when>
                               </choose>
@@ -1603,6 +1615,12 @@
                                   <ComObjectRefRef RefId="%AID%_O-%T%%CCC%005_R-%T%%CCC%00509" /> <!-- Öffnen / Schließen -->
                                 </when>
                               </choose>
+                              <choose ParamRefId="%AID%_UP-%T%%CCC%097_R-%T%%CCC%09701">    <!-- Prozent Ausgang -->
+                                <when test="0">
+                                  <ComObjectRefRef RefId="%AID%_O-%T%%CCC%005_R-%T%%CCC%00509" /> <!-- Öffnen / Schließen -->
+                                </when>
+                              </choose>
+
                               <choose ParamRefId="%AID%_UP-%T%%CCC%094_R-%T%%CCC%09401">    <!-- Use Stop-->
                                 <when test="!=0">
                                   <ComObjectRefRef RefId="%AID%_O-%T%%CCC%006_R-%T%%CCC%00609" /> <!-- Stop -->
@@ -1689,7 +1707,11 @@
                           <choose ParamRefId="%AID%_UP-%T%%CCC%091_R-%T%%CCC%09101">    <!-- Motor-->
                             <when test="1">  
                               <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%T%%CCC%097_R-%T%%CCC%09701" /> <!-- Prozent Ausgang -->
-                              <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%T%%CCC%093_R-%T%%CCC%09301" /> <!-- Up Down Handling -->
+                              <choose ParamRefId="%AID%_UP-%T%%CCC%097_R-%T%%CCC%09701">    <!-- Prozent Ausgang -->
+                                <when test="1">
+                                  <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%T%%CCC%093_R-%T%%CCC%09301" /> <!-- Up Down Handling -->
+                                </when>
+                              </choose>
                               <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%T%%CCC%094_R-%T%%CCC%09401" /> <!-- Use Stop -->
                               <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%T%%CCC%092_R-%T%%CCC%09201" /> <!-- Blockade -->
 
@@ -1701,8 +1723,7 @@
                           <choose ParamRefId="%AID%_UP-%T%%CCC%091_R-%T%%CCC%09101">    <!-- Motor-->
                             <when test="1">
                               <choose ParamRefId="%AID%_UP-%T%%CCC%097_R-%T%%CCC%09701">    <!-- Prozent Ausgang -->
-                                <when test="0">
-                         
+                                <when test="1">
                                   <ComObjectRefRef RefId="%AID%_O-%T%%CCC%001_R-%T%%CCC%00109" /> <!-- Position --> 
                                 </when>
                               </choose>
@@ -1712,6 +1733,12 @@
                                   <ComObjectRefRef RefId="%AID%_O-%T%%CCC%005_R-%T%%CCC%00509" /> <!-- Öffnen / Schließen -->
                                 </when>
                               </choose>
+                              <choose ParamRefId="%AID%_UP-%T%%CCC%097_R-%T%%CCC%09701">    <!-- Prozent Ausgang -->
+                                <when test="0">
+                                  <ComObjectRefRef RefId="%AID%_O-%T%%CCC%005_R-%T%%CCC%00509" /> <!-- Öffnen / Schließen -->
+                                </when>
+                              </choose>
+
                               <choose ParamRefId="%AID%_UP-%T%%CCC%094_R-%T%%CCC%09401">    <!-- Use Stop-->
                                 <when test="!=0">
                                   <ComObjectRefRef RefId="%AID%_O-%T%%CCC%006_R-%T%%CCC%00609" /> <!-- Stop -->
@@ -1778,8 +1805,6 @@
                               </choose>
                             </when>
                           </choose>
-                    
-
                         </ParameterBlock>
                       </when>
                     </choose>

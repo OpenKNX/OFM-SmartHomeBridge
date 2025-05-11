@@ -72,6 +72,10 @@ bool KnxChannelDoorWindow::useStop()
 
 DoorWindowHandling KnxChannelDoorWindow::getDoorWindowHandling()
 {
+    if (!ParamBRI_CHDoorWindowUsePercent)
+    {
+        return DoorWindowHandling::DoorWindowHandlingSendOpenAndClose;
+    }
     return (DoorWindowHandling) ParamBRI_CHDoorWindowUpDownHandling;
 }
 
@@ -108,6 +112,17 @@ void KnxChannelDoorWindow::commandMainFunctionClick()
 
 bool KnxChannelDoorWindow::commandPosition(DoorWindowBridge* interface, uint8_t position)
 {
+    if (!ParamBRI_CHDoorWindowUsePercent)
+    {
+        if (position < currentPosition())
+        {
+            position = 0;
+        }
+        else
+        {
+            position = 100;
+        }
+    }
     if (ParamBRI_CHDoorWindowMotor == 0)
     {
         logDebugP("Received changed. Position: %d -> Ignored because no motor control", position);
@@ -157,11 +172,13 @@ bool KnxChannelDoorWindow::commandPosition(DoorWindowBridge* interface, uint8_t 
 
         }
     }
-    if (sendPosition)
-        koSet(KO_POSITION, position, true);
-    else
-        koSetWithoutSend(KO_POSITION, position);
-
+    if (ParamBRI_CHDoorWindowUsePercent)
+    {
+        if (sendPosition)
+            koSet(KO_POSITION, position, true);
+        else
+            koSetWithoutSend(KO_POSITION, position);
+    }
     for (auto it = interfaces.begin(); it != interfaces.end(); ++it)
     {
         if ((*it) != interface)
@@ -173,7 +190,8 @@ bool KnxChannelDoorWindow::commandPosition(DoorWindowBridge* interface, uint8_t 
 
 void KnxChannelDoorWindow::setup()
 {
-    koSetWithoutSend(KO_POSITION, (uint8_t) 0);
+    if (ParamBRI_CHDoorWindowUsePercent)
+        koSetWithoutSend(KO_POSITION, (uint8_t) 0);
     if (KnxChannelDoorWindowFeedback::DoorWindowFeedbackPercentage == (KnxChannelDoorWindowFeedback) ParamBRI_CHDoorWindowFeedbackType)
     {
         koSetWithoutSend(KO_FEEDBACK_PERCENT,(uint8_t) 0);
@@ -213,7 +231,8 @@ void KnxChannelDoorWindow::processInputKo(GroupObject &ko)
     if (isKo(ko, KO_FEEDBACK_PERCENT))
     {
         uint8_t position = currentPosition();
-        koSetWithoutSend(KO_POSITION, position);
+        if (ParamBRI_CHDoorWindowUsePercent)
+            koSetWithoutSend(KO_POSITION, position);
         for (auto it = interfaces.begin(); it != interfaces.end(); ++it)
         {
             (*it)->setPosition(position);
