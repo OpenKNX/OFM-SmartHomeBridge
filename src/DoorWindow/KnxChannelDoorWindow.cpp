@@ -51,6 +51,15 @@ void KnxChannelDoorWindow::add(DoorWindowBridge* interface)
             interface->setPosition(koGet(KO_FEEDBACK_BIT) ? 0 : 100);
             break;    
     }
+    interface->setMovement(_currentMovement);
+    if (ParamBRI_CHDoorWindowObstructionDetection)
+    {
+        interface->setObstructionDetected(koGet(KO_OBSTRUCTION_DETECTED));
+    }
+    else
+    {
+        interface->setObstructionDetected(false);
+    }
 
 }
 
