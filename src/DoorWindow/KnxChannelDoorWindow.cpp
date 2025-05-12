@@ -60,6 +60,7 @@ void KnxChannelDoorWindow::add(DoorWindowBridge* interface)
     {
         interface->setObstructionDetected(false);
     }
+    interface->mainFunctionValueChanged();
 
 }
 
