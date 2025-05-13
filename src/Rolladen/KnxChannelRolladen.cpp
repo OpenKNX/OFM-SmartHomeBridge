@@ -93,11 +93,8 @@ bool KnxChannelRolladen::commandPosition(RolladenBridge* interface, uint8_t posi
         switch (getBlindsHandling())
         {
             case BlindsHandling::BlindsHandlingSendUpAndDown:
-                if (position == 100)
-                {
-                    koSet(KO_MOVE_DOWN_UP, position == 100, true);
-                    sendPosition = false;
-                };
+                koSet(KO_MOVE_DOWN_UP, position == 100, true);
+                sendPosition = false;
                 break;
             case BlindsHandling::BlindsHandlingSendDown:
                 if (position == 100)
