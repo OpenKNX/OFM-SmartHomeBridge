@@ -83,7 +83,6 @@ void KnxChannelScene::processInputKo(GroupObject &ko)
     if (isKo(ko, KO_SCENE))
     {
         uint8_t scene = koGet(KO_SCENE);
-        logErrorP("Scene %d", scene);
         if (scene == (uint8_t) (ParamBRI_CHSceneNumber - 1))
         {
             _lastActivatiation = max(1L, millis());
