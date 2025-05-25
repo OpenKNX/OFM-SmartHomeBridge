@@ -2,7 +2,7 @@
 
 Zur Auswahl stehen:
 
-- Schalten 
+- Ein- Ausschaltbares Gerät 
 - Steckdose
 - Lampe
 - Jalousie
@@ -10,15 +10,10 @@ Zur Auswahl stehen:
 - Markise
 - Thermostat
 - Anzeige
-- Kontakt
-- Bewegungsmelder
-- Präsensmelder
-- Leckmelder
-- Rauchmelder
-- Kohlendioxidmelder (CO2)
-- Kohlenmonoxidmelder (CO)
+- Alam
 - Lüfter
 - Fenster
 - Tür
 - Garagentor
+- Szene
 

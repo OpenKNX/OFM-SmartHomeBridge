@@ -42,6 +42,17 @@ Philips Hue unterstützt nur Lampen, für einige Gerätetypen gibt es aber die M
 
 Achtung: Die Anbindung wird instabil wenn zu viele Geräte definiert sind. Es empfiehlt sich nicht mehr als etwa 30 Geräte für Philips Hue zu nutzen. Die Anzahl der Geräte die für Homekit verwendet werden spielt dabei keine Rolle.
 
+<!-- DOCEND -->
+#### Hue spezifische Eintellungen
+
+Folgende Einstellungen stehen bei Geräten die in HUE verwendet werden zur Verfügung:
+
+<!-- DOC -->
+##### Gerät in Hue verwenden
+
+Gibt an, ob das Gerät über die HUE Emulation gefunden und gesteuert werden soll.
+
+
 <!-- DOC -->
 ### Kopplungscode
 
@@ -56,103 +67,9 @@ Nachdem die Bridge über ETS programmiert wurde, kann sie mit Apple Homekit verb
 
 Sollte nachträglich eine Gerätetype sich ändern, z.B. eine Lampe wird zu einer Jalousie, oder eine Untertype ändert sich z.B. ein CO2 Sensor wird zu einem Kontakt, muss zuerst das Gerät deaktiviert werden. Danach die in der Home App warten bis das Gerät verschwunden ist und danach kann das Gerät wieder aktiviert werden.
 
-<!-- DOC -->
-### Verfügbare Geräte
 
-Einstellung wie viele Geräte verfügbar sind. 
+<!-- DOCEND -->
+Mehr Informationen über die Geräte die angesteuert werden können, sind unter [Applikationsbeschreibung-Geräte](Applikationsbeschreibung-Geräte) zu finden.
 
-<!-- DOC HelpContext="MorePage" -->
-### (mehr)
-
-Über diese Seite können weiter Geräte hinzugefügt werden.
-
-<!-- DOC HelpContext="Kanalauswahl" -->
-# Gerätetypen
-
-Zur Auswahl stehen:
-
-- Schalten 
-- Steckdose
-- Lampe
-- Jalousie
-- Rolladen
-- Markise
-- Thermostat
-- Anzeige
-- Kontakt
-- Bewegungsmelder
-- Präsensmelder
-- Leckmelder
-- Rauchmelder
-- Kohlendioxidmelder (CO2)
-- Kohlenmonoxidmelder (CO)
-- Lüfter
-- Fenster
-- Tür
-- Garagentor
-
-<!-- DOC -->
-## Schalten 
-
-<!-- DOC -->
-## Steckdose
-
-<!-- DOC -->
-## Lampe
-
-<!-- DOC -->
-## Jalousie
-
-<!-- DOC -->
-## Rolladen
-
-<!-- DOC -->
-## Markise
-
-<!-- DOC -->
-## Thermostat
-
-<!-- DOC -->
-## Szene
-
-<!-- DOC -->
-## Media
-
-
-<!-- DOC -->
-## Anzeige
-
-<!-- DOC -->
-## Kontakt
-
-<!-- DOC -->
-## Bewegungsmelder
-
-<!-- DOC -->
-## Präsensmelder
-
-<!-- DOC -->
-## Leckmelder
-
-<!-- DOC -->
-## Rauchmelder
-
-<!-- DOC -->
-## Kohlendioxidmelder (CO2)
-
-<!-- DOC -->
-## Kohlenmonoxidmelder (CO)
-
-<!-- DOC -->
-## Lüfter
-
-<!-- DOC -->
-## Fenster
-
-<!-- DOC -->
-## Tür
-
-<!-- DOC -->
-## Garagentor
 
 

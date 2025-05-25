@@ -30,11 +30,11 @@
                 <Parameter Id="%AID%_UP-%T%%CCC%007" Offset="0" BitOffset="2" Name="CH%C%IconCol50"  ParameterType="%AID%_PT-OnOffYesNo"  Text="Anzeigemodus und Statuseinfärbung" Value="1" />
                 <Parameter Id="%AID%_UP-%T%%CCC%009" Offset="0" BitOffset="3" Name="CH%C%IconCol100" ParameterType="%AID%_PT-OnOffYesNo"  Text="Anzeigemodus und Statuseinfärbung" Value="1" />
                 <!-- 4 bits free -->
-                <Parameter Id="%AID%_UP-%T%%CCC%006" Offset="1" BitOffset="0" Name="CH%C%Icon0"   ParameterType="%AID%_PT-BRIIconName"  Text="Bilddatei" Value="Bild1" SuffixText=".png" />
+                <Parameter Id="%AID%_UP-%T%%CCC%006" Offset="1" BitOffset="0" Name="CH%C%Icon0"   ParameterType="%AID%_PT-BRIIconName"  Text="Bilddatei" Value="Bild1" SuffixText=".png (%BRI_IconSize%)" />
                 <!-- ^^^ 8 bytes ^^^ -->
-                <Parameter Id="%AID%_UP-%T%%CCC%008" Offset="9" BitOffset="0" Name="CH%C%Icon50"  ParameterType="%AID%_PT-BRIIconName"  Text="Bilddatei" Value="Bild2" SuffixText=".png" />
+                <Parameter Id="%AID%_UP-%T%%CCC%008" Offset="9" BitOffset="0" Name="CH%C%Icon50"  ParameterType="%AID%_PT-BRIIconName"  Text="Bilddatei" Value="Bild2" SuffixText=".png (%BRI_IconSize%)" />
                 <!-- ^^^ 8 bytes ^^^ -->
-                <Parameter Id="%AID%_UP-%T%%CCC%010" Offset="17" BitOffset="0" Name="CH%C%Icon100" ParameterType="%AID%_PT-BRIIconName"  Text="Bilddatei" Value="Bild3" SuffixText=".png" />
+                <Parameter Id="%AID%_UP-%T%%CCC%010" Offset="17" BitOffset="0" Name="CH%C%Icon100" ParameterType="%AID%_PT-BRIIconName"  Text="Bilddatei" Value="Bild3" SuffixText=".png (%BRI_IconSize%)" />
                 <!-- ^^^ 8 bytes ^^^ -->
               </Union>
 
@@ -63,7 +63,7 @@
                 <!-- Light RGB Switch Behavior -->
                 <Parameter Id="%AID%_UP-%T%%CCC%025" Offset="3" BitOffset="0" Name="CH%C%LightRGBSwitchOnBehavior"  ParameterType="%AID%_PT-BRILightRGBSwitchOnBehavior" Text="Bei EIN Befehl" Value="200" />                     
                 <!--  Light RGB Switch Behavior 2 -->
-                <Parameter Id="%AID%_UP-%T%%CCC%026" Offset="4" BitOffset="0" Name="CH%C%LightRGBSwitchOn2Behavior" ParameterType="%AID%_PT-BRILightRGBSwitchOn2Behavior" Text="Bei EIN wenn aktuelle Farbe > 0" Value="0" />
+                <Parameter Id="%AID%_UP-%T%%CCC%026" Offset="4" BitOffset="0" Name="CH%C%LightRGBSwitchOn2Behavior" ParameterType="%AID%_PT-BRILightRGBSwitchOn2Behavior" Text="Bei EIN wenn aktuelle Helligkeit > 0%" Value="0" />
               
               
               </Union>
@@ -184,7 +184,7 @@
                 <!-- Door/Window Obstruction Detection -->
                 <Parameter Id="%AID%_UP-%T%%CCC%092" Offset="0" BitOffset="2" Name="CH%C%DoorWindowObstructionDetection" ParameterType="%AID%_PT-BRIDoorWindowObstructionDetection"  Text="Blockadenerkennung" Value="0" />        
                 <!-- Door/Window Use Percent -->
-                <Parameter Id="%AID%_UP-%T%%CCC%097" Offset="0" BitOffset="3" Name="CH%C%DoorWindowUsePercent" ParameterType="%AID%_PT-BRIDoorWindowUsePercent"  Text="Prozent Steuerung Objekt" Value="1" />        
+                <Parameter Id="%AID%_UP-%T%%CCC%097" Offset="0" BitOffset="3" Name="CH%C%DoorWindowUsePercent" ParameterType="%AID%_PT-BRIDoorWindowUsePercent"  Text="Steuerungs-Objekt" Value="1" />        
                 <!-- Door/Window Up Down Handling -->
                 <Parameter Id="%AID%_UP-%T%%CCC%093" Offset="0" BitOffset="4" Name="CH%C%DoorWindowUpDownHandling" ParameterType="%AID%_PT-BRIDoorWindowUpDownHandling"    Text="Öffnen/Schließen Objekt" Value="0" />
                 <!-- Door/Window  Use Stop-->
@@ -441,7 +441,7 @@
                   <when test="=%C-1%">
                     <ParameterSeparator Id="%AID%_PS-nnn" Text="Gerät %C%" />  
                     <!-- Devie Name -->
-                    <ParameterRefRef IndentLevel="1" RefId="%AID%_P-%T%%CCC%002_R-%T%%CCC%00201" /> 
+                    <ParameterRefRef IndentLevel="1" RefId="%AID%_P-%T%%CCC%002_R-%T%%CCC%00201" HelpContext="%DOC%" /> 
                     <!-- Device Typ -->
                     <ParameterRefRef IndentLevel="1" RefId="%AID%_P-%T%%CCC%001_R-%T%%CCC%00101" HelpContext="BRI-Kanalauswahl" />
                     <choose ParamRefId="%AID%_P-%T%%CCC%001_R-%T%%CCC%00101">
@@ -473,7 +473,7 @@
                           <choose ParamRefId="%AID%_UP-%T%000003_R-%T%00000301">  
                             <when test="1"> <!-- Hue Enabled -->
                               <!-- In Hue verwenden -->
-                              <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%T%%CCC%012_R-%T%%CCC%01201" /> 
+                              <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%T%%CCC%012_R-%T%%CCC%01201" HelpContext="%DOC%"  /> 
                             </when>
                           </choose>
 
@@ -489,20 +489,20 @@
 
 
                               <!-- Icons -->
-                              <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%T%%CCC%004_R-%T%%CCC%00401" />
+                              <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%T%%CCC%004_R-%T%%CCC%00401" HelpContext="BRI-BildEinAus" />
                               <choose ParamRefId="%AID%_UP-%T%%CCC%004_R-%T%%CCC%00401">
                                 <when test="1">
                                   <ParameterSeparator Id="%AID%_PS-nnn" Text="Bild Aus" />
                                   <!-- Icon Col 0-->
-                                  <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%T%%CCC%005_R-%T%%CCC%00501" />
+                                  <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%T%%CCC%005_R-%T%%CCC%00501" HelpContext="%DOC%" />
                                   <!-- Icon 0-->
-                                  <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%T%%CCC%006_R-%T%%CCC%00601" />
+                                  <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%T%%CCC%006_R-%T%%CCC%00601" HelpContext="%DOC%" />
                                   
                                   <ParameterSeparator Id="%AID%_PS-nnn" Text="Bild Ein" />
                                   <!-- Icon Col 100-->
-                                  <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%T%%CCC%009_R-%T%%CCC%00901" />
+                                  <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%T%%CCC%009_R-%T%%CCC%00901" HelpContext="%DOC%"/>
                                   <!-- Icon 100-->
-                                  <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%T%%CCC%010_R-%T%%CCC%01001" />
+                                  <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%T%%CCC%010_R-%T%%CCC%01001" HelpContext="%DOC%" />
                                 </when>
                               </choose>
             
@@ -522,7 +522,7 @@
                           <choose ParamRefId="%AID%_UP-%T%000003_R-%T%00000301">  
                             <when test="1"> <!-- Hue Enabled -->
                               <!-- In Hue verwenden -->
-                              <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%T%%CCC%012_R-%T%%CCC%01201" /> 
+                              <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%T%%CCC%012_R-%T%%CCC%01201" HelpContext="%DOC%" /> 
                             </when>
                           </choose>
 
@@ -538,20 +538,20 @@
 
 
                               <!-- Icons -->
-                              <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%T%%CCC%004_R-%T%%CCC%00401" />
+                              <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%T%%CCC%004_R-%T%%CCC%00401" HelpContext="BRI-BildEinAus" />
                               <choose ParamRefId="%AID%_UP-%T%%CCC%004_R-%T%%CCC%00401">
                                 <when test="1">
                                   <ParameterSeparator Id="%AID%_PS-nnn" Text="Bild Aus" />
                                   <!-- Icon Col 0-->
-                                  <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%T%%CCC%005_R-%T%%CCC%00501" />
+                                  <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%T%%CCC%005_R-%T%%CCC%00501" HelpContext="%DOC%" />
                                   <!-- Icon 0-->
-                                  <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%T%%CCC%006_R-%T%%CCC%00601" />
+                                  <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%T%%CCC%006_R-%T%%CCC%00601" HelpContext="%DOC%" />
                                   
                                   <ParameterSeparator Id="%AID%_PS-nnn" Text="Bild Ein" />
                                   <!-- Icon Col 100-->
-                                  <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%T%%CCC%009_R-%T%%CCC%00901" />
+                                  <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%T%%CCC%009_R-%T%%CCC%00901" HelpContext="%DOC%" />
                                   <!-- Icon 100-->
-                                  <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%T%%CCC%010_R-%T%%CCC%01001" />
+                                  <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%T%%CCC%010_R-%T%%CCC%01001" HelpContext="%DOC%" />
                                 </when>
                               </choose>
             
@@ -576,7 +576,7 @@
                           </choose>
                           <ParameterSeparator Id="%AID%_PS-nnn" Text="" UIHint="HorizontalRuler" />
                     
-                          <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%T%%CCC%021_R-%T%%CCC%02101" /> <!-- Light Type -->
+                          <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%T%%CCC%021_R-%T%%CCC%02101" HelpContext="%DOC%" /> <!-- Light Type -->
                           <choose ParamRefId="%AID%_UP-%T%%CCC%021_R-%T%%CCC%02101">  <!-- Light Type -->
                             <when test="0"> <!-- On/Off -->
                               <ComObjectRefRef RefId="%AID%_O-%T%%CCC%001_R-%T%%CCC%00102" />
@@ -591,20 +591,20 @@
 
 
                                   <!-- Icons -->
-                                  <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%T%%CCC%004_R-%T%%CCC%00401" />
+                                  <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%T%%CCC%004_R-%T%%CCC%00401" HelpContext="BRI-BildEinAus"/>
                                   <choose ParamRefId="%AID%_UP-%T%%CCC%004_R-%T%%CCC%00401">
                                     <when test="1">
                                       <ParameterSeparator Id="%AID%_PS-nnn" Text="Bild Aus" />
                                       <!-- Icon Col 0-->
-                                      <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%T%%CCC%005_R-%T%%CCC%00501" />
+                                      <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%T%%CCC%005_R-%T%%CCC%00501" HelpContext="%DOC%"/>
                                       <!-- Icon 0-->
-                                      <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%T%%CCC%006_R-%T%%CCC%00601" />
+                                      <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%T%%CCC%006_R-%T%%CCC%00601" HelpContext="%DOC%"/>
                                       
                                       <ParameterSeparator Id="%AID%_PS-nnn" Text="Bild Ein" />
                                       <!-- Icon Col 100-->
-                                      <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%T%%CCC%009_R-%T%%CCC%00901" />
+                                      <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%T%%CCC%009_R-%T%%CCC%00901" HelpContext="%DOC%"/>
                                       <!-- Icon 100-->
-                                      <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%T%%CCC%010_R-%T%%CCC%01001" />
+                                      <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%T%%CCC%010_R-%T%%CCC%01001" HelpContext="%DOC%"/>
                                     </when>
                                   </choose>
                 
@@ -614,8 +614,8 @@
 
                             </when>
                             <when test="1"> <!-- Dimmer -->
-                              <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%T%%CCC%023_R-%T%%CCC%02301" /> <!-- Switch On Behavior -->
-                              <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%T%%CCC%024_R-%T%%CCC%02401" /> <!-- Switch On 2 Behavior -->
+                              <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%T%%CCC%023_R-%T%%CCC%02301" HelpContext="BRI-SwitchOnBehaviorDimmer" /> <!-- Switch On Behavior -->
+                              <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%T%%CCC%024_R-%T%%CCC%02401" HelpContext="BRI-SwitchOnBehavior2Dimmer" /> <!-- Switch On 2 Behavior -->
                               <ComObjectRefRef RefId="%AID%_O-%T%%CCC%001_R-%T%%CCC%00112" />
                               <ComObjectRefRef RefId="%AID%_O-%T%%CCC%002_R-%T%%CCC%00212" />
 
@@ -628,26 +628,26 @@
                                   <ParameterSeparator Id="%AID%_PS-nnn" Text="Touch Display Einstellungen" UIHint="Headline" />
 
                                   <!-- Icons -->
-                                  <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%T%%CCC%004_R-%T%%CCC%00401" />
+                                  <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%T%%CCC%004_R-%T%%CCC%00401" HelpContext="BRI-BildProzent" />
                                   <choose ParamRefId="%AID%_UP-%T%%CCC%004_R-%T%%CCC%00401">
                                     <when test="1">
                                       <ParameterSeparator Id="%AID%_PS-nnn" Text="Bild 0%" />
                                       <!-- Icon Col 0-->
-                                      <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%T%%CCC%005_R-%T%%CCC%00501" />
+                                      <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%T%%CCC%005_R-%T%%CCC%00501" HelpContext="%DOC%"/>
                                       <!-- Icon 0-->
-                                      <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%T%%CCC%006_R-%T%%CCC%00601" />
+                                      <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%T%%CCC%006_R-%T%%CCC%00601" HelpContext="%DOC%"/>
 
                                       <ParameterSeparator Id="%AID%_PS-nnn" Text="Bild 1-99%" />
                                       <!-- Icon Col 50-->
-                                      <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%T%%CCC%007_R-%T%%CCC%00701" />
+                                      <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%T%%CCC%007_R-%T%%CCC%00701" HelpContext="%DOC%"/>
                                       <!-- Icon 50-->
-                                      <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%T%%CCC%008_R-%T%%CCC%00801" />
+                                      <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%T%%CCC%008_R-%T%%CCC%00801" HelpContext="%DOC%"/>
                                       
                                       <ParameterSeparator Id="%AID%_PS-nnn" Text="Bild 100%" />
                                       <!-- Icon Col 100-->
-                                      <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%T%%CCC%009_R-%T%%CCC%00901" />
+                                      <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%T%%CCC%009_R-%T%%CCC%00901" HelpContext="%DOC%"/>
                                       <!-- Icon 100-->
-                                      <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%T%%CCC%010_R-%T%%CCC%01001" />
+                                      <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%T%%CCC%010_R-%T%%CCC%01001" HelpContext="%DOC%"/>
                                     </when>
                                   </choose>
                                 </when>
@@ -655,9 +655,9 @@
 
                             </when>
                             <when test="2"> <!-- RGB -->
-                              <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%T%%CCC%025_R-%T%%CCC%02501" /> <!-- RGB Switch On Behavior -->
-                              <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%T%%CCC%026_R-%T%%CCC%02601" /> <!-- RGB Switch On 2 Behavior -->
-                              <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%T%%CCC%027_R-%T%%CCC%02701" /> <!-- RGB Use Switch KO -->
+                              <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%T%%CCC%025_R-%T%%CCC%02501" HelpContext="BRI-SwitchOnBehaviorRGB"/> <!-- RGB Switch On Behavior -->
+                              <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%T%%CCC%026_R-%T%%CCC%02601" HelpContext="BRI-SwitchOnBehavior2RGB"/> <!-- RGB Switch On 2 Behavior -->
+                              <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%T%%CCC%027_R-%T%%CCC%02701" HelpContext="%DOC%" /> <!-- RGB Use Switch KO -->
                               <ComObjectRefRef RefId="%AID%_O-%T%%CCC%001_R-%T%%CCC%00122" />
                               <ComObjectRefRef RefId="%AID%_O-%T%%CCC%002_R-%T%%CCC%00222" />
                               <choose ParamRefId="%AID%_UP-%T%%CCC%027_R-%T%%CCC%02701"> <!-- RGB Use Switch KO -->
@@ -674,20 +674,20 @@
                                   <ParameterSeparator Id="%AID%_PS-nnn" Text="Touch Display Einstellungen" UIHint="Headline" />
 
                                   <!-- Icons -->
-                                  <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%T%%CCC%004_R-%T%%CCC%00401" />
+                                  <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%T%%CCC%004_R-%T%%CCC%00401" HelpContext="BRI-BildEinAus" />
                                   <choose ParamRefId="%AID%_UP-%T%%CCC%004_R-%T%%CCC%00401">
                                     <when test="1">
                                       <ParameterSeparator Id="%AID%_PS-nnn" Text="Bild Aus" />
                                       <!-- Icon Col 0-->
-                                      <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%T%%CCC%005_R-%T%%CCC%00501" />
+                                      <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%T%%CCC%005_R-%T%%CCC%00501" HelpContext="%DOC%" />
                                       <!-- Icon 0-->
-                                      <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%T%%CCC%006_R-%T%%CCC%00601" />
+                                      <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%T%%CCC%006_R-%T%%CCC%00601" HelpContext="%DOC%" />
                            
                                       <ParameterSeparator Id="%AID%_PS-nnn" Text="Bild Ein" />
                                       <!-- Icon Col 100-->
-                                      <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%T%%CCC%009_R-%T%%CCC%00901" />
+                                      <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%T%%CCC%009_R-%T%%CCC%00901" HelpContext="%DOC%"/>
                                       <!-- Icon 100-->
-                                      <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%T%%CCC%010_R-%T%%CCC%01001" />
+                                      <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%T%%CCC%010_R-%T%%CCC%01001" HelpContext="%DOC%"/>
                                     </when>
                                   </choose>
                                 </when>

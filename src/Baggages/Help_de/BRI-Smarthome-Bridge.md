@@ -1,11 +1,4 @@
-﻿### Applikationsbeschreibung Smart Home Bridge
+﻿### Applikationsbeschreibung Geräte
 
-Die Smart Home Bridge stellt KNX Geräte wie Lampen, Dimmer, Lüfter usw. als Geräte für andere Systeme zur Verfügung. 
-
-ACHTUNG: Bei WLAN Geräten muss unter Netzwerk / WiFi-Assistent das WLAN richtig konfiguriert werden. 
-Bei LAN Geräten ist nichts einzustellen.
-
-## Basiseinstellungen
-
-In den Basiseinstellungen wird die Auswahl der angebunden Smart Home System vorgenommen.
+Über die Gerätedefinition wird definitiert, über welche Gruppenadressen die Ansteuerung von KNX-Geräten erfolgt.
 
