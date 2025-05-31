@@ -152,11 +152,61 @@ Diese Einstellung steht nur für Farblampen (RGB) zur Auswahl.
 <!-- DOC -->
 ## Jalousie
 
+Diese Gerätetype wird zur Steuerung von Jalousie mit Lamellen verwendet.
+
+<!-- DOC -->
+### Auf/Ab Objekt verwenden
+
+Normalerweise kann über den Prozent Ausgang die Steuerung erfolgen. Jedoch wird bei manchen Aktoren die Prozentsteuerung anderes behandelt, als Auf/Ab. Aus diesem Grund, kann über diese Gruppenobjekt die Ansteuerung von Auf und Ab erfolgen. Diese wird aber nur verwendet, wenn eine vollständige Öffnung oder Schließung erwünscht ist (0%, 100%). In allen anderen Fällen, wird der Prozent Ausgang verwendet.
+
+<!-- DOC -->
+### Stopp Objekt verwenden
+
+Wird diese Einstellung verwendet, wird ein Stopp Objekt eingeblendet. Über dieses kann eine aktuelle Fahrbewegung gestoppt werden um eine vorherigen Fahrbefehl vorzeitig zu stoppen.
+
+<!-- DOC -->
+### Lamellenposition bei Fahrt
+
+Über diese Einstellung, kann definiert werden, in welche Richtung die Lamellen stehen sollen, wenn ein Fahrt erfolgt.
+
+- nicht ändern
+  Die Lamellen behalten die letzte Vorgabe bei. 
+  Das bedeutet, nach einer Fahrbewegung werden die Lamellen wieder in die vorherige Stellung gedreht.
+- 100% (schließen) wenn Fahrt von 0% Höhe startet
+  In dieser Eisntellung werden bei einer Fahrt von 0% auf 100% die Lamellen am Ende in der geschlossen Stellung beibehalten.
+- 100% (schließen) bei Fahrt nach unten, 0% (öffnen) bei Fahrt nach oben
+  Diese Einstellung entspricht dem natürlichen Verhalten der Lamellen bei Fahrbewegungen.  
+  D.H. es erfolgt keine Drehung der Lamellen nach der Fahrbewegung.
+                                                             
 <!-- DOC -->
 ## Rolladen
 
+Diese Gerätetype wird zur Steuerung von Rolladen (Ohne Lamellen) verwendet.
+
+<!-- DOCEND -->
+### Auf/Ab Objekt verwenden
+
+Normalerweise kann über den Prozent Ausgang die Steuerung erfolgen. Jedoch wird bei manchen Aktoren die Prozentsteuerung anderes behandelt, als Auf/Ab. Aus diesem Grund, kann über diese Gruppenobjekt die Ansteuerung von Auf und Ab erfolgen. Diese wird aber nur verwendet, wenn eine vollständige Öffnung oder Schließung erwünscht ist (0%, 100%). In allen anderen Fällen, wird der Prozent Ausgang verwendet.
+
+<!-- DOCEND -->
+### Stopp Objekt verwenden
+
+Wird diese Einstellung verwendet, wird ein Stopp Objekt eingeblendet. Über dieses kann eine aktuelle Fahrbewegung gestoppt werden um eine vorherigen Fahrbefehl vorzeitig zu stoppen.
+
 <!-- DOC -->
 ## Markise
+
+Diese Gerätetype wird zur Steuerung von Markisen oder Pergulas verwendet.
+
+<!-- DOCEND -->
+### Auf/Ab Objekt verwenden
+
+Normalerweise kann über den Prozent Ausgang die Steuerung erfolgen. Jedoch wird bei manchen Aktoren die Prozentsteuerung anderes behandelt, als Auf/Ab. Aus diesem Grund, kann über diese Gruppenobjekt die Ansteuerung von Auf und Ab erfolgen. Diese wird aber nur verwendet, wenn eine vollständige Öffnung oder Schließung erwünscht ist (0%, 100%). In allen anderen Fällen, wird der Prozent Ausgang verwendet.
+
+<!-- DOCEND -->
+### Stopp Objekt verwenden
+
+Wird diese Einstellung verwendet, wird ein Stopp Objekt eingeblendet. Über dieses kann eine aktuelle Fahrbewegung gestoppt werden um eine vorherigen Fahrbefehl vorzeitig zu stoppen.
 
 <!-- DOC -->
 ## Thermostat

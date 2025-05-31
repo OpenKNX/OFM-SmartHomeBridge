@@ -52,6 +52,10 @@ Folgende Einstellungen stehen bei Geräten die in HUE verwendet werden zur Verf�
 
 Gibt an, ob das Gerät über die HUE Emulation gefunden und gesteuert werden soll.
 
+<!-- DOC -->
+##### In HUE als dimmbare Lampe darstellen
+
+Die Philips HUE Emulation unterstützt nur Lampen. Geräte mit dieser Einstellung können aber als Dimmbare Lampe in HUE emuliert werde, um trotzdem eine Steuerung über die Smart Home Bridge zur Ermöglichen.
 
 <!-- DOC -->
 ### Kopplungscode

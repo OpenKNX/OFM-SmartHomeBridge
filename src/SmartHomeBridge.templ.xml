@@ -707,14 +707,14 @@
 							            <!-- Hue -->
                           <choose ParamRefId="%AID%_UP-%T%000003_R-%T%00000301">  
                             <when test="1"> <!-- Hue -->
-                              <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%T%%CCC%031_R-%T%%CCC%03101" /> <!-- In Hue verwenden -->
+                              <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%T%%CCC%031_R-%T%%CCC%03101" HelpContext="%DOC%" /> <!-- In Hue verwenden -->
                             </when>
                           </choose>            
                           <ParameterSeparator Id="%AID%_PS-nnn" Text="" UIHint="HorizontalRuler" />
           
-                          <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%T%%CCC%032_R-%T%%CCC%03201" /> <!-- Up Down Handling -->
-                          <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%T%%CCC%033_R-%T%%CCC%03301" /> <!-- Use Stop -->
-                          <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%T%%CCC%034_R-%T%%CCC%03401" /> <!-- Slat Handling -->
+                          <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%T%%CCC%032_R-%T%%CCC%03201" HelpContext="%DOC%" /> <!-- Up Down Handling -->
+                          <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%T%%CCC%033_R-%T%%CCC%03301" HelpContext="%DOC%" /> <!-- Use Stop -->
+                          <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%T%%CCC%034_R-%T%%CCC%03401" HelpContext="%DOC%" /> <!-- Slat Handling -->
                   
                           <ComObjectRefRef RefId="%AID%_O-%T%%CCC%001_R-%T%%CCC%00103" /> <!-- Position --> 
                           <ComObjectRefRef RefId="%AID%_O-%T%%CCC%002_R-%T%%CCC%00203" /> <!-- Position Feedback --> 
@@ -743,26 +743,26 @@
                               <ParameterSeparator Id="%AID%_PS-nnn" Text="Touch Display Einstellungen" UIHint="Headline" />
 
                               <!-- Icons -->
-                              <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%T%%CCC%004_R-%T%%CCC%00401" />
+                              <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%T%%CCC%004_R-%T%%CCC%00401" HelpContext="BRI-BildProzent" />
                               <choose ParamRefId="%AID%_UP-%T%%CCC%004_R-%T%%CCC%00401">
                                 <when test="1">
                                   <ParameterSeparator Id="%AID%_PS-nnn" Text="Bild 0%" />
                                   <!-- Icon Col 0-->
-                                  <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%T%%CCC%005_R-%T%%CCC%00501" />
+                                  <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%T%%CCC%005_R-%T%%CCC%00501" HelpContext="%DOC%" />
                                   <!-- Icon 0-->
-                                  <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%T%%CCC%006_R-%T%%CCC%00601" />
+                                  <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%T%%CCC%006_R-%T%%CCC%00601" HelpContext="%DOC%"/>
 
                                   <ParameterSeparator Id="%AID%_PS-nnn" Text="Bild 1-90%" />
                                   <!-- Icon Col 50-->
-                                  <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%T%%CCC%007_R-%T%%CCC%00701" />
+                                  <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%T%%CCC%007_R-%T%%CCC%00701" HelpContext="%DOC%"/>
                                   <!-- Icon 50-->
-                                  <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%T%%CCC%008_R-%T%%CCC%00801" />
+                                  <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%T%%CCC%008_R-%T%%CCC%00801" HelpContext="%DOC%"/>
                                   
                                   <ParameterSeparator Id="%AID%_PS-nnn" Text="Bild 91-100%" />
                                   <!-- Icon Col 100-->
-                                  <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%T%%CCC%009_R-%T%%CCC%00901" />
+                                  <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%T%%CCC%009_R-%T%%CCC%00901" HelpContext="%DOC%"/>
                                   <!-- Icon 100-->
-                                  <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%T%%CCC%010_R-%T%%CCC%01001" />
+                                  <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%T%%CCC%010_R-%T%%CCC%01001" HelpContext="%DOC%"/>
                                 </when>
                               </choose>
                             </when>
@@ -780,13 +780,13 @@
                           <!-- Hue -->
                           <choose ParamRefId="%AID%_UP-%T%000003_R-%T%00000301">  
                             <when test="1"> <!-- Hue -->
-                              <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%T%%CCC%031_R-%T%%CCC%03101" /> <!-- In Hue verwenden -->
+                              <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%T%%CCC%031_R-%T%%CCC%03101" HelpContext="%DOC%" /> <!-- In Hue verwenden -->
                             </when>
                           </choose>            
                           <ParameterSeparator Id="%AID%_PS-nnn" Text="" UIHint="HorizontalRuler" />
           
-                          <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%T%%CCC%032_R-%T%%CCC%03201" /> <!-- Up Down Handling -->
-                          <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%T%%CCC%033_R-%T%%CCC%03301" /> <!-- Use Stop -->
+                          <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%T%%CCC%032_R-%T%%CCC%03201" HelpContext="%DOC%" /> <!-- Up Down Handling -->
+                          <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%T%%CCC%033_R-%T%%CCC%03301" HelpContext="%DOC%" /> <!-- Use Stop -->
 
                           <ComObjectRefRef RefId="%AID%_O-%T%%CCC%001_R-%T%%CCC%00103" /> <!-- Position --> 
                           <ComObjectRefRef RefId="%AID%_O-%T%%CCC%002_R-%T%%CCC%00203" /> <!-- Position Feedback --> 
@@ -811,26 +811,26 @@
                               <ParameterSeparator Id="%AID%_PS-nnn" Text="Touch Display Einstellungen" UIHint="Headline" />
 
                               <!-- Icons -->
-                              <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%T%%CCC%004_R-%T%%CCC%00401" />
+                              <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%T%%CCC%004_R-%T%%CCC%00401" HelpContext="BRI-BildProzent"  />
                               <choose ParamRefId="%AID%_UP-%T%%CCC%004_R-%T%%CCC%00401">
                                 <when test="1">
                                   <ParameterSeparator Id="%AID%_PS-nnn" Text="Bild 0%" />
                                   <!-- Icon Col 0-->
-                                  <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%T%%CCC%005_R-%T%%CCC%00501" />
+                                  <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%T%%CCC%005_R-%T%%CCC%00501" HelpContext="%DOC%"  />
                                   <!-- Icon 0-->
-                                  <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%T%%CCC%006_R-%T%%CCC%00601" />
+                                  <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%T%%CCC%006_R-%T%%CCC%00601" HelpContext="%DOC%" />
 
                                   <ParameterSeparator Id="%AID%_PS-nnn" Text="Bild 1-99%" />
                                   <!-- Icon Col 50-->
-                                  <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%T%%CCC%007_R-%T%%CCC%00701" />
+                                  <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%T%%CCC%007_R-%T%%CCC%00701" HelpContext="%DOC%" />
                                   <!-- Icon 50-->
-                                  <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%T%%CCC%008_R-%T%%CCC%00801" />
+                                  <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%T%%CCC%008_R-%T%%CCC%00801" HelpContext="%DOC%" />
                                   
                                   <ParameterSeparator Id="%AID%_PS-nnn" Text="Bild 100%" />
                                   <!-- Icon Col 100-->
-                                  <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%T%%CCC%009_R-%T%%CCC%00901" />
+                                  <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%T%%CCC%009_R-%T%%CCC%00901" HelpContext="%DOC%" />
                                   <!-- Icon 100-->
-                                  <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%T%%CCC%010_R-%T%%CCC%01001" />
+                                  <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%T%%CCC%010_R-%T%%CCC%01001" HelpContext="%DOC%" />
                                 </when>
                               </choose>
                             </when>
@@ -847,13 +847,13 @@
                           <!-- Hue -->
                           <choose ParamRefId="%AID%_UP-%T%000003_R-%T%00000301">  
                             <when test="1"> <!-- Hue -->
-                              <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%T%%CCC%031_R-%T%%CCC%03101" /> <!-- In Hue verwenden -->
+                              <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%T%%CCC%031_R-%T%%CCC%03101" HelpContext="%DOC%"  /> <!-- In Hue verwenden -->
                             </when>
                           </choose>            
                           <ParameterSeparator Id="%AID%_PS-nnn" Text="" UIHint="HorizontalRuler" />
           
-                          <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%T%%CCC%032_R-%T%%CCC%03201" /> <!-- Up Down Handling -->
-                          <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%T%%CCC%033_R-%T%%CCC%03301" /> <!-- Use Stop -->         
+                          <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%T%%CCC%032_R-%T%%CCC%03201" HelpContext="%DOC%" /> <!-- Up Down Handling -->
+                          <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%T%%CCC%033_R-%T%%CCC%03301" HelpContext="%DOC%" /> <!-- Use Stop -->         
                           <ComObjectRefRef RefId="%AID%_O-%T%%CCC%001_R-%T%%CCC%00103" /> <!-- Position --> 
                           <ComObjectRefRef RefId="%AID%_O-%T%%CCC%002_R-%T%%CCC%00203" /> <!-- Position Feedback --> 
                           <ComObjectRefRef RefId="%AID%_O-%T%%CCC%003_R-%T%%CCC%00303" /> <!-- Move Down Feedback --> 
@@ -877,26 +877,26 @@
                               <ParameterSeparator Id="%AID%_PS-nnn" Text="Touch Display Einstellungen" UIHint="Headline" />
 
                               <!-- Icons -->
-                              <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%T%%CCC%004_R-%T%%CCC%00401" />
+                              <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%T%%CCC%004_R-%T%%CCC%00401" HelpContext="BRI-BildProzent" />
                               <choose ParamRefId="%AID%_UP-%T%%CCC%004_R-%T%%CCC%00401">
                                 <when test="1">
                                   <ParameterSeparator Id="%AID%_PS-nnn" Text="Bild 0%" />
                                   <!-- Icon Col 0-->
-                                  <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%T%%CCC%005_R-%T%%CCC%00501" />
+                                  <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%T%%CCC%005_R-%T%%CCC%00501" HelpContext="%DOC%" />
                                   <!-- Icon 0-->
-                                  <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%T%%CCC%006_R-%T%%CCC%00601" />
+                                  <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%T%%CCC%006_R-%T%%CCC%00601" HelpContext="%DOC%" />
 
                                   <ParameterSeparator Id="%AID%_PS-nnn" Text="Bild 1-99%" />
                                   <!-- Icon Col 50-->
-                                  <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%T%%CCC%007_R-%T%%CCC%00701" />
+                                  <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%T%%CCC%007_R-%T%%CCC%00701" HelpContext="%DOC%" />
                                   <!-- Icon 50-->
-                                  <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%T%%CCC%008_R-%T%%CCC%00801" />
+                                  <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%T%%CCC%008_R-%T%%CCC%00801" HelpContext="%DOC%" />
                                   
                                   <ParameterSeparator Id="%AID%_PS-nnn" Text="Bild 100%" />
                                   <!-- Icon Col 100-->
-                                  <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%T%%CCC%009_R-%T%%CCC%00901" />
+                                  <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%T%%CCC%009_R-%T%%CCC%00901" HelpContext="%DOC%" />
                                   <!-- Icon 100-->
-                                  <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%T%%CCC%010_R-%T%%CCC%01001" />
+                                  <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%T%%CCC%010_R-%T%%CCC%01001" HelpContext="%DOC%" />
                                 </when>
                               </choose>
                             </when>
