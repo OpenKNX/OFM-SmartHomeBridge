@@ -214,6 +214,13 @@ Wird diese Einstellung verwendet, wird ein Stopp Objekt eingeblendet. Über dies
 <!-- DOC -->
 ## Szene
 
+Diese Gerätetype wird zur aktivierung von KNX-Szenen verwendet.
+
+<!-- DOC -->
+### Szene Nummer
+
+Szene Nummer die bei einem EIN Befehl gesendet wird.
+
 <!-- DOC -->
 ## Media
 

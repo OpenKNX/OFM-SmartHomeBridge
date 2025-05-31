@@ -90,7 +90,7 @@
                 <Parameter Id="%AID%_UP-%T%%CCC%041" Offset="0" BitOffset="0" Name="CH%C%SceneHueEmulation" ParameterType="%AID%_PT-BRIHueEmulation" Text="In HUE als Lampe darstellen" Value="0" />
                 <!-- 7 bits free -->
                 <!-- Scene Number -->
-                <Parameter Id="%AID%_UP-%T%%CCC%042" Offset="1" BitOffset="0" Name="CH%C%SceneNumber" ParameterType="%AID%_PT-BRISceneNumber"          Text="Szene Nummer" Value="1" />                    
+                <Parameter Id="%AID%_UP-%T%%CCC%042" Offset="1" BitOffset="0" Name="CH%C%SceneNumber" ParameterType="%AID%_PT-BRISceneNumber" Text="Szene Nummer" Value="1" />                    
               </Union>      
               <!-- Media -->
               <Union SizeInBit="16">
@@ -913,12 +913,12 @@
                           <!-- Hue -->
                           <choose ParamRefId="%AID%_UP-%T%000003_R-%T%00000301">  
                             <when test="1"> <!-- Hue -->
-                              <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%T%%CCC%041_R-%T%%CCC%04101" /> <!-- In Hue verwenden -->
+                              <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%T%%CCC%041_R-%T%%CCC%04101" HelpContext="%DOC%" /> <!-- In Hue verwenden -->
                             </when>
                           </choose>            
                           <ParameterSeparator Id="%AID%_PS-nnn" Text="" UIHint="HorizontalRuler" />
           
-                          <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%T%%CCC%042_R-%T%%CCC%04201" /> <!-- Szene Nummer -->
+                          <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%T%%CCC%042_R-%T%%CCC%04201" HelpContext="%DOC%"/> <!-- Szene Nummer -->
                           <ComObjectRefRef RefId="%AID%_O-%T%%CCC%001_R-%T%%CCC%00104" /> <!-- Szene --> 
                        
                           <!-- DisplaySettings -->
@@ -929,20 +929,20 @@
                               <ParameterSeparator Id="%AID%_PS-nnn" Text="Touch Display Einstellungen" UIHint="Headline" />
 
                               <!-- Icons -->
-                              <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%T%%CCC%004_R-%T%%CCC%00401" />
+                              <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%T%%CCC%004_R-%T%%CCC%00401" HelpContext="BRI-BildEinAus" />
                               <choose ParamRefId="%AID%_UP-%T%%CCC%004_R-%T%%CCC%00401">
                                 <when test="1">
                                   <ParameterSeparator Id="%AID%_PS-nnn" Text="Bild" />
                                   <!-- Icon Col 0-->
-                                  <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%T%%CCC%005_R-%T%%CCC%00501" />
+                                  <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%T%%CCC%005_R-%T%%CCC%00501" HelpContext="%DOC%" />
                                   <!-- Icon 0-->
-                                  <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%T%%CCC%006_R-%T%%CCC%00601" />
+                                  <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%T%%CCC%006_R-%T%%CCC%00601" HelpContext="%DOC%" />
                                   
                                   <ParameterSeparator Id="%AID%_PS-nnn" Text="Bild Aktivierung" />
                                   <!-- Icon Col 100-->
-                                  <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%T%%CCC%009_R-%T%%CCC%00901" />
+                                  <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%T%%CCC%009_R-%T%%CCC%00901" HelpContext="%DOC%" />
                                   <!-- Icon 100-->
-                                  <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%T%%CCC%010_R-%T%%CCC%01001" />
+                                  <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%T%%CCC%010_R-%T%%CCC%01001" HelpContext="%DOC%" />
                                 </when>
                               </choose>
                             </when>
@@ -951,7 +951,7 @@
                       </when>
                       <when test="41">
                         <!-- ************** Media ************ -->
-                        <ParameterBlock Id="%AID%_PB-nnn" Name="f%CC%FCB_Media" Text="%C% Media: {{0: ...}}"      TextParameterRefId="%AID%_P-%T%%CCC%002_R-%T%%CCC%00201" Icon="music" ShowInComObjectTree="true" HelpContext="BRI-Media">
+                        <ParameterBlock Id="%AID%_PB-nnn" Name="f%CC%FCB_Media" Text="%C% Media: {{0: ...}}"  TextParameterRefId="%AID%_P-%T%%CCC%002_R-%T%%CCC%00201" Icon="music" ShowInComObjectTree="true" HelpContext="BRI-Media">
                         <ParameterSeparator Id="%AID%_PS-nnn" Text="Media" UIHint="Headline" />
                           <op:usePart name="ChannelHead" xpath="//ParameterBlock/*" />
                           <op:usePart name="HueSimulation" xpath="//ParameterBlock/*" />
