@@ -13,26 +13,6 @@ Einstellung wie viele Geräte verfügbar sind.
 
 Über diese Seite können weiter Geräte hinzugefügt werden.
 
-<!-- DOC HelpContext="Kanalauswahl" -->
-# Gerätetypen
-
-Zur Auswahl stehen:
-
-- Ein- Ausschaltbares Gerät 
-- Steckdose
-- Lampe
-- Jalousie
-- Rolladen
-- Markise
-- Thermostat
-- Anzeige
-- Alam
-- Lüfter
-- Fenster
-- Tür
-- Garagentor
-- Szene
-
 <!-- DOC HelpContext="Schalten" -->
 ## Ein-/Ausschaltbares Gerät 
 

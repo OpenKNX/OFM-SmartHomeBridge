@@ -1,4 +1,30 @@
+# Gerätetypen
+
+Diese Einsellung legt fest, welche Gerätetype verwendet wird.
+
+<!-- DOCEND -->
+Zur Auswahl stehen:
+
+- Ein- Ausschaltbares Gerät 
+- Steckdose
+- Lampe
+- Jalousie
+- Rolladen
+- Markise
+- Thermostat
+- Anzeige
+- Alam
+- Lüfter
+- Fenster
+- Tür
+- Garagentor
+- Szene
+- Mediensteuerung
+
+Mehr Informationen über die Geräte die angesteuert werden können, sind unter [Applikationsbeschreibung-Geräte](Applikationsbeschreibung-Geräte) zu finden.
+
 ## Anzeige spezifische Geräteeinstellungen
+
 
 <!-- DOC  HelpContext="BildEinAus" -->
 ### Benutzerdefiniertes Bild (Ein/Aus)
