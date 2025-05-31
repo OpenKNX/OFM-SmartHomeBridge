@@ -224,6 +224,13 @@ Szene Nummer die bei einem EIN Befehl gesendet wird.
 <!-- DOC -->
 ## Media
 
+Diese Gerätetype wird auf OpenKNX Displays zur Steuerung eines Media Players verwendet. 
+Aktuelle wird diese Gerätetype in der Smart Home Bridge nicht unterstützt. 
+
+<!-- DOC -->
+### Objekt fuer Mediatitel
+
+Blendet ein Gruppenobjekt ein, dass den Titel- oder Quellennamen empfangen kann, der am Display angezeigt werden soll.
 
 <!-- DOC -->
 ## Anzeige

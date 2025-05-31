@@ -959,7 +959,7 @@
                           <!-- Hue -->
                           <choose ParamRefId="%AID%_UP-%T%000003_R-%T%00000301">  
                             <when test="1"> <!-- Hue -->
-                              <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%T%%CCC%043_R-%T%%CCC%04301" /> <!-- In Hue verwenden -->
+                              <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%T%%CCC%043_R-%T%%CCC%04301" HelpContext="%DOC%" /> <!-- In Hue verwenden -->
                             </when>
                           </choose>            
                           <ParameterSeparator Id="%AID%_PS-nnn" Text="" UIHint="HorizontalRuler" />
@@ -970,12 +970,7 @@
                           <ComObjectRefRef RefId="%AID%_O-%T%%CCC%004_R-%T%%CCC%00414" /> <!-- Spielt Rückmeldung --> 
                           <ComObjectRefRef RefId="%AID%_O-%T%%CCC%005_R-%T%%CCC%00514" /> <!-- Vor- Zurück --> 
 
-                          <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%T%%CCC%044_R-%T%%CCC%04401" /> <!-- Titel Input verwenden -->
-                          <choose ParamRefId="%AID%_UP-%T%%CCC%044_R-%T%%CCC%04401">
-                            <when test="1">
-                              <ComObjectRefRef RefId="%AID%_O-%T%%CCC%006_R-%T%%CCC%00614" /> <!-- Titel --> 
-                           </when>
-                          </choose>
+      
                        
                           <!-- DisplaySettings -->
                           <choose ParamRefId="%AID%_P-%T%000010_R-%T%00001001">
@@ -984,8 +979,15 @@
                               <ParameterSeparator Id="%AID%_PS-nnn" Text="" UIHint="HorizontalRuler" />
                               <ParameterSeparator Id="%AID%_PS-nnn" Text="Touch Display Einstellungen" UIHint="Headline" />
 
+                              <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%T%%CCC%044_R-%T%%CCC%04401" HelpContext="%DOC%" /> <!-- Titel Input verwenden -->
+                                <choose ParamRefId="%AID%_UP-%T%%CCC%044_R-%T%%CCC%04401">
+                                  <when test="1">
+                                    <ComObjectRefRef RefId="%AID%_O-%T%%CCC%006_R-%T%%CCC%00614" /> <!-- Titel --> 
+                                </when>
+                              </choose>
+
                               <!-- Icons -->
-                              <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%T%%CCC%004_R-%T%%CCC%00401" />
+                              <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%T%%CCC%004_R-%T%%CCC%00401" HelpContext="BRI-BildEinAus" />
                               <choose ParamRefId="%AID%_UP-%T%%CCC%004_R-%T%%CCC%00401">
                                 <when test="1">
                                   <ParameterSeparator Id="%AID%_PS-nnn" Text="Bild" />
