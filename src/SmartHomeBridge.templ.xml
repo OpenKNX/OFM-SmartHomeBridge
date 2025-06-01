@@ -1145,7 +1145,7 @@
                           <op:usePart name="HueNotSupported" xpath="//ParameterBlock/*" />                 
                           <ParameterSeparator Id="%AID%_PS-nnn" Text="" UIHint="HorizontalRuler" />
           
-                          <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%T%%CCC%061_R-%T%%CCC%06101" /> <!-- DisplayType  -->                       
+                          <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%T%%CCC%061_R-%T%%CCC%06101" HelpContext="%DOC%" /> <!-- DisplayType  -->                       
                           <choose ParamRefId="%AID%_UP-%T%%CCC%061_R-%T%%CCC%06101">  <!-- DisplayType  -->
                             <when test="0"> <!-- Temperatur -->
                               <ComObjectRefRef RefId="%AID%_O-%T%%CCC%001_R-%T%%CCC%00106" />
@@ -1162,7 +1162,7 @@
                                <!-- Homekit -->
                                <choose ParamRefId="%AID%_UP-%T%000002_R-%T%00000201"> 
                                 <when test="1"> <!-- Homekit -->
-                                  <ParameterSeparator Id="%AID%_PS-nnn" Text="Dieser Anzeigewert wird in Homekit nicht unterstütz" UIHint="Information" />
+                                  <ParameterSeparator Id="%AID%_PS-nnn" Text="Dieser Anzeigewert wird in Homekit nicht unterstützt" UIHint="Information" />
                                 </when>
                               </choose>
                             </when>
@@ -1172,7 +1172,7 @@
                               <!-- Homekit -->
                               <choose ParamRefId="%AID%_UP-%T%000002_R-%T%00000201"> 
                                 <when test="1"> <!-- Homekit -->
-                                  <ParameterSeparator Id="%AID%_PS-nnn" Text="Dieser Anzeigewert wird in Homekit nicht unterstütz" UIHint="Information" />
+                                  <ParameterSeparator Id="%AID%_PS-nnn" Text="Dieser Anzeigewert wird in Homekit nicht unterstützt" UIHint="Information" />
                                 </when>
                               </choose>
                             </when>
@@ -1182,7 +1182,7 @@
                                <!-- Homekit -->
                                <choose ParamRefId="%AID%_UP-%T%000002_R-%T%00000201"> 
                                 <when test="1"> <!-- Homekit -->
-                                  <ParameterSeparator Id="%AID%_PS-nnn" Text="Dieser Anzeigewert wird in Homekit nicht unterstütz" UIHint="Information" />
+                                  <ParameterSeparator Id="%AID%_PS-nnn" Text="Dieser Anzeigewert wird in Homekit nicht unterstützt" UIHint="Information" />
                                 </when>
                               </choose>
                             </when>
@@ -1193,7 +1193,7 @@
                                <!-- Homekit -->
                                <choose ParamRefId="%AID%_UP-%T%000002_R-%T%00000201"> 
                                 <when test="1"> <!-- Homekit -->
-                                  <ParameterSeparator Id="%AID%_PS-nnn" Text="Dieser Anzeigewert wird in Homekit nicht unterstütz" UIHint="Information" />
+                                  <ParameterSeparator Id="%AID%_PS-nnn" Text="Dieser Anzeigewert wird in Homekit nicht unterstützt" UIHint="Information" />
                                 </when>
                               </choose>
                             </when>
@@ -1202,10 +1202,10 @@
                                <!-- Homekit -->
                                <choose ParamRefId="%AID%_UP-%T%000002_R-%T%00000201"> 
                                 <when test="1"> <!-- Homekit -->
-                                  <ParameterSeparator Id="%AID%_PS-nnn" Text="Dieser Anzeigewert wird in Homekit nicht unterstütz" UIHint="Information" />
+                                  <ParameterSeparator Id="%AID%_PS-nnn" Text="Dieser Anzeigewert wird in Homekit nicht unterstützt" UIHint="Information" />
                                 </when>
                               </choose>
-                              <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%T%%CCC%068_R-%T%%CCC%06801" /> <!-- Input Type  -->    
+                              <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%T%%CCC%068_R-%T%%CCC%06801" HelpContext="BRI-DisplayInputType"  /> <!-- Input Type  -->    
                               <choose ParamRefId="%AID%_UP-%T%%CCC%068_R-%T%%CCC%06801">  <!-- Input Type  -->
                                 <when test="0"> 
                                   <ComObjectRefRef RefId="%AID%_O-%T%%CCC%001_R-%T%%CCC%00100" />
@@ -1239,7 +1239,7 @@
                                 </when>
 
                               </choose>
-                              <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%T%%CCC%067_R-%T%%CCC%06701" /> <!-- Unit  -->                   
+                              <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%T%%CCC%067_R-%T%%CCC%06701" HelpContext="%DOC%" /> <!-- Unit  -->                   
                      
                             </when>
 
@@ -1249,7 +1249,7 @@
                                <!-- Homekit -->
                                <choose ParamRefId="%AID%_UP-%T%000002_R-%T%00000201"> 
                                 <when test="1"> <!-- Homekit -->
-                                  <ParameterSeparator Id="%AID%_PS-nnn" Text="Dieser Anzeigewert wird in Homekit nicht unterstütz" UIHint="Information" />
+                                  <ParameterSeparator Id="%AID%_PS-nnn" Text="Dieser Anzeigewert wird in Homekit nicht unterstützt" UIHint="Information" />
                                 </when>
                               </choose>
                             </when>
@@ -1263,7 +1263,7 @@
                               <ParameterSeparator Id="%AID%_PS-nnn" Text="Touch Display Einstellungen" UIHint="Headline" />
 
                               <!-- Icons -->
-                              <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%T%%CCC%004_R-%T%%CCC%00401" />
+                              <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%T%%CCC%004_R-%T%%CCC%00401" HelpContext="BRI-BildWert"  />
                               <choose ParamRefId="%AID%_UP-%T%%CCC%004_R-%T%%CCC%00401">
                                 <when test="0">
                                   <ParameterSeparator Id="%AID%_PS-nnn" Text="Ein bei Werte ab" />
@@ -1277,40 +1277,40 @@
 
                                       <ParameterSeparator Id="%AID%_PS-nnn" Text="Bild bei Werte bis" />
                                       <!-- Wert unter -->
-                                      <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%T%%CCC%062_R-%T%%CCC%06201" />
+                                      <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%T%%CCC%062_R-%T%%CCC%06201" HelpContext="%DOC%" />
                                       <!-- Icon State 1-->
-                                      <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%T%%CCC%064_R-%T%%CCC%06401" />
+                                      <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%T%%CCC%064_R-%T%%CCC%06401" HelpContext="%DOC%" />
                                       <!-- Icon 0-->
-                                      <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%T%%CCC%006_R-%T%%CCC%00601" />
+                                      <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%T%%CCC%006_R-%T%%CCC%00601" HelpContext="%DOC%" />
 
                                       <ParameterSeparator Id="%AID%_PS-nnn" Text="Standard Bild" />
                                       <!-- Icon State 2 -->
-                                      <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%T%%CCC%065_R-%T%%CCC%06501" />
+                                      <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%T%%CCC%065_R-%T%%CCC%06501" HelpContext="%DOC%" />
                                       <!-- Icon 50 -->
-                                      <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%T%%CCC%008_R-%T%%CCC%00801" />
+                                      <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%T%%CCC%008_R-%T%%CCC%00801" HelpContext="%DOC%" />
 
                                       <ParameterSeparator Id="%AID%_PS-nnn" Text="Bild bei Werte ab" />
                                       <!-- Wert ab -->
-                                      <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%T%%CCC%063_R-%T%%CCC%06301" />
+                                      <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%T%%CCC%063_R-%T%%CCC%06301" HelpContext="%DOC%" />
                                       <!-- Icon State 3 -->
-                                      <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%T%%CCC%066_R-%T%%CCC%06601" />
+                                      <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%T%%CCC%066_R-%T%%CCC%06601" HelpContext="%DOC%" />
                                       <!-- Icon 100-->
-                                      <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%T%%CCC%010_R-%T%%CCC%01001" />
+                                      <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%T%%CCC%010_R-%T%%CCC%01001" HelpContext="%DOC%" />
 
                                     </when>
                                     <when test="=9"> <!-- Text -->
                          
-                                      <ParameterSeparator Id="%AID%_PS-nnn" Text="Bild wenn Text leer" />
+                                      <ParameterSeparator Id="%AID%_PS-nnn" Text="Bild wenn Text leer"  />
                                       <!-- Icon State 1-->
-                                      <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%T%%CCC%064_R-%T%%CCC%06401" />
+                                      <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%T%%CCC%064_R-%T%%CCC%06401" HelpContext="%DOC%" />
                                       <!-- Icon 0-->
-                                      <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%T%%CCC%006_R-%T%%CCC%00601" />
+                                      <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%T%%CCC%006_R-%T%%CCC%00601" HelpContext="%DOC%" />
 
                                       <ParameterSeparator Id="%AID%_PS-nnn" Text="Bild wenn Text vorhanden" />
                                       <!-- Icon State 3 -->
-                                      <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%T%%CCC%066_R-%T%%CCC%06601" />
+                                      <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%T%%CCC%066_R-%T%%CCC%06601" HelpContext="%DOC%" />
                                       <!-- Icon 100-->
-                                      <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%T%%CCC%010_R-%T%%CCC%01001" />
+                                      <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%T%%CCC%010_R-%T%%CCC%01001" HelpContext="%DOC%" />
                                     </when>
                                   </choose>
 

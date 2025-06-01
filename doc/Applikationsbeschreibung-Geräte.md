@@ -215,6 +215,66 @@ Blendet ein Gruppenobjekt ein, dass den Titel- oder Quellennamen empfangen kann,
 <!-- DOC -->
 ## Anzeige
 
+Dieser Gerätetype dient zum Visualisieren von Messwerten oder Statusinformationen aus dem KNX-System.
+
+<!-- DOC -->
+### Anzeigewert
+
+Folgende Anzeigetypen stehen zur Auswahl:
+
+- Temperatur
+  Anzeige einer Temperatur.     
+- Luftfeuchtigkeit
+  Anzeige der Luftfeuchtigkeit.
+- Helligkeit    
+  Anzeige der Helligkeit. 
+- Regenprognose  
+  Anzeige einer Regenprognose. 
+  Diese kann beispielsweise von dem OpenKNX Module [OFM-InternetWeatherModule](https://github.com/OpenKNX/OFM-InternetWeatherModule) das in der [OAM-InternetServices](https://github.com/OpenKNX/OAM-InternetServices) enthalten ist, bezogen werden.
+  Dieser Anzeigewert wird nur von OpenKNX-Display unterstützt und steht in der SmartHomeBridge nicht zur Verfügung.
+- Schneeprognose
+  Anzeige einer Schneeprognose. 
+  Diese kann beispielsweise von dem OpenKNX Module [OFM-InternetWeatherModule](https://github.com/OpenKNX/OFM-InternetWeatherModule) das in der [OAM-InternetServices](https://github.com/OpenKNX/OAM-InternetServices) enthalten ist, bezogen werden.
+  Dieser Anzeigewert wird nur von OpenKNX-Display unterstützt und steht in der SmartHomeBridge nicht zur Verfügung.
+- Wind     
+  Anzeige eines Wind-Messwertes in km/h.      
+  Dieser Anzeigewert wird nur von OpenKNX-Display unterstützt und steht in der SmartHomeBridge nicht zur Verfügung.
+- Prozent      
+  Anzeige eines Prozent Wertes.
+  Dieser Anzeigewert wird nur von OpenKNX-Display unterstützt und steht in der SmartHomeBridge nicht zur Verfügung.
+- Individuell  
+  Diese Type erlaubt die Auswahl des Eingang-Kommunikations-Objektes und die Einstellung einer Einheit für den Messwert.
+  Dieser Anzeigewert wird nur von OpenKNX-Display unterstützt und steht in der SmartHomeBridge nicht zur Verfügung.
+- Text    
+  Zeigt den Text an, der über ein Text-Kommunikations-Objekt empfangen wird.       
+  Dieser Anzeigewert wird nur von OpenKNX-Display unterstützt und steht in der SmartHomeBridge nicht zur Verfügung.
+
+<!-- DOCEND -->
+#### Zusätzliche Einstellungen bei 'Individuell'
+
+<!-- DOC HelpContext="DisplayInputType" -->
+##### Eingang
+
+Type des Kommunikationsobjektes:
+
+- DPT 1.xxx (Schalten)
+- DPT 5.xxx (1-Byte-Wert) 
+- DPT 5.001 (Prozentwert)
+- DPT 6.xxx (1-Byte-Wert-Vorzeichen)
+- DPT 7.xxx (2-Byte-Wert)
+- DPT 8.xxx (2-Byte-Wert-Vorzeichen)
+- DPT 9.xxx (2-Byte-Fließkomma)
+- DPT 12.xxx (4-Byte-Wert)
+- DPT 13.xxx (4-Byte-Wert-Vorzeichen)
+- DPT 14.xxx (4-Byte-Fließkomma)
+
+<!-- DOC -->
+##### Einheit
+
+Einheit des Messwertes.
+Dieser wird zur Anzeige verwendet und kann vom dem Kommunikationstypes bei Bedarf abweichend sein.
+Es erfolgt jedoch keine Umrechnung des Wertes, dieses muss bei Bedarf über die Logik implementiert werden.
+
 <!-- DOC -->
 ## Kontakt
 

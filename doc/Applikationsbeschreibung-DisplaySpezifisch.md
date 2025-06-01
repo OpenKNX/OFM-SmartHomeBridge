@@ -39,6 +39,17 @@ Dabei kann für den Zustand Aus bzw. Ein jeweils ein anderes Bild konfiguriert w
 In diesem Abschnitt können benutzerspezifische Bilder für die Anzeige definiert werden.
 Dabei können abhängig 3 Bilder die abhängig vom Prozentwert sind, konfiguriert werden.
 
+<!-- DOC  HelpContext="BildWert" -->
+### Benutzerdefiniertes Bild (Wert)
+
+In diesem Abschnitt können benutzerspezifische Bilder für die Anzeige definiert werden.
+Dabei können abhängig 3 Bilder die abhängig vom Wert sind, konfiguriert werden.
+
+<!-- DOC -->
+#### Wert
+
+Messwertgrenze für die Auswahl des Bildes.
+
 <!-- DOC -->
 #### Anzeigemodus und Statuseinfaerbung
 
