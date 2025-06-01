@@ -191,6 +191,55 @@ Wird diese Einstellung verwendet, wird ein Stopp-Objekt eingeblendet. Über dies
 <!-- DOC -->
 ## Thermostat
 
+Dieser Gerätetyp wird zur Steuerung von Heizung Aktoren verwendet.
+
+<!-- DOC HelpContext="ThermostatUnit" --> 
+### Einheit
+
+Einheit für die Temperatur.
+
+Zu Auswahl steht:
+- Celsius
+- Fahrenheit
+
+<!-- DOC HelpContext="ThermostatMode" -->
+### Optionen
+
+Auswahl, welche Betriebsart verwendet wird:
+
+- Heizen und Kühlen Automatik
+- Heizen oder Kühlen (Manuelle Auswahl)
+- Heizen
+- Kühlen        
+
+<!-- DOCEND -->
+Abhängig von der Auswahl, stehen für Heizen bzw. Kühlen folgenden Einstellungen bereit.
+
+<!-- DOC HelpContext="ThermostatKo" --> 
+### Betriebsart
+
+Kommunikationsobjektart die für die Aktivierung der Betriebsart verwendet wird:
+
+- Einschaltobjekt (1 bei EIN)
+- Sperren (0 bei EIN)
+
+<!-- DOC HelpContext="ThermostatKoFeedback" --> 
+### Betriebsart Rückmeldung
+
+Kommunikationsobjektart die für die Rückmeldung der Betriebsart verwendet wird.
+Über diese Objekt muss melden, ob die Betriebsart aktiv ist, unabhängig davon ob gerade tatsächlich geheizt bzw. gekühlt wird.
+
+- Ein Rückmeldung
+- Sperren Aktiv
+
+<!-- DOC HelpContext="ThermostatKoActive" -->
+### Heizen/Kühlen aktiv Rückmeldung
+
+Kommunikationsobjektart die für die Rückmeldung verwendet wird, ob Heizen bzw. Kühlen gerade aktiv ist:
+
+- 1 Bit Aktiv
+- 1 Byte Stellwert (%)
+
 <!-- DOC -->
 ## Szene
 

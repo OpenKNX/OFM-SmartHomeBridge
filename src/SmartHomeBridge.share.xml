@@ -194,8 +194,8 @@
               </ParameterType>
               <ParameterType Id="%AID%_PT-BRIThermostatKoMode" Name="BRIThermostatKoMode">
                 <TypeRestriction Base="Value" SizeInBit="1" UIHint="DropDown">
-                  <Enumeration Value="0" Id="%ENID%" Text="Einschaltobjekt (1 bei ein)" />
-                  <Enumeration Value="1" Id="%ENID%" Text="Sperren (0 bei ein)"         />
+                  <Enumeration Value="0" Id="%ENID%" Text="Einschaltobjekt (1 bei EIN)" />
+                  <Enumeration Value="1" Id="%ENID%" Text="Sperren (0 bei EIN)"         />
                 </TypeRestriction>
               </ParameterType>
                <ParameterType Id="%AID%_PT-BRIThermostatKoModeFeedback" Name="BRIThermostatKoModeFeedback">
