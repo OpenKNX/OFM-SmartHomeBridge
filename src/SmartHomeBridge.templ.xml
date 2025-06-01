@@ -1323,13 +1323,13 @@
                       </when>
                       <when test="70">
                         <!-- ************** Alarm ************ -->
-                        <ParameterBlock Id="%AID%_PB-nnn" Name="f%CC%FCB_Switch" Text="%C% Alarm: {{0: ...}}"      TextParameterRefId="%AID%_P-%T%%CCC%002_R-%T%%CCC%00201" Icon="alarm-light-outline" ShowInComObjectTree="true" HelpContext="BRI-Kontakt">
+                        <ParameterBlock Id="%AID%_PB-nnn" Name="f%CC%FCB_Switch" Text="%C% Alarm: {{0: ...}}"      TextParameterRefId="%AID%_P-%T%%CCC%002_R-%T%%CCC%00201" Icon="alarm-light-outline" ShowInComObjectTree="true" HelpContext="BRI-Alarm">
                           <ParameterSeparator Id="%AID%_PS-nnn" Text="Alarm" UIHint="Headline" />
                           <op:usePart name="ChannelHead" xpath="//ParameterBlock/*" />
                           <op:usePart name="HueNotSupported" xpath="//ParameterBlock/*" />   
 
                           <ParameterSeparator Id="%AID%_PS-nnn" Text="" UIHint="HorizontalRuler" />
-                          <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%T%%CCC%072_R-%T%%CCC%07201" /> <!-- Alarm Type -->
+                          <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%T%%CCC%072_R-%T%%CCC%07201" HelpContext="BRI-AlarmType" /> <!-- Alarm Type -->
                           <choose ParamRefId="%AID%_UP-%T%%CCC%072_R-%T%%CCC%07201">           <!-- Alarm Type --> 
                             <when test="0"> <!-- Contact -->
                               <ComObjectRefRef RefId="%AID%_O-%T%%CCC%001_R-%T%%CCC%00107" /> <!-- Contact -->
@@ -1353,7 +1353,7 @@
                               <ComObjectRefRef RefId="%AID%_O-%T%%CCC%001_R-%T%%CCC%00167" /> <!--  Kohlendioxidmelder (CO) -->
                             </when>
                           </choose>
-                          <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%T%%CCC%071_R-%T%%CCC%07101" /> <!-- Alarm Invert Input -->
+                          <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%T%%CCC%071_R-%T%%CCC%07101" HelpContext="%DOC%" /> <!-- Alarm Invert Input -->
 
                           <!-- DisplaySettings -->
                           <choose ParamRefId="%AID%_P-%T%000010_R-%T%00001001">
@@ -1363,20 +1363,20 @@
                               <ParameterSeparator Id="%AID%_PS-nnn" Text="Touch Display Einstellungen" UIHint="Headline" />
 
                               <!-- Icons -->
-                              <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%T%%CCC%004_R-%T%%CCC%00401" />
+                              <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%T%%CCC%004_R-%T%%CCC%00401" HelpContext="BRI-BildEinAus" />
                               <choose ParamRefId="%AID%_UP-%T%%CCC%004_R-%T%%CCC%00401">
                                 <when test="1">
                                   <ParameterSeparator Id="%AID%_PS-nnn" Text="Bild 'Kein Alarm'" />
                                   <!-- Icon Col 0-->
-                                  <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%T%%CCC%005_R-%T%%CCC%00501" />
+                                  <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%T%%CCC%005_R-%T%%CCC%00501" HelpContext="%DOC%" />
                                   <!-- Icon 0-->
-                                  <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%T%%CCC%006_R-%T%%CCC%00601" />
+                                  <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%T%%CCC%006_R-%T%%CCC%00601" HelpContext="%DOC%" />
 
                                   <ParameterSeparator Id="%AID%_PS-nnn" Text="Bild 'Alarm'" />
                                   <!-- Icon Col 100-->
-                                  <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%T%%CCC%009_R-%T%%CCC%00901" />
+                                  <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%T%%CCC%009_R-%T%%CCC%00901" HelpContext="%DOC%" />
                                   <!-- Icon 100-->
-                                  <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%T%%CCC%010_R-%T%%CCC%01001" />
+                                  <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%T%%CCC%010_R-%T%%CCC%01001" HelpContext="%DOC%"/>
                                 </when>
                               </choose>
                             </when>

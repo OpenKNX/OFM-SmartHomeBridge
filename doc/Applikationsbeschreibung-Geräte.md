@@ -276,25 +276,26 @@ Dieser wird zur Anzeige verwendet und kann vom dem Kommunikationstypes bei Bedar
 Es erfolgt jedoch keine Umrechnung des Wertes, dieses muss bei Bedarf über die Logik implementiert werden.
 
 <!-- DOC -->
-## Kontakt
+## Alarm
+
+Es stehen die unter Type aufgezählten Alarmtypen zur Verfügung:
+
+<!-- DOC HelpContext="AlarmType" -->
+### Type
+
+- Kontakt
+- Bewegungsmelder
+- Präsensmelder
+- Leckmelder
+- Rauchmelder
+- Kohlendioxidmelder (CO2)
+- Kohlenmonoxidmelder (CO)
 
 <!-- DOC -->
-## Bewegungsmelder
+### Eingang Invertieren
 
-<!-- DOC -->
-## Präsensmelder
-
-<!-- DOC -->
-## Leckmelder
-
-<!-- DOC -->
-## Rauchmelder
-
-<!-- DOC -->
-## Kohlendioxidmelder (CO2)
-
-<!-- DOC -->
-## Kohlenmonoxidmelder (CO)
+Standarmäßig bedeutet ein EIN Signal am Eingang, das der Alarm aktiv ist.
+Über diese Einstellung kann der Eingangswert vor der Auswertung invertiert werden. 
 
 <!-- DOC -->
 ## Lüfter
