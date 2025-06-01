@@ -1,4 +1,4 @@
 ﻿### Markise
 
-Diese Gerätetype wird zur Steuerung von Markisen oder Pergulas verwendet.
+Dieser Gerätetyp wird zur Steuerung von Markisen oder Pergolas verwendet.
 

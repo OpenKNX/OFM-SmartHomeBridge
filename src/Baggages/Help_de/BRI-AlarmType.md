@@ -1,8 +1,8 @@
-﻿### Type
+﻿### Typ
 
 - Kontakt
 - Bewegungsmelder
-- Präsensmelder
+- Präsenzmelder
 - Leckmelder
 - Rauchmelder
 - Kohlendioxidmelder (CO2)

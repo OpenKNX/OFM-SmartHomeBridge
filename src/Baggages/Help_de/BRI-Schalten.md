@@ -1,4 +1,4 @@
 ﻿### Ein-/Ausschaltbares Gerät
 
-Diese Gerätetype wird verwendete für Geräte die in der Auswahl der Gerätetypen nicht zur Verfügung steht, und die über eine einfaches Ein- und Ausschaltfunktion verfügen.
+Dieser Gerätetyp wird verwendet für Geräte, die in der Auswahl der Gerätetypen nicht zur Verfügung stehen und die über eine einfache Ein- und Ausschaltfunktion verfügen.
 

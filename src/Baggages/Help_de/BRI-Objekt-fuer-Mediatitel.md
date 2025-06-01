@@ -1,4 +1,4 @@
-﻿### Objekt fuer Mediatitel
+﻿### Objekt für Mediatitel
 
-Blendet ein Gruppenobjekt ein, dass den Titel- oder Quellennamen empfangen kann, der am Display angezeigt werden soll.
+Blendet ein Gruppenobjekt ein, das den Titel- oder Quellennamen empfangen kann, der am Display angezeigt werden soll.
 

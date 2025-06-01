@@ -1,4 +1,4 @@
 ﻿### Lampe
 
-Die Type Lampe unterstützt verschiedene Lampenarten.
+Der Typ Lampe unterstützt verschiedene Lampenarten.
 

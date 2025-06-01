@@ -90,7 +90,7 @@
                 <Parameter Id="%AID%_UP-%T%%CCC%041" Offset="0" BitOffset="0" Name="CH%C%SceneHueEmulation" ParameterType="%AID%_PT-BRIHueEmulation" Text="In HUE als Lampe darstellen" Value="0" />
                 <!-- 7 bits free -->
                 <!-- Scene Number -->
-                <Parameter Id="%AID%_UP-%T%%CCC%042" Offset="1" BitOffset="0" Name="CH%C%SceneNumber" ParameterType="%AID%_PT-BRISceneNumber" Text="Szene Nummer" Value="1" />                    
+                <Parameter Id="%AID%_UP-%T%%CCC%042" Offset="1" BitOffset="0" Name="CH%C%SceneNumber" ParameterType="%AID%_PT-BRISceneNumber" Text="Szenen Nummer" Value="1" />                    
               </Union>      
               <!-- Media -->
               <Union SizeInBit="16">
@@ -128,7 +128,7 @@
               <Union SizeInBit="8">
                 <Memory CodeSegment="%AID%_RS-04-00000" Offset="53" BitOffset="0" />
                 <!-- Sensor Inverted -->
-                <Parameter Id="%AID%_UP-%T%%CCC%071" Offset="0" BitOffset="0" Name="CH%C%AlarmInvert"  ParameterType="%AID%_PT-BRIAlarmInvert" Text="Eingang Invertieren" Value="0" />
+                <Parameter Id="%AID%_UP-%T%%CCC%071" Offset="0" BitOffset="0" Name="CH%C%AlarmInvert"  ParameterType="%AID%_PT-BRIAlarmInvert" Text="Eingang invertieren" Value="0" />
                 <!-- 3 Bits free -->
                 <!-- Alarm Type -->
                 <Parameter Id="%AID%_UP-%T%%CCC%072" Offset="0" BitOffset="4" Name="CH%C%AlarmType"  ParameterType="%AID%_PT-BRIAlarmType" Text="Type" Value="0" />         
@@ -322,7 +322,7 @@
               <ComObjectRef Id="%AID%_O-%T%%CCC%003_R-%T%%CCC%00322" RefId="%AID%_O-%T%%CCC%003" Name="SCHALTEN_DPT_01"                       Text="%C%: Schalten"              FunctionText="{{0:-}} Schalten"                         Priority="Low" ObjectSize="1 Bit"   WriteFlag="Disabled" TransmitFlag="Enabled"  UpdateFlag="Disabled" DatapointType="DPST-1-1" TextParameterRefId="%AID%_P-%T%%CCC%002_R-%T%%CCC%00201" />
               <ComObjectRef Id="%AID%_O-%T%%CCC%004_R-%T%%CCC%00422" RefId="%AID%_O-%T%%CCC%004" Name="SCHALTEN_RÜCKMELDUNG_DPT_01"           Text="%C%: Schalten Rückmeldung"  FunctionText="{{0:-}} Schalten Rückmeldung"             Priority="Low" ObjectSize="1 Bit"   WriteFlag="Enabled"  TransmitFlag="Disabled" UpdateFlag="Enabled"  DatapointType="DPST-1-1" TextParameterRefId="%AID%_P-%T%%CCC%002_R-%T%%CCC%00201" />
  
-              <!-- Jalousie/Markise/Rolladen -->
+              <!-- Jalousie/Markise/Rollladen -->
               <ComObjectRef Id="%AID%_O-%T%%CCC%001_R-%T%%CCC%00103" RefId="%AID%_O-%T%%CCC%001" Name="POSITION_DPT_05"                       Text="%C%: Position"              FunctionText="{{0:-}} Position"                         Priority="Low" ObjectSize="1 Byte" WriteFlag="Disabled" TransmitFlag="Enabled"  UpdateFlag="Disabled" DatapointType="DPST-5-1" TextParameterRefId="%AID%_P-%T%%CCC%002_R-%T%%CCC%00201" />
               <ComObjectRef Id="%AID%_O-%T%%CCC%002_R-%T%%CCC%00203" RefId="%AID%_O-%T%%CCC%002" Name="POSITION_RÜCKMELDUNG_DPT_05"           Text="%C%: Position Rückmeldung"  FunctionText="{{0:-}} Position Rückmeldung"             Priority="Low" ObjectSize="1 Byte" WriteFlag="Enabled"  TransmitFlag="Disabled" UpdateFlag="Enabled"  DatapointType="DPST-5-1" TextParameterRefId="%AID%_P-%T%%CCC%002_R-%T%%CCC%00201" />
               <ComObjectRef Id="%AID%_O-%T%%CCC%003_R-%T%%CCC%00303" RefId="%AID%_O-%T%%CCC%003" Name="FÄHRT_AB_RÜCKMELDUNG_DPT_01"           Text="%C%: Fährt Ab Rückmeldung"  FunctionText="{{0:-}} Fährt Ab Rückmeldung"             Priority="Low" ObjectSize="1 Bit"  WriteFlag="Enabled"  TransmitFlag="Disabled" UpdateFlag="Enabled"  DatapointType="DPST-1-1" TextParameterRefId="%AID%_P-%T%%CCC%002_R-%T%%CCC%00201" />
@@ -771,9 +771,9 @@
                         </ParameterBlock>
                       </when>
                       <when test="31">
-                        <!-- ************** Rolladen ************ -->
-                        <ParameterBlock Id="%AID%_PB-nnn" Name="f%CC%FCB_Switch" Text="%C% Rolladen: {{0: ...}}"      TextParameterRefId="%AID%_P-%T%%CCC%002_R-%T%%CCC%00201" Icon="roller-shade-closed" ShowInComObjectTree="true" HelpContext="BRI-Rolladen">
-                          <ParameterSeparator Id="%AID%_PS-nnn" Text="Rolladen" UIHint="Headline" />
+                        <!-- ************** Rollladen ************ -->
+                        <ParameterBlock Id="%AID%_PB-nnn" Name="f%CC%FCB_Switch" Text="%C% Rollladen: {{0: ...}}"      TextParameterRefId="%AID%_P-%T%%CCC%002_R-%T%%CCC%00201" Icon="roller-shade-closed" ShowInComObjectTree="true" HelpContext="BRI-Rollladen">
+                          <ParameterSeparator Id="%AID%_PS-nnn" Text="Rollladen" UIHint="Headline" />
                           <op:usePart name="ChannelHead" xpath="//ParameterBlock/*" />
                           <op:usePart name="HueSimulation" xpath="//ParameterBlock/*" />
                              

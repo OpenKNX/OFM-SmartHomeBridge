@@ -1,4 +1,4 @@
-﻿### Bei EIN Befehl (Farblampe)
+﻿### Bei EIN-Befehl (Farblampe)
 
 Diese Einstellung steht nur für Farblampen (RGB) zur Auswahl.
 
@@ -6,8 +6,8 @@ Diese Einstellung steht nur für Farblampen (RGB) zur Auswahl.
 - Letzte Farbe  
   Die letzte Farbe wird in der Anwendung gespeichert. 
   Dazu muss nach einem Busspannungsausfall die Lampe einmalig manuell auf die gewünschte Farbe eingestellt werden.                     
-- Letzte Farbe, ungleich weiß
-  Diese Einstellung wird meist dann verwendet, wenn mit dem zweiten EIN Befehlt die Lampe auf weiß geschalten wird.
+- Letzte Farbe, ungleich weiß  
+  Diese Einstellung wird meist dann verwendet, wenn mit dem zweiten EIN-Befehl die Lampe auf weiß geschaltet wird.
 - Weiß                    
 - Dunkel                    
 - Rot                       

@@ -1,4 +1,4 @@
 ﻿### Anzeige
 
-Dieser Gerätetype dient zum Visualisieren von Messwerten oder Statusinformationen aus dem KNX-System.
+Dieser Gerätetyp dient zum Visualisieren von Messwerten oder Statusinformationen aus dem KNX-System.
 

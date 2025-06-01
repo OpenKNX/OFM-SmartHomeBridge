@@ -1,4 +1,4 @@
 ﻿### Jalousie
 
-Diese Gerätetype wird zur Steuerung von Jalousie mit Lamellen verwendet.
+Dieser Gerätetyp wird zur Steuerung von Jalousien mit Lamellen verwendet.
 

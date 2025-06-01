@@ -34,7 +34,7 @@
                   <Enumeration Value="11" Id="%ENID%" Text="Steckdose" Icon="power-socket-eu" />
                   <Enumeration Value="20" Id="%ENID%" Text="Lampe" Icon="lamp-outline"   />
                   <Enumeration Value="30" Id="%ENID%" Text="Jalousie" Icon="window-shutter" />
-                  <Enumeration Value="31" Id="%ENID%" Text="Rolladen" Icon="roller-shade-closed" />
+                  <Enumeration Value="31" Id="%ENID%" Text="Rollladen" Icon="roller-shade-closed" />
                   <Enumeration Value="32" Id="%ENID%" Text="Markise" Icon="storefront-outline" />
                   <Enumeration Value="50" Id="%ENID%" Text="Thermostat" Icon="thermometer-lines" />
                   <Enumeration Value="60" Id="%ENID%" Text="Anzeige" Icon="tablet-dashboard" />
@@ -152,7 +152,7 @@
               </ParameterType>
         
               
-              <!-- Jalousie/Rolladen/Markisen -->
+              <!-- Jalousie/Rollladen/Markisen -->
               <ParameterType Id="%AID%_PT-BRIBlindsUpDownHandling" Name="BRIBlindsUpDownHandling">
                 <TypeRestriction Base="Value" SizeInBit="4">
                   <Enumeration Value="0" Id="%ENID%" Text="Nicht verwenden"                        />
