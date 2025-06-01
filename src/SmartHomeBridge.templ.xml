@@ -164,7 +164,7 @@
               <Union SizeInBit="8">
                 <Memory CodeSegment="%AID%_RS-04-00000" Offset="53" BitOffset="0" />
                 <!-- Fan Hue Emulation -->
-                <Parameter Id="%AID%_UP-%T%%CCC%081" Offset="0" BitOffset="0" Name="CH%C%FanHueEmulation" ParameterType="%AID%_PT-BRIHueEmulation"           Text="Lüfter in HUE als Lampe darstellen" Value="0" />        
+                <Parameter Id="%AID%_UP-%T%%CCC%081" Offset="0" BitOffset="0" Name="CH%C%FanHueEmulation" ParameterType="%AID%_PT-BRIHueEmulation"           Text="In HUE als Lampe darstellen" Value="0" />        
                 <!-- Fan Automatic -->
                 <Parameter Id="%AID%_UP-%T%%CCC%082" Offset="0" BitOffset="1" Name="CH%C%FanAutomatic" ParameterType="%AID%_PT-BRIFanAutomatic"             Text="Lüfter hat Automatikmodus" Value="0" />
                 <!-- Fan KO Autoamtic -->
@@ -1392,7 +1392,7 @@
                       
                           <choose ParamRefId="%AID%_UP-%T%000003_R-%T%00000301">  <!--Hue -->
                             <when test="1"> <!-- Hue  -->
-                              <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%T%%CCC%081_R-%T%%CCC%08101" /> <!-- In Hue verwenden -->
+                              <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%T%%CCC%081_R-%T%%CCC%08101" HelpContext="%DOC%" /> <!-- In Hue verwenden -->
                             </when>
                           </choose>
                           <ParameterSeparator Id="%AID%_PS-nnn" Text="" UIHint="HorizontalRuler" />
@@ -1403,10 +1403,10 @@
                           <ParameterSeparator Id="%AID%_PS-nnn" Text="" UIHint="HorizontalRuler" />
                           <ParameterSeparator Id="%AID%_PS-nnn" Text="Automatikmodus" UIHint="Headline" />
                           
-                          <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%T%%CCC%082_R-%T%%CCC%08201" /> <!-- Fan hat Automatikmodus -->
+                          <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%T%%CCC%082_R-%T%%CCC%08201"  HelpContext="%DOC%" /> <!-- Fan hat Automatikmodus -->
                           <choose ParamRefId="%AID%_UP-%T%%CCC%082_R-%T%%CCC%08201">  <!-- Fan hat Automatikmodus -->
                             <when test="1"> <!-- Fan hat Automatikmodus -->
-                              <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%T%%CCC%083_R-%T%%CCC%08301" /> <!-- Fan Automatik KO -->
+                              <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%T%%CCC%083_R-%T%%CCC%08301"  HelpContext="%DOC%" /> <!-- Fan Automatik KO -->
                               <choose ParamRefId="%AID%_UP-%T%%CCC%083_R-%T%%CCC%08301">  <!-- Fan Automatik KO -->
                                 <when test="0"> <!-- Automatik -->
                                   <ComObjectRefRef RefId="%AID%_O-%T%%CCC%003_R-%T%%CCC%00308" />  <!-- Automatik -->
@@ -1415,7 +1415,7 @@
                                   <ComObjectRefRef RefId="%AID%_O-%T%%CCC%003_R-%T%%CCC%00318" />  <!-- Handbetrieb -->
                                 </when>                     
                               </choose>
-                              <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%T%%CCC%084_R-%T%%CCC%08401" /> <!-- Fan Automatik Rückmeldung KO -->
+                              <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%T%%CCC%084_R-%T%%CCC%08401"  HelpContext="%DOC%" /> <!-- Fan Automatik Rückmeldung KO -->
                               <choose ParamRefId="%AID%_UP-%T%%CCC%084_R-%T%%CCC%08401">  <!-- Fan Automatik Rückmeldung KO -->
                                 <when test="0"> <!-- Automatik -->
                                   <ComObjectRefRef RefId="%AID%_O-%T%%CCC%004_R-%T%%CCC%00408" />  <!-- Automatik -->
@@ -1435,20 +1435,20 @@
                               <ParameterSeparator Id="%AID%_PS-nnn" Text="Touch Display Einstellungen" UIHint="Headline" />
 
                               <!-- Icons -->
-                              <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%T%%CCC%004_R-%T%%CCC%00401" />
+                              <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%T%%CCC%004_R-%T%%CCC%00401"  HelpContext="BRI-BildEinAus" />
                               <choose ParamRefId="%AID%_UP-%T%%CCC%004_R-%T%%CCC%00401">
                                 <when test="1">
                                   <ParameterSeparator Id="%AID%_PS-nnn" Text="Bild Ein" />
                                   <!-- Icon Col 0-->
-                                  <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%T%%CCC%005_R-%T%%CCC%00501" />
+                                  <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%T%%CCC%005_R-%T%%CCC%00501"  HelpContext="%DOC%" />
                                   <!-- Icon 0-->
-                                  <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%T%%CCC%006_R-%T%%CCC%00601" />
+                                  <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%T%%CCC%006_R-%T%%CCC%00601"  HelpContext="%DOC%" />
 
                                   <ParameterSeparator Id="%AID%_PS-nnn" Text="Bild Aus" />
                                   <!-- Icon Col 100-->
-                                  <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%T%%CCC%009_R-%T%%CCC%00901" />
+                                  <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%T%%CCC%009_R-%T%%CCC%00901"  HelpContext="%DOC%" />
                                   <!-- Icon 100-->
-                                  <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%T%%CCC%010_R-%T%%CCC%01001" />
+                                  <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%T%%CCC%010_R-%T%%CCC%01001"  HelpContext="%DOC%" />
                                 </when>
                               </choose>
                             </when>

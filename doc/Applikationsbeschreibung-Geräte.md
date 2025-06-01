@@ -300,6 +300,32 @@ Standardmäßig bedeutet ein EIN-Signal am Eingang, dass der Alarm aktiv ist.
 <!-- DOC -->
 ## Lüfter
 
+Dieser Gerätetyp wird für Lüfter verwendet.
+
+<!-- DOC -->
+### Lüfter hat Automatikmodus
+
+Gibt an, ob der Lüfter einen Automatikmodus unterstützt.
+
+<!-- DOC -->
+### Objekt für Automatik
+
+Über diese Einstellung wird konfiguriert, welche Objekttype für die Aktivierung des Automatikmodus verwendet werden soll.
+
+Zur Auswahl stehen:
+
+- 1 Bit Automatik (Automatik = EIN)
+- 1 Bit Handbetrieb (Automatik = AUS)
+
+<!-- DOC -->
+### Objekt für Rueckmeldung
+
+Über diese Einstellung wird konfiguriert, welche Objekttype für die Rückmeldung des aktuellen Status des Automatikmodus verwendet werden soll.
+
+Zur Auswahl stehen:
+- 1 Bit Automatik (Automatik = EIN)
+- 1 Bit Handbetrieb (Automatik = AUS)
+
 <!-- DOC -->
 ## Fenster
 
