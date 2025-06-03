@@ -1,6 +1,6 @@
 <ParameterBlock>
     <!-- Devie Name -->
-    <ParameterRefRef IndentLevel="1" RefId="%AID%_P-%T%%CCC%002_R-%T%%CCC%00201" /> 
+    <ParameterRefRef IndentLevel="1" RefId="%AID%_P-%T%%CCC%002_R-%T%%CCC%00201" HelpContext="%DOC%" /> 
     <!-- Kanal Disabled -->
-    <ParameterRefRef IndentLevel="1" RefId="%AID%_P-%T%%CCC%003_R-%T%%CCC%00301" /> 
+    <ParameterRefRef IndentLevel="1" RefId="%AID%_P-%T%%CCC%003_R-%T%%CCC%00301" HelpContext="%DOC%" /> 
 </ParameterBlock>

@@ -13,6 +13,12 @@ Einstellung, wie viele Geräte verfügbar sind.
 
 Über diese Seite können weitere Geräte hinzugefügt werden.
 
+<!-- DOC -->
+### Gerät deaktivieren (Konfiguration bleibt erhalten)
+
+Über diese Einstellung kann ein Gerät deaktiviert werden, ohne die Einstellungen zu verlieren.
+Damit kann für Diagnosezwecke das Gerät deaktiviert werden, so das keine Telegramme auf dem Bus geschickt werden.
+
 <!-- DOC HelpContext="Schalten" -->
 ## Ein-/Ausschaltbares Gerät 
 
@@ -199,6 +205,7 @@ Dieser Gerätetyp wird zur Steuerung von Heizung Aktoren verwendet.
 Einheit für die Temperatur.
 
 Zu Auswahl steht:
+
 - Celsius
 - Fahrenheit
 
@@ -372,16 +379,99 @@ Zur Auswahl stehen:
 Über diese Einstellung wird konfiguriert, welche Objekttype für die Rückmeldung des aktuellen Status des Automatikmodus verwendet werden soll.
 
 Zur Auswahl stehen:
+
 - 1 Bit Automatik (Automatik = EIN)
 - 1 Bit Handbetrieb (Automatik = AUS)
 
 <!-- DOC -->
 ## Fenster
 
+Diese Gerätetype wird für Fenster mit und ohne Motorantriebe verwendet.
+
+
+<!-- DOC -->
+## Motorantrieb
+
+Mögliche Einstellungen:
+
+- Ja
+  Wenn ein Motorantrieb verwendet werden soll.
+- Nein
+  Wenn lediglich ein Meldekontakt vorhanden ist, der den Öffnungstatus liefert.
+
+<!-- DOC -->
+### Steuerungs-Objekt 
+
+Einstellung, ob das Gerät über eine Prozent Wert oder lediglich über Öffnen/Schließen gesteuert werden kann.
+
+Mögliche Einstellungen:
+
+- Öffnen/Schließen
+  1 Bit  (empfohlen DPT-1.009)
+- Prozent
+  1 Byte (empfohlen DPT-5.001)
+
+<!-- DOC -->
+## Öffnen/Schliessen Objekt
+
+Diese Einstellung steht nur zur Verfügung, wenn die Steuerung über Prozent erfolgt.
+Normalerweise kann über den Prozent-Ausgang die Steuerung vollständig erfolgen. 
+Jedoch wird bei manchen Aktoren die Prozentsteuerung anders behandelt als Öffnen/Schließen. 
+Aus diesem Grund kann über dieses Gruppenobjekt die Ansteuerung von Öffnen und Schließen erfolgen.
+Diese wird aber nur verwendet, wenn eine vollständige Öffnung oder Schließung erwünscht ist (0%, 100%). In allen anderen Fällen wird der Prozent-Ausgang verwendet.
+
+Mögliche Optionen:
+
+- Nicht verwenden
+- Öffnen und Schließen
+- Nur öffnen senden
+- Nur schließen senden    
+
+<!-- DOC -->
+### Stopp Objekt
+
+Stellt ein Kommunikations-Objekt zum Stoppen bereiten.
+Ist diese Einstellung aktiviert, kann die Fahrbewegung vorzeitig gestoppt werden.
+
+<!-- DOC -->
+### Blockadenerkennung
+
+Stellt ein Kommunikations-Objekt bereit, über dem eine Blockade des Antriebs gemeldet werden kann.
+
+<!-- DOC -->
+### Rückmeldung
+
+Gibt an, welche Kommunikations-Objekt-Type für die Rückmeldung der aktuellen Öffnungsposition verwendet wird.
+Mögliche Einstellungen:
+
+- Absolute Position
+  Meldung erfolgt über ein Prozent (DPT 5.001) Kommunikationsobjekt
+- Geöffnet
+  Meldung erfolgt über ein Bit Objekt. EIN entspricht geöffnet.
+- Geschlossen
+  Meldung erfolgt über ein Bit Objekt. EIN entspricht geschlossen.
+
+<!-- DOC -->
+### Öffnungsrichtung
+
+Gibt an, in welche Richtung die Öffnung erfolgt.
+Diese Einstellung wird nur in OpenKNX Anzeigen verwendet, um das Öffnen und Schließen über Symbole richtig darzustellen. 
+In der SmartHomeBridge steht die Einstellung nicht zur Verfügung.
+
 <!-- DOC -->
 ## Tür
+
+Diese Gerätetype wird für Fenster mit und ohne Motorantriebe verwendet.
+<!-- DOCEND -->
+
+Die Tür unterstützt die gleichen Einstellungen wie das [Fenster](#fenster)
 
 <!-- DOC -->
 ## Garagentor
 
+Diese Gerätetype wird für Fenster mit und ohne Motorantriebe verwendet.
+
+<!-- DOCEND -->
+
+Das  Gargagentor unterstützt die gleichen Einstellungen wie das [Fenster](#fenster)
 
