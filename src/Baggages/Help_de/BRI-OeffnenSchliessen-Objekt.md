@@ -1,4 +1,4 @@
-﻿### Öffnen/Schliessen Objekt
+﻿### Öffnen/Schließen-Objekt
 
 Diese Einstellung steht nur zur Verfügung, wenn die Steuerung über Prozent erfolgt.
 Normalerweise kann über den Prozent-Ausgang die Steuerung vollständig erfolgen. 

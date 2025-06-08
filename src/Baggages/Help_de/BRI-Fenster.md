@@ -1,5 +1,4 @@
 ﻿### Fenster
 
-Diese Gerätetype wird für Fenster mit und ohne Motorantriebe verwendet.
-
+Dieser Gerätetyp wird für Fenster mit und ohne Motorantrieb verwendet.
 

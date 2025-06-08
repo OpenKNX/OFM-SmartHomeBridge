@@ -1,4 +1,4 @@
 ﻿### Garagentor
 
-Diese Gerätetype wird für Fenster mit und ohne Motorantriebe verwendet.
+Dieser Gerätetyp wird für Garagentore mit und ohne Motorantrieb verwendet.
 

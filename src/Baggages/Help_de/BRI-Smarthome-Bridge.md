@@ -1,4 +1,4 @@
 ﻿### Applikationsbeschreibung Geräte
 
-Über die Gerätedefinition wird definiert, über welche Gruppenadressen die Ansteuerung von KNX-Geräten erfolgt.
+Über die Gerätedefinition wird festgelegt, über welche Gruppenadressen die Ansteuerung von KNX-Geräten erfolgt.
 

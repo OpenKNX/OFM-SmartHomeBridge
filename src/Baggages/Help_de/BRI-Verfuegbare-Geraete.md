@@ -1,4 +1,4 @@
 ﻿### Verfügbare Geräte
 
-Einstellung, wie viele Geräte verfügbar sind. 
+Einstellung, wie viele Geräte verfügbar sind.
 

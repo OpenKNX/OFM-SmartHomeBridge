@@ -1,3 +1,4 @@
 ﻿### Tür
 
-Diese Gerätetype wird für Fenster mit und ohne Motorantriebe verwendet.
+Dieser Gerätetyp wird für Türen mit und ohne Motorantrieb verwendet.
+

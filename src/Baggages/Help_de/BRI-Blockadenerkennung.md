@@ -1,4 +1,4 @@
 ﻿### Blockadenerkennung
 
-Stellt ein Kommunikations-Objekt bereit, über dem eine Blockade des Antriebs gemeldet werden kann.
+Stellt ein Kommunikationsobjekt bereit, über das eine Blockade des Antriebs gemeldet werden kann.
 

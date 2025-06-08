@@ -2,7 +2,7 @@
 
 Einheit für die Temperatur.
 
-Zu Auswahl steht:
+Zur Auswahl steht:
 
 - Celsius
 - Fahrenheit

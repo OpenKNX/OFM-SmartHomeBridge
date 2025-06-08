@@ -1,6 +1,6 @@
 ﻿### Eingang
 
-Typ des Kommunikationsobjektes:
+Typ des Kommunikationsobjekts:
 
 - DPT 1.xxx (Schalten)
 - DPT 5.xxx (1-Byte-Wert) 

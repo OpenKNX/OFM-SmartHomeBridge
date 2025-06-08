@@ -9,5 +9,5 @@
   In dieser Einstellung werden bei einer Fahrt von 0% auf 100% die Lamellen am Ende in der geschlossenen Stellung beibehalten.
 - 100% (schließen) bei Fahrt nach unten, 0% (öffnen) bei Fahrt nach oben  
   Diese Einstellung entspricht dem natürlichen Verhalten der Lamellen bei Fahrbewegungen.  
-  D.h. es erfolgt keine Drehung der Lamellen nach der Fahrbewegung.
+  Das heißt, es erfolgt keine Drehung der Lamellen nach der Fahrbewegung.
                                                              

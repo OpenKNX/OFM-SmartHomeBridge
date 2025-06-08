@@ -1,6 +1,6 @@
-﻿### Objekt für Rueckmeldung
+﻿### Objekt für Rückmeldung
 
-Über diese Einstellung wird konfiguriert, welche Objekttype für die Rückmeldung des aktuellen Status des Automatikmodus verwendet werden soll.
+Über diese Einstellung wird konfiguriert, welcher Objekttyp für die Rückmeldung des aktuellen Status des Automatikmodus verwendet werden soll.
 
 Zur Auswahl stehen:
 

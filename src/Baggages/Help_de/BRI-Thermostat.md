@@ -1,4 +1,4 @@
 ﻿### Thermostat
 
-Dieser Gerätetyp wird zur Steuerung von Heizung Aktoren verwendet.
+Dieser Gerätetyp wird zur Steuerung von Heizungsaktoren verwendet.
 

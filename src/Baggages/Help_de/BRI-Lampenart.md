@@ -5,5 +5,5 @@
 - Dimmer  
   Lampen, deren Helligkeit über einen Prozentwert gesteuert wird.
 - Farbe (RGB)  
-  Farblampen, deren Farbe und Helligkeit gesteuert werden kann.
+  Farblampen, deren Farbe und Helligkeit gesteuert werden können.
 

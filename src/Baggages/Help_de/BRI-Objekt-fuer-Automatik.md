@@ -1,6 +1,6 @@
 ﻿### Objekt für Automatik
 
-Über diese Einstellung wird konfiguriert, welche Objekttype für die Aktivierung des Automatikmodus verwendet werden soll.
+Über diese Einstellung wird konfiguriert, welcher Objekttyp für die Aktivierung des Automatikmodus verwendet werden soll.
 
 Zur Auswahl stehen:
 

@@ -2,8 +2,8 @@
 
 Mögliche Einstellungen:
 
-- Ja
+- Ja  
   Wenn ein Motorantrieb verwendet werden soll.
-- Nein
-  Wenn lediglich ein Meldekontakt vorhanden ist, der den Öffnungstatus liefert.
+- Nein  
+  Wenn lediglich ein Meldekontakt vorhanden ist, der den Öffnungsstatus liefert.
 

@@ -1,12 +1,12 @@
 <!-- DOC HelpContext="Smarthome-Bridge" -->
 # Applikationsbeschreibung Geräte
 
-Über die Gerätedefinition wird definiert, über welche Gruppenadressen die Ansteuerung von KNX-Geräten erfolgt.
+Über die Gerätedefinition wird festgelegt, über welche Gruppenadressen die Ansteuerung von KNX-Geräten erfolgt.
 
 <!-- DOC -->
 ### Verfügbare Geräte
 
-Einstellung, wie viele Geräte verfügbar sind. 
+Einstellung, wie viele Geräte verfügbar sind.
 
 <!-- DOC HelpContext="MorePage" -->
 ### (mehr)
@@ -17,12 +17,12 @@ Einstellung, wie viele Geräte verfügbar sind.
 ### Gerät deaktivieren (Konfiguration bleibt erhalten)
 
 Über diese Einstellung kann ein Gerät deaktiviert werden, ohne die Einstellungen zu verlieren.
-Damit kann für Diagnosezwecke das Gerät deaktiviert werden, so das keine Telegramme auf dem Bus geschickt werden.
+Damit kann das Gerät zu Diagnosezwecken deaktiviert werden, sodass keine Telegramme auf den Bus geschickt werden.
 
 <!-- DOC HelpContext="Schalten" -->
-## Ein-/Ausschaltbares Gerät 
+## Ein-/Ausschaltbares Gerät
 
-Dieser Gerätetyp wird verwendet für Geräte, die in der Auswahl der Gerätetypen nicht zur Verfügung stehen und die über eine einfache Ein- und Ausschaltfunktion verfügen.
+Dieser Gerätetyp wird für Geräte verwendet, die in der Auswahl der Gerätetypen nicht zur Verfügung stehen und die über eine einfache Ein- und Ausschaltfunktion verfügen.
 
 <!-- DOC -->
 ## Steckdose
@@ -42,7 +42,7 @@ Der Typ Lampe unterstützt verschiedene Lampenarten.
 - Dimmer  
   Lampen, deren Helligkeit über einen Prozentwert gesteuert wird.
 - Farbe (RGB)  
-  Farblampen, deren Farbe und Helligkeit gesteuert werden kann.
+  Farblampen, deren Farbe und Helligkeit gesteuert werden können.
 
 <!-- DOC HelpContext="SwitchOnBehaviorDimmer" -->
 ### Bei EIN-Befehl (Dimmer)
@@ -54,7 +54,7 @@ Zur Auswahl stehen:
 
 - Letzte Helligkeit  
   Die letzte Helligkeit wird in der Anwendung gespeichert. 
-  Dazu muss nach einem Busspannungsausfall die Lampe einmalig manuell auf die gewünschte Helligkeit eingestellt werden.          
+  Dazu muss nach einem Busspannungsausfall die Lampe einmalig manuell auf die gewünschte Helligkeit eingestellt werden.
 - Letzte Helligkeit kleiner 100%  
   Diese Einstellung ist dann sinnvoll, wenn über einen zweiten Einschaltbefehl die Lampe auf 100% gestellt werden soll.
 - 100%                         
@@ -97,7 +97,7 @@ Diese Einstellung steht nur für Farblampen (RGB) zur Auswahl.
 - Ein Senden         
 - Letzte Farbe  
   Die letzte Farbe wird in der Anwendung gespeichert. 
-  Dazu muss nach einem Busspannungsausfall die Lampe einmalig manuell auf die gewünschte Farbe eingestellt werden.                     
+  Dazu muss nach einem Busspannungsausfall die Lampe einmalig manuell auf die gewünschte Farbe eingestellt werden.
 - Letzte Farbe, ungleich weiß  
   Diese Einstellung wird meist dann verwendet, wenn mit dem zweiten EIN-Befehl die Lampe auf weiß geschaltet wird.
 - Weiß                    
@@ -162,7 +162,7 @@ Wird diese Einstellung verwendet, wird ein Stopp-Objekt eingeblendet. Über dies
   In dieser Einstellung werden bei einer Fahrt von 0% auf 100% die Lamellen am Ende in der geschlossenen Stellung beibehalten.
 - 100% (schließen) bei Fahrt nach unten, 0% (öffnen) bei Fahrt nach oben  
   Diese Einstellung entspricht dem natürlichen Verhalten der Lamellen bei Fahrbewegungen.  
-  D.h. es erfolgt keine Drehung der Lamellen nach der Fahrbewegung.
+  Das heißt, es erfolgt keine Drehung der Lamellen nach der Fahrbewegung.
                                                              
 <!-- DOC -->
 ## Rollladen
@@ -197,14 +197,14 @@ Wird diese Einstellung verwendet, wird ein Stopp-Objekt eingeblendet. Über dies
 <!-- DOC -->
 ## Thermostat
 
-Dieser Gerätetyp wird zur Steuerung von Heizung Aktoren verwendet.
+Dieser Gerätetyp wird zur Steuerung von Heizungsaktoren verwendet.
 
 <!-- DOC HelpContext="ThermostatUnit" --> 
 ### Einheit
 
 Einheit für die Temperatur.
 
-Zu Auswahl steht:
+Zur Auswahl steht:
 
 - Celsius
 - Fahrenheit
@@ -215,17 +215,17 @@ Zu Auswahl steht:
 Auswahl, welche Betriebsart verwendet wird:
 
 - Heizen und Kühlen Automatik
-- Heizen oder Kühlen (Manuelle Auswahl)
+- Heizen oder Kühlen (manuelle Auswahl)
 - Heizen
 - Kühlen        
 
 <!-- DOCEND -->
-Abhängig von der Auswahl, stehen für Heizen bzw. Kühlen folgenden Einstellungen bereit.
+Abhängig von der Auswahl stehen für Heizen bzw. Kühlen folgende Einstellungen bereit.
 
 <!-- DOC HelpContext="ThermostatKo" --> 
 ### Betriebsart
 
-Kommunikationsobjektart die für die Aktivierung der Betriebsart verwendet wird:
+Kommunikationsobjekttyp, der für die Aktivierung der Betriebsart verwendet wird:
 
 - Einschaltobjekt (1 bei EIN)
 - Sperren (0 bei EIN)
@@ -233,8 +233,8 @@ Kommunikationsobjektart die für die Aktivierung der Betriebsart verwendet wird:
 <!-- DOC HelpContext="ThermostatKoFeedback" --> 
 ### Betriebsart Rückmeldung
 
-Kommunikationsobjektart die für die Rückmeldung der Betriebsart verwendet wird.
-Über diese Objekt muss melden, ob die Betriebsart aktiv ist, unabhängig davon ob gerade tatsächlich geheizt bzw. gekühlt wird.
+Kommunikationsobjekttyp, der für die Rückmeldung der Betriebsart verwendet wird.
+Über dieses Objekt muss gemeldet werden, ob die Betriebsart aktiv ist, unabhängig davon, ob gerade tatsächlich geheizt bzw. gekühlt wird.
 
 - Ein Rückmeldung
 - Sperren Aktiv
@@ -242,7 +242,7 @@ Kommunikationsobjektart die für die Rückmeldung der Betriebsart verwendet wird
 <!-- DOC HelpContext="ThermostatKoActive" -->
 ### Heizen/Kühlen aktiv Rückmeldung
 
-Kommunikationsobjektart die für die Rückmeldung verwendet wird, ob Heizen bzw. Kühlen gerade aktiv ist:
+Kommunikationsobjekttyp, der für die Rückmeldung verwendet wird, ob Heizen bzw. Kühlen gerade aktiv ist:
 
 - 1 Bit Aktiv
 - 1 Byte Stellwert (%)
@@ -260,7 +260,7 @@ Szenen-Nummer, die bei einem EIN-Befehl gesendet wird.
 <!-- DOC -->
 ## Media
 
-Dieser Gerätetyp wird auf OpenKNX Displays zur Steuerung eines Media Players verwendet. 
+Dieser Gerätetyp wird auf OpenKNX-Displays zur Steuerung eines Media Players verwendet. 
 Aktuell wird dieser Gerätetyp in der Smart Home Bridge nicht unterstützt. 
 
 <!-- DOC -->
@@ -286,11 +286,11 @@ Folgende Anzeigetypen stehen zur Auswahl:
   Anzeige der Helligkeit. 
 - Regenprognose  
   Anzeige einer Regenprognose. 
-  Diese kann beispielsweise von dem OpenKNX Modul [OFM-InternetWeatherModule](https://github.com/OpenKNX/OFM-InternetWeatherModule), das in der [OAM-InternetServices](https://github.com/OpenKNX/OAM-InternetServices) enthalten ist, bezogen werden.
+  Diese kann beispielsweise von dem OpenKNX-Modul [OFM-InternetWeatherModule](https://github.com/OpenKNX/OFM-InternetWeatherModule), das in den [OAM-InternetServices](https://github.com/OpenKNX/OAM-InternetServices) enthalten ist, bezogen werden.
   Dieser Anzeigewert wird nur von OpenKNX-Displays unterstützt und steht in der SmartHomeBridge nicht zur Verfügung.
 - Schneeprognose  
   Anzeige einer Schneeprognose. 
-  Diese kann beispielsweise von dem OpenKNX Modul [OFM-InternetWeatherModule](https://github.com/OpenKNX/OFM-InternetWeatherModule), das in der [OAM-InternetServices](https://github.com/OpenKNX/OAM-InternetServices) enthalten ist, bezogen werden.
+  Diese kann beispielsweise von dem OpenKNX-Modul [OFM-InternetWeatherModule](https://github.com/OpenKNX/OFM-InternetWeatherModule), das in den [OAM-InternetServices](https://github.com/OpenKNX/OAM-InternetServices) enthalten ist, bezogen werden.
   Dieser Anzeigewert wird nur von OpenKNX-Displays unterstützt und steht in der SmartHomeBridge nicht zur Verfügung.
 - Wind     
   Anzeige eines Wind-Messwertes in km/h.      
@@ -299,7 +299,7 @@ Folgende Anzeigetypen stehen zur Auswahl:
   Anzeige eines Prozentwertes.
   Dieser Anzeigewert wird nur von OpenKNX-Displays unterstützt und steht in der SmartHomeBridge nicht zur Verfügung.
 - Individuell  
-  Dieser Typ erlaubt die Auswahl des Eingangs-Kommunikationsobjektes und die Einstellung einer Einheit für den Messwert.
+  Dieser Typ erlaubt die Auswahl des Eingangs-Kommunikationsobjekts und die Einstellung einer Einheit für den Messwert.
   Dieser Anzeigewert wird nur von OpenKNX-Displays unterstützt und steht in der SmartHomeBridge nicht zur Verfügung.
 - Text    
   Zeigt den Text an, der über ein Text-Kommunikationsobjekt empfangen wird.       
@@ -311,7 +311,7 @@ Folgende Anzeigetypen stehen zur Auswahl:
 <!-- DOC HelpContext="DisplayInputType" -->
 ##### Eingang
 
-Typ des Kommunikationsobjektes:
+Typ des Kommunikationsobjekts:
 
 - DPT 1.xxx (Schalten)
 - DPT 5.xxx (1-Byte-Wert) 
@@ -366,7 +366,7 @@ Gibt an, ob der Lüfter einen Automatikmodus unterstützt.
 <!-- DOC -->
 ### Objekt für Automatik
 
-Über diese Einstellung wird konfiguriert, welche Objekttype für die Aktivierung des Automatikmodus verwendet werden soll.
+Über diese Einstellung wird konfiguriert, welcher Objekttyp für die Aktivierung des Automatikmodus verwendet werden soll.
 
 Zur Auswahl stehen:
 
@@ -374,9 +374,9 @@ Zur Auswahl stehen:
 - 1 Bit Handbetrieb (Automatik = AUS)
 
 <!-- DOC -->
-### Objekt für Rueckmeldung
+### Objekt für Rückmeldung
 
-Über diese Einstellung wird konfiguriert, welche Objekttype für die Rückmeldung des aktuellen Status des Automatikmodus verwendet werden soll.
+Über diese Einstellung wird konfiguriert, welcher Objekttyp für die Rückmeldung des aktuellen Status des Automatikmodus verwendet werden soll.
 
 Zur Auswahl stehen:
 
@@ -386,33 +386,32 @@ Zur Auswahl stehen:
 <!-- DOC -->
 ## Fenster
 
-Diese Gerätetype wird für Fenster mit und ohne Motorantriebe verwendet.
-
+Dieser Gerätetyp wird für Fenster mit und ohne Motorantrieb verwendet.
 
 <!-- DOC -->
 ## Motorantrieb
 
 Mögliche Einstellungen:
 
-- Ja
+- Ja  
   Wenn ein Motorantrieb verwendet werden soll.
-- Nein
-  Wenn lediglich ein Meldekontakt vorhanden ist, der den Öffnungstatus liefert.
+- Nein  
+  Wenn lediglich ein Meldekontakt vorhanden ist, der den Öffnungsstatus liefert.
 
 <!-- DOC -->
 ### Steuerungs-Objekt 
 
-Einstellung, ob das Gerät über eine Prozent Wert oder lediglich über Öffnen/Schließen gesteuert werden kann.
+Einstellung, ob das Gerät über einen Prozentwert oder lediglich über Öffnen/Schließen gesteuert werden kann.
 
 Mögliche Einstellungen:
 
-- Öffnen/Schließen
-  1 Bit  (empfohlen DPT-1.009)
-- Prozent
+- Öffnen/Schließen  
+  1 Bit (empfohlen DPT-1.009)
+- Prozent  
   1 Byte (empfohlen DPT-5.001)
 
 <!-- DOC -->
-## Öffnen/Schliessen Objekt
+## Öffnen/Schließen-Objekt
 
 Diese Einstellung steht nur zur Verfügung, wenn die Steuerung über Prozent erfolgt.
 Normalerweise kann über den Prozent-Ausgang die Steuerung vollständig erfolgen. 
@@ -428,50 +427,51 @@ Mögliche Optionen:
 - Nur schließen senden    
 
 <!-- DOC -->
-### Stopp Objekt
+### Stopp-Objekt
 
-Stellt ein Kommunikations-Objekt zum Stoppen bereiten.
+Stellt ein Kommunikationsobjekt zum Stoppen bereit.
 Ist diese Einstellung aktiviert, kann die Fahrbewegung vorzeitig gestoppt werden.
 
 <!-- DOC -->
 ### Blockadenerkennung
 
-Stellt ein Kommunikations-Objekt bereit, über dem eine Blockade des Antriebs gemeldet werden kann.
+Stellt ein Kommunikationsobjekt bereit, über das eine Blockade des Antriebs gemeldet werden kann.
 
 <!-- DOC -->
 ### Rückmeldung
 
-Gibt an, welche Kommunikations-Objekt-Type für die Rückmeldung der aktuellen Öffnungsposition verwendet wird.
+Gibt an, welcher Kommunikationsobjekttyp für die Rückmeldung der aktuellen Öffnungsposition verwendet wird.
 Mögliche Einstellungen:
 
-- Absolute Position
-  Meldung erfolgt über ein Prozent (DPT 5.001) Kommunikationsobjekt
-- Geöffnet
-  Meldung erfolgt über ein Bit Objekt. EIN entspricht geöffnet.
-- Geschlossen
-  Meldung erfolgt über ein Bit Objekt. EIN entspricht geschlossen.
+- Absolute Position  
+  Meldung erfolgt über ein Prozent (DPT 5.001) Kommunikationsobjekt.
+- Geöffnet  
+  Meldung erfolgt über ein Bit-Objekt. EIN entspricht geöffnet.
+- Geschlossen  
+  Meldung erfolgt über ein Bit-Objekt. EIN entspricht geschlossen.
 
 <!-- DOC -->
 ### Öffnungsrichtung
 
 Gibt an, in welche Richtung die Öffnung erfolgt.
-Diese Einstellung wird nur in OpenKNX Anzeigen verwendet, um das Öffnen und Schließen über Symbole richtig darzustellen. 
+Diese Einstellung wird nur in OpenKNX-Anzeigen verwendet, um das Öffnen und Schließen über Symbole richtig darzustellen. 
 In der SmartHomeBridge steht die Einstellung nicht zur Verfügung.
 
 <!-- DOC -->
 ## Tür
 
-Diese Gerätetype wird für Fenster mit und ohne Motorantriebe verwendet.
+Dieser Gerätetyp wird für Türen mit und ohne Motorantrieb verwendet.
+
 <!-- DOCEND -->
 
-Die Tür unterstützt die gleichen Einstellungen wie das [Fenster](#fenster)
+Die Tür unterstützt die gleichen Einstellungen wie das [Fenster](#fenster).
 
 <!-- DOC -->
 ## Garagentor
 
-Diese Gerätetype wird für Fenster mit und ohne Motorantriebe verwendet.
+Dieser Gerätetyp wird für Garagentore mit und ohne Motorantrieb verwendet.
 
 <!-- DOCEND -->
 
-Das  Gargagentor unterstützt die gleichen Einstellungen wie das [Fenster](#fenster)
+Das Garagentor unterstützt die gleichen Einstellungen wie das [Fenster](#fenster).
 
