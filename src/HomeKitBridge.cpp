@@ -23,6 +23,8 @@
 #include "Fan/HomeKitFan.h"
 #include "DoorWindow/KnxChannelDoorWindow.h"
 #include "DoorWindow/HomeKitDoorWindow.h"
+#include "Scene/KnxChannelScene.h"
+#include "Scene/HomeKitScene.h"
 
 #ifndef HOMESPAN_STACK_SIZE
 #define HOMESPAN_STACK_SIZE 8192
@@ -125,6 +127,14 @@ FanBridge* HomeKitBridge::createFan(KnxChannelFan& channel,  uint8_t _channelInd
 {
     int homekitAID = _channelIndex + 2; // Homekit bridge has AID1
     auto bridge = new HomeKitFan(homekitAID);
+    channel.add(bridge);
+    return bridge;
+}
+
+SceneBridge* HomeKitBridge::createScene(KnxChannelScene& channel,  uint8_t _channelIndex, uint8_t deviceType)
+{
+    int homekitAID = _channelIndex + 2; // Homekit bridge has AID1
+    auto bridge = new HomeKitScene(homekitAID);
     channel.add(bridge);
     return bridge;
 }

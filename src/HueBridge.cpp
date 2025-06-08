@@ -15,6 +15,8 @@
 #include "Fan/HueFan.h"
 #include "DoorWindow/KnxChannelDoorWindow.h"
 #include "DoorWindow/HueDoorWindow.h"
+#include "Scene/KnxChannelScene.h"
+#include "Scene/HueScene.h"
 
 void HueBridge::initialize(SmartHomeBridgeModule *bridge)
 {
@@ -90,6 +92,15 @@ DoorWindowBridge* HueBridge::createDoorWindow(KnxChannelDoorWindow& channel, uin
     if (!ParamBRI_CHDoorHueEmulation)
         return nullptr;
     auto bridge = new HueDoorWindow(this);
+    channel.add(bridge);
+    return bridge;
+}
+
+SceneBridge* HueBridge::createScene(KnxChannelScene& channel, uint8_t _channelIndex, uint8_t deviceType)
+{
+    if (!ParamBRI_CHSceneHueEmulation)
+        return nullptr;
+    auto bridge = new HueScene(this);
     channel.add(bridge);
     return bridge;
 }
