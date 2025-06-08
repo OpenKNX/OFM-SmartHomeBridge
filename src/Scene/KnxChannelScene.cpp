@@ -52,7 +52,7 @@ MainFunctionStateImage KnxChannelScene::mainFunctionImage()
 
 void KnxChannelScene::commandActivate(SceneBridge *sceneBridge)
 {
-    _lastActivatiation = max(1L, millis());
+    _lastActivatiation = max(1UL, millis());
     koSet(KO_SCENE, (uint8_t) (ParamBRI_CHSceneNumber - 1), true);
     reportActivation(sceneBridge);
 }
@@ -85,7 +85,7 @@ void KnxChannelScene::processInputKo(GroupObject &ko)
         uint8_t scene = koGet(KO_SCENE);
         if (scene == (uint8_t) (ParamBRI_CHSceneNumber - 1))
         {
-            _lastActivatiation = max(1L, millis());
+            _lastActivatiation = max(1UL, millis());
             reportActivation(nullptr);
         }
     }  

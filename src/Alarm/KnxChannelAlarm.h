@@ -11,13 +11,13 @@ public:
 
 enum AlarmType
 {
-    AlarmTypeContact = 7,
-    AlarmTypeMotion = 7,
-    AlarmTypeOccupancy = 7,
-    AlarmTypeLeak = 7,
-    AlarmTypeSmoke = 7,
-    AlarmTypeCarbonDioxid = 7,
-    AlarmTypeCarbonMonoxid = 7
+    AlarmTypeContact = 0,
+    AlarmTypeMotion = 1,
+    AlarmTypeOccupancy = 2,
+    AlarmTypeLeak = 3,
+    AlarmTypeSmoke = 4,
+    AlarmTypeCarbonDioxid = 5,
+    AlarmTypeCarbonMonoxid = 6
 };
              
 class KnxChannelAlarm : public KnxChannelBase

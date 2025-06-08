@@ -14,7 +14,7 @@ void HomeKitScene::setup(uint8_t _channelIndex)
         new Service::AccessoryInformation();
         new Characteristic::Identify();
         new Characteristic::Name(_channel->getNameInUTF8());
-    new ServiceImplementationSwitch(this);
+    new ServiceImplementationLightBulb(this);
     power = new Characteristic::On();
 }
 
@@ -27,6 +27,6 @@ boolean HomeKitScene::update()
 
 void HomeKitScene::setActivating(bool activating)
 {
-    power->setVal(value);
+    power->setVal(activating);   
 }
 #endif

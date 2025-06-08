@@ -1,7 +1,7 @@
 #ifndef SMARTHOMEBRIDGE_DEVICESONLY  
 
 #include "HomeKitMedia.h"
-
+#if 0
 HomeKitMedia::HomeKitMedia(int device) :
     device(device)
 {
@@ -46,4 +46,5 @@ void HomeKitMedia::setBrightness(uint8_t brightness)
     }
 }
 
+#endif
 #endif

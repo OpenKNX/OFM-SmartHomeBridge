@@ -20,29 +20,26 @@ boolean HueMedia::update()
     switch (espalexaDevice->getLastChangedProperty())
     {
         case EspalexaDeviceProperty::on:
-            _channel->commandPower(this, true);
+            _channel->commandPlay(this, true);
             break;
         case EspalexaDeviceProperty::off:
-            _channel->commandPower(this, false);
+            _channel->commandPlay(this, false);
             break;
          case EspalexaDeviceProperty::bri:
-            _channel->commandBrightness(this, espalexaDevice->getPercent());
+            _channel->commandVolume(this, espalexaDevice->getPercent());
             break;
     }
     return (true);
 }
 
-void HueMedia::setBrightness(uint8_t brightness)
+void HueMedia::setPlay(bool play)
+{
+    espalexaDevice->setState(play);
+}
+
+void HueMedia::setVolume(uint8_t brightness)
 {
     espalexaDevice->setPercent(brightness);
-    if (brightness == 0)
-    {
-        espalexaDevice->setState(false);
-    }
-    else
-    {
-        espalexaDevice->setState(true);
-    }
 }
 
 #endif

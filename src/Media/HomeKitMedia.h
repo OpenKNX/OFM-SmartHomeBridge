@@ -3,7 +3,7 @@
 
 #include "HomeSpan.h"
 #include "KnxChannelMedia.h"
-
+#if 0
 class HomeKitMedia : public MediaBridge
 {
     int device;
@@ -29,4 +29,5 @@ public:
     virtual void setBrightness(uint8_t brightness) override;
 };
 
+#endif
 #endif
