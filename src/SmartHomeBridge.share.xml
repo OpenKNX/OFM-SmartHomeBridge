@@ -11,6 +11,8 @@
   <op:config name="%BRI_HueSupport%" value="1" />
   <op:config name="%BRI_DisplaySettings%" value="1" />
   <op:config name="%BRI_IconSize%" value="64x64 Pixel" />
+  <op:config name="%BRI_DeviceType%" value="%AID%_PT-BRIDeviceType" />
+  <op:config name="%BRI_DisplayType%" value="%AID%_PT-BRIDisplayType" />
 
   <ManufacturerData>
     <Manufacturer RefId="M-00FA">
@@ -45,6 +47,27 @@
                   <Enumeration Value="92" Id="%ENID%" Text="Garagentor" Icon="garage-open-variant" />
                   <Enumeration Value="40" Id="%ENID%" Text="Szene" Icon="ceiling-light-multiple-outline" />
                   <Enumeration Value="41" Id="%ENID%" Text="Mediensteuerung" Icon="music" />
+                </TypeRestriction>
+              </ParameterType>
+
+              <ParameterType Id="%AID%_PT-BRIDeviceTypeSmartHomeBridge" Name="BRIDeviceTypeSmartHomeBridge">
+                <TypeRestriction Base="Value" SizeInBit="8">
+                  <Enumeration Value="0"  Id="%ENID%" Text="Deaktiviert"  />
+                  <Enumeration Value="10" Id="%ENID%" Text="Ein-/Ausschaltbares Gerät" Icon="power" />
+                  <Enumeration Value="11" Id="%ENID%" Text="Steckdose" Icon="power-socket-eu" />
+                  <Enumeration Value="20" Id="%ENID%" Text="Lampe" Icon="lamp-outline"   />
+                  <Enumeration Value="30" Id="%ENID%" Text="Jalousie" Icon="window-shutter" />
+                  <Enumeration Value="31" Id="%ENID%" Text="Rollladen" Icon="roller-shade-closed" />
+                  <Enumeration Value="32" Id="%ENID%" Text="Markise" Icon="storefront-outline" />
+                  <Enumeration Value="50" Id="%ENID%" Text="Thermostat" Icon="thermometer-lines" />
+                  <Enumeration Value="60" Id="%ENID%" Text="Anzeige" Icon="tablet-dashboard" />
+                  <Enumeration Value="70" Id="%ENID%" Text="Alarm" Icon="alarm-light-outline"/>
+                  <Enumeration Value="80" Id="%ENID%" Text="Lüfter" Icon="fan" />
+                  <Enumeration Value="90" Id="%ENID%" Text="Fenster" Icon="window-closed-variant" />
+                  <Enumeration Value="91" Id="%ENID%" Text="Tür" Icon="door" />
+                  <Enumeration Value="92" Id="%ENID%" Text="Garagentor" Icon="garage-open-variant" />
+                  <Enumeration Value="40" Id="%ENID%" Text="Szene" Icon="ceiling-light-multiple-outline" />
+                  <!-- <Enumeration Value="41" Id="%ENID%" Text="Mediensteuerung" Icon="music" /> -->
                 </TypeRestriction>
               </ParameterType>
               
@@ -224,6 +247,21 @@
                   
                   <Enumeration Value="8" Id="%ENID%" Text="Individuell"      Icon="artboard" />
                   <Enumeration Value="9" Id="%ENID%" Text="Text"             Icon="card-text-outline" />
+                </TypeRestriction>
+              </ParameterType>
+
+              <ParameterType Id="%AID%_PT-BRIDisplayTypeSmartHomeBridge" Name="BRIDisplayTypeSmartHomeBridge">
+                <TypeRestriction Base="Value" SizeInBit="8">
+                  <Enumeration Value="0" Id="%ENID%" Text="Temperatur"       Icon="thermometer" />
+                  <Enumeration Value="1" Id="%ENID%" Text="Luftfeuchtigkeit" Icon="water-percent" />
+                  <Enumeration Value="2" Id="%ENID%" Text="Helligkeit"       Icon="brightness-7" />
+                  <Enumeration Value="3" Id="%ENID%" Text="Regenprognose"    Icon="weather-pouring" />
+                  <Enumeration Value="4" Id="%ENID%" Text="Schneeprognose"   Icon="weather-snowy-heavy" />
+                  <Enumeration Value="5" Id="%ENID%" Text="Wind"             Icon="weather-windy" />
+                  <Enumeration Value="6" Id="%ENID%" Text="Prozent"          Icon="percent" />
+                  
+                  <!-- <Enumeration Value="8" Id="%ENID%" Text="Individuell"      Icon="artboard" />
+                  <Enumeration Value="9" Id="%ENID%" Text="Text"             Icon="card-text-outline" /> -->
                 </TypeRestriction>
               </ParameterType>
 

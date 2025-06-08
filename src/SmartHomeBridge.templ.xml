@@ -8,7 +8,7 @@
             <Static>
             <Parameters>
               <!-- Bridge Channel -->
-              <Parameter Id="%AID%_P-%T%%CCC%001" Name="CH%C%DeviceType" ParameterType="%AID%_PT-BRIDeviceType" Text="Type" Value="%BRI_DefaultType%" >
+              <Parameter Id="%AID%_P-%T%%CCC%001" Name="CH%C%DeviceType" ParameterType="%BRI_DeviceType%" Text="Type" Value="%BRI_DefaultType%" >
                 <!-- Device Type -->
                 <Memory CodeSegment="%AID%_RS-04-00000" Offset="0" BitOffset="0" />
               </Parameter>
@@ -138,7 +138,7 @@
               <Union SizeInBit="128">
                 <Memory CodeSegment="%AID%_RS-04-00000" Offset="53" BitOffset="0" />
                 <!-- Display Type -->
-                <Parameter Id="%AID%_UP-%T%%CCC%061" Offset="0" BitOffset="0" Name="CH%C%DisplayType" ParameterType="%AID%_PT-BRIDisplayType" Text="Anzeigewert" Value="0" />    
+                <Parameter Id="%AID%_UP-%T%%CCC%061" Offset="0" BitOffset="0" Name="CH%C%DisplayType" ParameterType="%BRI_DisplayType%" Text="Anzeigewert" Value="0" />    
                 <!-- Display Lower -->
                 <Parameter Id="%AID%_UP-%T%%CCC%062" Offset="1" BitOffset="0" Name="CH%C%DisplayLower" ParameterType="%AID%_PT-BRICompareValue" Text="Wert" Value="5"  />    
                 <!-- ^^^ 4 Bytes ^^^ -->
