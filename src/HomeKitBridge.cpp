@@ -56,7 +56,7 @@ bool HomeKitBridge::processCommand(const std::string cmd, bool diagnoseKo)
 
 void HomeKitBridge::showHelp()
 {
-    openknx.console.printHelpLine("HK", "Switch to HomeKit console");
+    openknx.console.printHelpLine("hk", "Switch to HomeKit console");
 }
 
 SwitchBridge* HomeKitBridge::createSwitch(KnxChannelSwitch& channel,  uint8_t _channelIndex, uint8_t deviceType)
