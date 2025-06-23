@@ -35,11 +35,6 @@ const std::string SmartHomeBridgeModule::name()
 
 void SmartHomeBridgeModule::showInformations()
 {
-#ifdef MODULE_SmartHomeBridge_Version
-  openknx.logger.logWithPrefixAndValues(logPrefix(), "Smart Home Bridge %s", MODULE_SmartHomeBridge_Version);
-#else
-  openknx.logger.logWithPrefix(logPrefix(), "Smart Home Bridge");
-#endif
 }
 
 const std::string SmartHomeBridgeModule::version()
