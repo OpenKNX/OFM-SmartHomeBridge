@@ -11,8 +11,8 @@
   <op:config name="%BRI_HueSupport%" value="1" />
   <op:config name="%BRI_DisplaySettings%" value="0" />
   <op:config name="%BRI_IconSize%" value="64x64 Pixel" />
-  <op:config name="%BRI_DeviceType%" value="%AID%_PT-BRIDeviceType" />
-  <op:config name="%BRI_DisplayType%" value="%AID%_PT-BRIDisplayType" />
+  <op:config name="%BRI_DeviceType%" value="%AID%_PT-BRIDeviceTypeSmartHomeBridge" />
+  <op:config name="%BRI_DisplayType%" value="%AID%_PT-BRIDisplayTypeSmartHomeBridge" />
 
   <ManufacturerData>
     <Manufacturer RefId="M-00FA">
