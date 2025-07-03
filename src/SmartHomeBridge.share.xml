@@ -255,11 +255,11 @@
                   <Enumeration Value="0" Id="%ENID%" Text="Temperatur"       Icon="thermometer" />
                   <Enumeration Value="1" Id="%ENID%" Text="Luftfeuchtigkeit" Icon="water-percent" />
                   <Enumeration Value="2" Id="%ENID%" Text="Helligkeit"       Icon="brightness-7" />
-                  <Enumeration Value="3" Id="%ENID%" Text="Regenprognose"    Icon="weather-pouring" />
+                  <!-- <Enumeration Value="3" Id="%ENID%" Text="Regenprognose"    Icon="weather-pouring" />
                   <Enumeration Value="4" Id="%ENID%" Text="Schneeprognose"   Icon="weather-snowy-heavy" />
                   <Enumeration Value="5" Id="%ENID%" Text="Wind"             Icon="weather-windy" />
                   <Enumeration Value="6" Id="%ENID%" Text="Prozent"          Icon="percent" />
-                  
+                   -->
                   <!-- <Enumeration Value="8" Id="%ENID%" Text="Individuell"      Icon="artboard" />
                   <Enumeration Value="9" Id="%ENID%" Text="Text"             Icon="card-text-outline" /> -->
                 </TypeRestriction>
