@@ -70,8 +70,16 @@ Messwertgrenze für die Auswahl des Bildes.
 #### Bilddatei  
 
 Bilddateien im PNG Format müssen zuerst in das Gerät übertragen werden.
-Über einen Doppelklick auf den PROG-Taster wird das Geräte dazu in den Übertragsmodus versetzt.
-Anschließend können die Bild-Dateien über USB auf das Gerät geladen werden.
+Der USB Upload funktioniert derzeit leider nicht.
+
+Workaround:
+- Das Projekt https://github.com/OpenKNX/OAM-TouchRound.git ausgechecken
+- In Visual Studio Code mit installierter Extension "PlatformIO" den Ordner öffnen
+- Die Konfiguration "env:release_RP2350" in der Fußzeile auswählen.
+- In den Order "data" die gewünschten Datein kopieren.
+- Das Plugin PlatformIO auf der linken Seiten auswählen
+- Datein über "Upload File System" hochladen
+![PlatformIO File Upload](PlatformIOFileUpload.png)
 
 Eine sehr gute Auswahl an monochromen Bildern die für Statuseinfärbungen verwendet werden können sind die Material Design Icons
 [https://pictogrammers.com/library/mdi/](https://pictogrammers.com/library/mdi/).
