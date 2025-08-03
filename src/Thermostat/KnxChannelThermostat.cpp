@@ -118,9 +118,9 @@ bool KnxChannelThermostat::commandMode(ThermostatBridge* thermostatBridge, Therm
         koSet(KO_HEADING, !heading, true);
 
     if (ParamBRI_CHThermostatKoModeHeating == 0)
-        koSet(KO_COOLING, heading, true);
+        koSet(KO_COOLING, cooling, true);
     else
-        koSet(KO_COOLING, !heading, true);
+        koSet(KO_COOLING, !cooling, true);
     
     // Inform other bridges
     for (auto it = thermostatBridges.begin(); it != thermostatBridges.end(); ++it)
