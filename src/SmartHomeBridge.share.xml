@@ -207,6 +207,12 @@
                   <Enumeration Value="1" Id="%ENID%" Text="Fahrenheit" />
                 </TypeRestriction>
               </ParameterType>
+              <ParameterType Id="%AID%_PT-BRIThermostatKoType" Name="BRIThermostatKoType">
+                <TypeRestriction Base="Value" SizeInBit="1" UIHint="DropDown">
+                  <Enumeration Value="0" Id="%ENID%" Text="Freigabe oder Sperre (DPT 1.*)"    />
+                  <Enumeration Value="1" Id="%ENID%" Text="HVAC Kontrollmodus (DPT 20.105)" />
+                </TypeRestriction>
+              </ParameterType>
               <ParameterType Id="%AID%_PT-BRIThermostatMode" Name="BRIThermostatMode">
                 <TypeRestriction Base="Value" SizeInBit="4">
                   <Enumeration Value="7" Id="%ENID%" Text="Heizen und Kühlen Automatik"             />
@@ -228,9 +234,10 @@
                 </TypeRestriction>
               </ParameterType>
                <ParameterType Id="%AID%_PT-BRIThemostateFeedbackKoType" Name="BRIThemostateFeedbackKoType">
-                <TypeRestriction Base="Value" SizeInBit="1" UIHint="DropDown">
+                <TypeRestriction Base="Value" SizeInBit="2" UIHint="DropDown">
                   <Enumeration Value="0" Id="%ENID%" Text="1 Bit Aktiv"          />
                   <Enumeration Value="1" Id="%ENID%" Text="1 Byte Stellwert (%)" />
+                  <Enumeration Value="2" Id="%ENID%" Text="Keine (Intern errechnen)" />
                 </TypeRestriction>
               </ParameterType>
 

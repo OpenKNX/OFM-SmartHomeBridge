@@ -15,8 +15,8 @@
         <when test="1"> <!-- Homekit -->
             <!-- Anzahl der Kanäle -->
             <choose ParamRefId="%AID%_UP-%T%000000_R-%T%00000001">
-                <when test="&gt;=55">
-                        <ParameterSeparator Id="%AID%_PS-nnn" Text="ACHTUNG: Die HomeKit Verbindung kann instabil werden wenn mehr als 55 Geräte verwendet werden." UIHint="Information" />
+                <when test="&gt;=60">
+                        <ParameterSeparator Id="%AID%_PS-nnn" Text="ACHTUNG: Die HomeKit Verbindung kann instabil werden wenn mehr als 60 Geräte verwendet werden." UIHint="Information" />
                 </when>
             </choose>
         </when>

@@ -1,6 +1,6 @@
 ﻿### Apple HomeKit
 
-Über Apple HomeKit können die KNX Geräte gesteuert werden. Es werden bis zu 149 Geräte unterstützt. Das Limit ergibt sich aus eine Beschränkung der Anzahl der Accessories bei einem HomeKit Gerät mit maximal 150. Eines davon repräsentiert das Bridge Gerät.
+Über Apple HomeKit können die KNX Geräte gesteuert werden. Es werden bis zu 149 Geräte unterstützt, jedoch derzeit nur maximal 60 empfohlen. Das Limit ergibt sich aus eine Beschränkung der Anzahl der Accessories bei einem HomeKit Gerät mit maximal 150. Eines davon repräsentiert das Bridge Gerät.
 
 Nachdem die Bridge über ETS programmiert wurde, kann sie mit Apple Homekit verbunden.
 

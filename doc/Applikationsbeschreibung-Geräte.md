@@ -222,6 +222,26 @@ Auswahl, welche Betriebsart verwendet wird:
 <!-- DOCEND -->
 Abhängig von der Auswahl stehen für Heizen bzw. Kühlen folgende Einstellungen bereit.
 
+<!-- DOC HelpContext="ThermostatKoType" -->
+### Steuer-Objekt-Type
+
+Object, welches zur Steuerung verwendet werden soll.
+
+- EIN / AUS
+  Mit dieser Einstellung, können Freigabe- oder Sperrobjekte verwendet werden.
+- HVAC
+  Es kann ein einzelner Datenpunkt für Heizen, Kühlen, Automatikbetrieb und Ausschalten verwendet werden
+
+<!-- DOC HelpContext="ThermostatKoFeedback" -->
+### Rückmeldungs-Objekt-Type
+
+Object, welches als Feedback vom Aktor verwendet wird.
+
+- Freigabe oder Sperre (DPT 1.*)
+  Mit dieser Einstellung, können Freigabe- oder Sperrobjekte verwendet werden.
+- HVAC Kontrollmodus (DPT 20.105)
+  Es kann ein einzelner Datenpunkt für Heizen, Kühlen, Automatikbetrieb und Ausschalten gemeldet werden.
+
 <!-- DOC HelpContext="ThermostatKo" --> 
 ### Betriebsart
 
@@ -246,6 +266,8 @@ Kommunikationsobjekttyp, der für die Rückmeldung verwendet wird, ob Heizen bzw
 
 - 1 Bit Aktiv
 - 1 Byte Stellwert (%)
+- Keine (Intern errechnen)
+  Der aktuelle Kühl- bzw. Heizstatus wird aus dem Vergleich von Soll- und Isttemperatur errechnet.
 
 <!-- DOC -->
 ## Szene
