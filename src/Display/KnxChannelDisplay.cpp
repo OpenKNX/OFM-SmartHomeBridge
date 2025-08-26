@@ -2,6 +2,7 @@
 #include "knxprod.h"
 #include "KnxChannelDisplay.h"
 #include "BridgeBase.h"
+#include <ISO8859_15ToUTF8.h>
 
 #define KO_TEMPERATURE_FEEDBACK KoBRI_KO1_, DPT_Value_Temp
 #define KO_HUMIDITY_FEEDBACK    KoBRI_KO1_, DPT_Value_Humidity
@@ -294,11 +295,11 @@ std::string KnxChannelDisplay::currentValueAsString()
             }
             break;
         case DisplayType::DisplayTypeText:
-            return std::string(lastStringValue);
+            return convertISO8859_15ToUTF8_string(lastStringValue);
         default:
             return std::string("?");
     }
-    return std::string(buffer);
+    return convertISO8859_15ToUTF8_string(buffer);
 }
 
 bool KnxChannelDisplay::mainFunctionValue()

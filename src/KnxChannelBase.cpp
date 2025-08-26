@@ -1,12 +1,13 @@
 #include "SmartHomeBridgeModule.h"
 #include "KnxChannelBase.h"
-#include "CP1252ToUTF8.h"
+#include "ISO8859_15ToUTF8.h"
+
 
 KnxChannelBase::KnxChannelBase(uint16_t _channelIndex) // Do not rename the parameter name, it is used in the ParamBRI_CHDeviceName macro
     : Component((const char*) ParamBRI_CHDeviceName)
 {
     this->_channelIndex = _channelIndex;
-    utf8Name = convert1252ToUTF8(getName());
+    utf8Name = convertISO8859_15ToUTF8(getName());    
 }
 
 const std::string KnxChannelBase::logPrefix() 

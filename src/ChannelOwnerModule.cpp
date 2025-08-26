@@ -1,4 +1,5 @@
 #include "ChannelOwnerModule.h"
+#include "KnxChannelBase.h"
 
 void ChannelOwnerModule::setNumberOfChannels(uint8_t numberOfChannels)
 {
@@ -38,6 +39,20 @@ void ChannelOwnerModule::setup()
     OpenKNX::Module::setup();
 }
 
+std::string toHexString(const uint8_t* data) 
+{
+    std::string result;
+    for (size_t i = 0; i < 200; i++) {
+        auto c = data[i];
+        if (c == 0) break;
+        if (i > 0) result += " ";
+        char hex_str[4];
+        sprintf(hex_str, "%02X", (int) c);
+        result += hex_str;
+    }
+    return result;
+}
+
 void ChannelOwnerModule::createChannels()
 {
     if (_pChannels != nullptr)
@@ -47,7 +62,11 @@ void ChannelOwnerModule::createChannels()
         {
             logDebugP("Create channel %d", _channelIndex);
             logIndentUp();
-            _pChannels[_channelIndex] = createChannel(_channelIndex);
+            auto channel = (KnxChannelBase*)createChannel(_channelIndex);
+            _pChannels[_channelIndex] = channel;
+            logErrorP("ISO:\r\n%s", toHexString((const uint8_t*)channel->getName()).c_str());
+            logErrorP("UTF8:\r\n%s", toHexString((const uint8_t*)channel->getNameInUTF8()).c_str());
+
             logIndentDown();
         }
         for (uint8_t _channelIndex = 0; _channelIndex < _numberOfChannels; _channelIndex++)

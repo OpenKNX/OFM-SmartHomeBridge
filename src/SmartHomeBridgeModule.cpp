@@ -22,7 +22,7 @@
 #include "./Media/KnxChannelMedia.h"
 
 #include "knxprod.h"
-#include "CP1252ToUTF8.h"
+#include "ISO8859_15ToUTF8.h"
 
 SmartHomeBridgeModule::SmartHomeBridgeModule()
 {
@@ -72,7 +72,7 @@ void SmartHomeBridgeModule::setup()
 #else
   logDebugP("Setup Bridge");
 #endif
-  _utf8Name = convert1252ToUTF8((const char *)ParamBRI_BridgeName);
+  _utf8Name = convertISO8859_15ToUTF8((const char *)ParamBRI_BridgeName);
 
 #ifndef SMARTHOMEBRIDGE_DEVICESONLY
   webServer = new WebServer(webServerPort);
