@@ -108,9 +108,9 @@
                 <!-- Temperature Unit -->
                 <Parameter Id="%AID%_UP-%T%%CCC%051" Offset="0" BitOffset="0" Name="CH%C%ThermostatTemperaturUnitType" ParameterType="%AID%_PT-BRIThermostatTemperaturUnitType" Text="Einheit" Value="0" />                         
                 <!-- KO Type -->
-                <Parameter Id="%AID%_UP-%T%%CCC%059" Offset="0" BitOffset="1" Name="CH%C%ThermostatKoType" ParameterType="%AID%_PT-BRIThermostatKoType" Text="Steuer-Objekt-Type" Value="0" />                         
+                <Parameter Id="%AID%_UP-%T%%CCC%059" Offset="0" BitOffset="1" Name="CH%C%ThermostatKoType" ParameterType="%AID%_PT-BRIThermostatKoType" Text="Steuer-Objekt-Type" Value="1" />                         
                 <!-- Feedback KO Type -->
-                <Parameter Id="%AID%_UP-%T%%CCC%060" Offset="0" BitOffset="2" Name="CH%C%ThermostatFeedbackKoType" ParameterType="%AID%_PT-BRIThermostatKoType" Text="Rückmeldungs-Objekt-Type" Value="0" />                         
+                <Parameter Id="%AID%_UP-%T%%CCC%060" Offset="0" BitOffset="2" Name="CH%C%ThermostatFeedbackKoType" ParameterType="%AID%_PT-BRIThermostatKoType" Text="Rückmeldungs-Objekt-Type" Value="1" />                         
           
                 <!-- 1 bits free -->
                 <!-- Thermostat Mode -->
@@ -121,14 +121,14 @@
                 <!-- Thermostat KO Mode Heading Feedback -->
                 <Parameter Id="%AID%_UP-%T%%CCC%054" Offset="1" BitOffset="1" Name="CH%C%ThermostatKoModeHeatingFeedback" ParameterType="%AID%_PT-BRIThermostatKoModeFeedback"  Text="Betriebsart Rückmeldung" Value="0" />                                     
                 <!-- Thermostat Heating Feedback Ko Type -->
-                <Parameter Id="%AID%_UP-%T%%CCC%055" Offset="1" BitOffset="2" Name="CH%C%ThemostateHeatingFeedbackKoType" ParameterType="%AID%_PT-BRIThemostateFeedbackKoType"  Text="Heizen aktiv Rückmeldung" Value="0" />                         
+                <Parameter Id="%AID%_UP-%T%%CCC%055" Offset="1" BitOffset="2" Name="CH%C%ThemostateHeatingFeedbackKoType" ParameterType="%AID%_PT-BRIThemostateActiveFeedbackKoType"  Text="Heizen aktiv Rückmeldung" Value="0" />                         
                 <!-- 4 Bits free -->
                 <!-- Thermostat KO Mode Cooling -->
                 <Parameter Id="%AID%_UP-%T%%CCC%056" Offset="2" BitOffset="0" Name="CH%C%ThermostatKoModeCooling"  ParameterType="%AID%_PT-BRIThermostatKoMode"  Text="Betriebsart" Value="0" />                         
                 <!-- Thermostat KO Mode Cooling Feedback -->
                 <Parameter Id="%AID%_UP-%T%%CCC%057" Offset="2" BitOffset="1" Name="CH%C%ThermostatKoModeCoolingFeedback" ParameterType="%AID%_PT-BRIThermostatKoModeFeedback"  Text="Betriebsart Rückmeldung" Value="0" />                         
                 <!-- Thermostat Cooling Feedback KO Type -->
-                <Parameter Id="%AID%_UP-%T%%CCC%058" Offset="2" BitOffset="2" Name="CH%C%ThemostateCoolingFeedbackKoType"  ParameterType="%AID%_PT-BRIThemostateFeedbackKoType"  Text="Kühlen aktiv Rückmeldung" Value="0" />                         
+                <Parameter Id="%AID%_UP-%T%%CCC%058" Offset="2" BitOffset="2" Name="CH%C%ThemostateCoolingFeedbackKoType"  ParameterType="%AID%_PT-BRIThemostateActiveFeedbackKoType"  Text="Kühlen aktiv Rückmeldung" Value="0" />                         
                 <!-- 4 Bits free -->
                 
                 <!-- Next Id="%AID%_UP-%T%%CCC%060" -->

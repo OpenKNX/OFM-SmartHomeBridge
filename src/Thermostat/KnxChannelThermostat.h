@@ -39,6 +39,7 @@ class KnxChannelThermostat : public KnxChannelBase
     public:
         static float DEFAULT_TEMPERATURE;
         ThermostatMode _currentMode = ThermostatModeOff;
+        ThermostatCurrentState _currentState = ThermostatCurrentStateOff;
         KnxChannelThermostat(uint16_t channelIndex);
         void add(ThermostatBridge* thermostatBridge);
         void remove(ThermostatBridge* thermostatBridge);
@@ -61,4 +62,10 @@ class KnxChannelThermostat : public KnxChannelBase
         virtual std::string currentValueAsString() override;
         virtual bool mainFunctionValue() override;
         virtual MainFunctionStateImage mainFunctionImage() override;
+
+        bool isHeatingActive();
+        bool isCoolingActive();
+        void updateCurrentState();
+
+       
 };

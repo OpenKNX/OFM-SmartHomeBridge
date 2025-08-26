@@ -227,7 +227,7 @@ Abhängig von der Auswahl stehen für Heizen bzw. Kühlen folgende Einstellungen
 
 Object, welches zur Steuerung verwendet werden soll.
 
-- EIN / AUS
+- Einschalt- oder Sperrobjekt (DPT 1.*)
   Mit dieser Einstellung, können Freigabe- oder Sperrobjekte verwendet werden.
 - HVAC
   Es kann ein einzelner Datenpunkt für Heizen, Kühlen, Automatikbetrieb und Ausschalten verwendet werden
@@ -237,7 +237,7 @@ Object, welches zur Steuerung verwendet werden soll.
 
 Object, welches als Feedback vom Aktor verwendet wird.
 
-- Freigabe oder Sperre (DPT 1.*)
+- Einschalt- oder Sperrobjekt (DPT 1.*)
   Mit dieser Einstellung, können Freigabe- oder Sperrobjekte verwendet werden.
 - HVAC Kontrollmodus (DPT 20.105)
   Es kann ein einzelner Datenpunkt für Heizen, Kühlen, Automatikbetrieb und Ausschalten gemeldet werden.
@@ -248,7 +248,7 @@ Object, welches als Feedback vom Aktor verwendet wird.
 Kommunikationsobjekttyp, der für die Aktivierung der Betriebsart verwendet wird:
 
 - Einschaltobjekt (1 bei EIN)
-- Sperren (0 bei EIN)
+- Sperrobjekt (0 bei EIN)
 
 <!-- DOC HelpContext="ThermostatKoFeedback" --> 
 ### Betriebsart Rückmeldung

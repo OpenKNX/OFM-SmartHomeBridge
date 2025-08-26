@@ -8,6 +8,9 @@ Die OpenKNX Smart Home Bridge erlaubt KNX Geräte über Apple Home und Amazon Al
 - Hue Emulation für Rollanden und Jalousien, dargestellt als dimmbare Lampen
 - SW-Updates können über WLAN (OTA) eigespielt werden
 
+# Release Notes
+- 0.2 Das Thermostat kann nun auch mit HVAC Ein- bzw. Ausgang umgehen
+- 0.2 Bugfix: Thermostat falsche Statusanzeigen
 
 ### Unterstützte Geräte
 
