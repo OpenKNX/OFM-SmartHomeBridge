@@ -217,3 +217,16 @@ MainFunctionStateImage KnxChannelRolladen::mainFunctionImage()
 {
    return calculateMainFunctionImage(KO_POSITION_FEEDBACK, 0, 99, 100);
 }
+
+
+MainFunctionStateImage KnxChannelRolladen::mainFunctionTypeImage(uint8_t value)
+{
+    if (value > 0)
+    {
+        std::string image = "Type";
+        image += std::to_string(ParamBRI_CHDeviceType);
+        image += "_A.png";
+        return {true, image};
+    }
+    return KnxChannelBase::mainFunctionTypeImage(value);
+}

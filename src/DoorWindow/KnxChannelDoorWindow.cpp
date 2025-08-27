@@ -320,3 +320,15 @@ MainFunctionStateImage KnxChannelDoorWindow::mainFunctionImage()
 {
    return calculateMainFunctionImage(currentPosition(), 0, 99, 100);
 }
+
+MainFunctionStateImage KnxChannelDoorWindow::mainFunctionTypeImage(uint8_t value)
+{
+    if (value > 0)
+    {
+        std::string image = "Type";
+        image += std::to_string(ParamBRI_CHDeviceType);
+        image += "_A.png";
+        return {true, image};
+    }
+    return KnxChannelBase::mainFunctionTypeImage(value);
+}

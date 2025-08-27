@@ -54,4 +54,5 @@ class KnxChannelDoorWindow : public KnxChannelBase
         virtual std::string currentValueAsString() override;
         virtual bool mainFunctionValue() override;
         virtual MainFunctionStateImage mainFunctionImage() override;
+        virtual MainFunctionStateImage mainFunctionTypeImage(uint8_t value) override;
 };

@@ -69,7 +69,7 @@ bool KnxChannelBase::mainFunctionPreferValueDisplay()
     return false;
 }
 
-MainFunctionStateImage KnxChannelBase::mainFunctionTypeImage()
+MainFunctionStateImage KnxChannelBase::mainFunctionTypeImage(uint8_t value)
 {
     std::string image = "Type";
     image += std::to_string(ParamBRI_CHDeviceType);
@@ -85,7 +85,7 @@ MainFunctionStateImage KnxChannelBase::calculateMainFunctionImage(GroupObject& f
 MainFunctionStateImage KnxChannelBase::calculateMainFunctionImage(uint8_t value, uint8_t limit0, uint8_t limit50, uint8_t limit100)
 {
     if (!ParamBRI_CHIcon)
-        return mainFunctionTypeImage();
+        return mainFunctionTypeImage(value);
     int parameterIndex = -1;
     bool allowRecolor;
     if (limit0 != LIMIT_NOT_USED && value <= limit0)
@@ -105,7 +105,7 @@ MainFunctionStateImage KnxChannelBase::calculateMainFunctionImage(uint8_t value,
     }
     else
     {
-        return mainFunctionTypeImage();
+        return mainFunctionTypeImage(value);
     }
     return {allowRecolor, getImageFileName(parameterIndex)};
 }

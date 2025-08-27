@@ -70,7 +70,7 @@ void KnxChannelAlarm::processInputKo(GroupObject &ko)
     }
 }
 
-MainFunctionStateImage KnxChannelAlarm::mainFunctionTypeImage()
+MainFunctionStateImage KnxChannelAlarm::mainFunctionTypeImage(uint8_t value)
 {
     std::string image = "Type";
     image += std::to_string(ParamBRI_CHDeviceType);

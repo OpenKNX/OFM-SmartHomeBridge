@@ -70,9 +70,19 @@ Messwertgrenze für die Auswahl des Bildes.
 #### Bilddatei  
 
 Bilddateien im PNG Format müssen zuerst in das Gerät übertragen werden.
-Der USB Upload funktioniert derzeit leider nicht.
+Dies kann am Einfachsten über den USB Bildupdload erfolgen.
 
-Workaround:
+- das Gerät mit dem USB-Port des Computers verbinden
+- Doppelklick auf die PROG Taste
+- -> Nun sollte ein Laufwerk sichtbar werden und die PROG Led leuchten
+- In das Verzeichnis "Inbox" die Bilddatein kopieren
+- Das Laufwerk auswerfen
+- -> Die PROG LED beginnt zu flackern als Signal, dass die Datein übertragen werden
+
+Wenn ein Terminal mit dem Gerät verbunden ist, kann man über das Kommando "fs" den Inhalt des Dateisystems prüfen.
+Hinweis: Das Laden der Bilddatei ignoriert die Groß- Kleinschreibung.
+
+Alternativer Upload über VS-Code:
 - Das Projekt https://github.com/OpenKNX/OAM-TouchRound.git ausgechecken
 - In Visual Studio Code mit installierter Extension "PlatformIO" den Ordner öffnen
 - Die Konfiguration "env:release_RP2350" in der Fußzeile auswählen.

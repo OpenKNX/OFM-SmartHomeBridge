@@ -1741,7 +1741,7 @@
                       </when>
                       <when test="92">
                         <!-- ************** Garagentor ************ -->
-                        <ParameterBlock Id="%AID%_PB-nnn" Name="f%CC%FCB_Switch" Text="%C% Garagentor: {{0: ...}}"      TextParameterRefId="%AID%_P-%T%%CCC%002_R-%T%%CCC%00201" Icon="garage-open-variant" ShowInComObjectTree="true" HelpContext="BRI-Garagentor">
+                        <ParameterBlock Id="%AID%_PB-nnn" Name="f%CC%FCB_Switch" Text="%C% Garagentor: {{0: ...}}"      TextParameterRefId="%AID%_P-%T%%CCC%002_R-%T%%CCC%00201" Icon="garage-variant" ShowInComObjectTree="true" HelpContext="BRI-Garagentor">
                           <ParameterSeparator Id="%AID%_PS-nnn" Text="Garagentor" UIHint="Headline" />
                           <op:usePart name="ChannelHead" xpath="//ParameterBlock/*" />
                           <op:usePart name="HueSimulation" xpath="//ParameterBlock/*" />   

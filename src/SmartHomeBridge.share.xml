@@ -44,7 +44,7 @@
                   <Enumeration Value="80" Id="%ENID%" Text="Lüfter" Icon="fan" />
                   <Enumeration Value="90" Id="%ENID%" Text="Fenster" Icon="window-closed-variant" />
                   <Enumeration Value="91" Id="%ENID%" Text="Tür" Icon="door" />
-                  <Enumeration Value="92" Id="%ENID%" Text="Garagentor" Icon="garage-open-variant" />
+                  <Enumeration Value="92" Id="%ENID%" Text="Garagentor" Icon="garage-variant" />
                   <Enumeration Value="40" Id="%ENID%" Text="Szene" Icon="ceiling-light-multiple-outline" />
                   <Enumeration Value="41" Id="%ENID%" Text="Mediensteuerung" Icon="music" />
                 </TypeRestriction>
@@ -65,7 +65,7 @@
                   <Enumeration Value="80" Id="%ENID%" Text="Lüfter" Icon="fan" />
                   <Enumeration Value="90" Id="%ENID%" Text="Fenster" Icon="window-closed-variant" />
                   <Enumeration Value="91" Id="%ENID%" Text="Tür" Icon="door" />
-                  <Enumeration Value="92" Id="%ENID%" Text="Garagentor" Icon="garage-open-variant" />
+                  <Enumeration Value="92" Id="%ENID%" Text="Garagentor" Icon="garage-variant" />
                   <Enumeration Value="40" Id="%ENID%" Text="Szene" Icon="ceiling-light-multiple-outline" />
                   <!-- <Enumeration Value="41" Id="%ENID%" Text="Mediensteuerung" Icon="music" /> -->
                 </TypeRestriction>
