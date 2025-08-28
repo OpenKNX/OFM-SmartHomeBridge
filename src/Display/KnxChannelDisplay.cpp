@@ -133,7 +133,7 @@ void KnxChannelDisplay::setup()
             koSetWithoutSend(KO_LUX_FEEDBACK,  0.F);
             koSendReadRequest(KO_LUX_FEEDBACK);
             break;
-        case DisplayType::DisplayTyppeRain:
+        case DisplayType::DisplayTypeRain:
             koSetWithoutSend(KO_RAIN_INPUT, 0.F);
             koSendReadRequest(KO_RAIN_INPUT);
             break;
@@ -177,7 +177,7 @@ void KnxChannelDisplay::processInputKo(GroupObject &groupObject)
             case DisplayType::DisplayTypeLux:
                 lastValue = koGet(KO_LUX_FEEDBACK);
                 break;
-            case DisplayType::DisplayTyppeRain:
+            case DisplayType::DisplayTypeRain:
                 lastValue = koGet(KO_RAIN_INPUT);
                 break;
             case DisplayType::DisplayTypeSnow:
@@ -223,25 +223,25 @@ std::string KnxChannelDisplay::currentValueAsString()
     switch (getDisplayType())
     {
         case DisplayType::DisplayTypeTemperature:
-            snprintf(buffer, sizeof(buffer), u8"%.1lf °C", lastValue);
+            snprintf(buffer, sizeof(buffer), (const char*) u8"%.1lf °C", lastValue);
             break;
         case DisplayType::DisplayTypeHumidity:
-            snprintf(buffer, sizeof(buffer), u8"%.0lf %%", lastValue);
+            snprintf(buffer, sizeof(buffer), (const char*) u8"%.0lf %%", lastValue);
             break;
         case DisplayType::DisplayTypeLux:
-            snprintf(buffer, sizeof(buffer), u8"%.0lf Lux", lastValue);
+            snprintf(buffer, sizeof(buffer), (const char*) u8"%.0lf Lux", lastValue);
             break;
-        case DisplayType::DisplayTyppeRain:
-            snprintf(buffer, sizeof(buffer), u8"%.1lf l/h", lastValue);
+        case DisplayType::DisplayTypeRain:
+            snprintf(buffer, sizeof(buffer), (const char*) u8"%.1lf l/h", lastValue);
             break;
         case DisplayType::DisplayTypeSnow:
-            snprintf(buffer, sizeof(buffer), u8"%.0lf mm", lastValue);
+            snprintf(buffer, sizeof(buffer), (const char*) u8"%.0lf mm", lastValue);
             break;
         case DisplayType::DisplayTypeWind:
-            snprintf(buffer, sizeof(buffer), u8"%.1lf km/h", lastValue);
+            snprintf(buffer, sizeof(buffer), (const char*) u8"%.1lf km/h", lastValue);
             break;
         case DisplayType::DisplayTypePercent:
-            snprintf(buffer, sizeof(buffer), u8"%.0lf %%", lastValue);
+            snprintf(buffer, sizeof(buffer), (const char*) u8"%.0lf %%", lastValue);
             break;
         case DisplayType::DisplayTypeCustom:
             if (ParamBRI_CHDisplayType == DisplayType::DisplayTypeCustom)

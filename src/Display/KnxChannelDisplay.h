@@ -15,7 +15,7 @@ enum DisplayType
     DisplayTypeTemperature = 0,
     DisplayTypeHumidity = 1,
     DisplayTypeLux = 2,
-    DisplayTyppeRain = 3,
+    DisplayTypeRain = 3,
     DisplayTypeSnow = 4,
     DisplayTypeWind = 5,
     DisplayTypePercent = 6,
