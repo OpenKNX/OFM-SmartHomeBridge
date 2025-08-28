@@ -29,7 +29,7 @@ class KnxChannelDisplay : public KnxChannelBase
         DynamicPointerArray<DeviceBridge> DeviceBridges;
 
         double lastValue = 0;
-        const char* lastStringValue = "";
+        std::string lastStringValue = "";
         bool hasValue = false;
         Dpt _customDpt;
     public:

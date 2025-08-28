@@ -89,7 +89,7 @@ void KnxChannelDisplay::add(DeviceBridge *DeviceBridge)
     DeviceBridge->initialize(this);
     if (getDisplayType() == DisplayType::DisplayTypeText)
     {
-        DeviceBridge->setValue(lastStringValue);
+        DeviceBridge->setValue(lastStringValue.c_str());
     }
     else
     {
@@ -193,14 +193,14 @@ void KnxChannelDisplay::processInputKo(GroupObject &groupObject)
                 lastValue = koGet(KO_CUSTOM_INPUT);
                 break;
             case DisplayType::DisplayTypeText:  
-                lastStringValue = (const char*) KoBRI_KO1_.valueRef();
+                lastStringValue = convertISO8859_15ToUTF8_string((const char*) KoBRI_KO1_.valueRef());
                 break;
         }
         if (getDisplayType() == DisplayType::DisplayTypeText)
         {
             for (auto it = DeviceBridges.begin(); it != DeviceBridges.end(); ++it)
             {
-                (*it)->setValue(lastStringValue);
+                (*it)->setValue(lastStringValue.c_str());
                 (*it)->mainFunctionValueChanged();
             }
         }
@@ -223,25 +223,25 @@ std::string KnxChannelDisplay::currentValueAsString()
     switch (getDisplayType())
     {
         case DisplayType::DisplayTypeTemperature:
-            snprintf(buffer, sizeof(buffer), "%.1lf °C", lastValue);
+            snprintf(buffer, sizeof(buffer), u8"%.1lf °C", lastValue);
             break;
         case DisplayType::DisplayTypeHumidity:
-            snprintf(buffer, sizeof(buffer), "%.0lf %%", lastValue);
+            snprintf(buffer, sizeof(buffer), u8"%.0lf %%", lastValue);
             break;
         case DisplayType::DisplayTypeLux:
-            snprintf(buffer, sizeof(buffer), "%.0lf Lux", lastValue);
+            snprintf(buffer, sizeof(buffer), u8"%.0lf Lux", lastValue);
             break;
         case DisplayType::DisplayTyppeRain:
-            snprintf(buffer, sizeof(buffer), "%.1lf l/h", lastValue);
+            snprintf(buffer, sizeof(buffer), u8"%.1lf l/h", lastValue);
             break;
         case DisplayType::DisplayTypeSnow:
-            snprintf(buffer, sizeof(buffer), "%.0lf mm", lastValue);
+            snprintf(buffer, sizeof(buffer), u8"%.0lf mm", lastValue);
             break;
         case DisplayType::DisplayTypeWind:
-            snprintf(buffer, sizeof(buffer), "%.1lf km/h", lastValue);
+            snprintf(buffer, sizeof(buffer), u8"%.1lf km/h", lastValue);
             break;
         case DisplayType::DisplayTypePercent:
-            snprintf(buffer, sizeof(buffer), "%.0lf %%", lastValue);
+            snprintf(buffer, sizeof(buffer), u8"%.0lf %%", lastValue);
             break;
         case DisplayType::DisplayTypeCustom:
             if (ParamBRI_CHDisplayType == DisplayType::DisplayTypeCustom)
@@ -256,50 +256,55 @@ std::string KnxChannelDisplay::currentValueAsString()
                 // "DPST-12-1"  <Enumeration Text="DPT 12.xxx (4-Byte-Wert)" Value="13" Id="%ENID%" />
                 // "DPST-13-1"  <Enumeration Text="DPT 13.xxx (4-Byte-Wert-Vorzeichen)" Value="14" Id="%ENID%" />
                 // "DPST-14-68" <Enumeration Text="DPT 14.xxx (4-Byte-Fließkomma)" Value="15" Id="%ENID%" />
+                const char* unit = (const char*) ParamBRI_CHDisplayUnit;
+                auto unitUtf8 = convertISO8859_15ToUTF8(unit);
                 switch (ParamBRI_CHDisplayInput)
                 {
                     case 0:
-                        snprintf(buffer, sizeof(buffer), "%.s %.5s", lastValue == 0 ? "Aus" : "Ein", ParamBRI_CHDisplayUnit);
+                        snprintf(buffer, sizeof(buffer), "%.s %.5s", lastValue == 0 ? "Aus" : "Ein", unitUtf8);
                         break;
                     case 2:
-                        snprintf(buffer, sizeof(buffer), "%.0lf %.5s", lastValue, ParamBRI_CHDisplayUnit);         
+                        snprintf(buffer, sizeof(buffer), "%.0lf %.5s", lastValue, unitUtf8);
                         break;
                     case 3:
-                        snprintf(buffer, sizeof(buffer), "%.0lf %.5s", lastValue, ParamBRI_CHDisplayUnit);     
+                        snprintf(buffer, sizeof(buffer), "%.0lf %.5s", lastValue, unitUtf8);
                         break;
                     case 4:
-                        snprintf(buffer, sizeof(buffer), "%.0lf %.5s", lastValue, ParamBRI_CHDisplayUnit);     
+                        snprintf(buffer, sizeof(buffer), "%.0lf %.5s", lastValue, unitUtf8);
                         break;
                     case 5:
-                        snprintf(buffer, sizeof(buffer), "%.0lf %.5s", lastValue, ParamBRI_CHDisplayUnit);     
+                        snprintf(buffer, sizeof(buffer), "%.0lf %.5s", lastValue, unitUtf8);
                         break;
                     case 6:
-                        snprintf(buffer, sizeof(buffer), "%.0lf %.5s", lastValue, ParamBRI_CHDisplayUnit);     
+                        snprintf(buffer, sizeof(buffer), "%.0lf %.5s", lastValue, unitUtf8);
                         break;
                     case 7:
-                        snprintf(buffer, sizeof(buffer), "%.1lf %.5s", lastValue, ParamBRI_CHDisplayUnit);     
+                        snprintf(buffer, sizeof(buffer), "%.1lf %.5s", lastValue, unitUtf8);
                         break;
                     case 13:
-                        snprintf(buffer, sizeof(buffer), "%.0lf %.5s", lastValue, ParamBRI_CHDisplayUnit);  
+                        snprintf(buffer, sizeof(buffer), "%.0lf %.5s", lastValue, unitUtf8);
                         break;
                     case 14:
-                        snprintf(buffer, sizeof(buffer), "%.0lf %.5s", lastValue, ParamBRI_CHDisplayUnit);  
+                        snprintf(buffer, sizeof(buffer), "%.0lf %.5s", lastValue, unitUtf8);
                         break;
                     case 15:
-                        snprintf(buffer, sizeof(buffer), "%.1lf %.5s", lastValue, ParamBRI_CHDisplayUnit);  
+                        snprintf(buffer, sizeof(buffer), "%.1lf %.5s", lastValue, unitUtf8);
                         break;
                     default:
-                        _customDpt = Dpt();
                         break;
                 }
+                if (unitUtf8 != unit)
+                {
+                    free((void *) unitUtf8);
+                }   
             }
             break;
         case DisplayType::DisplayTypeText:
-            return convertISO8859_15ToUTF8_string(lastStringValue);
+            return lastStringValue;
         default:
             return std::string("?");
     }
-    return convertISO8859_15ToUTF8_string(buffer);
+    return buffer;
 }
 
 bool KnxChannelDisplay::mainFunctionValue()
