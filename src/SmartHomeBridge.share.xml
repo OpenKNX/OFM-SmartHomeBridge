@@ -465,7 +465,7 @@
      
           <!-- Here starts the UI definition -->
           <Dynamic>
-            <Channel Id="%AID%_CH-%T%" Name="Main" Number="%T%" Text="%BRI_TabName%" Icon="%BRI_TabIcon%">
+            <Channel Id="%AID%_CH-%PREFIX%" Name="Main" Number="%PREFIX%" Text="%BRI_TabName%" Icon="%BRI_TabIcon%">
              
               <ParameterBlock Id="%AID%_PB-nnn" Name="General" Text="Allgemein" Icon="cog-outline" HelpContext="BRI-Smarthome-Bridge">
                 <!-- <ParameterSeparator Id="%AID%_PS-4" Text="" UIHint="HorizontalRuler" /> -->
