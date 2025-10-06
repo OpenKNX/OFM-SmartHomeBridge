@@ -25,9 +25,7 @@ void KnxChannelAlarm::add(AlarmBridge* sensorBridge)
 {
     sensorBridges.push_back(sensorBridge);
     sensorBridge->initialize(this);
-    auto value = (bool) koGet(KO_SENSOR_FEEDBACK);
-    if (ParamBRI_CHAlarmInvert)
-        value = !value;   
+    auto value = mainFunctionValue(); 
     sensorBridge->setDetected(value);       
 }
 
@@ -57,9 +55,7 @@ void KnxChannelAlarm::processInputKo(GroupObject &ko)
 {
     if (isKo(ko, KoBRI_KO1_))
     {
-        bool value = koGet(KO_SENSOR_FEEDBACK);
-        if (!ParamBRI_CHAlarmInvert)
-            value = !value;
+        auto value = mainFunctionValue();
         for (auto it = sensorBridges.begin(); it != sensorBridges.end(); ++it)
         {
             (*it)->setDetected(value);
@@ -89,12 +85,15 @@ void KnxChannelAlarm::commandMainFunctionClick()
 
 std::string KnxChannelAlarm::currentValueAsString()
 {
-    return koGet(KO_SENSOR_FEEDBACK) ? "Aktiv" : "Inaktiv";
+    return mainFunctionValue() ? "Aktiv" : "Inaktiv";
 }
 
 bool KnxChannelAlarm::mainFunctionValue()
 {
-    return koGet(KO_SENSOR_FEEDBACK);
+    bool value = koGet(KO_SENSOR_FEEDBACK);
+    if (ParamBRI_CHAlarmInvert)
+        value = !value;
+    return value;
 }
 
 MainFunctionStateImage KnxChannelAlarm::mainFunctionImage()
