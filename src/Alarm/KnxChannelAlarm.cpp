@@ -100,3 +100,8 @@ MainFunctionStateImage KnxChannelAlarm::mainFunctionImage()
 {
    return calculateMainFunctionImage(KO_SENSOR_FEEDBACK, 0, LIMIT_NOT_USED, 100);
 }
+
+bool KnxChannelAlarm::isUseRedBackgroundForAlarm()
+{
+    return ParamBRI_CHAlarmRedBg;
+}

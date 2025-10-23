@@ -139,7 +139,9 @@
                 <Memory CodeSegment="%AID%_RS-04-00000" Offset="53" BitOffset="0" />
                 <!-- Sensor Inverted -->
                 <Parameter Id="%AID%_UP-%T%%CCC%071" Offset="0" BitOffset="0" Name="CH%C%AlarmInvert"  ParameterType="%AID%_PT-BRIAlarmInvert" Text="Eingang invertieren" Value="0" />
-                <!-- 3 Bits free -->
+                <!-- Roter Hintergrund -->
+                <Parameter Id="%AID%_UP-%T%%CCC%073" Offset="0" BitOffset="0" Name="CH%C%AlarmRedBg"  ParameterType="%AID%_PT-OnOffYesNo" Text="Roter Hintergrund" Value="0" />
+                <!-- 2 Bits free -->
                 <!-- Alarm Type -->
                 <Parameter Id="%AID%_UP-%T%%CCC%072" Offset="0" BitOffset="4" Name="CH%C%AlarmType"  ParameterType="%AID%_PT-BRIAlarmType" Text="Type" Value="0" />         
               </Union>
@@ -284,6 +286,7 @@
               <!-- Alarme -->
               <ParameterRef Id="%AID%_UP-%T%%CCC%071_R-%T%%CCC%07101" RefId="%AID%_UP-%T%%CCC%071" />
               <ParameterRef Id="%AID%_UP-%T%%CCC%072_R-%T%%CCC%07201" RefId="%AID%_UP-%T%%CCC%072" />
+              <ParameterRef Id="%AID%_UP-%T%%CCC%073_R-%T%%CCC%07301" RefId="%AID%_UP-%T%%CCC%073" />
 
                <!-- Fan -->
               <ParameterRef Id="%AID%_UP-%T%%CCC%081_R-%T%%CCC%08101" RefId="%AID%_UP-%T%%CCC%081" />
@@ -1410,6 +1413,9 @@
                               <ParameterSeparator Id="%AID%_PS-nnn" Text="" UIHint="HorizontalRuler" />
                               <ParameterSeparator Id="%AID%_PS-nnn" Text="Touch Display Einstellungen" UIHint="Headline" />
 
+                              <!-- Roter Hintergrund -->
+                              <ParameterRefRef RefId="%AID%_UP-%T%%CCC%073_R-%T%%CCC%07301" IndentLevel="1" HelpContext="%DOC%" />
+            
                               <!-- Icons -->
                               <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%T%%CCC%004_R-%T%%CCC%00401" HelpContext="BRI-BildEinAus" />
                               <choose ParamRefId="%AID%_UP-%T%%CCC%004_R-%T%%CCC%00401">

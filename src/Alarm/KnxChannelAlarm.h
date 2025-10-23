@@ -41,4 +41,5 @@ class KnxChannelAlarm : public KnxChannelBase
         virtual std::string currentValueAsString() override;
         virtual bool mainFunctionValue() override;
         virtual MainFunctionStateImage mainFunctionImage() override;
+        virtual bool isUseRedBackgroundForAlarm();
 };

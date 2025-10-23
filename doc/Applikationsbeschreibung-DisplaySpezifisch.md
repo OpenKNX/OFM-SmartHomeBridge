@@ -95,3 +95,7 @@ Eine sehr gute Auswahl an monochromen Bildern die für Statuseinfärbungen verwe
 [https://pictogrammers.com/library/mdi/](https://pictogrammers.com/library/mdi/).
 Beim Export den Advanced Export verwendet und die in der ETS bei der Bilddatei angegebene Pixelanzahl verwenden.
 
+<!-- DOC -->
+### Roter Hintergrund
+
+Über diese Einstellung kann bei Alarm Geräten der Bildschirmhintergrund rot eingefärbt werden.
