@@ -326,7 +326,7 @@
                 <TypeRestriction Base="Value" SizeInBit="4">
                   <Enumeration Value="0" Id="%ENID%" Text="Kontakt" Icon="electric-switch"/>
                   <Enumeration Value="1" Id="%ENID%" Text="Bewegungsmelder" Icon="walk" />
-                  <Enumeration Value="2" Id="%ENID%" Text="Präsensmelder" Icon="human-male-female"/>
+                  <Enumeration Value="2" Id="%ENID%" Text="Präsenzmelder" Icon="human-male-female"/>
                   <Enumeration Value="3" Id="%ENID%" Text="Leckmelder" Icon="water-alert-outline" />
                   <Enumeration Value="4" Id="%ENID%" Text="Rauchmelder" Icon="smoke" />
                   <Enumeration Value="5" Id="%ENID%" Text="Kohlendioxidmelder (CO2)" Icon="molecule-co2"  />
