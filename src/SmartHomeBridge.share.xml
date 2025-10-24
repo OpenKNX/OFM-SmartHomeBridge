@@ -77,6 +77,10 @@
               <ParameterType Id="%AID%_PT-BRIPairingCode" Name="BRIPairingCode">
                 <TypeText SizeInBit="64" />
               </ParameterType>
+               <ParameterType Id="%AID%_PT-BRIStatusText" Name="BRIStatusText">
+                <TypeText SizeInBit="96" />
+              </ParameterType>
+        
               <ParameterType Id="%AID%_PT-BRIHueEmulation" Name="BRIHueEmulation">
                 <TypeRestriction Base="Value" SizeInBit="1" UIHint="DropDown">
                   <Enumeration Value="0" Id="%ENID%" Text="Nein" />

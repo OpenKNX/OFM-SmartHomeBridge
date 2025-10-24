@@ -2,6 +2,7 @@
 #include "KnxProd.h"
 #include "KnxChannelAlarm.h"
 #include "BridgeBase.h"
+#include "ISO8859_15ToUTF8.h"
 
 #define KO_SENSOR_FEEDBACK   KoBRI_KO1_, DPT_Switch
 
@@ -9,6 +10,8 @@ KnxChannelAlarm::KnxChannelAlarm(uint16_t _channelIndex)
     : KnxChannelBase(_channelIndex),
       sensorBridges()
 {
+    statusInactive = convertISO8859_15ToUTF8_string((const char*) ParamBRI_CHAlarmInactive);
+    statusActive = convertISO8859_15ToUTF8_string((const char*) ParamBRI_CHAlarmActive);
 }
 
 ChannelBridge* KnxChannelAlarm::createBridgeDevice(BridgeBase &bridge)
@@ -85,7 +88,7 @@ void KnxChannelAlarm::commandMainFunctionClick()
 
 std::string KnxChannelAlarm::currentValueAsString()
 {
-    return mainFunctionValue() ? "Aktiv" : "Inaktiv";
+    return mainFunctionValue() ? statusActive : statusInactive;
 }
 
 bool KnxChannelAlarm::mainFunctionValue()

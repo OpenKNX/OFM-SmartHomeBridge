@@ -25,4 +25,3 @@ Alternativer Upload über VS-Code:
 Eine sehr gute Auswahl an monochromen Bildern die für Statuseinfärbungen verwendet werden können sind die Material Design Icons
 https://pictogrammers.com/library/mdi/.
 Beim Export den Advanced Export verwendet und die in der ETS bei der Bilddatei angegebene Pixelanzahl verwenden.
-

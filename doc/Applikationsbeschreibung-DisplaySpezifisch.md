@@ -23,7 +23,7 @@ Zur Auswahl stehen:
 
 Mehr Informationen über die Geräte die angesteuert werden können, sind unter [Applikationsbeschreibung-Geräte](Applikationsbeschreibung-Geräte) zu finden.
 
-## Anzeige spezifische Geräteeinstellungen
+## spezifische Geräteeinstellungen für Displays
 
 
 <!-- DOC  HelpContext="BildEinAus" -->
@@ -94,8 +94,21 @@ Alternativer Upload über VS-Code:
 Eine sehr gute Auswahl an monochromen Bildern die für Statuseinfärbungen verwendet werden können sind die Material Design Icons
 [https://pictogrammers.com/library/mdi/](https://pictogrammers.com/library/mdi/).
 Beim Export den Advanced Export verwendet und die in der ETS bei der Bilddatei angegebene Pixelanzahl verwenden.
+<!-- DOCEND -->
+
+### Alarm Geräte-Einstellungen
 
 <!-- DOC -->
 ### Roter Hintergrund
 
 Über diese Einstellung kann bei Alarm Geräten der Bildschirmhintergrund rot eingefärbt werden.
+
+<!-- DOC HelpContext="StatusInactive" -->
+### Statusanzeige Inaktiv
+
+Text der bei einem Alarm Gerät angezeigt wird, wenn der Alarm inaktiv ist.
+
+<!-- DOC HelpContext="StatusActive" -->
+### Statusanzeige Aktiv
+
+Text der bei einem Alarm Gerät angezeigt wird, wenn der Alarm aktiv ist.

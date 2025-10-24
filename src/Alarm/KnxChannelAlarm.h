@@ -23,6 +23,8 @@ enum AlarmType
 class KnxChannelAlarm : public KnxChannelBase
 {
         DynamicPointerArray<AlarmBridge > sensorBridges;
+        std::string statusActive;
+        std::string statusInactive;
     public:
         KnxChannelAlarm(uint16_t channelIndex);
         void add(AlarmBridge* sensorBridge);

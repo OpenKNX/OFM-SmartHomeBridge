@@ -135,7 +135,7 @@
               </Union>
 
               <!-- Alarme -->
-              <Union SizeInBit="8">
+              <Union SizeInBit="216">
                 <Memory CodeSegment="%AID%_RS-04-00000" Offset="53" BitOffset="0" />
                 <!-- Sensor Inverted -->
                 <Parameter Id="%AID%_UP-%T%%CCC%071" Offset="0" BitOffset="0" Name="CH%C%AlarmInvert"  ParameterType="%AID%_PT-BRIAlarmInvert" Text="Eingang invertieren" Value="0" />
@@ -144,6 +144,12 @@
                 <!-- 2 Bits free -->
                 <!-- Alarm Type -->
                 <Parameter Id="%AID%_UP-%T%%CCC%072" Offset="0" BitOffset="4" Name="CH%C%AlarmType"  ParameterType="%AID%_PT-BRIAlarmType" Text="Type" Value="0" />         
+                <!-- Status Text inaktiv -->
+                <Parameter Id="%AID%_UP-%T%%CCC%074" Offset="1" BitOffset="0" Name="CH%C%AlarmInactive"  ParameterType="%AID%_PT-BRIStatusText" Text="Inaktiv" Value="Inaktiv" />         
+                <!-- ^^^ 12 Byte + 0-Terminator = 13 Bytes ^^^ -->
+                <!-- Status Text aktiv -->
+                <Parameter Id="%AID%_UP-%T%%CCC%075" Offset="14" BitOffset="0" Name="CH%C%AlarmActive"  ParameterType="%AID%_PT-BRIStatusText" Text="Aktiv" Value="Aktiv" />         
+                <!-- ^^^ 12 Byte + 0-Terminator = 13 Bytes ^^^ -->
               </Union>
 
               <!-- Anzeige -->
@@ -287,6 +293,8 @@
               <ParameterRef Id="%AID%_UP-%T%%CCC%071_R-%T%%CCC%07101" RefId="%AID%_UP-%T%%CCC%071" />
               <ParameterRef Id="%AID%_UP-%T%%CCC%072_R-%T%%CCC%07201" RefId="%AID%_UP-%T%%CCC%072" />
               <ParameterRef Id="%AID%_UP-%T%%CCC%073_R-%T%%CCC%07301" RefId="%AID%_UP-%T%%CCC%073" />
+              <ParameterRef Id="%AID%_UP-%T%%CCC%074_R-%T%%CCC%07401" RefId="%AID%_UP-%T%%CCC%074" />
+              <ParameterRef Id="%AID%_UP-%T%%CCC%075_R-%T%%CCC%07501" RefId="%AID%_UP-%T%%CCC%075" />
 
                <!-- Fan -->
               <ParameterRef Id="%AID%_UP-%T%%CCC%081_R-%T%%CCC%08101" RefId="%AID%_UP-%T%%CCC%081" />
@@ -1433,6 +1441,15 @@
                                   <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%T%%CCC%010_R-%T%%CCC%01001" HelpContext="%DOC%"/>
                                 </when>
                               </choose>
+                              
+                              <ParameterSeparator Id="%AID%_PS-nnn" Text="Statusanzeige:" />
+                             
+                              <!-- Status Text inaktiv -->
+                              <ParameterRefRef RefId="%AID%_UP-%T%%CCC%074_R-%T%%CCC%07401" IndentLevel="1" HelpContext="BRI-StatusInactive" />
+                              <!-- Status Text aktiv -->
+                              <ParameterRefRef RefId="%AID%_UP-%T%%CCC%075_R-%T%%CCC%07501" IndentLevel="1" HelpContext="BRI-StatusActive" />
+
+               
                             </when>
                           </choose>                 
                         </ParameterBlock>
