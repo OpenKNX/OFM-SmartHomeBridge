@@ -18,7 +18,7 @@
                 <Memory CodeSegment="%AID%_RS-04-00000" Offset="1" BitOffset="0" />
               </Parameter>
               <!-- Disabled -->
-              <Parameter Id="%AID%_P-%T%%CCC%003" Name="CH%C%DisableChannel" ParameterType="%AID%_PT-BRICheckBoxDisable" Text="Gerät deaktivieren (Konfiguration bleibt erhalten)" Value="0" >
+              <Parameter Id="%AID%_P-%T%%CCC%003" Name="CH%C%DisableChannel" ParameterType="%AID%_PT-BRICheckBoxDisable" Text="Gerät deaktivieren&#10;(Konfiguration bleibt erhalten)" Value="0" >
                 <Memory CodeSegment="%AID%_RS-04-00000" Offset="27" BitOffset="0" />
               </Parameter>
             
