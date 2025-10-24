@@ -27,7 +27,7 @@ Die OpenKNX Smart Home Bridge erlaubt KNX Geräte über Apple Home und Amazon Al
 - Anzeige (Temperatur, Luftfeuchtigkeit, Helligkeit) (Nur Homekit)
 - Kontakt (Nur Homekit)
 - Bewegungsmelder (Nur Homekit)
-- Präsensmelder (Nur Homekit)
+- Präsenzmelder (Nur Homekit)
 - Leckmelder (Nur Homekit)
 - Rauchmelder (Nur Homekit)
 - Kohlendioxidmelder (Nur Homekit)
