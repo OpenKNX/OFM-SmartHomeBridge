@@ -108,9 +108,9 @@
                 <!-- Temperature Unit -->
                 <Parameter Id="%AID%_UP-%T%%CCC%051" Offset="0" BitOffset="0" Name="CH%C%ThermostatTemperaturUnitType" ParameterType="%AID%_PT-BRIThermostatTemperaturUnitType" Text="Einheit" Value="0" />                         
                 <!-- KO Type -->
-                <Parameter Id="%AID%_UP-%T%%CCC%059" Offset="0" BitOffset="1" Name="CH%C%ThermostatKoType" ParameterType="%AID%_PT-BRIThermostatKoType" Text="Steuer-Objekt-Type" Value="1" />                         
+                <Parameter Id="%AID%_UP-%T%%CCC%059" Offset="0" BitOffset="1" Name="CH%C%ThermostatKoType" ParameterType="%AID%_PT-BRIThermostatKoType" Text="Steuer-Objekt-Type" Value="0" />                         
                 <!-- Feedback KO Type -->
-                <Parameter Id="%AID%_UP-%T%%CCC%060" Offset="0" BitOffset="2" Name="CH%C%ThermostatFeedbackKoType" ParameterType="%AID%_PT-BRIThermostatKoType" Text="Rückmeldungs-Objekt-Type" Value="1" />                         
+                <Parameter Id="%AID%_UP-%T%%CCC%060" Offset="0" BitOffset="2" Name="CH%C%ThermostatFeedbackKoType" ParameterType="%AID%_PT-BRIThermostatKoType" Text="Rückmeldungs-Objekt-Type" Value="0" />                         
           
                 <!-- 1 bits free -->
                 <!-- Thermostat Mode -->
