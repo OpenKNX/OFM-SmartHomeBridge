@@ -64,9 +64,6 @@ void ChannelOwnerModule::createChannels()
             logIndentUp();
             auto channel = (KnxChannelBase*)createChannel(_channelIndex);
             _pChannels[_channelIndex] = channel;
-            logErrorP("ISO:\r\n%s", toHexString((const uint8_t*)channel->getName()).c_str());
-            logErrorP("UTF8:\r\n%s", toHexString((const uint8_t*)channel->getNameInUTF8()).c_str());
-
             logIndentDown();
         }
         for (uint8_t _channelIndex = 0; _channelIndex < _numberOfChannels; _channelIndex++)
