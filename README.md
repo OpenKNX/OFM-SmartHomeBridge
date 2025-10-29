@@ -9,6 +9,7 @@ Die OpenKNX Smart Home Bridge erlaubt KNX Geräte über Apple Home und Amazon Al
 - SW-Updates können über WLAN (OTA) eigespielt werden
 
 # Release Notes
+- 0.3.1 Fix: Absturz bei deaktivierten Geräten
 - 0.2 ISO-8859-1 Support for KO's
 - 0.2 ISO-8859-15 Support for Parameter
 - 0.2 Das Thermostat kann nun auch mit HVAC Ein- bzw. Ausgang umgehen
