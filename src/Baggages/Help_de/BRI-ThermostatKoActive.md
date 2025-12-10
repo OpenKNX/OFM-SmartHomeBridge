@@ -1,4 +1,4 @@
-﻿### Heizen/Kühlen aktiv Rückmeldung
+﻿### Heizen/Kühlen aktiv Aktor Rückmeldung
 
 Kommunikationsobjekttyp, der für die Rückmeldung verwendet wird, ob Heizen bzw. Kühlen gerade aktiv ist:
 

@@ -1,4 +1,4 @@
-﻿### Rückmeldung
+﻿### Aktor Rückmeldung
 
 Gibt an, welcher Kommunikationsobjekttyp für die Rückmeldung der aktuellen Öffnungsposition verwendet wird.
 Mögliche Einstellungen:

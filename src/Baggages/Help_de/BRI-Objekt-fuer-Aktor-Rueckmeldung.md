@@ -1,4 +1,4 @@
-﻿### Objekt für Rückmeldung
+﻿### Objekt für Aktor Rückmeldung
 
 Über diese Einstellung wird konfiguriert, welcher Objekttyp für die Rückmeldung des aktuellen Status des Automatikmodus verwendet werden soll.
 

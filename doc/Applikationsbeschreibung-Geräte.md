@@ -251,7 +251,7 @@ Kommunikationsobjekttyp, der für die Aktivierung der Betriebsart verwendet wird
 - Sperrobjekt (0 bei EIN)
 
 <!-- DOC HelpContext="ThermostatKoFeedback" --> 
-### Betriebsart Rückmeldung
+### Betriebsart Aktor Rückmeldung
 
 Kommunikationsobjekttyp, der für die Rückmeldung der Betriebsart verwendet wird.
 Über dieses Objekt muss gemeldet werden, ob die Betriebsart aktiv ist, unabhängig davon, ob gerade tatsächlich geheizt bzw. gekühlt wird.
@@ -260,7 +260,7 @@ Kommunikationsobjekttyp, der für die Rückmeldung der Betriebsart verwendet wir
 - Sperren Aktiv
 
 <!-- DOC HelpContext="ThermostatKoActive" -->
-### Heizen/Kühlen aktiv Rückmeldung
+### Heizen/Kühlen aktiv Aktor Rückmeldung
 
 Kommunikationsobjekttyp, der für die Rückmeldung verwendet wird, ob Heizen bzw. Kühlen gerade aktiv ist:
 
@@ -396,7 +396,7 @@ Zur Auswahl stehen:
 - 1 Bit Handbetrieb (Automatik = AUS)
 
 <!-- DOC -->
-### Objekt für Rückmeldung
+### Objekt für Aktor Rückmeldung
 
 Über diese Einstellung wird konfiguriert, welcher Objekttyp für die Rückmeldung des aktuellen Status des Automatikmodus verwendet werden soll.
 
@@ -460,7 +460,7 @@ Ist diese Einstellung aktiviert, kann die Fahrbewegung vorzeitig gestoppt werden
 Stellt ein Kommunikationsobjekt bereit, über das eine Blockade des Antriebs gemeldet werden kann.
 
 <!-- DOC -->
-### Rückmeldung
+### Aktor Rückmeldung
 
 Gibt an, welcher Kommunikationsobjekttyp für die Rückmeldung der aktuellen Öffnungsposition verwendet wird.
 Mögliche Einstellungen:
