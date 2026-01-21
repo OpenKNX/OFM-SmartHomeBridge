@@ -30,6 +30,27 @@ Dieser Gerätetyp wird für Geräte verwendet, die in der Auswahl der Gerätetyp
 Dieser Gerätetyp entspricht einer schaltbaren Steckdose. Der Unterschied zu einem "Ein-/Ausschaltbaren Gerät" besteht im Symbolbild in der Visualisierung.
 
 <!-- DOC -->
+## Schloss
+
+Dieser Gerätetype wird für ein elektrisches Schloss verwendet. Zusätzlick gibt es eine Eingang für einen verklemmt Status
+
+<!-- DOC -->
+### Objekt Sperren
+
+Definiert das Verhalten des Versperren Objekts.
+
+- Verriegeln=0 / Entriegeln=1
+- Entriegeln=0 / Verriegeln=1
+
+<!-- DOC -->
+### Objekt Versperrt Rückmeldung
+
+Beschreibt das Verhalten der Versperrt Status Rückmeldung vom Aktor.
+
+- Verriegelt=0 / Entriegelt=1
+- Entriegelt=0 / Verriegelt=1
+
+<!-- DOC -->
 ## Lampe
 
 Der Typ Lampe unterstützt verschiedene Lampenarten.

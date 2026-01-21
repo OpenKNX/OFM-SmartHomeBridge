@@ -11,6 +11,7 @@
 #include "./Fan/KnxChannelFan.h"
 #include "./DoorWindow/KnxChannelDoorWindow.h"
 #include "./Media/KnxChannelMedia.h"
+#include "./Lock/KnxChannelLock.h"
 
 SwitchBridge* BridgeBase::createSwitch(KnxChannelSwitch& channel, uint8_t _channelIndex /* this parameter is used in macros, do not rename */, uint8_t deviceType)
 {
@@ -68,6 +69,11 @@ DoorWindowBridge* BridgeBase::createDoorWindow(KnxChannelDoorWindow& channel, ui
 }
 
 MediaBridge* BridgeBase::createMedia(KnxChannelMedia& channel, uint8_t _channelIndex /* this parameter is used in macros, do not rename */, uint8_t deviceType)
+{
+    return nullptr;
+}
+
+LockBridge* BridgeBase::createLock(KnxChannelLock& channel, uint8_t _channelIndex /* this parameter is used in macros, do not rename */, uint8_t deviceType)
 {
     return nullptr;
 }

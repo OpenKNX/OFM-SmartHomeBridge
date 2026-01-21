@@ -25,6 +25,8 @@
 #include "DoorWindow/HomeKitDoorWindow.h"
 #include "Scene/KnxChannelScene.h"
 #include "Scene/HomeKitScene.h"
+#include "Lock/KnxChannelLock.h"
+#include "Lock/HomeKitLock.h"
 
 #ifndef HOMESPAN_STACK_SIZE
 #define HOMESPAN_STACK_SIZE 8192
@@ -135,6 +137,14 @@ SceneBridge* HomeKitBridge::createScene(KnxChannelScene& channel,  uint8_t _chan
 {
     int homekitAID = _channelIndex + 2; // Homekit bridge has AID1
     auto bridge = new HomeKitScene(homekitAID);
+    channel.add(bridge);
+    return bridge;
+}
+
+LockBridge* HomeKitBridge::createLock(KnxChannelLock& channel,  uint8_t _channelIndex, uint8_t deviceType)
+{
+    int homekitAID = _channelIndex + 2; // Homekit bridge has AID1
+    auto bridge = new HomeKitLock(homekitAID);
     channel.add(bridge);
     return bridge;
 }

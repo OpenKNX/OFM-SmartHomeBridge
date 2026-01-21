@@ -20,6 +20,7 @@
 #include "./Fan/KnxChannelFan.h"
 #include "./DoorWindow/KnxChannelDoorWindow.h"
 #include "./Media/KnxChannelMedia.h"
+#include "./Lock/KnxChannelLock.h"
 
 #include "knxprod.h"
 #include "ISO8859_15ToUTF8.h"
@@ -124,6 +125,9 @@ OpenKNX::Channel *SmartHomeBridgeModule::createChannel(uint8_t _channelIndex /* 
   case 10:
   case 11:
     channel = new KnxChannelSwitch(_channelIndex);
+    break;
+  case 12:
+    channel = new KnxChannelLock(_channelIndex);
     break;
   case 20:
     switch (ParamBRI_CHLightType)

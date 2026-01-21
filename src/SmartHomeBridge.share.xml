@@ -34,6 +34,7 @@
                   <Enumeration Value="0"  Id="%ENID%" Text="Deaktiviert"  />
                   <Enumeration Value="10" Id="%ENID%" Text="Ein-/Ausschaltbares Gerät" Icon="power" />
                   <Enumeration Value="11" Id="%ENID%" Text="Steckdose" Icon="power-socket-eu" />
+                  <!-- <Enumeration Value="12" Id="%ENID%" Text="Schloss" Icon="lock-outline" /> -->
                   <Enumeration Value="20" Id="%ENID%" Text="Lampe" Icon="lamp-outline"   />
                   <Enumeration Value="30" Id="%ENID%" Text="Jalousie" Icon="window-shutter" />
                   <Enumeration Value="31" Id="%ENID%" Text="Rollladen" Icon="roller-shade-closed" />
@@ -55,6 +56,7 @@
                   <Enumeration Value="0"  Id="%ENID%" Text="Deaktiviert"  />
                   <Enumeration Value="10" Id="%ENID%" Text="Ein-/Ausschaltbares Gerät" Icon="power" />
                   <Enumeration Value="11" Id="%ENID%" Text="Steckdose" Icon="power-socket-eu" />
+                  <Enumeration Value="12" Id="%ENID%" Text="Schloss" Icon="lock-outline" />
                   <Enumeration Value="20" Id="%ENID%" Text="Lampe" Icon="lamp-outline"   />
                   <Enumeration Value="30" Id="%ENID%" Text="Jalousie" Icon="window-shutter" />
                   <Enumeration Value="31" Id="%ENID%" Text="Rollladen" Icon="roller-shade-closed" />
@@ -175,6 +177,20 @@
                 <TypeRestriction Base="Value" SizeInBit="1" UIHint="DropDown">
                   <Enumeration Value="0" Id="%ENID%" Text="Nein" />
                   <Enumeration Value="1" Id="%ENID%" Text="Ja"   />              
+                </TypeRestriction>
+              </ParameterType>
+
+              <!-- Lock -->
+              <ParameterType Id="%AID%_PT-BRILockLock" Name="BRILockLock">
+                <TypeRestriction Base="Value" SizeInBit="1" UIHint="DropDown" >
+                  <Enumeration Value="0" Id="%ENID%" Text="Verriegeln=0 / Entriegeln=1"  />
+                  <Enumeration Value="1" Id="%ENID%" Text="Entriegeln=0 / Verriegeln=1"     />
+                </TypeRestriction>
+              </ParameterType>
+              <ParameterType Id="%AID%_PT-BRILockLocking" Name="BRILockLocking">
+                <TypeRestriction Base="Value" SizeInBit="1" UIHint="DropDown" >
+                  <Enumeration Value="0" Id="%ENID%" Text="Verriegelt=0 / Entriegelt=1"  />
+                  <Enumeration Value="1" Id="%ENID%" Text="Entriegelt=0 / Verriegelt=1"     />
                 </TypeRestriction>
               </ParameterType>
         

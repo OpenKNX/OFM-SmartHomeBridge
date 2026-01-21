@@ -43,8 +43,18 @@
                 <Memory CodeSegment="%AID%_RS-04-00000" Offset="53" BitOffset="0" />
                 <!-- Switch Hue Emulation -->
                 <Parameter Id="%AID%_UP-%T%%CCC%012" Offset="0" BitOffset="0" Name="CH%C%SwitchHueEmulation" ParameterType="%AID%_PT-BRIHueEmulation"          Text="Gerät in Hue verwenden" Value="1" />
-
-             </Union> 
+              </Union> 
+              <!-- Lock -->
+              <Union SizeInBit="8">
+                <Memory CodeSegment="%AID%_RS-04-00000" Offset="53" BitOffset="0" />
+                <!-- Lock Hue Emulation -->
+                <Parameter Id="%AID%_UP-%T%%CCC%013" Offset="0" BitOffset="0" Name="CH%C%LockHueEmulation" ParameterType="%AID%_PT-BRIHueEmulation"          Text="In HUE als Lampe darstellen" Value="1" />
+                <!-- Lock KO Locking -->
+                <Parameter Id="%AID%_UP-%T%%CCC%014" Offset="0" BitOffset="1" Name="CH%C%LockLocking" ParameterType="%AID%_PT-BRILockLock"          Text="Objekt 'Sperren'" Value="0" />
+                <!-- Lock KO Locked -->
+                <Parameter Id="%AID%_UP-%T%%CCC%015" Offset="0" BitOffset="2" Name="CH%C%LockLocked" ParameterType="%AID%_PT-BRILockLocking"          Text="Objekt 'Versperrt Rückmeldung'" Value="0" />
+      
+              </Union> 
               
               <!-- Light -->
               <Union SizeInBit="40">
@@ -241,6 +251,14 @@
               <!-- Switch -->
               <!-- Switch Hue Emulation -->
               <ParameterRef Id="%AID%_UP-%T%%CCC%012_R-%T%%CCC%01201" RefId="%AID%_UP-%T%%CCC%012" />
+
+              <!-- Lock -->
+              <!-- Lock Hue Emulation -->
+              <ParameterRef Id="%AID%_UP-%T%%CCC%013_R-%T%%CCC%01301" RefId="%AID%_UP-%T%%CCC%013" />
+              <!-- Lock KO Locking -->
+              <ParameterRef Id="%AID%_UP-%T%%CCC%014_R-%T%%CCC%01401" RefId="%AID%_UP-%T%%CCC%014" />
+              <!-- Lock KO Locked -->
+              <ParameterRef Id="%AID%_UP-%T%%CCC%015_R-%T%%CCC%01501" RefId="%AID%_UP-%T%%CCC%015" />
              
 
               <!-- Light -->
@@ -333,6 +351,13 @@
               <ComObjectRef Id="%AID%_O-%T%%CCC%001_R-%T%%CCC%00101" RefId="%AID%_O-%T%%CCC%001" Name="SCHALTEN_DPT_01"                       Text="{{0:Gerät %C%}}: Schalten"      FunctionText="Gerät %C%: Ausgang, Schalten, Aus=0 / Ein=1"             Priority="Low" ObjectSize="1 Bit"  WriteFlag="Disabled" TransmitFlag="Enabled"  UpdateFlag="Disabled" DatapointType="DPST-1-1" TextParameterRefId="%AID%_P-%T%%CCC%002_R-%T%%CCC%00201" />
               <ComObjectRef Id="%AID%_O-%T%%CCC%002_R-%T%%CCC%00201" RefId="%AID%_O-%T%%CCC%002" Name="SCHALTEN_RÜCKMELDUNG_DPT_01"           Text="{{0:Gerät %C%}}: Aktor Rückmeldung"  FunctionText="Gerät %C%: Eingang, Status, Aus=0 / Ein=1"             Priority="Low" ObjectSize="1 Bit"  WriteFlag="Enabled"  TransmitFlag="Disabled" UpdateFlag="Enabled"  DatapointType="DPST-1-11" TextParameterRefId="%AID%_P-%T%%CCC%002_R-%T%%CCC%00201" />
               
+              <!-- Lock -->
+              <ComObjectRef Id="%AID%_O-%T%%CCC%001_R-%T%%CCC%00113" RefId="%AID%_O-%T%%CCC%001" Name="SICHERN_DPT_13"                        Text="{{0:Gerät %C%}}: Verriegeln / Entriegeln"              FunctionText="Gerät %C%: Ausgang, Schalten, Verriegeln=0 / Entriegeln=1"         Priority="Low" ObjectSize="1 Bit"  WriteFlag="Disabled" TransmitFlag="Enabled"  UpdateFlag="Disabled" DatapointType="DPST-1-1" TextParameterRefId="%AID%_P-%T%%CCC%002_R-%T%%CCC%00201" />
+              <ComObjectRef Id="%AID%_O-%T%%CCC%002_R-%T%%CCC%00213" RefId="%AID%_O-%T%%CCC%002" Name="SICHERN_RÜCKMELDUNG_DPT_13"            Text="{{0:Gerät %C%}}: Aktor Rückmeldung"  FunctionText ="Gerät %C%: Eingang, Status, Verriegelt=0 / Entriegelt=1"           Priority="Low" ObjectSize="1 Bit"  WriteFlag="Enabled"  TransmitFlag="Disabled" UpdateFlag="Enabled"  DatapointType="DPST-1-19" TextParameterRefId="%AID%_P-%T%%CCC%002_R-%T%%CCC%00201" />
+              <ComObjectRef Id="%AID%_O-%T%%CCC%001_R-%T%%CCC%00123" RefId="%AID%_O-%T%%CCC%001" Name="SICHERN_DPT_13"                        Text="{{0:Gerät %C%}}: Entriegeln / Verriegeln"              FunctionText="Gerät %C%: Ausgang, Schalten, Entriegeln=0 / Verriegeln=1"         Priority="Low" ObjectSize="1 Bit"  WriteFlag="Disabled" TransmitFlag="Enabled"  UpdateFlag="Disabled" DatapointType="DPST-1-9" TextParameterRefId="%AID%_P-%T%%CCC%002_R-%T%%CCC%00201" />
+              <ComObjectRef Id="%AID%_O-%T%%CCC%002_R-%T%%CCC%00223" RefId="%AID%_O-%T%%CCC%002" Name="SICHERN_RÜCKMELDUNG_DPT_13"            Text="{{0:Gerät %C%}}: Aktor Rückmeldung"  FunctionText ="Gerät %C%: Eingang, Status, Entriegelt=0 / Verriegelt=1"           Priority="Low" ObjectSize="1 Bit"  WriteFlag="Enabled"  TransmitFlag="Disabled" UpdateFlag="Enabled"  DatapointType="DPST-1-9" TextParameterRefId="%AID%_P-%T%%CCC%002_R-%T%%CCC%00201" />
+              <ComObjectRef Id="%AID%_O-%T%%CCC%003_R-%T%%CCC%00313" RefId="%AID%_O-%T%%CCC%003" Name="KLEMMT_RÜCKMELDUNG_DPT_01"             Text="{{0:Gerät %C%}}: Klemmt Aktor Rückmeldung"              FunctionText="Gerät %C%: Eingang, Status, Ok=0 / Klemmt=1"         Priority="Low" ObjectSize="1 Bit"  WriteFlag="Enabled" TransmitFlag="Disabled"  UpdateFlag="Enabled" DatapointType="DPST-1-5" TextParameterRefId="%AID%_P-%T%%CCC%002_R-%T%%CCC%00201" />  
+
               <!-- Light -->
               <!--    Switch -->
               <ComObjectRef Id="%AID%_O-%T%%CCC%001_R-%T%%CCC%00102" RefId="%AID%_O-%T%%CCC%001" Name="SCHALTEN_DPT_01"                       Text="{{0:Gerät %C%}}: Schalten"              FunctionText="Gerät %C%: Ausgang, Schalten, Aus=0 / Ein=1"                         Priority="Low" ObjectSize="1 Bit"  WriteFlag="Disabled" TransmitFlag="Enabled"  UpdateFlag="Disabled" DatapointType="DPST-1-1" TextParameterRefId="%AID%_P-%T%%CCC%002_R-%T%%CCC%00201" />
@@ -438,7 +463,7 @@
               <ComObjectRef Id="%AID%_O-%T%%CCC%004_R-%T%%CCC%00409" RefId="%AID%_O-%T%%CCC%004" Name="ÖFFNEN_RÜCKMELDUNG_DPT_01"             Text="{{0:Gerät %C%}}: Öffnen Aktor Rückmeldung"      FunctionText="Gerät %C%: Eingang, Status, Inaktiv=0 / Öffnet=1"      ObjectSize="1 Bit"  WriteFlag="Enabled"  TransmitFlag="Disabled" UpdateFlag="Enabled"  DatapointType="DPST-1-1" TextParameterRefId="%AID%_P-%T%%CCC%002_R-%T%%CCC%00201" />
               <ComObjectRef Id="%AID%_O-%T%%CCC%005_R-%T%%CCC%00509" RefId="%AID%_O-%T%%CCC%005" Name="ÖFFNEN_SCHLIESSEN_DPT_01"              Text="{{0:Gerät %C%}}: Öffnen/Schließen"              FunctionText="Gerät %C%: Ausgang, Steuern, Öffnen=0 / Schließen=1"   ObjectSize="1 Bit"  WriteFlag="Disabled" TransmitFlag="Enabled"  UpdateFlag="Disabled" DatapointType="DPST-1-9" TextParameterRefId="%AID%_P-%T%%CCC%002_R-%T%%CCC%00201" />
               <ComObjectRef Id="%AID%_O-%T%%CCC%006_R-%T%%CCC%00609" RefId="%AID%_O-%T%%CCC%006" Name="STOP_DPT_01"                           Text="{{0:Gerät %C%}}: Stopp"                         FunctionText="Gerät %C%: Ausgang, Steuern, Stopp=1"                  ObjectSize="1 Bit"  WriteFlag="Disabled" TransmitFlag="Enabled"  UpdateFlag="Disabled" DatapointType="DPST-1-7" TextParameterRefId="%AID%_P-%T%%CCC%002_R-%T%%CCC%00201" />
-              <ComObjectRef Id="%AID%_O-%T%%CCC%007_R-%T%%CCC%00709" RefId="%AID%_O-%T%%CCC%007" Name="KLEMMT_RÜCKMELDUNG_DPT_01"             Text="{{0:Gerät %C%}}: Klemmt Aktor Rückmeldung"      FunctionText="Gerät %C%: Eingang, Status, Ok=0 / Klemmt=1"           ObjectSize="1 Bit"  WriteFlag="Enabled"  TransmitFlag="Disabled" UpdateFlag="Enabled"  DatapointType="DPST-1-1" TextParameterRefId="%AID%_P-%T%%CCC%002_R-%T%%CCC%00201" />
+              <ComObjectRef Id="%AID%_O-%T%%CCC%007_R-%T%%CCC%00709" RefId="%AID%_O-%T%%CCC%007" Name="KLEMMT_RÜCKMELDUNG_DPT_01"             Text="{{0:Gerät %C%}}: Klemmt Aktor Rückmeldung"      FunctionText="Gerät %C%: Eingang, Status, Ok=0 / Klemmt=1"           ObjectSize="1 Bit"  WriteFlag="Enabled"  TransmitFlag="Disabled" UpdateFlag="Enabled"  DatapointType="DPST-1-5" TextParameterRefId="%AID%_P-%T%%CCC%002_R-%T%%CCC%00201" />
                <!-- Window Door Alternativen -->
               <ComObjectRef Id="%AID%_O-%T%%CCC%002_R-%T%%CCC%00219" RefId="%AID%_O-%T%%CCC%002" Name="OFFEN_RÜCKMELDUNG_DPT_01"              Text="{{0:Gerät %C%}}: Offen Aktor Rückmeldung"       FunctionText="Gerät %C%: Eingang, Status, Geschlossen=0 / Offen=1"   ObjectSize="1 Bit" WriteFlag="Enabled"  TransmitFlag="Disabled" UpdateFlag="Enabled"  DatapointType="DPST-1-19" TextParameterRefId="%AID%_P-%T%%CCC%002_R-%T%%CCC%00201" />
               <ComObjectRef Id="%AID%_O-%T%%CCC%002_R-%T%%CCC%00229" RefId="%AID%_O-%T%%CCC%002" Name="GESCHLOSSEN_RÜCKMELDUNG_DPT_01"        Text="{{0:Gerät %C%}}: Geschlossen Aktor Rückmeldung" FunctionText="Gerät %C%: Eingang, Status, Offen=0 / Geschlossen=1"   ObjectSize="1 Bit" WriteFlag="Enabled"  TransmitFlag="Disabled" UpdateFlag="Enabled"  DatapointType="DPST-1-1" TextParameterRefId="%AID%_P-%T%%CCC%002_R-%T%%CCC%00201" />
@@ -577,6 +602,82 @@
                                   <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%T%%CCC%006_R-%T%%CCC%00601" HelpContext="%DOC%" />
                                   
                                   <ParameterSeparator Id="%AID%_PS-nnn" Text="Bild Ein" />
+                                  <!-- Icon Col 100-->
+                                  <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%T%%CCC%009_R-%T%%CCC%00901" HelpContext="%DOC%" />
+                                  <!-- Icon 100-->
+                                  <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%T%%CCC%010_R-%T%%CCC%01001" HelpContext="%DOC%" />
+                                </when>
+                              </choose>
+            
+                            </when>
+                          
+                          </choose>
+
+                        </ParameterBlock>
+                      </when>
+                       <when test="12">
+                        <!-- ************** Lock ************ -->
+                        <ParameterBlock Id="%AID%_PB-nnn" Name="f%CC%FCB_Lock" Text="%C% Schloss: {{0: ...}}"      TextParameterRefId="%AID%_P-%T%%CCC%002_R-%T%%CCC%00201" Icon="lock-outline" ShowInComObjectTree="true" HelpContext="BRI-Schloss">
+                          <ParameterSeparator Id="%AID%_PS-nnn" Text="Schloss" UIHint="Headline" />
+        			            <op:usePart name="ChannelHead" xpath="//ParameterBlock/*" />
+                        
+                          <!-- Hue -->
+                          <choose ParamRefId="%AID%_UP-%T%000003_R-%T%00000301">  
+                            <when test="1"> <!-- Hue Enabled -->
+                              <!-- In Hue verwenden -->
+                              <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%T%%CCC%013_R-%T%%CCC%01301" HelpContext="%DOC%" /> 
+                            </when>
+                          </choose>
+
+                          <!-- Locking -->
+                          <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%T%%CCC%014_R-%T%%CCC%01401" HelpContext="%DOC%" /> 
+                           <choose ParamRefId="%AID%_UP-%T%%CCC%014_R-%T%%CCC%01401">  
+                            <when test="0"> <!-- Unlocking = 1 -->
+                              <!-- Unlocking-->
+                              <ComObjectRefRef RefId="%AID%_O-%T%%CCC%001_R-%T%%CCC%00113" />
+                            </when>
+                            <when test="1"> <!-- Locking = 1 -->
+                              <!-- Locking-->
+                              <ComObjectRefRef RefId="%AID%_O-%T%%CCC%001_R-%T%%CCC%00123" />
+                            </when>
+                          </choose>
+        
+
+                          <!-- Locked -->
+                          <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%T%%CCC%015_R-%T%%CCC%01501" HelpContext="%DOC%" />
+                           <choose ParamRefId="%AID%_UP-%T%%CCC%015_R-%T%%CCC%01501">  
+                            <when test="0"> <!-- Unlocked = 1 -->
+                              <!-- Unlocked -->
+                              <ComObjectRefRef RefId="%AID%_O-%T%%CCC%002_R-%T%%CCC%00213" />
+                            </when>
+                            <when test="1"> <!-- Locked = 1 -->
+                              <!-- Locked -->
+                              <ComObjectRefRef RefId="%AID%_O-%T%%CCC%002_R-%T%%CCC%00223" />
+                            </when>
+                          </choose>
+
+                          <!-- Blocked -->
+                          <ComObjectRefRef RefId="%AID%_O-%T%%CCC%003_R-%T%%CCC%00313"/>
+
+                           <!-- DisplaySettings -->
+                          <choose ParamRefId="%AID%_P-%T%000010_R-%T%00001001">
+                            <when test="1">
+                             
+                              <ParameterSeparator Id="%AID%_PS-nnn" Text="" UIHint="HorizontalRuler" />
+                              <ParameterSeparator Id="%AID%_PS-nnn" Text="Touch Display Einstellungen" UIHint="Headline" />
+
+
+                              <!-- Icons -->
+                              <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%T%%CCC%004_R-%T%%CCC%00401" HelpContext="BRI-BildEinAus" />
+                              <choose ParamRefId="%AID%_UP-%T%%CCC%004_R-%T%%CCC%00401">
+                                <when test="1">
+                                  <ParameterSeparator Id="%AID%_PS-nnn" Text="Bild Versperrt" />
+                                  <!-- Icon Col 0-->
+                                  <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%T%%CCC%005_R-%T%%CCC%00501" HelpContext="%DOC%" />
+                                  <!-- Icon 0-->
+                                  <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%T%%CCC%006_R-%T%%CCC%00601" HelpContext="%DOC%" />
+                                  
+                                  <ParameterSeparator Id="%AID%_PS-nnn" Text="Bild Entsperrt" />
                                   <!-- Icon Col 100-->
                                   <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%T%%CCC%009_R-%T%%CCC%00901" HelpContext="%DOC%" />
                                   <!-- Icon 100-->

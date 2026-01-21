@@ -86,6 +86,7 @@ Zur Auswahl stehen:
 
 - Ein- Ausschaltbares Gerät 
 - Steckdose
+- Schloss
 - Lampe
 - Jalousie
 - Rolladen
