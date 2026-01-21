@@ -61,7 +61,6 @@ MainFunctionStateImage KnxChannelLock::mainFunctionImage()
 
 void KnxChannelLock::commandLock(LockBridge *lockBridge, bool lock)
 {
-    logDebugP("Received changed. Lock %s", lock ? "true" : "false");
     bool value;
     // <Enumeration Value="0" Id="%ENID%" Text="Verriegeln=0 / Entriegeln=1"  />
     // <Enumeration Value="1" Id="%ENID%" Text="Entriegeln=0 / Verriegeln=1"     />
@@ -120,8 +119,6 @@ void KnxChannelLock::processInputKo(GroupObject &ko)
     else if (isKo(ko, KO_BLOCKED_FEEDBACK))
     {
         bool blocked = koGet(KO_BLOCKED_FEEDBACK);
-        logDebugP("Blocked state changed to %s", blocked ? "true" : "false");
-    
         for (auto it = lockBridges.begin(); it != lockBridges.end(); ++it)
         {
             (*it)->setBlocked(blocked);

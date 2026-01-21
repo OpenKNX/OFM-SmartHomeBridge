@@ -26,7 +26,6 @@ boolean HomeKitLock::update()
 {
     if (lockTargetState->updated() && !_ignoreUpdate)
     {
-        logDebugP("HomeKit Lock target state changed to %s", lockTargetState->getNewVal() == Characteristic::LockTargetState::LOCK ? "LOCK" : "UNLOCK");
         _channel->commandLock(this, lockTargetState->getNewVal() == Characteristic::LockTargetState::LOCK);
     }
     return (true);
@@ -55,17 +54,14 @@ void HomeKitLock::updateState()
 {
     if (_blocked)
     {
-        logDebugP("Lock is blocked");
         lockCurrentState->setVal(Characteristic::LockCurrentState::JAMMED);
     }
     else if (_locked)
     {
-        logDebugP("Lock is locked");   
         lockCurrentState->setVal(Characteristic::LockCurrentState::LOCKED);
     }
     else        
     {
-        logDebugP("Lock is unlocked"); 
         lockCurrentState->setVal(Characteristic::LockCurrentState::UNLOCKED);
     }
 }
