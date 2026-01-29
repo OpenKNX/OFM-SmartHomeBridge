@@ -10,7 +10,8 @@
 enum DimmerSwitchBehavior
 {
     LastBrightness = 201,
-    LastBrightnessLessThan100 = 200
+    LastBrightnessLessThan100 = 200,
+    Custom = 255
 };
 
 
@@ -80,6 +81,9 @@ void KnxChannelDimmer::commandMainFunctionClick()
         case DimmerSwitchBehavior::LastBrightnessLessThan100:
             targetValue = lastBrighnessLessThan100;
             break;
+        case DimmerSwitchBehavior::Custom:
+            targetValue = ParamBRI_CHLightSwitchOn2Custom;
+            break;
         default:
             targetValue = ParamBRI_CHLightSwitchOn2Behavior; // Direct percentage value
         }
@@ -102,7 +106,8 @@ void KnxChannelDimmer::commandPower(DimmerBridge* dimmerBridge, bool power)
 {
     if (power)
     {
-        uint8_t configValue = 0 == (uint8_t) koGet(KO_DIMMER_FEEDBACK) 
+        bool first = 0 == (uint8_t) koGet(KO_DIMMER_FEEDBACK);
+        uint8_t configValue = first
             ? ParamBRI_CHLightSwitchOnBehavior 
             : ParamBRI_CHLightSwitchOn2Behavior;
         switch((DimmerSwitchBehavior) configValue)
@@ -112,6 +117,9 @@ void KnxChannelDimmer::commandPower(DimmerBridge* dimmerBridge, bool power)
                 break;
             case DimmerSwitchBehavior::LastBrightnessLessThan100:
                 commandBrightness(nullptr, lastBrighnessLessThan100);
+                break;
+            case DimmerSwitchBehavior::Custom:
+                commandBrightness(nullptr, first ? ParamBRI_CHLightSwitchOnCustom : ParamBRI_CHLightSwitchOn2Custom);
                 break;
             default:
                 commandBrightness(nullptr, configValue); // Direct percentage value

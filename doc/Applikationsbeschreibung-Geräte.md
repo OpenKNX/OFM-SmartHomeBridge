@@ -87,7 +87,8 @@ Zur Auswahl stehen:
 - 40%                          
 - 30%                          
 - 20%                          
-- 10%                          
+- 10% 
+- Benutzerdefiniert                         
 
 <!-- DOC HelpContext="SwitchOnBehavior2Dimmer" -->
 ### Bei EIN-Befehl, wenn aktuelle Helligkeit > 0% (Dimmer)
@@ -108,7 +109,13 @@ Zur Auswahl stehen:
 - 40%                          
 - 30%                          
 - 20%                          
-- 10%               
+- 10%        
+- Benutzerdefiniert       
+
+<!-- DOC -->
+#### Benutzerdefiniert
+
+Benutzerdefinierter Prozentwert.
 
 <!-- DOC HelpContext="SwitchOnBehaviorRGB" -->
 ### Bei EIN-Befehl (Farblampe)

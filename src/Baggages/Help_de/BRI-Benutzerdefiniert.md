@@ -1,0 +1,4 @@
+﻿### Benutzerdefiniert
+
+Benutzerdefinierter Prozentwert.
+

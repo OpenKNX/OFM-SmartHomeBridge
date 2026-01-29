@@ -115,6 +115,7 @@
                   <Enumeration Value="30"  Id="%ENID%" Text="30%"                             />
                   <Enumeration Value="20"  Id="%ENID%" Text="20%"                             />
                   <Enumeration Value="10"  Id="%ENID%" Text="10%"                             />
+                  <Enumeration Value="255" Id="%ENID%" Text="Benutzerdefiniert"              />
                 </TypeRestriction>
               </ParameterType>
               <ParameterType Id="%AID%_PT-BRILightSwitchOn2Behavior" Name="BRILightSwitchOn2Behavior">
@@ -129,7 +130,8 @@
                   <Enumeration Value="40"  Id="%ENID%" Text="40%"                             />
                   <Enumeration Value="30"  Id="%ENID%" Text="30%"                             />
                   <Enumeration Value="20"  Id="%ENID%" Text="20%"                             />
-                  <Enumeration Value="10"  Id="%ENID%" Text="10%"                             />            
+                  <Enumeration Value="10"  Id="%ENID%" Text="10%"                             />    
+                  <Enumeration Value="255" Id="%ENID%" Text="Benutzerdefiniert"               />        
                 </TypeRestriction>
               </ParameterType>
               <ParameterType Id="%AID%_PT-BRILightRGBSwitchOnBehavior" Name="BRILightRGBSwitchOnBehavior">
@@ -170,6 +172,11 @@
               <!-- Szene -->
               <ParameterType Id="%AID%_PT-BRISceneNumber" Name="BRISceneNumber">
                 <TypeNumber SizeInBit="8" Type="unsignedInt" minInclusive="1" maxInclusive="64" />
+              </ParameterType>
+
+               <!-- PercentWithout 0 -->
+              <ParameterType Id="%AID%_PT-BRIPercentWithout0" Name="BRIPercentWithout0">
+                <TypeNumber SizeInBit="8" Type="unsignedInt" minInclusive="1" maxInclusive="100" />
               </ParameterType>
 
               <!-- Media -->

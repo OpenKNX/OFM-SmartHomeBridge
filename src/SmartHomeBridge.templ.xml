@@ -57,7 +57,7 @@
               </Union> 
               
               <!-- Light -->
-              <Union SizeInBit="40">
+              <Union SizeInBit="56">
                 <Memory CodeSegment="%AID%_RS-04-00000" Offset="53" BitOffset="0" />
                 <!-- Light Hue Emulation -->
                 <Parameter Id="%AID%_UP-%T%%CCC%022" Offset="0" BitOffset="0" Name="CH%C%LightHueEmulation" ParameterType="%AID%_PT-BRIHueEmulation"          Text="Lampe in Hue verwenden" Value="1" />        
@@ -74,7 +74,11 @@
                 <Parameter Id="%AID%_UP-%T%%CCC%025" Offset="3" BitOffset="0" Name="CH%C%LightRGBSwitchOnBehavior"  ParameterType="%AID%_PT-BRILightRGBSwitchOnBehavior" Text="Bei EIN Befehl" Value="200" />                     
                 <!--  Light RGB Switch Behavior 2 -->
                 <Parameter Id="%AID%_UP-%T%%CCC%026" Offset="4" BitOffset="0" Name="CH%C%LightRGBSwitchOn2Behavior" ParameterType="%AID%_PT-BRILightRGBSwitchOn2Behavior" Text="Bei EIN wenn aktuelle Helligkeit > 0%" Value="0" />
-              
+                <!-- Light Switch On Custom-->
+                <Parameter Id="%AID%_UP-%T%%CCC%028" Offset="5" BitOffset="0" Name="CH%C%LightSwitchOnCustom" ParameterType="%AID%_PT-BRIPercentWithout0" Text="Benutzerdefiniert" Value="100" SuffixText="%" />
+                <!-- Light Switch On 2 Custom -->
+                <Parameter Id="%AID%_UP-%T%%CCC%029" Offset="6" BitOffset="0" Name="CH%C%LightSwitchOn2Custom" ParameterType="%AID%_PT-BRIPercentWithout0" Text="Benutzerdefiniert" Value="100" />
+            
               
               </Union>
 
@@ -270,6 +274,9 @@
               <ParameterRef Id="%AID%_UP-%T%%CCC%025_R-%T%%CCC%02501" RefId="%AID%_UP-%T%%CCC%025" />
               <ParameterRef Id="%AID%_UP-%T%%CCC%026_R-%T%%CCC%02601" RefId="%AID%_UP-%T%%CCC%026" />
               <ParameterRef Id="%AID%_UP-%T%%CCC%027_R-%T%%CCC%02701" RefId="%AID%_UP-%T%%CCC%027" />
+              <ParameterRef Id="%AID%_UP-%T%%CCC%028_R-%T%%CCC%02801" RefId="%AID%_UP-%T%%CCC%028" />
+              <ParameterRef Id="%AID%_UP-%T%%CCC%029_R-%T%%CCC%02901" RefId="%AID%_UP-%T%%CCC%029" />
+              
 
               <!-- Jalousie -->
               <ParameterRef Id="%AID%_UP-%T%%CCC%031_R-%T%%CCC%03101" RefId="%AID%_UP-%T%%CCC%031" />
@@ -745,7 +752,17 @@
                             </when>
                             <when test="1"> <!-- Dimmer -->
                               <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%T%%CCC%023_R-%T%%CCC%02301" HelpContext="BRI-SwitchOnBehaviorDimmer" /> <!-- Switch On Behavior -->
+                              <choose ParamRefId="%AID%_UP-%T%%CCC%023_R-%T%%CCC%02301">
+                                <when test="255"> <!-- Custom-->
+                                  <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%T%%CCC%028_R-%T%%CCC%02801" HelpContext="%DOC%" /> <!-- Custom -->
+                                </when>
+                              </choose>
                               <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%T%%CCC%024_R-%T%%CCC%02401" HelpContext="BRI-SwitchOnBehavior2Dimmer" /> <!-- Switch On 2 Behavior -->
+                              <choose ParamRefId="%AID%_UP-%T%%CCC%024_R-%T%%CCC%02401">
+                                <when test="255"> <!-- Custom-->
+                                  <ParameterRefRef IndentLevel="2" RefId="%AID%_UP-%T%%CCC%029_R-%T%%CCC%02901" HelpContext="%DOC%" /> <!-- Custom -->
+                                </when>
+                              </choose>
                               <ComObjectRefRef RefId="%AID%_O-%T%%CCC%001_R-%T%%CCC%00112" />
                               <ComObjectRefRef RefId="%AID%_O-%T%%CCC%002_R-%T%%CCC%00212" />
 
