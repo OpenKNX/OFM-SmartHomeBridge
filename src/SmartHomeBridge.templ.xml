@@ -77,7 +77,7 @@
                 <!-- Light Switch On Custom-->
                 <Parameter Id="%AID%_UP-%T%%CCC%028" Offset="5" BitOffset="0" Name="CH%C%LightSwitchOnCustom" ParameterType="%AID%_PT-BRIPercentWithout0" Text="Benutzerdefiniert" Value="100" SuffixText="%" />
                 <!-- Light Switch On 2 Custom -->
-                <Parameter Id="%AID%_UP-%T%%CCC%029" Offset="6" BitOffset="0" Name="CH%C%LightSwitchOn2Custom" ParameterType="%AID%_PT-BRIPercentWithout0" Text="Benutzerdefiniert" Value="100" />
+                <Parameter Id="%AID%_UP-%T%%CCC%029" Offset="6" BitOffset="0" Name="CH%C%LightSwitchOn2Custom" ParameterType="%AID%_PT-BRIPercentWithout0" Text="Benutzerdefiniert" Value="100" SuffixText="%" />
             
               
               </Union>
