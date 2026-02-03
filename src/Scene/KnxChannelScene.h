@@ -7,11 +7,13 @@ class SceneBridge : public ChannelBridgeBase<KnxChannelScene>
 {
     public:
         virtual void setActivating(bool activating) = 0;
+        virtual void loop() {};
 };
 
 class KnxChannelScene : public KnxChannelBase
 {
     private:
+        std::string _lastMessage = "";
         unsigned long _lastActivatiation = 0;
         DynamicPointerArray<SceneBridge> sceneBridges; 
         void reportActivation(SceneBridge* ignore);
@@ -33,4 +35,6 @@ class KnxChannelScene : public KnxChannelBase
         virtual std::string currentValueAsString() override;
         virtual bool mainFunctionValue() override;
         virtual MainFunctionStateImage mainFunctionImage() override;
+        void learnScene();
+        void setMessage(const std::string& message);
 };

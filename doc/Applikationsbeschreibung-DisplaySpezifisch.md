@@ -99,16 +99,29 @@ Beim Export den Advanced Export verwendet und die in der ETS bei der Bilddatei a
 ### Alarm Geräte-Einstellungen
 
 <!-- DOC -->
-### Roter Hintergrund
+#### Roter Hintergrund
 
 Über diese Einstellung kann bei Alarm Geräten der Bildschirmhintergrund rot eingefärbt werden.
 
 <!-- DOC HelpContext="StatusInactive" -->
-### Statusanzeige Inaktiv
+#### Statusanzeige Inaktiv
 
 Text der bei einem Alarm Gerät angezeigt wird, wenn der Alarm inaktiv ist.
 
 <!-- DOC HelpContext="StatusActive" -->
-### Statusanzeige Aktiv
+#### Statusanzeige Aktiv
 
 Text der bei einem Alarm Gerät angezeigt wird, wenn der Alarm aktiv ist.
+
+<!-- DOCEND -->
+### Szene Geräte Einstellung
+
+<!-- DOC -->
+#### Szenen Lernfunktion
+
+Einlernfunktion für Szenen aktivieren. 
+Ist diese Option aktiv, wird durch drücken länger als 4 Sekunden in der Detailseite-Anzeige ein Szenen Einlernsignal gesendet. 
+Aktoren die das Einlernen unterstützen, speichern ihren aktuellen Zustand für die Szenennummer ab.
+
+Achtung: Der lange Druck funktioniert nicht in der Hauptfunktion-Anzeige oder der Zellendarstellung.
+

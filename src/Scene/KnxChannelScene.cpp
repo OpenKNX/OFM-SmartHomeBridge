@@ -72,11 +72,21 @@ void KnxChannelScene::loop()
 {
     if (_lastActivatiation != 0 && millis() - _lastActivatiation > 1000)
     {
+        _lastMessage = "";
         _lastActivatiation = 0;
         reportActivation(nullptr);
     }
+    for (auto it = sceneBridges.begin(); it != sceneBridges.end(); ++it)
+    {
+        (*it)->loop();
+    }
 }
 
+void KnxChannelScene::learnScene()
+{
+    if (ParamBRI_CHSceneLearn)
+        koSet(KO_SCENE, (uint8_t) ((ParamBRI_CHSceneNumber - 1) + 128), true);
+}
 
 void KnxChannelScene::processInputKo(GroupObject &ko)
 {
@@ -85,8 +95,7 @@ void KnxChannelScene::processInputKo(GroupObject &ko)
         uint8_t scene = koGet(KO_SCENE);
         if (scene == (uint8_t) (ParamBRI_CHSceneNumber - 1))
         {
-            _lastActivatiation = max(1UL, millis());
-            reportActivation(nullptr);
+            setMessage("Starten");
         }
     }  
 }
@@ -98,10 +107,17 @@ void KnxChannelScene::setup()
 
 std::string KnxChannelScene::currentValueAsString()
 {
-    return _lastActivatiation != 0 ? "Starten" : "";
+    return _lastMessage;
 }
 
 bool KnxChannelScene::mainFunctionValue()
 {
     return _lastActivatiation != 0;
+}
+
+void KnxChannelScene::setMessage(const std::string& message)
+{
+    _lastMessage = message;
+    _lastActivatiation = max(1UL, millis());
+    reportActivation(nullptr);
 }
