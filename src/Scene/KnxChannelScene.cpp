@@ -3,7 +3,7 @@
 #include "KnxChannelScene.h"
 #include "BridgeBase.h"
 
-#define KO_SCENE KoBRI_KO1_, DPT_SceneNumber
+#define KO_SCENE KoBRI_KO1_, DPT_Value_1_Ucount
 
 KnxChannelScene::KnxChannelScene(uint16_t channelIndex)
     : KnxChannelBase(channelIndex),
