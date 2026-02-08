@@ -39,13 +39,13 @@
               </Union>
 
               <!-- Switch -->
-              <Union SizeInBit="8">
+              <Union SizeInBit="8" op:nowarn="true">
                 <Memory CodeSegment="%AID%_RS-04-00000" Offset="53" BitOffset="0" />
                 <!-- Switch Hue Emulation -->
                 <Parameter Id="%AID%_UP-%T%%CCC%012" Offset="0" BitOffset="0" Name="CH%C%SwitchHueEmulation" ParameterType="%AID%_PT-BRIHueEmulation"          Text="Gerät in Hue verwenden" Value="1" />
               </Union> 
               <!-- Lock -->
-              <Union SizeInBit="8">
+              <Union SizeInBit="8" op:nowarn="true">
                 <Memory CodeSegment="%AID%_RS-04-00000" Offset="53" BitOffset="0" />
                 <!-- Lock Hue Emulation -->
                 <Parameter Id="%AID%_UP-%T%%CCC%013" Offset="0" BitOffset="0" Name="CH%C%LockHueEmulation" ParameterType="%AID%_PT-BRIHueEmulation"          Text="In HUE als Lampe darstellen" Value="1" />
@@ -57,7 +57,7 @@
               </Union> 
               
               <!-- Light -->
-              <Union SizeInBit="56">
+              <Union SizeInBit="56" op:nowarn="true">
                 <Memory CodeSegment="%AID%_RS-04-00000" Offset="53" BitOffset="0" />
                 <!-- Light Hue Emulation -->
                 <Parameter Id="%AID%_UP-%T%%CCC%022" Offset="0" BitOffset="0" Name="CH%C%LightHueEmulation" ParameterType="%AID%_PT-BRIHueEmulation"          Text="Lampe in Hue verwenden" Value="1" />        
@@ -83,7 +83,7 @@
               </Union>
 
               <!-- Jalousie -->
-              <Union SizeInBit="16">
+              <Union SizeInBit="16" op:nowarn="true">
                 <Memory CodeSegment="%AID%_RS-04-00000" Offset="53" BitOffset="0" />
                 <!-- Jalousie Hue Emulation -->
                 <Parameter Id="%AID%_UP-%T%%CCC%031" Offset="0" BitOffset="0" Name="CH%C%JalousieHueEmulation" ParameterType="%AID%_PT-BRIHueEmulation" Text="In HUE als dimmbare Lampe darstellen" Value="0" />
@@ -98,7 +98,7 @@
               </Union>       
 
               <!-- Scene -->
-              <Union SizeInBit="16">
+              <Union SizeInBit="16" op:nowarn="true">
                 <Memory CodeSegment="%AID%_RS-04-00000" Offset="53" BitOffset="0" />
                 <!-- Scene Hue Emulation -->
                 <Parameter Id="%AID%_UP-%T%%CCC%041" Offset="0" BitOffset="0" Name="CH%C%SceneHueEmulation" ParameterType="%AID%_PT-BRIHueEmulation" Text="In HUE als Lampe darstellen" Value="0" />
@@ -109,7 +109,7 @@
                 <Parameter Id="%AID%_UP-%T%%CCC%042" Offset="1" BitOffset="0" Name="CH%C%SceneNumber" ParameterType="%AID%_PT-BRISceneNumber" Text="Szenen Nummer" Value="1" />                    
               </Union>      
               <!-- Media -->
-              <Union SizeInBit="16">
+              <Union SizeInBit="16" op:nowarn="true">
                 <Memory CodeSegment="%AID%_RS-04-00000" Offset="53" BitOffset="0" />
                 <!-- Medien Hue Emulation -->
                 <Parameter Id="%AID%_UP-%T%%CCC%043" Offset="0" BitOffset="0" Name="CH%C%MediaHueEmulation" ParameterType="%AID%_PT-BRIHueEmulation" Text="In HUE als dimmbare Lampe darstellen" Value="0" />
@@ -119,7 +119,7 @@
              </Union>      
 
               <!-- Thermostat -->
-              <Union SizeInBit="24">
+              <Union SizeInBit="24" op:nowarn="true">
                 <Memory CodeSegment="%AID%_RS-04-00000" Offset="53" BitOffset="0" />
                 <!-- Temperature Unit -->
                 <Parameter Id="%AID%_UP-%T%%CCC%051" Offset="0" BitOffset="0" Name="CH%C%ThermostatTemperaturUnitType" ParameterType="%AID%_PT-BRIThermostatTemperaturUnitType" Text="Einheit" Value="0" />                         
@@ -151,7 +151,7 @@
               </Union>
 
               <!-- Alarme -->
-              <Union SizeInBit="216">
+              <Union SizeInBit="216" op:nowarn="true">
                 <Memory CodeSegment="%AID%_RS-04-00000" Offset="53" BitOffset="0" />
                 <!-- Sensor Inverted -->
                 <Parameter Id="%AID%_UP-%T%%CCC%071" Offset="0" BitOffset="0" Name="CH%C%AlarmInvert"  ParameterType="%AID%_PT-BRIAlarmInvert" Text="Eingang invertieren" Value="0" />
@@ -195,7 +195,7 @@
               </Union>
 
               <!-- Fan -->
-              <Union SizeInBit="8">
+              <Union SizeInBit="8" op:nowarn="true">
                 <Memory CodeSegment="%AID%_RS-04-00000" Offset="53" BitOffset="0" />
                 <!-- Fan Hue Emulation -->
                 <Parameter Id="%AID%_UP-%T%%CCC%081" Offset="0" BitOffset="0" Name="CH%C%FanHueEmulation" ParameterType="%AID%_PT-BRIHueEmulation"           Text="In HUE als Lampe darstellen" Value="0" />        
@@ -209,7 +209,7 @@
               </Union>
 
               <!-- Door/Window -->
-              <Union SizeInBit="24">
+              <Union SizeInBit="24" op:nowarn="true">
                 <Memory CodeSegment="%AID%_RS-04-00000" Offset="53" BitOffset="0" />
                 <!-- Door/Window HUE Emulation -->
                 <Parameter Id="%AID%_UP-%T%%CCC%096" Offset="0" BitOffset="0" Name="CH%C%DoorHueEmulation" ParameterType="%AID%_PT-BRIHueEmulation"          Text="In HUE als dimmbare Lampe darstellen" Value="0" />
