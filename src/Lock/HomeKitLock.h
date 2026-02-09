@@ -9,6 +9,8 @@ class HomeKitLock : public LockBridge
     int device;
     bool _locked = false;
     bool _blocked = false;
+    bool _unlocking = false;
+    bool _locking = false;
     bool _targetStateInitialized = false;
     volatile bool _ignoreUpdate = false;
     Characteristic::LockCurrentState *lockCurrentState;
@@ -34,6 +36,8 @@ public:
     boolean update();
     virtual void setLocked(bool locked) override;
     virtual void setBlocked(bool blocked) override;
+    virtual void setUnlocking(bool unlocking) override;
+    virtual void setLocking(bool locking) override;
 };
 
 #endif

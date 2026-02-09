@@ -70,6 +70,7 @@ void KnxChannelScene::reportActivation(SceneBridge* ignore)
 
 void KnxChannelScene::loop()
 {
+    KnxChannelBase::loop();
     if (_lastActivatiation != 0 && millis() - _lastActivatiation > 1000)
     {
         _lastMessage = "";

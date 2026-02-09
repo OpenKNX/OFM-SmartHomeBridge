@@ -53,7 +53,13 @@
                 <Parameter Id="%AID%_UP-%T%%CCC%014" Offset="0" BitOffset="1" Name="CH%C%LockLocking" ParameterType="%AID%_PT-BRILockLock"          Text="Objekt 'Sperren'" Value="0" />
                 <!-- Lock KO Locked -->
                 <Parameter Id="%AID%_UP-%T%%CCC%015" Offset="0" BitOffset="2" Name="CH%C%LockLocked" ParameterType="%AID%_PT-BRILockLocking"          Text="Objekt 'Versperrt Rückmeldung'" Value="0" />
-      
+                <!-- Lock / Unlock KO's -->
+                <Parameter Id="%AID%_UP-%T%%CCC%016" Offset="0" BitOffset="3" Name="CH%C%LockOperation" ParameterType="%AID%_PT-OnOffYesNo"          Text="Objekte für 'Entriegeln' / 'Verriegeln' Aktorrückmeldung" Value="0" />
+                <!-- Direction Locking -->
+                <Parameter Id="%AID%_UP-%T%%CCC%017" Offset="0" BitOffset="4" Name="CH%C%LockDirection" ParameterType="%AID%_PT-BRILockDirection"    Text="Drehrichtung zum Verriegeln" Value="0" />
+                <!-- Display as -->
+                <Parameter Id="%AID%_UP-%T%%CCC%018" Offset="0" BitOffset="6" Name="CH%C%LockDisplay" ParameterType="%AID%_PT-BRILockDisplay"    Text="Entriegelt / Verriegelt anzeigen als" Value="0" />
+                <!-- ^^^ 2 bits ^^^ -->
               </Union> 
               
               <!-- Light -->
@@ -265,7 +271,12 @@
               <ParameterRef Id="%AID%_UP-%T%%CCC%014_R-%T%%CCC%01401" RefId="%AID%_UP-%T%%CCC%014" />
               <!-- Lock KO Locked -->
               <ParameterRef Id="%AID%_UP-%T%%CCC%015_R-%T%%CCC%01501" RefId="%AID%_UP-%T%%CCC%015" />
-             
+              <!-- Lock / Unlock KO's -->
+              <ParameterRef Id="%AID%_UP-%T%%CCC%016_R-%T%%CCC%01601" RefId="%AID%_UP-%T%%CCC%016" />
+              <!-- Lock Direction -->
+              <ParameterRef Id="%AID%_UP-%T%%CCC%017_R-%T%%CCC%01701" RefId="%AID%_UP-%T%%CCC%017" />
+              <!-- Lock Display as -->
+              <ParameterRef Id="%AID%_UP-%T%%CCC%018_R-%T%%CCC%01801" RefId="%AID%_UP-%T%%CCC%018" />
 
               <!-- Light -->
               <!-- Light Hue Emulation -->
@@ -367,6 +378,8 @@
               <ComObjectRef Id="%AID%_O-%T%%CCC%001_R-%T%%CCC%00123" RefId="%AID%_O-%T%%CCC%001" Name="SICHERN_DPT_13"                        Text="{{0:Gerät %C%}}: Entriegeln / Verriegeln"              FunctionText="Gerät %C%: Ausgang, Schalten, Entriegeln=0 / Verriegeln=1"         Priority="Low" ObjectSize="1 Bit"  WriteFlag="Disabled" TransmitFlag="Enabled"  UpdateFlag="Disabled" DatapointType="DPST-1-9" TextParameterRefId="%AID%_P-%T%%CCC%002_R-%T%%CCC%00201" />
               <ComObjectRef Id="%AID%_O-%T%%CCC%002_R-%T%%CCC%00223" RefId="%AID%_O-%T%%CCC%002" Name="SICHERN_RÜCKMELDUNG_DPT_13"            Text="{{0:Gerät %C%}}: Aktor Rückmeldung"  FunctionText ="Gerät %C%: Eingang, Status, Entriegelt=0 / Verriegelt=1"           Priority="Low" ObjectSize="1 Bit"  WriteFlag="Enabled"  TransmitFlag="Disabled" UpdateFlag="Enabled"  DatapointType="DPST-1-9" TextParameterRefId="%AID%_P-%T%%CCC%002_R-%T%%CCC%00201" />
               <ComObjectRef Id="%AID%_O-%T%%CCC%003_R-%T%%CCC%00313" RefId="%AID%_O-%T%%CCC%003" Name="KLEMMT_RÜCKMELDUNG_DPT_01"             Text="{{0:Gerät %C%}}: Klemmt Aktor Rückmeldung"              FunctionText="Gerät %C%: Eingang, Status, Ok=0 / Klemmt=1"         Priority="Low" ObjectSize="1 Bit"  WriteFlag="Enabled" TransmitFlag="Disabled"  UpdateFlag="Enabled" DatapointType="DPST-1-5" TextParameterRefId="%AID%_P-%T%%CCC%002_R-%T%%CCC%00201" />  
+              <ComObjectRef Id="%AID%_O-%T%%CCC%004_R-%T%%CCC%00413" RefId="%AID%_O-%T%%CCC%004" Name="ÖFFNET_RÜCKMELDUNG_DPT_01"             Text="{{0:Gerät %C%}}: Entriegeln aktiv Aktor Rückmeldung"              FunctionText="Gerät %C%: Eingang, Status, Inaktiv=0 / Aktiv=1"         Priority="Low" ObjectSize="1 Bit"  WriteFlag="Enabled" TransmitFlag="Disabled"  UpdateFlag="Enabled" DatapointType="DPST-1-11" TextParameterRefId="%AID%_P-%T%%CCC%002_R-%T%%CCC%00201" />  
+              <ComObjectRef Id="%AID%_O-%T%%CCC%005_R-%T%%CCC%00513" RefId="%AID%_O-%T%%CCC%005" Name="SCHLIESST_RÜCKMELDUNG_DPT_01"           Text="{{0:Gerät %C%}}: Verriegeln aktiv Aktor Rückmeldung"              FunctionText="Gerät %C%: Eingang, Status, Inaktiv=0 / Aktiv=1"         Priority="Low" ObjectSize="1 Bit"  WriteFlag="Enabled" TransmitFlag="Disabled"  UpdateFlag="Enabled" DatapointType="DPST-1-11" TextParameterRefId="%AID%_P-%T%%CCC%002_R-%T%%CCC%00201" />  
 
               <!-- Light -->
               <!--    Switch -->
@@ -670,6 +683,17 @@
                           <!-- Blocked -->
                           <ComObjectRefRef RefId="%AID%_O-%T%%CCC%003_R-%T%%CCC%00313"/>
 
+                          <!-- Lock / Unlock KO's -->
+                          <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%T%%CCC%016_R-%T%%CCC%01601" HelpContext="%DOC%" />
+                           <choose ParamRefId="%AID%_UP-%T%%CCC%016_R-%T%%CCC%01601">  
+                            <when test="1"> <!-- Lock / Unlock KO's -->
+                              <!-- Unlocking-->
+                              <ComObjectRefRef RefId="%AID%_O-%T%%CCC%004_R-%T%%CCC%00413"/>
+                              <!-- Locking-->
+                              <ComObjectRefRef RefId="%AID%_O-%T%%CCC%005_R-%T%%CCC%00513"/>
+                            </when>
+                          </choose>
+
                            <!-- DisplaySettings -->
                           <choose ParamRefId="%AID%_P-%T%000010_R-%T%00001001">
                             <when test="1">
@@ -677,6 +701,11 @@
                               <ParameterSeparator Id="%AID%_PS-nnn" Text="" UIHint="HorizontalRuler" />
                               <ParameterSeparator Id="%AID%_PS-nnn" Text="Touch Display Einstellungen" UIHint="Headline" />
 
+                              <!-- Lock direction -->
+                              <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%T%%CCC%017_R-%T%%CCC%01701" HelpContext="%DOC%" />
+
+                              <!-- Lock display -->
+                              <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%T%%CCC%018_R-%T%%CCC%01801" HelpContext="%DOC%" />
 
                               <!-- Icons -->
                               <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%T%%CCC%004_R-%T%%CCC%00401" HelpContext="BRI-BildEinAus" />

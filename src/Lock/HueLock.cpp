@@ -39,4 +39,14 @@ void HueLock::setBlocked(bool blocked)
     // Not supported
 }
 
+void HueLock::setUnlocking(bool unlocking)
+{
+    // Not supported
+}
+
+void HueLock::setLocking(bool locking)
+{
+    // Not supported
+}
+
 #endif

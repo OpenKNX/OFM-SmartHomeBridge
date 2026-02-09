@@ -8,11 +8,17 @@ class LockBridge : public ChannelBridgeBase<KnxChannelLock>
 public:
     virtual void setLocked(bool lock) = 0;
     virtual void setBlocked(bool lock) = 0;
+    virtual void setUnlocking(bool unlocking) = 0;
+    virtual void setLocking(bool locking) = 0;
 };
 
 class KnxChannelLock : public KnxChannelBase
 {
         DynamicPointerArray<LockBridge> lockBridges; 
+        bool _unlocking = false;
+        bool _locking = false;
+        unsigned long _tempLockedUntil = 0;
+        unsigned long _tempUnlockedUntil = 0;
     private:
         bool isLocked();
     public:
@@ -32,4 +38,6 @@ class KnxChannelLock : public KnxChannelBase
         virtual std::string currentValueAsString() override;
         virtual bool mainFunctionValue() override;
         virtual MainFunctionStateImage mainFunctionImage() override;
+        virtual MainFunctionStateImage mainFunctionTypeImage(uint8_t value) override;
+        virtual void loop() override;
 };

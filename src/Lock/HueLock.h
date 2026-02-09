@@ -14,6 +14,8 @@ public:
     boolean update();
     virtual void setLocked(bool locked) override;
     virtual void setBlocked(bool blocked) override;
+    virtual void setUnlocking(bool unlocking) override;
+    virtual void setLocking(bool locking) override;
 };
 
 #endif

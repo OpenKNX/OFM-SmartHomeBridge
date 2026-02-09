@@ -125,3 +125,21 @@ Aktoren die das Einlernen unterstützen, speichern ihren aktuellen Zustand für 
 
 Achtung: Der lange Druck funktioniert nicht in der Hauptfunktion-Anzeige oder der Zellendarstellung.
 
+<!-- DOCEND -->
+### Schloss Geräte Einstellung
+
+
+<!-- DOC -->
+#### Drehrichtung zum Verriegeln
+
+Optionen:
+- links
+- rechts
+
+<!-- DOC -->
+#### Entriegelt / Verriegelt anzeigen als
+
+Optionen:
+- Entriegelt / Verriegelt
+- Entsperrt / Versperrt
+- Offen / Zu

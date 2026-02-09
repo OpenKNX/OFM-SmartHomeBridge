@@ -51,7 +51,7 @@ bool Component::koInitialized(GroupObject& ko, const Dpt& dpt)
     return ko.initialized();
 }
 
-void Component::koSendReadRequest(GroupObject& ko, const Dpt& dpte)
+void Component::koSendReadRequest(GroupObject& ko, const Dpt& dpt)
 {
     logInfoP("Read request for ko %d", ko.asap());
     ko.requestObjectRead();
