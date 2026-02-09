@@ -183,10 +183,22 @@ std::string KnxChannelLock::currentValueAsString()
     switch (ParamBRI_CHLockDisplay)
     {
         case 1:
+            if (_locking)
+                return "Versperren";
+            if (_unlocking)           
+                return "Entsperren";
             return isLocked() ? "Versperrt" : "Entsperrt";
         case 2:
+            if (_locking)
+                return "Schließen";
+            if (_unlocking)
+                return "Öffnen";
             return isLocked() ? "Zu" : "Offen";
         default:
+            if (_locking)
+                return "Verriegeln";
+            if (_unlocking)           
+                return "Entriegeln";
             return isLocked() ? "Verriegelt" : "Entriegelt";
     }
 }
