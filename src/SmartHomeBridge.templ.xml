@@ -58,7 +58,7 @@
                 <!-- Direction Locking -->
                 <Parameter Id="%AID%_UP-%T%%CCC%017" Offset="0" BitOffset="4" Name="CH%C%LockDirection" ParameterType="%AID%_PT-BRILockDirection"    Text="Drehrichtung zum Verriegeln" Value="0" />
                 <!-- Display as -->
-                <Parameter Id="%AID%_UP-%T%%CCC%018" Offset="0" BitOffset="6" Name="CH%C%LockDisplay" ParameterType="%AID%_PT-BRILockDisplay"    Text="Entriegelt / Verriegelt anzeigen als" Value="0" />
+                <Parameter Id="%AID%_UP-%T%%CCC%018" Offset="0" BitOffset="6" Name="CH%C%LockDisplay" ParameterType="%AID%_PT-BRILockDisplay"    Text="Verriegelt / Entriegelt anzeigen als" Value="0" />
                 <!-- ^^^ 2 bits ^^^ -->
               </Union> 
               

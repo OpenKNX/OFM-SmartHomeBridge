@@ -3,8 +3,8 @@
 #include "KnxChannelLock.h"
 #include "BridgeBase.h"
 
-#define KO_LOCK KoBRI_KO1_, DPT_Switch
-#define KO_LOCK_FEEDBACK KoBRI_KO2_, DPT_Switch
+#define KO_UNLOCK KoBRI_KO1_, DPT_Switch
+#define KO_UNLOCK_FEEDBACK KoBRI_KO2_, DPT_Switch
 #define KO_BLOCKED_FEEDBACK KoBRI_KO3_, DPT_Switch
 #define KO_UNLOCKING_FEEDBACK KoBRI_KO4_, DPT_Switch
 #define KO_LOCKING_FEEDBACK KoBRI_KO5_, DPT_Switch
@@ -46,12 +46,14 @@ const std::string KnxChannelLock::name()
 
 void KnxChannelLock::commandMainFunctionClick()
 {
-    if (koGet(KO_LOCK_FEEDBACK))
+    if (isLocked())
     {
+        logDebugP("Received click. Unlocking.");
         commandLock(nullptr, false);
     }
     else
     {
+        logDebugP("Received click. Locking.");
         commandLock(nullptr, true);
     }
 }
@@ -66,7 +68,7 @@ void KnxChannelLock::commandLock(LockBridge *lockBridge, bool lock)
         value = lock;
     else
         value = !lock;
-    koSet(KO_LOCK, value, true);
+    koSet(KO_UNLOCK, value, true);
     for (auto it = lockBridges.begin(); it != lockBridges.end(); ++it)
     {
         if ((*it) != lockBridge)
@@ -82,11 +84,11 @@ void KnxChannelLock::setup()
     
     // <Enumeration Value="0" Id="%ENID%" Text="Verriegeln=0 / Entriegeln=1"  />
     // <Enumeration Value="1" Id="%ENID%" Text="Entriegeln=0 / Verriegeln=1"     />
-    koSetWithoutSend(KO_LOCK, ParamBRI_CHLockLocking ? false : true);
+    koSetWithoutSend(KO_UNLOCK, ParamBRI_CHLockLocking ? false : true);
     // <Enumeration Value="0" Id="%ENID%" Text="Verriegelt=0 / Entriegelt=1"  />
     // <Enumeration Value="1" Id="%ENID%" Text="Entriegelt=0 / Verriegelt=1"     />
-    koSendReadRequest(KO_LOCK_FEEDBACK);
-    koSetWithoutSend(KO_LOCK_FEEDBACK, ParamBRI_CHLockLocked ? false : true);
+    koSendReadRequest(KO_UNLOCK_FEEDBACK);
+    koSetWithoutSend(KO_UNLOCK_FEEDBACK, ParamBRI_CHLockLocked ? false : true);
     koSendReadRequest(KO_BLOCKED_FEEDBACK);
     koSetWithoutSend(KO_BLOCKED_FEEDBACK, false);
     if (ParamBRI_CHLockOperation)
@@ -98,22 +100,22 @@ void KnxChannelLock::setup()
 
 bool KnxChannelLock::isLocked()
 {
-    bool locked = koGet(KO_LOCK_FEEDBACK);
+    bool unlocked = koGet(KO_UNLOCK_FEEDBACK);
     // <Enumeration Value="0" Id="%ENID%" Text="Verriegelt=0 / Entriegelt=1"  />
     // <Enumeration Value="1" Id="%ENID%" Text="Entriegelt=0 / Verriegelt=1"     />
-    if (!ParamBRI_CHLockLocked)
-        locked = !locked;
-    return locked;
+    if (ParamBRI_CHLockLocked)
+        unlocked = !unlocked;
+    return !unlocked;
 }
 
 void KnxChannelLock::processInputKo(GroupObject &ko)
 {
-    if (isKo(ko, KO_LOCK_FEEDBACK))
+    if (isKo(ko, KO_UNLOCK_FEEDBACK))
     {
         auto locked = isLocked();
         _tempUnlockedUntil = 0;
         _tempLockedUntil = 0;
-        koSetWithoutSend(KO_LOCK, ParamBRI_CHLockLocking ? locked : !locked);
+        koSetWithoutSend(KO_UNLOCK, ParamBRI_CHLockLocking ? locked : !locked);
         for (auto it = lockBridges.begin(); it != lockBridges.end(); ++it)
         {
             (*it)->setLocked(locked);

@@ -137,9 +137,9 @@ Optionen:
 - rechts
 
 <!-- DOC -->
-#### Entriegelt / Verriegelt anzeigen als
+#### Verriegelt / Entriegelt anzeigen als
 
 Optionen:
-- Entriegelt / Verriegelt
-- Entsperrt / Versperrt
-- Offen / Zu
+- Verriegelt / Entriegelt
+- Versperrt / Entsperrt
+- Zu / Offen

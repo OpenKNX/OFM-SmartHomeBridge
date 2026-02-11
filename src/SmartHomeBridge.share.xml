@@ -438,9 +438,9 @@
 
               <ParameterType Id="%AID%_PT-BRILockDisplay" Name="BRILockDisplay">
                 <TypeRestriction Base="Value" SizeInBit="2">
-                  <Enumeration Value="0" Id="%ENID%" Text="Entriegelt / Verriegelt"  />
-                  <Enumeration Value="1" Id="%ENID%" Text="Entsperrt / Versperrt"  />
-                  <Enumeration Value="2" Id="%ENID%" Text="Offen / Zu"  />
+                  <Enumeration Value="0" Id="%ENID%" Text="Verriegelt / Entriegelt"  />
+                  <Enumeration Value="1" Id="%ENID%" Text="Versperrt / Entsperrt"  />
+                  <Enumeration Value="2" Id="%ENID%" Text="Zu / Offen"  />
                 </TypeRestriction>
               </ParameterType>
 
