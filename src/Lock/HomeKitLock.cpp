@@ -62,35 +62,44 @@ void HomeKitLock::updateState()
 
     if (_blocked)
     {
+        logDebug("Lock", "Lock is blocked");
         lockCurrentState->setVal(Characteristic::LockCurrentState::JAMMED);
     }
     else if (_unlocking)
     {
+        logDebug("Lock", "Lock is unlocking");
+        updateTargetState(Characteristic::LockTargetState::UNLOCK);
         lockCurrentState->setVal(Characteristic::LockCurrentState::LOCKED);
-        _ignoreUpdate = true;
-        lockTargetState->setVal(Characteristic::LockTargetState::UNLOCK);
-        _ignoreUpdate = false;
     }
     else if (_locking)
     {
+        logDebug("Lock", "Lock is locking");
+        updateTargetState(Characteristic::LockTargetState::LOCK);
         lockCurrentState->setVal(Characteristic::LockCurrentState::UNLOCKED);
-        _ignoreUpdate = true;
-        lockTargetState->setVal(Characteristic::LockTargetState::LOCK);
-        _ignoreUpdate = false;
+       
     }
     else if (_locked)
     {
-        _ignoreUpdate = true;
-        lockTargetState->setVal(Characteristic::LockTargetState::LOCK);
-        _ignoreUpdate = false;
+        logDebug("Lock", "Lock is locked");
+        updateTargetState(Characteristic::LockTargetState::LOCK);
         lockCurrentState->setVal(Characteristic::LockCurrentState::LOCKED);
     }
     else
     {
-        _ignoreUpdate = true;
-        lockTargetState->setVal(Characteristic::LockTargetState::UNLOCK);
-        _ignoreUpdate = false;
+        logDebug("Lock", "Lock is unlocked");
+        updateTargetState(Characteristic::LockTargetState::UNLOCK);
         lockCurrentState->setVal(Characteristic::LockCurrentState::UNLOCKED);
     }
 }
+
+void HomeKitLock::updateTargetState(Characteristic::LockTargetState::Value_t targetState)
+{
+     if (lockTargetState->getVal<Characteristic::LockTargetState::Value_t>() != targetState)
+     {
+        _ignoreUpdate = true;
+        lockTargetState->setVal(targetState);
+        _ignoreUpdate = false;
+     }
+}
+
 #endif

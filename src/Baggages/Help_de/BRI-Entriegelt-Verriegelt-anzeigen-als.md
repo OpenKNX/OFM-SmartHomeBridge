@@ -3,3 +3,4 @@
 Optionen:
 - Entriegelt / Verriegelt
 - Entsperrt / Versperrt
+- Offen / Zu

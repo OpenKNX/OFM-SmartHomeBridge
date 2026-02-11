@@ -86,7 +86,6 @@ Zur Auswahl stehen:
 
 - Ein- Ausschaltbares Gerät 
 - Steckdose
-- Schloss
 - Lampe
 - Jalousie
 - Rolladen
@@ -98,6 +97,7 @@ Zur Auswahl stehen:
 - Fenster
 - Tür
 - Garagentor
+- Schloss
 - Szene
 
 Mehr Informationen über die Geräte die angesteuert werden können, sind unter [Applikationsbeschreibung-Geräte](Applikationsbeschreibung-Geräte) zu finden.

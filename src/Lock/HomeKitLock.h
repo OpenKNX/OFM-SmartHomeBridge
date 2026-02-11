@@ -29,6 +29,7 @@ class HomeKitLock : public LockBridge
         }
     };
     void updateState();
+    void updateTargetState(Characteristic::LockTargetState::Value_t targetState);
 public:
     HomeKitLock(int device);
     virtual void setup(uint8_t _channelIndex) override;

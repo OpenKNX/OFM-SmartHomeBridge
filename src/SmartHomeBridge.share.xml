@@ -34,7 +34,6 @@
                   <Enumeration Value="0"  Id="%ENID%" Text="Deaktiviert"  />
                   <Enumeration Value="10" Id="%ENID%" Text="Ein-/Ausschaltbares Gerät" Icon="power" />
                   <Enumeration Value="11" Id="%ENID%" Text="Steckdose" Icon="power-socket-eu" />
-                  <Enumeration Value="12" Id="%ENID%" Text="Schloss" Icon="lock-outline" />
                   <Enumeration Value="20" Id="%ENID%" Text="Lampe" Icon="lamp-outline"   />
                   <Enumeration Value="30" Id="%ENID%" Text="Jalousie" Icon="window-shutter" />
                   <Enumeration Value="31" Id="%ENID%" Text="Rollladen" Icon="roller-shade-closed" />
@@ -46,6 +45,7 @@
                   <Enumeration Value="90" Id="%ENID%" Text="Fenster" Icon="window-closed-variant" />
                   <Enumeration Value="91" Id="%ENID%" Text="Tür" Icon="door" />
                   <Enumeration Value="92" Id="%ENID%" Text="Garagentor" Icon="garage-variant" />
+                  <Enumeration Value="12" Id="%ENID%" Text="Schloss" Icon="lock-outline" />
                   <Enumeration Value="40" Id="%ENID%" Text="Szene" Icon="ceiling-light-multiple-outline" />
                   <Enumeration Value="41" Id="%ENID%" Text="Mediensteuerung" Icon="music" />
                 </TypeRestriction>
@@ -56,7 +56,6 @@
                   <Enumeration Value="0"  Id="%ENID%" Text="Deaktiviert"  />
                   <Enumeration Value="10" Id="%ENID%" Text="Ein-/Ausschaltbares Gerät" Icon="power" />
                   <Enumeration Value="11" Id="%ENID%" Text="Steckdose" Icon="power-socket-eu" />
-                  <Enumeration Value="12" Id="%ENID%" Text="Schloss" Icon="lock-outline" />
                   <Enumeration Value="20" Id="%ENID%" Text="Lampe" Icon="lamp-outline"   />
                   <Enumeration Value="30" Id="%ENID%" Text="Jalousie" Icon="window-shutter" />
                   <Enumeration Value="31" Id="%ENID%" Text="Rollladen" Icon="roller-shade-closed" />
@@ -68,6 +67,7 @@
                   <Enumeration Value="90" Id="%ENID%" Text="Fenster" Icon="window-closed-variant" />
                   <Enumeration Value="91" Id="%ENID%" Text="Tür" Icon="door" />
                   <Enumeration Value="92" Id="%ENID%" Text="Garagentor" Icon="garage-variant" />
+                  <Enumeration Value="12" Id="%ENID%" Text="Schloss" Icon="lock-outline" />
                   <Enumeration Value="40" Id="%ENID%" Text="Szene" Icon="ceiling-light-multiple-outline" />
                   <!-- <Enumeration Value="41" Id="%ENID%" Text="Mediensteuerung" Icon="music" /> -->
                 </TypeRestriction>
