@@ -237,7 +237,14 @@ void KnxChannelLock::loop()
 
 MainFunctionStateImage KnxChannelLock::mainFunctionImage()
 {
-   return calculateMainFunctionImage((_locking || _unlocking) ? 50 : isLocked() ? 0 : 100, 0, 50, 100);
+    uint8_t value;
+    if (_unlocking)
+        value = 0;
+    else if (_locking)
+        value = 100;
+    else
+        value = isLocked() ? 0 : 100;
+    return calculateMainFunctionImage(value, 0, LIMIT_NOT_USED, 100);
 }
 
 MainFunctionStateImage KnxChannelLock::mainFunctionTypeImage(uint8_t value)
