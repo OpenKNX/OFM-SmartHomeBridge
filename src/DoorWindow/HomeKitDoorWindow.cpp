@@ -101,7 +101,7 @@ void HomeKitDoorWindow::setMovement(DoorWindowMoveState movement)
             if (targetPosition != nullptr)
                 targetPosition->setVal(receivedTargetPosition);
             if (targetDoorState != nullptr)
-                targetDoorState->setVal(receivedTargetPosition == 0 ?  0 : 1); // 0 .. open 1..close
+                targetDoorState->setVal(receivedTargetPosition == 100 ? 0 : 1); // 0 .. open 1..close
             if (currentPosition != nullptr)
                 currentPosition->setVal(receivedTargetPosition);
             if (currentDoorState != nullptr)
