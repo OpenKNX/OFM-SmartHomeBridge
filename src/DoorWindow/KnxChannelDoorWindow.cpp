@@ -160,18 +160,18 @@ bool KnxChannelDoorWindow::commandPosition(DoorWindowBridge* interface, uint8_t 
         switch (getDoorWindowHandling())
         {
             case DoorWindowHandling::DoorWindowHandlingSendOpenAndClose:
-                koSet(KO_OPEN_CLOSE, position == 100, true);
+                koSet(KO_OPEN_CLOSE, position == 0, true);
                 sendPosition = false;
                 break;
             case DoorWindowHandling::DoorWindowHandlingSendClose:
-                if (position == 100)
+                if (position == 0)
                 {
                     koSet(KO_OPEN_CLOSE, true, true);
                     sendPosition = false;
                 };
                 break;
             case DoorWindowHandling::DoorWindowHandlingSendOpen:
-                if (position == 0)
+                if (position == 100)
                 {
                     koSet(KO_OPEN_CLOSE, false, true);
                     sendPosition = false;
