@@ -16,12 +16,19 @@ In den Basiseinstellungen wird die Auswahl der angebunden Smart Home System vorg
 Name der Smart Home Bridge.
 Bei manchen Smart Home Systemen wird dieser beim Koppeln angezeigt.
 
-
 <!-- DOCEND -->
+## Unterstütze Smarthomesysteme
+
 Folgende Smart Home Systeme werden unterstüzt:
 
 <!-- DOC -->
-#### Apple HomeKit
+### Matter
+
+Über die Matter Unterstützung können KNX Geräte über matter fähige Geräte gesteuert werden. 
+Z.B. Google Home, Apple Home
+
+<!-- DOC -->
+### Apple HomeKit
 
 Über Apple HomeKit können die KNX Geräte gesteuert werden. Es werden bis zu 149 Geräte unterstützt, jedoch derzeit nur maximal 60 empfohlen. Das Limit ergibt sich aus eine Beschränkung der Anzahl der Accessories bei einem HomeKit Gerät mit maximal 150. Eines davon repräsentiert das Bridge Gerät.
 

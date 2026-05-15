@@ -6,6 +6,7 @@
 #include <NetworkModule.h>
 #include "HomeKitBridge.h"
 #include "HueBridge.h"
+#include "MatterBridge.h"
 #endif
 #include "SmartHomeBridgeModule.h"
 #include "./Switch/KnxChannelSwitch.h"
@@ -77,6 +78,13 @@ void SmartHomeBridgeModule::setup()
 
 #ifndef SMARTHOMEBRIDGE_DEVICESONLY
   webServer = new WebServer(webServerPort);
+
+  bool matterEnabled = ParamBRI_MatterEnabled;
+  if (matterEnabled)
+  {
+    logDebugP("Matter enabled");
+    addBridge(new MatterBridge());
+  }
 
   bool homeKitEnabled = ParamBRI_HomeKitEnabled;
   if (homeKitEnabled)
