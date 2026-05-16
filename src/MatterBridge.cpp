@@ -21,6 +21,7 @@
 #include <esp_matter.h>
 #include <esp_matter_bridge.h>
 #include <platform/PlatformManager.h>
+#include <platform/CommissionableDataProvider.h>
 #include <lib/support/CHIPMem.h>
 #include <ESPmDNS.h>
 
@@ -28,6 +29,15 @@
 
 namespace
 {
+// Matter setup passcode used during commissioning (Apple Home pairing).
+// Allowed format:
+// - digits only (numeric), because CHIP API expects uint32_t
+// - exactly 8 digits when entered in Home app
+// - no letters/special chars
+// Note: Some values are forbidden by Matter spec (e.g. 00000000, 11111111,
+// 12345678, ...). Keep a non-trivial test value for development.
+constexpr uint32_t kMatterSetupPasscode = 20202021;
+
 esp_err_t addSwitchEndpoint(esp_matter::endpoint_t *endpoint)
 {
     esp_matter::endpoint::on_off_switch::config_t config;
@@ -232,6 +242,20 @@ void MatterBridge::initialize(SmartHomeBridgeModule *bridge)
     {
         logErrorP("Matter InitChipStack failed: %" CHIP_ERROR_FORMAT, chipErr.Format());
         return;
+    }
+
+    if (chip::DeviceLayer::CommissionableDataProvider *provider = chip::DeviceLayer::GetCommissionableDataProvider();
+        provider != nullptr)
+    {
+        chipErr = provider->SetSetupPasscode(kMatterSetupPasscode);
+        if (chipErr != CHIP_NO_ERROR)
+            logErrorP("Matter SetSetupPasscode failed: %" CHIP_ERROR_FORMAT, chipErr.Format());
+        else
+            logInfoP("Matter setup code set from source constant");
+    }
+    else
+    {
+        logErrorP("Matter CommissionableDataProvider missing");
     }
 
     esp_matter::node::config_t config{};
