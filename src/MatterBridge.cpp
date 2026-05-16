@@ -209,7 +209,9 @@ esp_matter::node_t *MatterBridge::node() const
 
 uint16_t MatterBridge::parentEndpointId() const
 {
-    return 0;
+    // Bridged endpoints must be children of the Aggregator endpoint.
+    // Root endpoint (0) only exposes the bridge accessory itself.
+    return _aggregatorEndpointId;
 }
 
 const std::string MatterBridge::name()
@@ -220,6 +222,21 @@ const std::string MatterBridge::name()
 esp_err_t MatterBridge::configureNode(esp_matter::node_t *node)
 {
     esp_matter::attribute::set_callback(attributeCallback);
+
+    // The bridge topology requires an Aggregator endpoint to act as parent
+    // for all bridged child endpoints.  Without it, create_device() fails
+    // with "Parent endpoint is invalid".
+    esp_matter::endpoint::aggregator::config_t aggConfig{};
+    esp_matter::endpoint_t *aggEndpoint = esp_matter::endpoint::aggregator::create(
+        node, &aggConfig, esp_matter::ENDPOINT_FLAG_NONE, nullptr);
+    if (aggEndpoint == nullptr)
+    {
+        logErrorP("Matter: failed to create aggregator endpoint");
+        return ESP_FAIL;
+    }
+    _aggregatorEndpointId = esp_matter::endpoint::get_id(aggEndpoint);
+    logInfoP("Matter: aggregator endpoint id=%u", (unsigned)_aggregatorEndpointId);
+
     return esp_matter_bridge::initialize(node, deviceTypeCallback);
 }
 
