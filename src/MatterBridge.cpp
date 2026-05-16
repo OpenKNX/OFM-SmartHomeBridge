@@ -2,6 +2,7 @@
 
 #include "SmartHomeBridgeModule.h"
 
+#include "Matter/MatterBridgeCommon.h"
 #include "Matter/MatterBridgeDeviceBase.h"
 
 #include "Switch/MatterSwitch.h"
@@ -22,21 +23,44 @@
 #include <esp_matter_bridge.h>
 #include <platform/PlatformManager.h>
 #include <platform/CommissionableDataProvider.h>
+#include <platform/ESP32/ESP32Config.h>
 #include <lib/support/CHIPMem.h>
+#include <setup_payload/SetupPayload.h>
 #include <ESPmDNS.h>
 
+#include <cctype>
 #include <cstring>
 
 namespace
 {
-// Matter setup passcode used during commissioning (Apple Home pairing).
-// Allowed format:
-// - digits only (numeric), because CHIP API expects uint32_t
-// - exactly 8 digits when entered in Home app
-// - no letters/special chars
-// Note: Some values are forbidden by Matter spec (e.g. 00000000, 11111111,
-// 12345678, ...). Keep a non-trivial test value for development.
-constexpr uint32_t kMatterSetupPasscode = 20202021;
+constexpr uint32_t kDefaultMatterSetupPasscode = 20202021;
+
+bool tryParseMatterPasscode(const std::string &text, uint32_t &out)
+{
+    if (text.size() != 8)
+        return false;
+
+    for (unsigned char c : text)
+    {
+        if (!std::isdigit(c))
+            return false;
+    }
+
+    try
+    {
+        size_t consumed = 0;
+        unsigned long parsed = std::stoul(text, &consumed, 10);
+        if (consumed != text.size())
+            return false;
+        out = static_cast<uint32_t>(parsed);
+        return true;
+    }
+    catch (...)
+    {
+        return false;
+    }
+}
+
 
 esp_err_t addSwitchEndpoint(esp_matter::endpoint_t *endpoint)
 {
@@ -209,8 +233,6 @@ esp_matter::node_t *MatterBridge::node() const
 
 uint16_t MatterBridge::parentEndpointId() const
 {
-    // Bridged endpoints must be children of the Aggregator endpoint.
-    // Root endpoint (0) only exposes the bridge accessory itself.
     return _aggregatorEndpointId;
 }
 
@@ -223,26 +245,60 @@ esp_err_t MatterBridge::configureNode(esp_matter::node_t *node)
 {
     esp_matter::attribute::set_callback(attributeCallback);
 
-    // The bridge topology requires an Aggregator endpoint to act as parent
-    // for all bridged child endpoints.  Without it, create_device() fails
-    // with "Parent endpoint is invalid".
-    esp_matter::endpoint::aggregator::config_t aggConfig{};
-    esp_matter::endpoint_t *aggEndpoint = esp_matter::endpoint::aggregator::create(
-        node, &aggConfig, esp_matter::ENDPOINT_FLAG_NONE, nullptr);
-    if (aggEndpoint == nullptr)
+    esp_matter::endpoint::aggregator::config_t aggregatorConfig{};
+    esp_matter::endpoint_t *aggregatorEndpoint =
+        esp_matter::endpoint::aggregator::create(node, &aggregatorConfig, esp_matter::ENDPOINT_FLAG_NONE, nullptr);
+    if (aggregatorEndpoint == nullptr)
     {
-        logErrorP("Matter: failed to create aggregator endpoint");
+        logErrorP("Matter aggregator endpoint creation failed");
         return ESP_FAIL;
     }
-    _aggregatorEndpointId = esp_matter::endpoint::get_id(aggEndpoint);
-    logInfoP("Matter: aggregator endpoint id=%u", (unsigned)_aggregatorEndpointId);
 
+    _aggregatorEndpointId = esp_matter::endpoint::get_id(aggregatorEndpoint);
     return esp_matter_bridge::initialize(node, deviceTypeCallback);
 }
 
 void MatterBridge::initialize(SmartHomeBridgeModule *bridge)
 {
     BridgeBase::initialize(bridge);
+
+    // Resolve intended passcode
+    uint32_t matterSetupPasscode = kDefaultMatterSetupPasscode;
+    if (!tryParseMatterPasscode(ParamBRI_PairingCodeMatterStr, matterSetupPasscode))
+    {
+        logErrorP("Matter setup code invalid ('%s'), using fallback %u",
+                  ParamBRI_PairingCodeMatterStr.c_str(), (unsigned)kDefaultMatterSetupPasscode);
+        matterSetupPasscode = kDefaultMatterSetupPasscode;
+    }
+    else if (!chip::PayloadContents::IsValidSetupPIN(matterSetupPasscode))
+    {
+        logErrorP("Matter setup code not allowed by Matter rules (%u), using fallback %u",
+                  (unsigned)matterSetupPasscode, (unsigned)kDefaultMatterSetupPasscode);
+        matterSetupPasscode = kDefaultMatterSetupPasscode;
+    }
+
+    // NVS must be updated BEFORE InitChipStack(), because the
+    // LegacyTemporaryCommissionableDataProvider reads and caches salt/verifier
+    // from NVS during ConfigurationManagerImpl::Init() (called by InitChipStack).
+    // Clearing the old verifier here forces CHIP to recompute it from the new passcode.
+    {
+        using cfg = chip::DeviceLayer::Internal::ESP32Config;
+        uint32_t nvsPasscode = 0;
+        bool nvsHasPin = (cfg::ReadConfigValue(cfg::kConfigKey_SetupPinCode, nvsPasscode) == CHIP_NO_ERROR);
+        if (!nvsHasPin || nvsPasscode != matterSetupPasscode)
+        {
+            logInfoP("Matter passcode changed (%u -> %u): updating NVS before CHIP init",
+                     (unsigned)nvsPasscode, (unsigned)matterSetupPasscode);
+            cfg::WriteConfigValue(cfg::kConfigKey_SetupPinCode, matterSetupPasscode);
+            cfg::ClearConfigValue(cfg::kConfigKey_Spake2pVerifier);
+            cfg::ClearConfigValue(cfg::kConfigKey_Spake2pSalt);
+            cfg::ClearConfigValue(cfg::kConfigKey_Spake2pIterationCount);
+        }
+        else
+        {
+            logInfoP("Matter passcode unchanged (%u), NVS kept", (unsigned)matterSetupPasscode);
+        }
+    }
 
     // Pre-init CHIP before node::create() can register connectivity handlers.
     // This avoids PostEventOrDie() on a NULL chip event queue when WiFi events
@@ -261,14 +317,16 @@ void MatterBridge::initialize(SmartHomeBridgeModule *bridge)
         return;
     }
 
+    // Belt-and-suspenders: also set the in-memory passcode on the provider
+    // that was registered by InitChipStack.
     if (chip::DeviceLayer::CommissionableDataProvider *provider = chip::DeviceLayer::GetCommissionableDataProvider();
         provider != nullptr)
     {
-        chipErr = provider->SetSetupPasscode(kMatterSetupPasscode);
+        chipErr = provider->SetSetupPasscode(matterSetupPasscode);
         if (chipErr != CHIP_NO_ERROR)
-            logErrorP("Matter SetSetupPasscode failed: %" CHIP_ERROR_FORMAT, chipErr.Format());
+            logInfoP("Matter SetSetupPasscode (in-memory) not supported: %" CHIP_ERROR_FORMAT, chipErr.Format());
         else
-            logInfoP("Matter setup code set from source constant");
+            logInfoP("Matter setup code set: %u", (unsigned)matterSetupPasscode);
     }
     else
     {
@@ -290,7 +348,9 @@ void MatterBridge::initialize(SmartHomeBridgeModule *bridge)
     if (configureNode(_node) != ESP_OK)
         logErrorP("Matter bridge initialization failed");
     else
-        logInfoP("Matter bridge initialized");
+    {
+        logInfoP("Matter bridge initialized (aggregator endpoint=%u)", (unsigned)_aggregatorEndpointId);
+    }
 }
 
 void MatterBridge::start(SmartHomeBridgeModule *bridge)
@@ -327,6 +387,7 @@ bool MatterBridge::processCommand(const std::string cmd, bool)
     if (cmd == "mr")
     {
         factoryReset();
+        logInfoP("Matter factory reset triggered");
         return true;
     }
     return false;

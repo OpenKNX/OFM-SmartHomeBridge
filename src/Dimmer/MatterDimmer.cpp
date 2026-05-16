@@ -22,7 +22,10 @@ void MatterDimmerBridge::setup(uint8_t _channelIndex)
     _device = esp_matter_bridge::create_device(_bridge->node(), _bridge->parentEndpointId(), matterType,
                                                static_cast<MatterBridgeDeviceBase *>(this));
     if (_device != nullptr)
+    {
+        matterbridge::setDeviceName(_device, _channel->getNameInUTF8());
         setBrightness(_channel->mainFunctionValue() ? 254 : 0);
+    }
 }
 
 void MatterDimmerBridge::setBrightness(uint8_t brightness)

@@ -38,7 +38,10 @@ void MatterAlarmBridge::setup(uint8_t _channelIndex)
     _device = esp_matter_bridge::create_device(_bridge->node(), _bridge->parentEndpointId(), matterType,
                                                static_cast<MatterBridgeDeviceBase *>(this));
     if (_device != nullptr)
+    {
+        matterbridge::setDeviceName(_device, _channel->getNameInUTF8());
         setDetected(_channel->mainFunctionValue());
+    }
 }
 
 void MatterAlarmBridge::setDetected(bool detected)

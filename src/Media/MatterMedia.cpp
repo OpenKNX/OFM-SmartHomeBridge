@@ -17,6 +17,8 @@ void MatterMediaBridge::setup(uint8_t _channelIndex)
     _device = esp_matter_bridge::create_device(_bridge->node(), _bridge->parentEndpointId(),
                                                esp_matter::endpoint::dimmable_light::get_device_type_id(),
                                                static_cast<MatterBridgeDeviceBase *>(this));
+    if (_device != nullptr)
+        matterbridge::setDeviceName(_device, _channel->getNameInUTF8());
 }
 
 void MatterMediaBridge::setPlay(bool play)

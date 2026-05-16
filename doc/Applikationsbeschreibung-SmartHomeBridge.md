@@ -24,8 +24,23 @@ Folgende Smart Home Systeme werden unterstüzt:
 <!-- DOC -->
 ### Matter
 
-Über die Matter Unterstützung können KNX Geräte über matter fähige Geräte gesteuert werden. 
+Über die Matter Unterstützung können KNX Geräte über Matter fähige Geräte gesteuert werden. 
 Z.B. Google Home, Apple Home
+
+
+<!-- DOC HelpContext="PairingCodeMatter" -->
+#### Kopplungscode
+
+Über Apple HomeKit oder Google Home können die KNX Geräte gesteuert werden. 
+Der Kopplungscode wird nur beim erstmaligen Koppeln der Bridge verwendet. 
+Das Koppeln von weiteren Apps erfolgt in der App, in der die erste Kopplung durchgeführt wurde.
+
+Koppelung in Apple Home:
+
+- "Gerät hinzufügen" wählen
+- "Weitere Optionen..." wählen
+- Nun sollte die Bridge sichtbar sein. Den Kopplungscode der in ETS eingestellt wurde (Standardwert 29710235) eingeben und die Meldung das es sich um ein nicht zertifiziertes Gerät handelt bestätigen.
+- Danach den Setup-Wizard für alle Geräte durchführen.
 
 <!-- DOC -->
 ### Apple HomeKit
@@ -33,6 +48,21 @@ Z.B. Google Home, Apple Home
 Über Apple HomeKit können die KNX Geräte gesteuert werden. Es werden bis zu 149 Geräte unterstützt, jedoch derzeit nur maximal 60 empfohlen. Das Limit ergibt sich aus eine Beschränkung der Anzahl der Accessories bei einem HomeKit Gerät mit maximal 150. Eines davon repräsentiert das Bridge Gerät.
 
 Nachdem die Bridge über ETS programmiert wurde, kann sie mit Apple Homekit verbunden.
+
+- "Gerät hinzufügen" wählen
+- "Weitere Optionen..." wählen
+- Nun sollte die Bridge sichtbar sein. Den Kopplungscode der in ETS eingestellt wurde (Standardwert 46637726) eingeben und die Meldung das es sich um ein nicht zertifiziertes Gerät handelt bestätigen.
+- Danach den Setup-Wizard für alle Geräte durchführen.
+
+Sollte nachträglich eine Gerätetype sich ändern, z.B. eine Lampe wird zu einer Jalousie, oder eine Untertype ändert sich z.B. ein CO2 Sensor wird zu einem Kontakt, muss zuerst das Gerät deaktiviert werden. Danach die in der Home App warten bis das Gerät verschwunden ist und danach kann das Gerät wieder aktiviert werden.
+
+
+<!-- DOC HelpContext="PairingCodeHomeKit" -->
+#### Kopplungscode
+
+Über Apple HomeKit können die KNX Geräte gesteuert werden. Es werden bis zu 149 Geräte unterstützt. Das Limit ergibt sich aus eine Beschränkung der Anzahl der Accessories bei einem HomeKit Gerät mit maximal 150. Eines davon repräsentiert das Bridge Gerät.
+
+Nachdem die Bridge über ETS programmiert wurde, kann sie mit Apple Homekit verbunden:
 
 - "Gerät hinzufügen" wählen
 - "Weitere Optionen..." wählen
@@ -68,20 +98,6 @@ Die Philips HUE Emulation unterstützt nur Lampen. Geräte mit dieser Einstellun
 ##### In HUE als dimmbare Lampe darstellen
 
 Die Philips HUE Emulation unterstützt nur Lampen. Geräte mit dieser Einstellung können aber als Dimmbare Lampe in HUE emuliert werde, um trotzdem eine Steuerung über die Smart Home Bridge zu Ermöglichen.
-
-<!-- DOC -->
-### Kopplungscode
-
-Über Apple HomeKit können die KNX Geräte gesteuert werden. Es werden bis zu 149 Geräte unterstützt. Das Limit ergibt sich aus eine Beschränkung der Anzahl der Accessories bei einem HomeKit Gerät mit maximal 150. Eines davon repräsentiert das Bridge Gerät.
-
-Nachdem die Bridge über ETS programmiert wurde, kann sie mit Apple Homekit verbunden:
-
-- "Gerät hinzufügen" wählen
-- "Weitere Optionen..." wählen
-- Nun sollte die Bridge sichtbar sein. Den Kopplungscode der in ETS eingestellt wurde (Standardwert 46637726) eingeben und die Meldung das es sich um ein nicht zertifiziertes Gerät handelt bestätigen.
-- Danach den Setup-Wizard für alle Geräte durchführen.
-
-Sollte nachträglich eine Gerätetype sich ändern, z.B. eine Lampe wird zu einer Jalousie, oder eine Untertype ändert sich z.B. ein CO2 Sensor wird zu einem Kontakt, muss zuerst das Gerät deaktiviert werden. Danach die in der Home App warten bis das Gerät verschwunden ist und danach kann das Gerät wieder aktiviert werden.
 
 <!-- DOC HelpContext="Kanalauswahl" -->
 # Gerätetypen

@@ -3,6 +3,7 @@
 #include <Arduino.h>
 #include <esp_matter.h>
 #include <esp_matter_attribute_utils.h>
+#include <esp_matter_bridge.h>
 
 #ifdef INADDR_NONE
 #undef INADDR_NONE
@@ -22,6 +23,7 @@ constexpr uint32_t thermostatClusterId = chip::app::Clusters::Thermostat::Id;
 constexpr uint32_t doorLockClusterId = chip::app::Clusters::DoorLock::Id;
 constexpr uint32_t windowCoveringClusterId = chip::app::Clusters::WindowCovering::Id;
 constexpr uint32_t basicInformationClusterId = chip::app::Clusters::BasicInformation::Id;
+constexpr uint32_t bridgedDeviceBasicInformationClusterId = chip::app::Clusters::BridgedDeviceBasicInformation::Id;
 constexpr uint32_t occupancyClusterId = chip::app::Clusters::OccupancySensing::Id;
 constexpr uint32_t smokeCoAlarmClusterId = chip::app::Clusters::SmokeCoAlarm::Id;
 constexpr uint32_t humidityClusterId = chip::app::Clusters::RelativeHumidityMeasurement::Id;
@@ -57,6 +59,8 @@ constexpr uint32_t measuredHumidityAttrId = chip::app::Clusters::RelativeHumidit
 constexpr uint32_t measuredIlluminanceAttrId = chip::app::Clusters::IlluminanceMeasurement::Attributes::MeasuredValue::Id;
 constexpr uint32_t measuredAirQualityAttrId = chip::app::Clusters::AirQuality::Attributes::AirQuality::Id;
 constexpr uint32_t nodeLabelAttrId = chip::app::Clusters::BasicInformation::Attributes::NodeLabel::Id;
+constexpr uint32_t productNameAttrId = chip::app::Clusters::BasicInformation::Attributes::ProductName::Id;
+constexpr uint32_t bridgedNodeLabelAttrId = chip::app::Clusters::BridgedDeviceBasicInformation::Attributes::NodeLabel::Id;
 
 inline esp_matter_attr_val_t boolValue(bool value)
 {
@@ -96,33 +100,99 @@ inline esp_matter_attr_val_t textValue(const char *value)
     return esp_matter_char_str(copy.data(), static_cast<uint16_t>(copy.size()));
 }
 
+inline bool hasAttribute(uint16_t endpointId, uint32_t clusterId, uint32_t attributeId)
+{
+    if (esp_matter::cluster::get(endpointId, clusterId) == nullptr)
+        return false;
+
+    return esp_matter::attribute::get(endpointId, clusterId, attributeId) != nullptr;
+}
+
 inline esp_err_t reportBool(uint16_t endpointId, uint32_t clusterId, uint32_t attributeId, bool value)
 {
+    if (!hasAttribute(endpointId, clusterId, attributeId))
+        return ESP_ERR_NOT_FOUND;
+
     auto reported = boolValue(value);
     return esp_matter::attribute::report(endpointId, clusterId, attributeId, &reported);
 }
 
 inline esp_err_t reportU8(uint16_t endpointId, uint32_t clusterId, uint32_t attributeId, uint8_t value)
 {
-    auto reported = u8Value(value);
+    if (!hasAttribute(endpointId, clusterId, attributeId))
+        return ESP_ERR_NOT_FOUND;
+
+    auto attribute = esp_matter::attribute::get(endpointId, clusterId, attributeId);
+
+    esp_matter_attr_val_t current{};
+    esp_matter_attr_val_t reported = u8Value(value);
+    if (esp_matter::attribute::get_val(attribute, &current) == ESP_OK &&
+        current.type == ESP_MATTER_VAL_TYPE_NULLABLE_UINT8)
+    {
+        reported = esp_matter_nullable_uint8(value);
+    }
+
     return esp_matter::attribute::report(endpointId, clusterId, attributeId, &reported);
 }
 
 inline esp_err_t reportI16(uint16_t endpointId, uint32_t clusterId, uint32_t attributeId, int16_t value)
 {
+    if (!hasAttribute(endpointId, clusterId, attributeId))
+        return ESP_ERR_NOT_FOUND;
+
     auto reported = i16Value(value);
     return esp_matter::attribute::report(endpointId, clusterId, attributeId, &reported);
 }
 
 inline esp_err_t reportU16(uint16_t endpointId, uint32_t clusterId, uint32_t attributeId, uint16_t value)
 {
+    if (!hasAttribute(endpointId, clusterId, attributeId))
+        return ESP_ERR_NOT_FOUND;
+
     auto reported = u16Value(value);
     return esp_matter::attribute::report(endpointId, clusterId, attributeId, &reported);
 }
 
 inline esp_err_t reportText(uint16_t endpointId, uint32_t clusterId, uint32_t attributeId, const char *value)
 {
+    if (!hasAttribute(endpointId, clusterId, attributeId))
+        return ESP_ERR_NOT_FOUND;
+
     auto reported = textValue(value);
     return esp_matter::attribute::report(endpointId, clusterId, attributeId, &reported);
+}
+
+inline esp_err_t setDeviceName(esp_matter_bridge::device_t *device, const char *name)
+{
+    if (device == nullptr || name == nullptr)
+        return ESP_ERR_INVALID_ARG;
+
+    uint16_t endpointId = device->persistent_info.device_endpoint_id;
+    if (hasAttribute(endpointId, bridgedDeviceBasicInformationClusterId, bridgedNodeLabelAttrId))
+    {
+        return reportText(endpointId, bridgedDeviceBasicInformationClusterId, bridgedNodeLabelAttrId, name);
+    }
+    if (hasAttribute(endpointId, basicInformationClusterId, nodeLabelAttrId))
+    {
+        return reportText(endpointId, basicInformationClusterId, nodeLabelAttrId, name);
+    }
+
+    return ESP_ERR_NOT_FOUND;
+}
+
+inline esp_err_t setEndpointName(uint16_t endpointId, const char *name)
+{
+    if (name == nullptr)
+        return ESP_ERR_INVALID_ARG;
+
+    return reportText(endpointId, basicInformationClusterId, nodeLabelAttrId, name);
+}
+
+inline esp_err_t setEndpointProductName(uint16_t endpointId, const char *name)
+{
+    if (name == nullptr)
+        return ESP_ERR_INVALID_ARG;
+
+    return reportText(endpointId, basicInformationClusterId, productNameAttrId, name);
 }
 }

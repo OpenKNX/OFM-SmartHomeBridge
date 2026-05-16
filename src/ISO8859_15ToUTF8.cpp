@@ -432,7 +432,9 @@ const char8_t* cp1252_UTF8[128] = {
 
 const char8_t** defaultConverter = DEFAULT_CHAR_MAPPING;
 
-const char* convertISO8859_15ToUTF8(const char* iso)
+namespace
+{
+const char* convertISO8859_15ToUTF8_impl(const char* iso, bool allwaysMakeCopy = false)
 {
     int bufferlength = 0; 
     int i = 0;
@@ -452,7 +454,7 @@ const char* convertISO8859_15ToUTF8(const char* iso)
                 break;
         }
     }
-    if (!replacementNeeded)
+    if (!replacementNeeded && !allwaysMakeCopy)
         return iso;
     char* cUtf8 = (char*) HS_MALLOC(bufferlength);
     size_t bufferIndex = 0;
@@ -476,10 +478,16 @@ const char* convertISO8859_15ToUTF8(const char* iso)
     }
     return cUtf8;
 }
+}
+
+const char* convertISO8859_15ToUTF8(const char* iso)
+{
+    return convertISO8859_15ToUTF8_impl(iso);
+}
 
 std::string convertISO8859_15ToUTF8_string(const char* c1252)
 {
-    const char* converted = convertISO8859_15ToUTF8(c1252);
+    const char* converted = convertISO8859_15ToUTF8_impl(c1252);
     std::string result(converted);
     if (converted != c1252)
     {

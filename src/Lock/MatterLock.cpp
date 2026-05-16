@@ -18,7 +18,10 @@ void MatterLockBridge::setup(uint8_t _channelIndex)
                                                esp_matter::endpoint::door_lock::get_device_type_id(),
                                                static_cast<MatterBridgeDeviceBase *>(this));
     if (_device != nullptr)
+    {
+        matterbridge::setDeviceName(_device, _channel->getNameInUTF8());
         setLocked(_channel->mainFunctionValue());
+    }
 }
 
 void MatterLockBridge::setLocked(bool lock)

@@ -18,7 +18,10 @@ void MatterRolladenBridge::setup(uint8_t _channelIndex)
                                                esp_matter::endpoint::window_covering_device::get_device_type_id(),
                                                static_cast<MatterBridgeDeviceBase *>(this));
     if (_device != nullptr)
+    {
+        matterbridge::setDeviceName(_device, _channel->getNameInUTF8());
         setPosition(_channel->mainFunctionValue() ? 100 : 0);
+    }
 }
 
 void MatterRolladenBridge::setPosition(uint8_t position)

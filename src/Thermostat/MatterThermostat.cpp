@@ -19,6 +19,7 @@ void MatterThermostatBridge::setup(uint8_t _channelIndex)
                                                static_cast<MatterBridgeDeviceBase *>(this));
     if (_device != nullptr)
     {
+        matterbridge::setDeviceName(_device, _channel->getNameInUTF8());
         setCurrentTemperature(_currentTemperature);
         setTargetTemperature(_targetTemperature);
         setMode(_mode);

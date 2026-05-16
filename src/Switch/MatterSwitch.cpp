@@ -15,7 +15,9 @@ void MatterSwitchBridge::setup(uint8_t _channelIndex)
     if (_bridge == nullptr || _bridge->node() == nullptr)
         return;
 
-    uint32_t matterType = esp_matter::endpoint::on_off_switch::get_device_type_id();
+    // Use actuator device types for bridged KNX channels. on_off_switch is a
+    // controller type and is not suitable for Apple Home accessories.
+    uint32_t matterType = esp_matter::endpoint::on_off_light::get_device_type_id();
     if (ParamBRI_CHDeviceType == 11)
         matterType = esp_matter::endpoint::on_off_plugin_unit::get_device_type_id();
     else if (ParamBRI_CHDeviceType == 20)
@@ -24,7 +26,10 @@ void MatterSwitchBridge::setup(uint8_t _channelIndex)
     _device = esp_matter_bridge::create_device(_bridge->node(), _bridge->parentEndpointId(), matterType,
                                                static_cast<MatterBridgeDeviceBase *>(this));
     if (_device != nullptr)
+    {
+        matterbridge::setDeviceName(_device, _channel->getNameInUTF8());
         setPower(_channel->mainFunctionValue());
+    }
 }
 
 void MatterSwitchBridge::setPower(bool value)

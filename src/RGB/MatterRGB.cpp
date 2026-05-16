@@ -88,7 +88,10 @@ void MatterRGBBridge::setup(uint8_t _channelIndex)
                                                esp_matter::endpoint::extended_color_light::get_device_type_id(),
                                                static_cast<MatterBridgeDeviceBase *>(this));
     if (_device != nullptr)
+    {
+        matterbridge::setDeviceName(_device, _channel->getNameInUTF8());
         setPower(_channel->mainFunctionValue());
+    }
 }
 
 void MatterRGBBridge::setPower(bool on)

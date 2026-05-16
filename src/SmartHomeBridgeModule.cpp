@@ -46,18 +46,9 @@ const std::string SmartHomeBridgeModule::version()
   return MODULE_SmartHomeBridge_Version;
 }
 
-SmartHomeBridgeModule::~SmartHomeBridgeModule()
-{
-  if (_utf8Name != nullptr)
-  {
-    delete _utf8Name;
-    _utf8Name = nullptr;
-  }
-}
-
 const char *SmartHomeBridgeModule::getNameInUTF8()
 {
-  return _utf8Name;
+  return _utf8Name.c_str();
 }
 
 void SmartHomeBridgeModule::setup(bool configured)
@@ -76,7 +67,7 @@ void SmartHomeBridgeModule::setup()
 #else
   logDebugP("Setup Bridge");
 #endif
-  _utf8Name = convertISO8859_15ToUTF8((const char *)ParamBRI_BridgeName);
+  _utf8Name = convertISO8859_15ToUTF8_string((const char *)ParamBRI_BridgeName);
 
 #ifndef SMARTHOMEBRIDGE_DEVICESONLY
   webServer = new WebServer(webServerPort);

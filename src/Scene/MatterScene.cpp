@@ -18,7 +18,10 @@ void MatterSceneBridge::setup(uint8_t _channelIndex)
                                                esp_matter::endpoint::on_off_light::get_device_type_id(),
                                                static_cast<MatterBridgeDeviceBase *>(this));
     if (_device != nullptr)
+    {
+        matterbridge::setDeviceName(_device, _channel->getNameInUTF8());
         setActivating(false);
+    }
 }
 
 void MatterSceneBridge::setActivating(bool activating)

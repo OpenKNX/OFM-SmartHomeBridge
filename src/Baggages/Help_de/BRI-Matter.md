@@ -1,5 +1,6 @@
 ﻿### Matter
 
-Über die Matter Unterstützung können KNX Geräte über matter fähige Geräte gesteuert werden. 
+Über die Matter Unterstützung können KNX Geräte über Matter fähige Geräte gesteuert werden. 
 Z.B. Google Home, Apple Home
+
 

@@ -7,7 +7,7 @@
 class MatterBridge : public BridgeBase
 {
     esp_matter::node_t *_node = nullptr;
-    uint16_t _aggregatorEndpointId = 1; // set after aggregator endpoint is created
+    uint16_t _aggregatorEndpointId = 0;
 
 public:
     MatterBridge() = default;
