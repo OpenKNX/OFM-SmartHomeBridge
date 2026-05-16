@@ -11,6 +11,7 @@
 
 #include <algorithm>
 #include <cmath>
+#include <cstring>
 #include <string>
 
 namespace matterbridge
@@ -96,8 +97,8 @@ inline esp_matter_attr_val_t u16Value(uint16_t value)
 
 inline esp_matter_attr_val_t textValue(const char *value)
 {
-    std::string copy = value != nullptr ? value : "";
-    return esp_matter_char_str(copy.data(), static_cast<uint16_t>(copy.size()));
+    const char *safeValue = value != nullptr ? value : "";
+    return esp_matter_char_str(const_cast<char *>(safeValue), static_cast<uint16_t>(std::strlen(safeValue)));
 }
 
 inline bool hasAttribute(uint16_t endpointId, uint32_t clusterId, uint32_t attributeId)
@@ -162,20 +163,78 @@ inline esp_err_t reportText(uint16_t endpointId, uint32_t clusterId, uint32_t at
     return esp_matter::attribute::report(endpointId, clusterId, attributeId, &reported);
 }
 
+inline esp_err_t updateText(uint16_t endpointId, uint32_t clusterId, uint32_t attributeId, const char *value)
+{
+    if (!hasAttribute(endpointId, clusterId, attributeId))
+        return ESP_ERR_NOT_FOUND;
+
+    auto updated = textValue(value);
+    return esp_matter::attribute::update(endpointId, clusterId, attributeId, &updated);
+}
+
+inline void ensureOptionalNameAttributes(uint16_t endpointId)
+{
+    static char empty[] = "";
+
+    auto bridgedCluster = esp_matter::cluster::get(endpointId, bridgedDeviceBasicInformationClusterId);
+    if (bridgedCluster != nullptr)
+    {
+        if (esp_matter::attribute::get(endpointId, bridgedDeviceBasicInformationClusterId, bridgedNodeLabelAttrId) == nullptr)
+            esp_matter::cluster::bridged_device_basic_information::attribute::create_node_label(bridgedCluster, empty, 0);
+
+        if (esp_matter::attribute::get(endpointId, bridgedDeviceBasicInformationClusterId, productNameAttrId) == nullptr)
+            esp_matter::cluster::bridged_device_basic_information::attribute::create_product_name(bridgedCluster, empty, 0);
+    }
+
+    auto basicCluster = esp_matter::cluster::get(endpointId, basicInformationClusterId);
+    if (basicCluster != nullptr)
+    {
+        if (esp_matter::attribute::get(endpointId, basicInformationClusterId, nodeLabelAttrId) == nullptr)
+            esp_matter::cluster::basic_information::attribute::create_node_label(basicCluster, empty, 0);
+
+        if (esp_matter::attribute::get(endpointId, basicInformationClusterId, productNameAttrId) == nullptr)
+            esp_matter::cluster::basic_information::attribute::create_product_name(basicCluster, empty, 0);
+    }
+}
+
+inline esp_err_t setAndUpdateText(uint16_t endpointId, uint32_t clusterId, uint32_t attributeId, const char *value)
+{
+    if (!hasAttribute(endpointId, clusterId, attributeId))
+        return ESP_ERR_NOT_FOUND;
+
+    auto attribute = esp_matter::attribute::get(endpointId, clusterId, attributeId);
+    auto initial = textValue(value);
+    esp_err_t err = esp_matter::attribute::set_val(attribute, &initial);
+    if (err != ESP_OK)
+        return err;
+
+    return updateText(endpointId, clusterId, attributeId, value);
+}
+
 inline esp_err_t setDeviceName(esp_matter_bridge::device_t *device, const char *name)
 {
     if (device == nullptr || name == nullptr)
         return ESP_ERR_INVALID_ARG;
 
     uint16_t endpointId = device->persistent_info.device_endpoint_id;
-    if (hasAttribute(endpointId, bridgedDeviceBasicInformationClusterId, bridgedNodeLabelAttrId))
-    {
-        return reportText(endpointId, bridgedDeviceBasicInformationClusterId, bridgedNodeLabelAttrId, name);
-    }
-    if (hasAttribute(endpointId, basicInformationClusterId, nodeLabelAttrId))
-    {
-        return reportText(endpointId, basicInformationClusterId, nodeLabelAttrId, name);
-    }
+    ensureOptionalNameAttributes(endpointId);
+
+    esp_err_t bridgedErr = setAndUpdateText(endpointId, bridgedDeviceBasicInformationClusterId, bridgedNodeLabelAttrId, name);
+    esp_err_t basicErr = setAndUpdateText(endpointId, basicInformationClusterId, nodeLabelAttrId, name);
+    esp_err_t bridgedProductErr = setAndUpdateText(endpointId, bridgedDeviceBasicInformationClusterId, productNameAttrId, name);
+    esp_err_t basicProductErr = setAndUpdateText(endpointId, basicInformationClusterId, productNameAttrId, name);
+
+    if (bridgedErr == ESP_OK || basicErr == ESP_OK || bridgedProductErr == ESP_OK || basicProductErr == ESP_OK)
+        return ESP_OK;
+
+    if (bridgedErr != ESP_ERR_NOT_FOUND)
+        return bridgedErr;
+    if (basicErr != ESP_ERR_NOT_FOUND)
+        return basicErr;
+    if (bridgedProductErr != ESP_ERR_NOT_FOUND)
+        return bridgedProductErr;
+    if (basicProductErr != ESP_ERR_NOT_FOUND)
+        return basicProductErr;
 
     return ESP_ERR_NOT_FOUND;
 }
@@ -185,7 +244,7 @@ inline esp_err_t setEndpointName(uint16_t endpointId, const char *name)
     if (name == nullptr)
         return ESP_ERR_INVALID_ARG;
 
-    return reportText(endpointId, basicInformationClusterId, nodeLabelAttrId, name);
+    return updateText(endpointId, basicInformationClusterId, nodeLabelAttrId, name);
 }
 
 inline esp_err_t setEndpointProductName(uint16_t endpointId, const char *name)
@@ -193,6 +252,6 @@ inline esp_err_t setEndpointProductName(uint16_t endpointId, const char *name)
     if (name == nullptr)
         return ESP_ERR_INVALID_ARG;
 
-    return reportText(endpointId, basicInformationClusterId, productNameAttrId, name);
+    return updateText(endpointId, basicInformationClusterId, productNameAttrId, name);
 }
 }

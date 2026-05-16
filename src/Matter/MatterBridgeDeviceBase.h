@@ -1,6 +1,7 @@
 #pragma once
 
 #include <Arduino.h>
+#include "MatterBridgeCommon.h"
 #include <esp_matter.h>
 #include <esp_matter_bridge.h>
 

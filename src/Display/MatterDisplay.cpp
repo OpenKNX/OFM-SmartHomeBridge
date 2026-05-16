@@ -51,7 +51,9 @@ void MatterDisplayBridge::setup(uint8_t _channelIndex)
     }
 
     if (_device != nullptr)
+    {
         matterbridge::setDeviceName(_device, _channel->getNameInUTF8());
+    }
 }
 
 void MatterDisplayBridge::setValue(double value)
