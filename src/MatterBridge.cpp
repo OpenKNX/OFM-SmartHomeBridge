@@ -20,6 +20,9 @@
 
 #include <esp_matter.h>
 #include <esp_matter_bridge.h>
+#include <platform/PlatformManager.h>
+#include <lib/support/CHIPMem.h>
+#include <ESPmDNS.h>
 
 #include <cstring>
 
@@ -214,6 +217,23 @@ void MatterBridge::initialize(SmartHomeBridgeModule *bridge)
 {
     BridgeBase::initialize(bridge);
 
+    // Pre-init CHIP before node::create() can register connectivity handlers.
+    // This avoids PostEventOrDie() on a NULL chip event queue when WiFi events
+    // arrive between initialize() and start().
+    CHIP_ERROR chipErr = chip::Platform::MemoryInit();
+    if (chipErr != CHIP_NO_ERROR && chipErr != CHIP_ERROR_INCORRECT_STATE)
+    {
+        logErrorP("Matter MemoryInit failed: %" CHIP_ERROR_FORMAT, chipErr.Format());
+        return;
+    }
+
+    chipErr = chip::DeviceLayer::PlatformMgr().InitChipStack();
+    if (chipErr != CHIP_NO_ERROR && chipErr != CHIP_ERROR_INCORRECT_STATE)
+    {
+        logErrorP("Matter InitChipStack failed: %" CHIP_ERROR_FORMAT, chipErr.Format());
+        return;
+    }
+
     esp_matter::node::config_t config{};
     std::string nodeLabel = bridge != nullptr ? bridge->getNameInUTF8() : "SmartHomeBridge";
     std::strncpy(config.root_node.basic_information.node_label, nodeLabel.c_str(),
@@ -228,6 +248,8 @@ void MatterBridge::initialize(SmartHomeBridgeModule *bridge)
 
     if (configureNode(_node) != ESP_OK)
         logErrorP("Matter bridge initialization failed");
+    else
+        logInfoP("Matter bridge initialized");
 }
 
 void MatterBridge::start(SmartHomeBridgeModule *bridge)
@@ -239,6 +261,9 @@ void MatterBridge::start(SmartHomeBridgeModule *bridge)
 
 esp_err_t MatterBridge::startMatter()
 {
+    // Arduino/OpenKNX may already run mDNS. ESP-Matter discovery initializes
+    // its own advertiser and fails if mDNS is already active.
+    MDNS.end();
     return esp_matter::start(nullptr);
 }
 

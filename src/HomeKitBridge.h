@@ -1,5 +1,5 @@
 #pragma once
-#ifndef SMARTHOMEBRIDGE_DEVICESONLY  
+#if !defined(SMARTHOMEBRIDGE_DEVICESONLY) && defined(SMARTHOMEBRIDGE_HOMEKIT)
 
 #include "HomeSpan.h"
 #include "SmartHomeBridgeModule.h"

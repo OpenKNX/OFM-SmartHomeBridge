@@ -4,7 +4,9 @@
 #ifndef SMARTHOMEBRIDGE_DEVICESONLY
 #include <WiFi.h>
 #include <NetworkModule.h>
+#ifdef SMARTHOMEBRIDGE_HOMEKIT
 #include "HomeKitBridge.h"
+#endif
 #include "HueBridge.h"
 #include "MatterBridge.h"
 #endif
@@ -85,13 +87,19 @@ void SmartHomeBridgeModule::setup()
     logDebugP("Matter enabled");
     addBridge(new MatterBridge());
   }
+  else
+  {
+    logDebugP("Matter disabled");
+  }
 
+#ifdef SMARTHOMEBRIDGE_HOMEKIT
   bool homeKitEnabled = ParamBRI_HomeKitEnabled;
   if (homeKitEnabled)
   {
     logDebugP("Homekit enabled");
     addBridge(new HomeKitBridge());
   }
+#endif
 
   bool hueEnabled = ParamBRI_HueEnabled;
   if (hueEnabled)
@@ -252,38 +260,38 @@ void SmartHomeBridgeModule::startBridge()
       "/update", HTTP_POST, [this]()
       {
     webServer->sendHeader("Connection", "close");
-    webServer->send(200, "text/plain", (Update.hasError()) ? "FAIL" : "OK");
-    ESP.restart(); },
-      [this]()
-      {
-        HTTPUpload &upload = webServer->upload();
-        if (upload.status == UPLOAD_FILE_START)
-        {
-          Serial.printf("Update: %s\n", upload.filename.c_str());
-          if (!Update.begin(UPDATE_SIZE_UNKNOWN))
-          { // start with max available size
-            Update.printError(Serial);
-          }
-        }
-        else if (upload.status == UPLOAD_FILE_WRITE)
-        {
-          /* flashing firmware to ESP*/
-          if (Update.write(upload.buf, upload.currentSize) != upload.currentSize)
-          {
-            Update.printError(Serial);
-          }
-        }
-        else if (upload.status == UPLOAD_FILE_END)
-        {
-          if (Update.end(true))
-          { // true to set the size to the current progress
-            Serial.printf("Update Success: %u\nRebooting...\n", upload.totalSize);
-          }
-          else
-          {
-            Update.printError(Serial);
-          }
-        }
+    // webServer->send(200, "text/plain", (Update.hasError()) ? "FAIL" : "OK");
+    // ESP.restart(); },
+    //   [this]()
+    //   {
+    //     HTTPUpload &upload = webServer->upload();
+    //     if (upload.status == UPLOAD_FILE_START)
+    //     {
+    //       Serial.printf("Update: %s\n", upload.filename.c_str());
+    //       if (!Update.begin(UPDATE_SIZE_UNKNOWN))
+    //       { // start with max available size
+    //         Update.printError(Serial);
+    //       }
+    //     }
+    //     else if (upload.status == UPLOAD_FILE_WRITE)
+    //     {
+    //       /* flashing firmware to ESP*/
+    //       if (Update.write(upload.buf, upload.currentSize) != upload.currentSize)
+    //       {
+    //         Update.printError(Serial);
+    //       }
+    //     }
+    //     else if (upload.status == UPLOAD_FILE_END)
+    //     {
+    //       if (Update.end(true))
+    //       { // true to set the size to the current progress
+    //         Serial.printf("Update Success: %u\nRebooting...\n", upload.totalSize);
+    //       }
+    //       else
+    //       {
+    //         Update.printError(Serial);
+    //       }
+    //     }
       });
 #endif
   logDebugP("Initialize briges");
