@@ -8,6 +8,7 @@ class MatterBridge : public BridgeBase
 {
     esp_matter::node_t *_node = nullptr;
     uint16_t _aggregatorEndpointId = 0;
+    uint32_t _matterSetupPasscode = 20202021;
 
 public:
     MatterBridge() = default;

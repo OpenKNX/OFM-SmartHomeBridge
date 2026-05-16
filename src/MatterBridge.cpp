@@ -24,9 +24,11 @@
 #include <platform/PlatformManager.h>
 #include <platform/CommissionableDataProvider.h>
 #include <platform/ESP32/ESP32Config.h>
+#include <crypto/CHIPCryptoPAL.h>
 #include <lib/support/CHIPMem.h>
 #include <setup_payload/SetupPayload.h>
 #include <ESPmDNS.h>
+#include <esp_system.h>
 
 #include <cctype>
 #include <cstring>
@@ -34,6 +36,112 @@
 namespace
 {
 constexpr uint32_t kDefaultMatterSetupPasscode = 20202021;
+
+class RuntimeCommissionableDataProvider : public chip::DeviceLayer::CommissionableDataProvider
+{
+public:
+    CHIP_ERROR SetBackingProvider(chip::DeviceLayer::CommissionableDataProvider *provider)
+    {
+        _backingProvider = provider;
+        return CHIP_NO_ERROR;
+    }
+
+    CHIP_ERROR SetRuntimePasscode(uint32_t passcode)
+    {
+        if (!chip::PayloadContents::IsValidSetupPIN(passcode))
+            return CHIP_ERROR_INVALID_ARGUMENT;
+
+        _passcode = passcode;
+        for (size_t i = 0; i < sizeof(_salt); ++i)
+            _salt[i] = static_cast<uint8_t>(esp_random() & 0xFF);
+
+        chip::Crypto::Spake2pVerifier verifier;
+        CHIP_ERROR err = verifier.Generate(_iterationCount, chip::ByteSpan(_salt, sizeof(_salt)), _passcode);
+        if (err != CHIP_NO_ERROR)
+            return err;
+
+        chip::MutableByteSpan serialized(_verifier);
+        err = verifier.Serialize(serialized);
+        if (err != CHIP_NO_ERROR)
+            return err;
+
+        _verifierLen = serialized.size();
+
+        _isInitialized = true;
+        return CHIP_NO_ERROR;
+    }
+
+    CHIP_ERROR GetSetupDiscriminator(uint16_t &setupDiscriminator) override
+    {
+        if (_backingProvider != nullptr)
+            return _backingProvider->GetSetupDiscriminator(setupDiscriminator);
+
+        setupDiscriminator = 3840;
+        return CHIP_NO_ERROR;
+    }
+
+    CHIP_ERROR SetSetupDiscriminator(uint16_t setupDiscriminator) override
+    {
+        if (_backingProvider != nullptr)
+            return _backingProvider->SetSetupDiscriminator(setupDiscriminator);
+
+        (void)setupDiscriminator;
+        return CHIP_ERROR_NOT_IMPLEMENTED;
+    }
+
+    CHIP_ERROR GetSpake2pIterationCount(uint32_t &iterationCount) override
+    {
+        VerifyOrReturnError(_isInitialized, CHIP_ERROR_INCORRECT_STATE);
+        iterationCount = _iterationCount;
+        return CHIP_NO_ERROR;
+    }
+
+    CHIP_ERROR GetSpake2pSalt(chip::MutableByteSpan &saltBuf) override
+    {
+        VerifyOrReturnError(_isInitialized, CHIP_ERROR_INCORRECT_STATE);
+        if (saltBuf.size() < sizeof(_salt))
+            return CHIP_ERROR_BUFFER_TOO_SMALL;
+
+        memcpy(saltBuf.data(), _salt, sizeof(_salt));
+        saltBuf.reduce_size(sizeof(_salt));
+        return CHIP_NO_ERROR;
+    }
+
+    CHIP_ERROR GetSpake2pVerifier(chip::MutableByteSpan &verifierBuf, size_t &outVerifierLen) override
+    {
+        VerifyOrReturnError(_isInitialized, CHIP_ERROR_INCORRECT_STATE);
+        outVerifierLen = _verifierLen;
+        if (verifierBuf.size() < outVerifierLen)
+            return CHIP_ERROR_BUFFER_TOO_SMALL;
+
+        memcpy(verifierBuf.data(), _verifier, outVerifierLen);
+        verifierBuf.reduce_size(outVerifierLen);
+        return CHIP_NO_ERROR;
+    }
+
+    CHIP_ERROR GetSetupPasscode(uint32_t &setupPasscode) override
+    {
+        VerifyOrReturnError(_isInitialized, CHIP_ERROR_INCORRECT_STATE);
+        setupPasscode = _passcode;
+        return CHIP_NO_ERROR;
+    }
+
+    CHIP_ERROR SetSetupPasscode(uint32_t setupPasscode) override
+    {
+        return SetRuntimePasscode(setupPasscode);
+    }
+
+private:
+    chip::DeviceLayer::CommissionableDataProvider *_backingProvider = nullptr;
+    uint32_t _passcode = kDefaultMatterSetupPasscode;
+    uint32_t _iterationCount = 10000;
+    uint8_t _salt[16]{};
+    uint8_t _verifier[chip::Crypto::kSpake2p_VerifierSerialized_Length]{};
+    size_t _verifierLen = 0;
+    bool _isInitialized = false;
+};
+
+RuntimeCommissionableDataProvider sRuntimeCommissionableDataProvider;
 
 bool tryParseMatterPasscode(const std::string &text, uint32_t &out)
 {
@@ -276,6 +384,7 @@ void MatterBridge::initialize(SmartHomeBridgeModule *bridge)
                   (unsigned)matterSetupPasscode, (unsigned)kDefaultMatterSetupPasscode);
         matterSetupPasscode = kDefaultMatterSetupPasscode;
     }
+    _matterSetupPasscode = matterSetupPasscode;
 
     // NVS must be updated BEFORE InitChipStack(), because the
     // LegacyTemporaryCommissionableDataProvider reads and caches salt/verifier
@@ -285,18 +394,18 @@ void MatterBridge::initialize(SmartHomeBridgeModule *bridge)
         using cfg = chip::DeviceLayer::Internal::ESP32Config;
         uint32_t nvsPasscode = 0;
         bool nvsHasPin = (cfg::ReadConfigValue(cfg::kConfigKey_SetupPinCode, nvsPasscode) == CHIP_NO_ERROR);
-        if (!nvsHasPin || nvsPasscode != matterSetupPasscode)
+        if (!nvsHasPin || nvsPasscode != _matterSetupPasscode)
         {
             logInfoP("Matter passcode changed (%u -> %u): updating NVS before CHIP init",
-                     (unsigned)nvsPasscode, (unsigned)matterSetupPasscode);
-            cfg::WriteConfigValue(cfg::kConfigKey_SetupPinCode, matterSetupPasscode);
+                     (unsigned)nvsPasscode, (unsigned)_matterSetupPasscode);
+            cfg::WriteConfigValue(cfg::kConfigKey_SetupPinCode, _matterSetupPasscode);
             cfg::ClearConfigValue(cfg::kConfigKey_Spake2pVerifier);
             cfg::ClearConfigValue(cfg::kConfigKey_Spake2pSalt);
             cfg::ClearConfigValue(cfg::kConfigKey_Spake2pIterationCount);
         }
         else
         {
-            logInfoP("Matter passcode unchanged (%u), NVS kept", (unsigned)matterSetupPasscode);
+            logInfoP("Matter passcode unchanged (%u), NVS kept", (unsigned)_matterSetupPasscode);
         }
     }
 
@@ -322,11 +431,11 @@ void MatterBridge::initialize(SmartHomeBridgeModule *bridge)
     if (chip::DeviceLayer::CommissionableDataProvider *provider = chip::DeviceLayer::GetCommissionableDataProvider();
         provider != nullptr)
     {
-        chipErr = provider->SetSetupPasscode(matterSetupPasscode);
+        chipErr = provider->SetSetupPasscode(_matterSetupPasscode);
         if (chipErr != CHIP_NO_ERROR)
             logInfoP("Matter SetSetupPasscode (in-memory) not supported: %" CHIP_ERROR_FORMAT, chipErr.Format());
         else
-            logInfoP("Matter setup code set: %u", (unsigned)matterSetupPasscode);
+            logInfoP("Matter setup code set: %u", (unsigned)_matterSetupPasscode);
     }
     else
     {
@@ -365,7 +474,36 @@ esp_err_t MatterBridge::startMatter()
     // Arduino/OpenKNX may already run mDNS. ESP-Matter discovery initializes
     // its own advertiser and fails if mDNS is already active.
     MDNS.end();
-    return esp_matter::start(nullptr);
+
+    esp_err_t err = esp_matter::start(nullptr);
+    if (err != ESP_OK)
+        return err;
+
+    if (chip::DeviceLayer::CommissionableDataProvider *provider = chip::DeviceLayer::GetCommissionableDataProvider();
+        provider != nullptr)
+    {
+        CHIP_ERROR chipErr = sRuntimeCommissionableDataProvider.SetBackingProvider(provider);
+        if (chipErr != CHIP_NO_ERROR)
+            logErrorP("Matter runtime provider backing set failed: %" CHIP_ERROR_FORMAT, chipErr.Format());
+
+        chipErr = sRuntimeCommissionableDataProvider.SetRuntimePasscode(_matterSetupPasscode);
+        if (chipErr != CHIP_NO_ERROR)
+            logErrorP("Matter runtime provider passcode setup failed: %" CHIP_ERROR_FORMAT, chipErr.Format());
+        else
+        {
+            chip::DeviceLayer::SetCommissionableDataProvider(&sRuntimeCommissionableDataProvider);
+            logInfoP("Matter runtime commissionable provider installed");
+        }
+
+        uint32_t effectivePasscode = 0;
+        chipErr = chip::DeviceLayer::GetCommissionableDataProvider()->GetSetupPasscode(effectivePasscode);
+        if (chipErr == CHIP_NO_ERROR)
+            logInfoP("Matter effective setup code after start: %u", (unsigned)effectivePasscode);
+        else
+            logInfoP("Matter GetSetupPasscode not supported after start: %" CHIP_ERROR_FORMAT, chipErr.Format());
+    }
+
+    return ESP_OK;
 }
 
 void MatterBridge::loop()
@@ -388,6 +526,7 @@ bool MatterBridge::processCommand(const std::string cmd, bool)
     {
         factoryReset();
         logInfoP("Matter factory reset triggered");
+        openknx.restart();
         return true;
     }
     return false;
