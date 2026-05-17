@@ -1,4 +1,4 @@
-#ifndef SMARTHOMEBRIDGE_DEVICESONLY  
+#if !defined(SMARTHOMEBRIDGE_DEVICESONLY) && defined(SMARTHOMEBRIDGE_HOMEKIT)
 
 #include "HomeKitBridge.h"
 #include "SmartHomeBridgeModule.h"
@@ -37,7 +37,7 @@ void HomeKitBridge::initialize(SmartHomeBridgeModule *bridge)
     _bridge = bridge;
     homeSpan.useEthernet();
     homeSpan.setSerialInputDisable(true);
-    homeSpan.setPairingCode((const char *)ParamBRI_PairingCode);
+    homeSpan.setPairingCode(ParamBRI_PairingCodeHomeKitStr.c_str());
     homeSpan.setPortNum(8080);
     homeSpan.begin(Category::Bridges, bridge->getNameInUTF8());
     new SpanAccessory();

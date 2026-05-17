@@ -1,4 +1,4 @@
-#ifndef SMARTHOMEBRIDGE_DEVICESONLY  
+#if !defined(SMARTHOMEBRIDGE_DEVICESONLY) && defined(SMARTHOMEBRIDGE_HOMEKIT)
 #include "HomeKitRolladen.h"
 
 HomeKitRolladen::HomeKitRolladen(int device) :

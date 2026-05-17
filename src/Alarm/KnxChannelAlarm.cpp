@@ -28,8 +28,23 @@ void KnxChannelAlarm::add(AlarmBridge* sensorBridge)
 {
     sensorBridges.push_back(sensorBridge);
     sensorBridge->initialize(this);
-    auto value = mainFunctionValue(); 
-    sensorBridge->setDetected(value);       
+}
+
+void KnxChannelAlarm::syncBridgeState(ChannelBridge *bridge)
+{
+    if (bridge == nullptr)
+        return;
+
+    auto sensorBridge = static_cast<AlarmBridge *>(bridge);
+    sensorBridge->setDetected(mainFunctionValue());
+}
+
+void KnxChannelAlarm::syncAllBridgeStates()
+{
+    for (auto it = sensorBridges.begin(); it != sensorBridges.end(); ++it)
+    {
+        syncBridgeState(*it);
+    }
 }
 
 void KnxChannelAlarm::remove(AlarmBridge* sensorBridge)

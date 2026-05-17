@@ -28,8 +28,28 @@ void KnxChannelFan::add(FanBridge *fanBridge)
 {
     fanBridges.push_back(fanBridge);
     fanBridge->initialize(this);
+}
+
+void KnxChannelFan::syncBridgeState(ChannelBridge *bridge)
+{
+    if (bridge == nullptr)
+        return;
+
+    bool automatic = koGet(KO_AUTOMATIC_FEEDBACK);
+    if (ParamBRI_CHFanKoAutomaticFeedback == 1)
+        automatic = !automatic;
+
+    auto fanBridge = static_cast<FanBridge *>(bridge);
     fanBridge->setPower(koGet(KO_SWITCH_FEEDBACK));
-    fanBridge->setAutomatic(koGet(KO_AUTOMATIC_FEEDBACK));
+    fanBridge->setAutomatic(automatic);
+}
+
+void KnxChannelFan::syncAllBridgeStates()
+{
+    for (auto it = fanBridges.begin(); it != fanBridges.end(); ++it)
+    {
+        syncBridgeState(*it);
+    }
 }
 
 void KnxChannelFan::remove(FanBridge *fanBridge)

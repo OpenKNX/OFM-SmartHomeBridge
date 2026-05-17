@@ -25,8 +25,23 @@ void KnxChannelScene::add(SceneBridge *sceneBridge)
 {
     sceneBridges.push_back(sceneBridge);
     sceneBridge->initialize(this);
-    sceneBridge->setActivating(false);
+}
 
+void KnxChannelScene::syncBridgeState(ChannelBridge *bridge)
+{
+    if (bridge == nullptr)
+        return;
+
+    auto sceneBridge = static_cast<SceneBridge *>(bridge);
+    sceneBridge->setActivating(_lastActivatiation != 0);
+}
+
+void KnxChannelScene::syncAllBridgeStates()
+{
+    for (auto it = sceneBridges.begin(); it != sceneBridges.end(); ++it)
+    {
+        syncBridgeState(*it);
+    }
 }
 
 void KnxChannelScene::remove(SceneBridge *sceneBridge)

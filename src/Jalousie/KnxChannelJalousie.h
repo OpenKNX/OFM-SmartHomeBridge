@@ -12,6 +12,8 @@ class KnxChannelJalousie : public KnxChannelRolladen
         void remove(RolladenBridge* interface);
         virtual ChannelBridge* createBridgeDevice(BridgeBase& bridge) override;
         virtual void deleteBridgeDevice(ChannelBridge* device) override;
+        virtual void syncBridgeState(ChannelBridge* bridge) override;
+        virtual void syncAllBridgeStates() override;
 
     protected:
         virtual void setup() override;

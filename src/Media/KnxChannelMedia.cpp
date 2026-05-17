@@ -30,9 +30,25 @@ void KnxChannelMedia::add(MediaBridge *mediaBridge)
 {
     mediaBridges.push_back(mediaBridge);
     mediaBridge->initialize(this);
+}
+
+void KnxChannelMedia::syncBridgeState(ChannelBridge *bridge)
+{
+    if (bridge == nullptr)
+        return;
+
+    auto mediaBridge = static_cast<MediaBridge *>(bridge);
     mediaBridge->setPlay(koGet(KO_PLAY_FEEDBACK));
     mediaBridge->setVolume(koGet(KO_VOLUME_FEEDBACK));
     mediaBridge->setTitle(koGet(KO_TITLE));
+}
+
+void KnxChannelMedia::syncAllBridgeStates()
+{
+    for (auto it = mediaBridges.begin(); it != mediaBridges.end(); ++it)
+    {
+        syncBridgeState(*it);
+    }
 }
 
 void KnxChannelMedia::remove(MediaBridge *mediaBridge)

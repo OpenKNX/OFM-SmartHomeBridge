@@ -4,8 +4,11 @@
 #ifndef SMARTHOMEBRIDGE_DEVICESONLY
 #include <WiFi.h>
 #include <NetworkModule.h>
+#ifdef SMARTHOMEBRIDGE_HOMEKIT
 #include "HomeKitBridge.h"
+#endif
 #include "HueBridge.h"
+#include "MatterBridge.h"
 #endif
 #include "SmartHomeBridgeModule.h"
 #include "./Switch/KnxChannelSwitch.h"
@@ -43,18 +46,9 @@ const std::string SmartHomeBridgeModule::version()
   return MODULE_SmartHomeBridge_Version;
 }
 
-SmartHomeBridgeModule::~SmartHomeBridgeModule()
-{
-  if (_utf8Name != nullptr)
-  {
-    delete _utf8Name;
-    _utf8Name = nullptr;
-  }
-}
-
 const char *SmartHomeBridgeModule::getNameInUTF8()
 {
-  return _utf8Name;
+  return _utf8Name.c_str();
 }
 
 void SmartHomeBridgeModule::setup(bool configured)
@@ -73,17 +67,30 @@ void SmartHomeBridgeModule::setup()
 #else
   logDebugP("Setup Bridge");
 #endif
-  _utf8Name = convertISO8859_15ToUTF8((const char *)ParamBRI_BridgeName);
+  _utf8Name = convertISO8859_15ToUTF8_string(ParamBRI_BridgeNameStr.c_str());
 
 #ifndef SMARTHOMEBRIDGE_DEVICESONLY
   webServer = new WebServer(webServerPort);
 
+  bool matterEnabled = ParamBRI_MatterEnabled;
+  if (matterEnabled)
+  {
+    logDebugP("Matter enabled");
+    addBridge(new MatterBridge());
+  }
+  else
+  {
+    logDebugP("Matter disabled");
+  }
+
+#ifdef SMARTHOMEBRIDGE_HOMEKIT
   bool homeKitEnabled = ParamBRI_HomeKitEnabled;
   if (homeKitEnabled)
   {
     logDebugP("Homekit enabled");
     addBridge(new HomeKitBridge());
   }
+#endif
 
   bool hueEnabled = ParamBRI_HueEnabled;
   if (hueEnabled)
@@ -244,38 +251,38 @@ void SmartHomeBridgeModule::startBridge()
       "/update", HTTP_POST, [this]()
       {
     webServer->sendHeader("Connection", "close");
-    webServer->send(200, "text/plain", (Update.hasError()) ? "FAIL" : "OK");
-    ESP.restart(); },
-      [this]()
-      {
-        HTTPUpload &upload = webServer->upload();
-        if (upload.status == UPLOAD_FILE_START)
-        {
-          Serial.printf("Update: %s\n", upload.filename.c_str());
-          if (!Update.begin(UPDATE_SIZE_UNKNOWN))
-          { // start with max available size
-            Update.printError(Serial);
-          }
-        }
-        else if (upload.status == UPLOAD_FILE_WRITE)
-        {
-          /* flashing firmware to ESP*/
-          if (Update.write(upload.buf, upload.currentSize) != upload.currentSize)
-          {
-            Update.printError(Serial);
-          }
-        }
-        else if (upload.status == UPLOAD_FILE_END)
-        {
-          if (Update.end(true))
-          { // true to set the size to the current progress
-            Serial.printf("Update Success: %u\nRebooting...\n", upload.totalSize);
-          }
-          else
-          {
-            Update.printError(Serial);
-          }
-        }
+    // webServer->send(200, "text/plain", (Update.hasError()) ? "FAIL" : "OK");
+    // ESP.restart(); },
+    //   [this]()
+    //   {
+    //     HTTPUpload &upload = webServer->upload();
+    //     if (upload.status == UPLOAD_FILE_START)
+    //     {
+    //       Serial.printf("Update: %s\n", upload.filename.c_str());
+    //       if (!Update.begin(UPDATE_SIZE_UNKNOWN))
+    //       { // start with max available size
+    //         Update.printError(Serial);
+    //       }
+    //     }
+    //     else if (upload.status == UPLOAD_FILE_WRITE)
+    //     {
+    //       /* flashing firmware to ESP*/
+    //       if (Update.write(upload.buf, upload.currentSize) != upload.currentSize)
+    //       {
+    //         Update.printError(Serial);
+    //       }
+    //     }
+    //     else if (upload.status == UPLOAD_FILE_END)
+    //     {
+    //       if (Update.end(true))
+    //       { // true to set the size to the current progress
+    //         Serial.printf("Update Success: %u\nRebooting...\n", upload.totalSize);
+    //       }
+    //       else
+    //       {
+    //         Update.printError(Serial);
+    //       }
+    //     }
       });
 #endif
   logDebugP("Initialize briges");
@@ -292,6 +299,18 @@ void SmartHomeBridgeModule::startBridge()
 #endif
   for (auto it = bridgeInterfaces->begin(); it != bridgeInterfaces->end(); ++it)
     (*it)->start(this);
+
+  // Push channel feedback state after all bridges are fully started.
+  // This avoids initial bridge reports during endpoint creation/startup.
+  if (_pChannels != nullptr)
+  {
+    for (uint8_t channelIndex = 0; channelIndex < numberOfChannels(); ++channelIndex)
+    {
+      auto channel = static_cast<KnxChannelBase *>(_pChannels[channelIndex]);
+      if (channel != nullptr)
+        channel->syncAllBridgeStates();
+    }
+  }
 
 #ifndef SMARTHOMEBRIDGE_DEVICESONLY
   webServer->begin();

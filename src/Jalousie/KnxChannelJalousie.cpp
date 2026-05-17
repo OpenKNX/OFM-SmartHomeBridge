@@ -26,7 +26,24 @@ void KnxChannelJalousie::deleteBridgeDevice(ChannelBridge *device)
 void KnxChannelJalousie::add(RolladenBridge* interface)
 {
     KnxChannelRolladen::add(interface);
+}
+
+void KnxChannelJalousie::syncBridgeState(ChannelBridge *bridge)
+{
+    if (bridge == nullptr)
+        return;
+
+    KnxChannelRolladen::syncBridgeState(bridge);
+    auto interface = static_cast<RolladenBridge *>(bridge);
     interface->setSlatPosition(koGet(KO_SLAT_POSITION_FEEDBACK));
+}
+
+void KnxChannelJalousie::syncAllBridgeStates()
+{
+    for (auto it = interfaces.begin(); it != interfaces.end(); ++it)
+    {
+        syncBridgeState(*it);
+    }
 }
 
 void KnxChannelJalousie::remove(RolladenBridge* interface)

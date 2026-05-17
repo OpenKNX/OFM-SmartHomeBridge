@@ -8,6 +8,7 @@
   <op:config name="%BRI_TabIcon%" value="bridge" />
   <op:config name="%BRI_BridgeSettings%" value="1" />
   <op:config name="%BRI_HomeKitSupport%" value="1" />
+  <op:config name="%BRI_MatterSupport%" value="1" />
   <op:config name="%BRI_HueSupport%" value="1" />
   <op:config name="%BRI_DisplaySettings%" value="0" />
   <op:config name="%BRI_IconSize%" value="64x64 Pixel" />
@@ -76,8 +77,11 @@
               <ParameterType Id="%AID%_PT-BRIDeviceName" Name="BRIDeviceName" >
                 <TypeText  SizeInBit="200" />
               </ParameterType>
-              <ParameterType Id="%AID%_PT-BRIPairingCode" Name="BRIPairingCode">
-                <TypeText SizeInBit="64" />
+              <ParameterType Id="%AID%_PT-BRIPairingCodeHomeKit" Name="BRIPairingCode">
+                <TypeText SizeInBit="64" Pattern="[0-9]{8}" />
+              </ParameterType>
+               <ParameterType Id="%AID%_PT-BRIPairingCodeMatter" Name="BRIPairingCode">
+                <TypeText SizeInBit="64" Pattern="[0-9]{8}" />
               </ParameterType>
                <ParameterType Id="%AID%_PT-BRIStatusText" Name="BRIStatusText">
                 <TypeText SizeInBit="96" />
@@ -453,15 +457,19 @@
             </ParameterTypes>
             <Parameters>
               <!-- Basic Settings -->
-              <Union SizeInBit="296">
+              <Union SizeInBit="344">
                 <Memory CodeSegment="%AID%_RS-04-00000" Offset="0" BitOffset="0" />
                 <Parameter Id="%AID%_UP-%T%000002" Offset="0" BitOffset="0" Name="HomeKitEnabled" ParameterType="%AID%_PT-OnOffYesNo" Text="Apple HomeKit" Value="1" />
                 <Parameter Id="%AID%_UP-%T%000003" Offset="0" BitOffset="1" Name="HueEnabled" ParameterType="%AID%_PT-OnOffYesNo" Text="Hue Emulation (Nur für Alexa)" Value="1" />
+                <Parameter Id="%AID%_UP-%T%000004" Offset="0" BitOffset="2" Name="MatterEnabled" ParameterType="%AID%_PT-OnOffYesNo" Text="Matter" Value="1" />
+                <!-- 5 bits free -->  
                 <Parameter Id="%AID%_UP-%T%000000" Offset="1" BitOffset="0" Name="VisibleChannels" ParameterType="%AID%_PT-BRINumChannels" Text="Verfügbare Geräte" Value="%BRI_NumChannelsDefault%" SuffixText=" von %N%" /> 
                 <Parameter Id="%AID%_UP-%T%000001" Offset="2" BitOffset="0"  Name="BridgeName" ParameterType="%AID%_PT-BRIDeviceName" Text="Name" Value="OpenKNX Smart Home Bridge" />
-                <!-- ^^^ 25 characters + \0 terminator = 26 bytes ^^^ -->
-                <Parameter Id="%AID%_UP-%T%000005" Offset="28" BitOffset="0" Name="PairingCode" ParameterType="%AID%_PT-BRIPairingCode" Text="Kopplungscode" Value="46637726" />
-                <!-- ^^^ 8 characters + \0 terminator = 9 bytes ^^^ -->
+                <!-- ^^^ 25 characters = 25 bytes ^^^ -->
+                <Parameter Id="%AID%_UP-%T%000005" Offset="27" BitOffset="0" Name="PairingCodeHomeKit" ParameterType="%AID%_PT-BRIPairingCodeHomeKit" Text="Kopplungscode" Value="46637726" />
+                <!-- ^^^ 8 characters = 8 bytes ^^^ -->
+                <Parameter Id="%AID%_UP-%T%000012" Offset="35" BitOffset="0" Name="PairingCodeMatter" ParameterType="%AID%_PT-BRIPairingCodeMatter" Text="Kopplungscode" Value="29710235" />
+                <!-- ^^^ 8 characters = 8 bytes ^^^ -->
               </Union>
           		<!-- Add not allowed -->
 							<Parameter Id="%AID%_P-%T%000006" Name="AddNotAllowed" ParameterType="%AID%_PT-OnOffYesNo" Text="AddNotAllowed" Value="0"  Access="None"/> 
@@ -471,10 +479,12 @@
 							<Parameter Id="%AID%_P-%T%000008" Name="HueSupport" ParameterType="%AID%_PT-OnOffYesNo" Text="HueSupported" Value="%BRI_HueSupport%"  Access="None"/> 
 			        <!-- Base Settings -->
 							<Parameter Id="%AID%_P-%T%000009" Name="BrigdeSettings" ParameterType="%AID%_PT-OnOffYesNo" Text="BrigdeSettings" Value="%BRI_BridgeSettings%"  Access="None"/> 
-			       <!-- Base Settings -->
+			        <!-- Base Settings -->
 							<Parameter Id="%AID%_P-%T%000010" Name="DisplaySettings" ParameterType="%AID%_PT-OnOffYesNo" Text="DisplaySettings" Value="%BRI_DisplaySettings%"  Access="None"/> 
-				
-              <!-- Next Id="%TT%00011" -->  		
+				      <!-- matter Supported -->
+							<Parameter Id="%AID%_P-%T%000011" Name="MatterSupport" ParameterType="%AID%_PT-OnOffYesNo" Text="MatterSupported" Value="%BRI_MatterSupport%"  Access="None"/> 
+			     
+              <!-- Next Id="%TT%00013" -->  		
             </Parameters>
             <ParameterRefs>
               <!-- ParameterRef have to be defined for each parameter, pay attention, that the ID-part (number) after R- is unique! -->
@@ -483,12 +493,17 @@
               <ParameterRef Id="%AID%_UP-%T%000001_R-%T%00000101" RefId="%AID%_UP-%T%000001" /> <!-- Bridge Name -->
               <ParameterRef Id="%AID%_UP-%T%000002_R-%T%00000201" RefId="%AID%_UP-%T%000002" /> <!-- Homekit -->
               <ParameterRef Id="%AID%_UP-%T%000003_R-%T%00000301" RefId="%AID%_UP-%T%000003" /> <!-- Hue Emulation -->
+              <ParameterRef Id="%AID%_UP-%T%000004_R-%T%00000401" RefId="%AID%_UP-%T%000004" /> <!-- Matter Emulation -->
               <ParameterRef Id="%AID%_UP-%T%000005_R-%T%00000501" RefId="%AID%_UP-%T%000005" /> <!-- Homekit Pairing Code -->
               <ParameterRef Id="%AID%_P-%T%000006_R-%T%00000601" RefId="%AID%_P-%T%000006" /> <!-- AddNotAllowed -->
               <ParameterRef Id="%AID%_P-%T%000007_R-%T%00000701" RefId="%AID%_P-%T%000007" /> <!-- HomeKit Supported -->
               <ParameterRef Id="%AID%_P-%T%000008_R-%T%00000801" RefId="%AID%_P-%T%000008" /> <!-- Hue Supported -->
               <ParameterRef Id="%AID%_P-%T%000009_R-%T%00000901" RefId="%AID%_P-%T%000009" /> <!-- Brigde Settings -->
               <ParameterRef Id="%AID%_P-%T%000010_R-%T%00001001" RefId="%AID%_P-%T%000010" /> <!-- Display Settings -->
+              <ParameterRef Id="%AID%_P-%T%000011_R-%T%00001101" RefId="%AID%_P-%T%000011" /> <!-- Matter Supported -->
+              <ParameterRef Id="%AID%_UP-%T%000012_R-%T%00001201" RefId="%AID%_UP-%T%000012" /> <!-- Matter Pairing Code -->
+            
+
             </ParameterRefs>
             <ComObjectTable>
             </ComObjectTable>        
@@ -498,10 +513,6 @@
 							<op:include href="SmartHomeBridge.script.js" prefix="BRI" type="script" />
 						</Script>
 
-            <Extension>
-              <Baggage RefId="%FILE-HELP-de%" />
-              <Baggage RefId="%FILE-ICONS%" />
-            </Extension>
 
           </Static>
 
@@ -519,6 +530,7 @@
                 <ParameterRefRef IndentLevel="1" RefId="%AID%_P-%T%000008_R-%T%00000801" /> <!-- Hue Supported -->
                 <ParameterRefRef IndentLevel="1" RefId="%AID%_P-%T%000009_R-%T%00000901" /> <!-- Brigde Settings -->
                 <ParameterRefRef IndentLevel="1" RefId="%AID%_P-%T%000010_R-%T%00001001" /> <!-- Display Settings -->
+                <ParameterRefRef IndentLevel="1" RefId="%AID%_P-%T%000011_R-%T%00001101" /> <!-- Matter Supported -->
 
                 <!-- Bridge Settings -->
                 <choose ParamRefId="%AID%_P-%T%000009_R-%T%00000901" > 
@@ -529,6 +541,15 @@
                   </when> 
                 </choose>
 
+                <!-- Matter Supported -->
+                <choose ParamRefId="%AID%_P-%T%000011_R-%T%00001101" >  <!-- Matter -->
+                  <when test="1"> 
+                    <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%T%000004_R-%T%00000401" HelpContext="%DOC%" /> <!-- Matter -->
+                  </when>
+                  <when test="0"> 
+                     <Assign TargetParamRefRef="%AID%_UP-%T%000004_R-%T%00000401" Value="0" /> <!-- Matter -->
+                  </when>
+                </choose>
             
                 <!-- HomeKit Supported -->
                 <choose ParamRefId="%AID%_P-%T%000007_R-%T%00000701" >  <!-- HomeKit -->
@@ -554,12 +575,23 @@
                 <!--<ParameterRefRef IndentLevel="1" RefId="%AID%_P-%T%000003_R-%T%00000301" />--> <!-- SSID -->
                 <!--<<ParameterRefRef IndentLevel="1" RefId="%AID%_P-%T%000004_R-%T%00000401" />--> <!-- Password -->
             
+
+
+                <choose ParamRefId="%AID%_UP-%T%000004_R-%T%00000401" >  <!-- Matter -->
+                  <when test="1"> <!-- Matter -->
+                    <ParameterSeparator Id="%AID%_PS-nnn" Text="" UIHint="HorizontalRuler" />
+                    <ParameterSeparator Id="%AID%_PS-nnn" Text="Matter" UIHint="Headline" />
+                    <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%T%000012_R-%T%00001201" HelpContext="BRI-PairingCodeMatter" /> <!-- Pairing Code -->
+                    <ParameterSeparator Id="%AID%_PS-nnn" Text="Hinweis: Der Code muss aus 8-Ziffern bestehen. Für Matter sind einfache Codes (z.B. 11111111, 12345678) nicht zulässig. Das kann durch ETS nicht geprüft werden. Der Code wird nur beim erstmaligen Koppelen verwendet. Danach erfolgt das Koppeln über die App" UIHint="Information" />
+                  </when>
+                </choose> 
+
                 <choose ParamRefId="%AID%_UP-%T%000002_R-%T%00000201" >  <!-- HomeKit -->
-                  <when test="1"> <!-- Homekit OR Homekit & Hue -->
+                  <when test="1"> <!-- Homekit -->
                     <ParameterSeparator Id="%AID%_PS-nnn" Text="" UIHint="HorizontalRuler" />
                     <ParameterSeparator Id="%AID%_PS-nnn" Text="Homekit" UIHint="Headline" />
-                    <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%T%000005_R-%T%00000501" HelpContext="%DOC%" /> <!-- Pairing Code -->
-                    <ParameterSeparator Id="%AID%_PS-nnn" Text="Hinweis: Apple lässt beim Koppeln einfache Codes (z.B. nur Einser) nicht zu. Das kann durch ETS nicht geprüft werden. Es wird daher empfohlen den Standard-Wert 46637726 zu verwenden." UIHint="Information" />
+                    <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%T%000005_R-%T%00000501" HelpContext="BRI-PairingCodeHomeKit" /> <!-- Pairing Code -->
+                    <ParameterSeparator Id="%AID%_PS-nnn" Text="Hinweis: Der Code muss aus 8-Ziffern bestehen. Apple lässt beim Koppeln einfache Codes (z.B. 11111111, 12345678) nicht zu. Das kann durch ETS nicht geprüft werden." UIHint="Information" />
                   </when>
                 </choose> 
 

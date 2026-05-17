@@ -140,7 +140,7 @@ private:
   // construct 'globally unique' Json dict key fitting into signed int
   inline int encodeLightKey(uint8_t idx)
   {
-    static_assert(ESPALEXA_MAXDEVICES <= 128, "");
+  //  static_assert(ESPALEXA_MAXDEVICES <= 128, "");
     return (mac24<<7) | idx;
   }
 

@@ -23,6 +23,8 @@ class KnxChannelScene : public KnxChannelBase
         void remove(SceneBridge* sceneBridge);
         virtual ChannelBridge* createBridgeDevice(BridgeBase& bridge) override;
         virtual void deleteBridgeDevice(ChannelBridge* device) override;
+        virtual void syncBridgeState(ChannelBridge* bridge) override;
+        virtual void syncAllBridgeStates() override;
     protected:
         virtual void setup() override;
         virtual void loop() override;

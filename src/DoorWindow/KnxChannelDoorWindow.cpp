@@ -39,6 +39,14 @@ void KnxChannelDoorWindow::add(DoorWindowBridge* interface)
 {
     interfaces.push_back(interface);
     interface->initialize(this);
+}
+
+void KnxChannelDoorWindow::syncBridgeState(ChannelBridge *bridge)
+{
+    if (bridge == nullptr)
+        return;
+
+    auto interface = static_cast<DoorWindowBridge *>(bridge);
     switch ((KnxChannelDoorWindowFeedback) ParamBRI_CHDoorWindowFeedbackType)
     {
         case KnxChannelDoorWindowFeedback::DoorWindowFeedbackPercentage:
@@ -49,7 +57,7 @@ void KnxChannelDoorWindow::add(DoorWindowBridge* interface)
             break;
         case KnxChannelDoorWindowFeedback::DoorWindowFeedbackClosed:
             interface->setPosition(koGet(KO_FEEDBACK_BIT) ? 0 : 100);
-            break;    
+            break;
     }
     interface->setMovement(_currentMovement);
     if (ParamBRI_CHDoorWindowObstructionDetection)
@@ -61,7 +69,14 @@ void KnxChannelDoorWindow::add(DoorWindowBridge* interface)
         interface->setObstructionDetected(false);
     }
     interface->mainFunctionValueChanged();
+}
 
+void KnxChannelDoorWindow::syncAllBridgeStates()
+{
+    for (auto it = interfaces.begin(); it != interfaces.end(); ++it)
+    {
+        syncBridgeState(*it);
+    }
 }
 
 void KnxChannelDoorWindow::remove(DoorWindowBridge* interface)
@@ -141,7 +156,7 @@ bool KnxChannelDoorWindow::commandPosition(DoorWindowBridge* interface, uint8_t 
         return true;
     }
     logDebugP("Received changed. Position: %d", position);
-  
+
     bool sendPosition = true;
     if (position == 0 || position == 100)
     {
@@ -156,7 +171,7 @@ bool KnxChannelDoorWindow::commandPosition(DoorWindowBridge* interface, uint8_t 
                 return true;
             }
         }
-        
+
         switch (getDoorWindowHandling())
         {
             case DoorWindowHandling::DoorWindowHandlingSendOpenAndClose:
@@ -238,7 +253,7 @@ void KnxChannelDoorWindow::processInputKo(GroupObject &ko)
 {
     if (isKo(ko, KO_FEEDBACK_PERCENT))
     {
-        uint8_t position = currentPosition();
+        uint8_t position = koGet(KO_FEEDBACK_PERCENT);
         if (ParamBRI_CHDoorWindowUsePercent)
             koSetWithoutSend(KO_POSITION, position);
         for (auto it = interfaces.begin(); it != interfaces.end(); ++it)
@@ -249,35 +264,27 @@ void KnxChannelDoorWindow::processInputKo(GroupObject &ko)
         mainFunctionValueChanged();
 
     }
-    else if (isKo(ko, KO_OBSTRUCTION_DETECTED))
+    else if (isKo(ko, KO_FEEDBACK_BIT))
     {
-        bool obstructionDetected = koGet(KO_OBSTRUCTION_DETECTED);
+        uint8_t position = currentPosition();
+        if (ParamBRI_CHDoorWindowUsePercent)
+            koSetWithoutSend(KO_POSITION, position);
         for (auto it = interfaces.begin(); it != interfaces.end(); ++it)
         {
-            (*it)->setObstructionDetected(obstructionDetected);
+            (*it)->setPosition(position);
+            (*it)->mainFunctionValueChanged();
         }
+        mainFunctionValueChanged();
     }
     else if (isKo(ko, KO_CLOSING_FEEDBACK) || isKo(ko, KO_OPENING_FEEDBACK))
     {
-        bool down = koGet(KO_CLOSING_FEEDBACK);
-        bool up = koGet(KO_OPENING_FEEDBACK);
-        auto value = DoorWindowMoveState::DoorWindowMoveStateHold;
-        if (down)
-        {
+        bool closing = koGet(KO_CLOSING_FEEDBACK);
+        bool opening = koGet(KO_OPENING_FEEDBACK);
+        DoorWindowMoveState value = DoorWindowMoveState::DoorWindowMoveStateHold;
+        if (closing && !opening)
             value = DoorWindowMoveState::DoorWindowMoveStateClosing;
-            koSetWithoutSend(KO_OPENING_FEEDBACK, false);
-            logDebugP("Moving down");
-        }
-        else if(up)
-        {
+        else if (!closing && opening)
             value = DoorWindowMoveState::DoorWindowMoveStateOpening;
-            koSetWithoutSend(KO_CLOSING_FEEDBACK, false);
-            logDebugP("Moving up");
-        }
-        else
-        {
-            logDebugP("Stopping move");
-        }
         _currentMovement = value;
         for (auto it = interfaces.begin(); it != interfaces.end(); ++it)
         {
@@ -285,7 +292,16 @@ void KnxChannelDoorWindow::processInputKo(GroupObject &ko)
             (*it)->mainFunctionValueChanged();
         }
         mainFunctionValueChanged();
-
+    }
+    else if (isKo(ko, KO_OBSTRUCTION_DETECTED))
+    {
+        bool value = koGet(KO_OBSTRUCTION_DETECTED);
+        for (auto it = interfaces.begin(); it != interfaces.end(); ++it)
+        {
+            (*it)->setObstructionDetected(value);
+            (*it)->mainFunctionValueChanged();
+        }
+        mainFunctionValueChanged();
     }
 }
 

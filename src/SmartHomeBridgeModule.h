@@ -19,7 +19,7 @@ class SmartHomeBridgeModule : public ChannelOwnerModule
         const uint16_t webServerPort = 80;
         WebServer* webServer = nullptr;
 #endif
-        const char* _utf8Name = nullptr;
+        std::string _utf8Name = "";
         DynamicPointerArray<BridgeBase>* bridgeInterfaces = nullptr;
         volatile bool started = false;
         void startBridge();
@@ -38,7 +38,6 @@ class SmartHomeBridgeModule : public ChannelOwnerModule
         virtual OpenKNX::Channel* createChannel(uint8_t _channelIndex /* this parameter is used in macros, do not rename */); 
     public:
         SmartHomeBridgeModule();
-        ~SmartHomeBridgeModule();
         KnxChannelBase* getChannel(uint8_t channelIndex);
         void addBridge(BridgeBase* bridge);
         const char* getNameInUTF8();
