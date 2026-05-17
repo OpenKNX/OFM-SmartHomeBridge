@@ -5,6 +5,43 @@
 
 #include <esp_matter_bridge.h>
 
+namespace
+{
+constexpr uint8_t kDeviceTypeRolladen = 31;
+constexpr uint8_t kDeviceTypeMarkise = 32;
+
+// WindowCovering EndProductType enum values (Matter spec).
+constexpr uint8_t kEndProductTypeRollerShade = 0x00;
+constexpr uint8_t kEndProductTypeRollerShutter = 0x11;
+constexpr uint8_t kEndProductTypeInteriorVenetianBlind = 0x0C;
+constexpr uint8_t kEndProductTypeAwningTerracePatio = 0x13;
+
+void applyWindowCoveringEndProductType(uint16_t endpointId, uint8_t channelDeviceType)
+{
+    auto wcCluster = esp_matter::cluster::get(endpointId, matterbridge::windowCoveringClusterId);
+    if (wcCluster == nullptr)
+        return;
+
+    uint8_t endProductType = kEndProductTypeRollerShade;
+    if (channelDeviceType == 30)
+        endProductType = kEndProductTypeInteriorVenetianBlind;
+    else if (channelDeviceType == 32)
+        endProductType = kEndProductTypeAwningTerracePatio;
+    else if (channelDeviceType == 31)
+        endProductType = kEndProductTypeRollerShutter;
+
+    constexpr uint32_t endProductTypeAttrId = chip::app::Clusters::WindowCovering::Attributes::EndProductType::Id;
+    if (!matterbridge::hasAttribute(endpointId, matterbridge::windowCoveringClusterId, endProductTypeAttrId))
+    {
+        esp_matter::cluster::window_covering::attribute::create_end_product_type(wcCluster, endProductType);
+        return;
+    }
+
+    auto updated = matterbridge::u8Value(endProductType);
+    esp_matter::attribute::update(endpointId, matterbridge::windowCoveringClusterId, endProductTypeAttrId, &updated);
+}
+} // namespace
+
 MatterRolladenBridge::MatterRolladenBridge(MatterBridge *bridge) : MatterBridgeDeviceBase(bridge)
 {
 }
@@ -14,7 +51,7 @@ void MatterRolladenBridge::setup(uint8_t _channelIndex)
     if (_bridge == nullptr || _bridge->node() == nullptr)
         return;
 
-    _device = esp_matter_bridge::create_device(_bridge->node(), _bridge->parentEndpointId(),
+     _device = esp_matter_bridge::create_device(_bridge->node(), _bridge->parentEndpointId(),
                                                esp_matter::endpoint::window_covering_device::get_device_type_id(),
                                                static_cast<MatterBridgeDeviceBase *>(this));
     if (_device != nullptr)
@@ -31,8 +68,8 @@ void MatterRolladenBridge::setup(uint8_t _channelIndex)
                 wcCluster, nullable<uint16_t>());
             esp_matter::cluster::window_covering::attribute::create_target_position_lift_percent_100ths(
                 wcCluster, nullable<uint16_t>());
-        }
-
+        }    
+        applyWindowCoveringEndProductType(ep, ParamBRI_CHDeviceType);
         setPosition(_channel->mainFunctionValue() ? 100 : 0);
     }
 }
