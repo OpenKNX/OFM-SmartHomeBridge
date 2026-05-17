@@ -20,6 +20,19 @@ void MatterRolladenBridge::setup(uint8_t _channelIndex)
     if (_device != nullptr)
     {
         matterbridge::setDeviceName(_device, _channel->getNameInUTF8());
+
+        // Create optional Lift Percent100ths attributes (mandatory only under PA feature flag,
+        // so window_covering_device does not create them automatically).
+        auto ep = _device->persistent_info.device_endpoint_id;
+        auto wcCluster = esp_matter::cluster::get(ep, matterbridge::windowCoveringClusterId);
+        if (wcCluster != nullptr)
+        {
+            esp_matter::cluster::window_covering::attribute::create_current_position_lift_percent_100ths(
+                wcCluster, nullable<uint16_t>());
+            esp_matter::cluster::window_covering::attribute::create_target_position_lift_percent_100ths(
+                wcCluster, nullable<uint16_t>());
+        }
+
         setPosition(_channel->mainFunctionValue() ? 100 : 0);
     }
 }
@@ -29,13 +42,12 @@ void MatterRolladenBridge::setPosition(uint8_t position)
     if (_device == nullptr)
         return;
 
+    auto ep = _device->persistent_info.device_endpoint_id;
     auto matterPosition = static_cast<uint16_t>(std::clamp<int>(position, 0, 100) * 100);
-    auto currentVal = matterbridge::u16Value(matterPosition);
-    auto targetVal = matterbridge::u16Value(matterPosition);
-    esp_matter::attribute::report(_device->persistent_info.device_endpoint_id, matterbridge::windowCoveringClusterId,
-                                  matterbridge::currentPositionLiftPercent100thsAttrId, &currentVal);
-    esp_matter::attribute::report(_device->persistent_info.device_endpoint_id, matterbridge::windowCoveringClusterId,
-                                  matterbridge::targetPositionLiftPercent100thsAttrId, &targetVal);
+    matterbridge::reportU16(ep, matterbridge::windowCoveringClusterId,
+                            matterbridge::currentPositionLiftPercent100thsAttrId, matterPosition);
+    matterbridge::reportU16(ep, matterbridge::windowCoveringClusterId,
+                            matterbridge::targetPositionLiftPercent100thsAttrId, matterPosition);
 }
 
 void MatterRolladenBridge::setMovement(MoveState)

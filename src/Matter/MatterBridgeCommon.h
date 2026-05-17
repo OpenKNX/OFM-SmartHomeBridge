@@ -150,7 +150,16 @@ inline esp_err_t reportU16(uint16_t endpointId, uint32_t clusterId, uint32_t att
     if (!hasAttribute(endpointId, clusterId, attributeId))
         return ESP_ERR_NOT_FOUND;
 
-    auto reported = u16Value(value);
+    auto attribute = esp_matter::attribute::get(endpointId, clusterId, attributeId);
+
+    esp_matter_attr_val_t current{};
+    esp_matter_attr_val_t reported = u16Value(value);
+    if (esp_matter::attribute::get_val(attribute, &current) == ESP_OK &&
+        current.type == ESP_MATTER_VAL_TYPE_NULLABLE_UINT16)
+    {
+        reported = esp_matter_nullable_uint16(nullable<uint16_t>(value));
+    }
+
     return esp_matter::attribute::report(endpointId, clusterId, attributeId, &reported);
 }
 
