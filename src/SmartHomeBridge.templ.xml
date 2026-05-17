@@ -162,7 +162,7 @@
                 <!-- Sensor Inverted -->
                 <Parameter Id="%AID%_UP-%T%%CCC%071" Offset="0" BitOffset="0" Name="CH%C%AlarmInvert"  ParameterType="%AID%_PT-BRIAlarmInvert" Text="Eingang invertieren" Value="0" />
                 <!-- Roter Hintergrund -->
-                <Parameter Id="%AID%_UP-%T%%CCC%073" Offset="0" BitOffset="0" Name="CH%C%AlarmRedBg"  ParameterType="%AID%_PT-OnOffYesNo" Text="Roter Hintergrund" Value="0" />
+                <Parameter Id="%AID%_UP-%T%%CCC%073" Offset="0" BitOffset="1" Name="CH%C%AlarmRedBg"  ParameterType="%AID%_PT-OnOffYesNo" Text="Roter Hintergrund" Value="0" />
                 <!-- 2 Bits free -->
                 <!-- Alarm Type -->
                 <Parameter Id="%AID%_UP-%T%%CCC%072" Offset="0" BitOffset="4" Name="CH%C%AlarmType"  ParameterType="%AID%_PT-BRIAlarmType" Text="Type" Value="0" />         
