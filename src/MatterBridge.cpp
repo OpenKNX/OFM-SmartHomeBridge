@@ -443,8 +443,11 @@ void MatterBridge::initialize(SmartHomeBridgeModule *bridge)
     }
 
     esp_matter::node::config_t config{};
-    std::string nodeLabel = bridge != nullptr ? bridge->getNameInUTF8() : "SmartHomeBridge";
-    std::strncpy(config.root_node.basic_information.node_label, nodeLabel.c_str(),
+    _bridgeNodeLabel = bridge != nullptr ? bridge->getNameInUTF8() : "";
+    if (_bridgeNodeLabel.empty())
+        _bridgeNodeLabel = "SmartHomeBridge";
+    logInfoP("Matter bridge node label: '%s'", _bridgeNodeLabel.c_str());
+    std::strncpy(config.root_node.basic_information.node_label, _bridgeNodeLabel.c_str(),
                  sizeof(config.root_node.basic_information.node_label) - 1);
 
     _node = esp_matter::node::create(&config, attributeCallback, nullptr, this);
@@ -478,6 +481,15 @@ esp_err_t MatterBridge::startMatter()
     esp_err_t err = esp_matter::start(nullptr);
     if (err != ESP_OK)
         return err;
+
+    // After start(), set NodeLabel and ProductName on ep 0.
+    // esp_matter::start() restores persistent attribute values from NVS and may
+    // overwrite what was set via set_val before start. Calling update() after
+    // start() ensures Apple Home reads the correct bridge name during commissioning.
+    matterbridge::updateText(0, matterbridge::basicInformationClusterId,
+                             matterbridge::nodeLabelAttrId, _bridgeNodeLabel.c_str());
+    matterbridge::updateText(0, matterbridge::basicInformationClusterId,
+                             matterbridge::productNameAttrId, _bridgeNodeLabel.c_str());
 
     if (chip::DeviceLayer::CommissionableDataProvider *provider = chip::DeviceLayer::GetCommissionableDataProvider();
         provider != nullptr)

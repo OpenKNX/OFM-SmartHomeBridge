@@ -10,6 +10,21 @@ MatterDimmerBridge::MatterDimmerBridge(MatterBridge *bridge) : MatterBridgeDevic
 {
 }
 
+namespace
+{
+uint8_t percentToMatterLevel(uint8_t percent)
+{
+    uint16_t clamped = static_cast<uint16_t>(std::clamp<int>(percent, 0, 100));
+    return static_cast<uint8_t>((clamped * 254u + 50u) / 100u);
+}
+
+uint8_t matterLevelToPercent(uint8_t level)
+{
+    uint16_t clamped = static_cast<uint16_t>(std::clamp<int>(level, 0, 254));
+    return static_cast<uint8_t>((clamped * 100u + 127u) / 254u);
+}
+}
+
 void MatterDimmerBridge::setup(uint8_t _channelIndex)
 {
     if (_bridge == nullptr || _bridge->node() == nullptr)
@@ -24,7 +39,7 @@ void MatterDimmerBridge::setup(uint8_t _channelIndex)
     if (_device != nullptr)
     {
         matterbridge::setDeviceName(_device, _channel->getNameInUTF8());
-        setBrightness(_channel->mainFunctionValue() ? 254 : 0);
+        setBrightness(_channel->mainFunctionValue() ? 100 : 0);
     }
 }
 
@@ -36,8 +51,7 @@ void MatterDimmerBridge::setBrightness(uint8_t brightness)
     matterbridge::reportBool(_device->persistent_info.device_endpoint_id, matterbridge::onOffClusterId,
                              matterbridge::onOffAttrId, brightness > 0);
     matterbridge::reportU8(_device->persistent_info.device_endpoint_id, matterbridge::levelControlClusterId,
-                           matterbridge::currentLevelAttrId,
-                           static_cast<uint8_t>(std::clamp<int>(brightness, 0, 254)));
+                           matterbridge::currentLevelAttrId, percentToMatterLevel(brightness));
 }
 
 void MatterDimmerBridge::handleMatterAttribute(esp_matter::attribute::callback_type_t, uint32_t clusterId,
@@ -49,6 +63,6 @@ void MatterDimmerBridge::handleMatterAttribute(esp_matter::attribute::callback_t
     }
     else if (clusterId == matterbridge::levelControlClusterId && attributeId == matterbridge::currentLevelAttrId)
     {
-        _channel->commandBrightness(this, val->val.u8);
+        _channel->commandBrightness(this, matterLevelToPercent(val->val.u8));
     }
 }

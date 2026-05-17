@@ -67,7 +67,7 @@ void SmartHomeBridgeModule::setup()
 #else
   logDebugP("Setup Bridge");
 #endif
-  _utf8Name = convertISO8859_15ToUTF8_string((const char *)ParamBRI_BridgeName);
+  _utf8Name = convertISO8859_15ToUTF8_string(ParamBRI_BridgeNameStr.c_str());
 
 #ifndef SMARTHOMEBRIDGE_DEVICESONLY
   webServer = new WebServer(webServerPort);
