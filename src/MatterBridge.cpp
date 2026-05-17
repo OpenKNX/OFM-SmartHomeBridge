@@ -21,6 +21,7 @@
 
 #include <esp_matter.h>
 #include <esp_matter_bridge.h>
+#include <zap_common/zap-generated/endpoint_config.h>
 #include <platform/PlatformManager.h>
 #include <platform/CommissionableDataProvider.h>
 #include <platform/ESP32/ESP32Config.h>
@@ -36,6 +37,37 @@
 namespace
 {
 constexpr uint32_t kDefaultMatterSetupPasscode = 20202021;
+
+void logMatterEndpointBudget()
+{
+#ifdef CHIP_DEVICE_CONFIG_DYNAMIC_ENDPOINT_COUNT
+    constexpr unsigned dynamicCount = CHIP_DEVICE_CONFIG_DYNAMIC_ENDPOINT_COUNT;
+#else
+    constexpr unsigned dynamicCount = 0;
+#endif
+
+#ifdef FIXED_ENDPOINT_COUNT
+    constexpr unsigned fixedCount = FIXED_ENDPOINT_COUNT;
+#else
+    constexpr unsigned fixedCount = 0;
+#endif
+
+#ifdef MAX_ENDPOINT_COUNT
+    constexpr unsigned maxCount = MAX_ENDPOINT_COUNT;
+#else
+    constexpr unsigned maxCount = dynamicCount + fixedCount;
+#endif
+
+#ifdef CONFIG_ESP_MATTER_MAX_DYNAMIC_ENDPOINT_COUNT
+    constexpr int sdkconfigDynamic = CONFIG_ESP_MATTER_MAX_DYNAMIC_ENDPOINT_COUNT;
+#else
+    constexpr int sdkconfigDynamic = -1;
+#endif
+
+    logInfo("MatterBridge",
+            "Matter endpoint budget: dynamic=%u fixed=%u max=%u sdkconfig_dynamic=%d",
+            dynamicCount, fixedCount, maxCount, sdkconfigDynamic);
+}
 
 class RuntimeCommissionableDataProvider : public chip::DeviceLayer::CommissionableDataProvider
 {
@@ -369,6 +401,7 @@ esp_err_t MatterBridge::configureNode(esp_matter::node_t *node)
 void MatterBridge::initialize(SmartHomeBridgeModule *bridge)
 {
     BridgeBase::initialize(bridge);
+    logMatterEndpointBudget();
 
     // Resolve intended passcode
     uint32_t matterSetupPasscode = kDefaultMatterSetupPasscode;
