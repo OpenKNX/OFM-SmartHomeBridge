@@ -300,6 +300,18 @@ void SmartHomeBridgeModule::startBridge()
   for (auto it = bridgeInterfaces->begin(); it != bridgeInterfaces->end(); ++it)
     (*it)->start(this);
 
+  // Push channel feedback state after all bridges are fully started.
+  // This avoids initial bridge reports during endpoint creation/startup.
+  if (_pChannels != nullptr)
+  {
+    for (uint8_t channelIndex = 0; channelIndex < numberOfChannels(); ++channelIndex)
+    {
+      auto channel = static_cast<KnxChannelBase *>(_pChannels[channelIndex]);
+      if (channel != nullptr)
+        channel->syncAllBridgeStates();
+    }
+  }
+
 #ifndef SMARTHOMEBRIDGE_DEVICESONLY
   webServer->begin();
 #endif

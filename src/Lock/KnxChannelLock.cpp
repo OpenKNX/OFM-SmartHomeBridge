@@ -29,8 +29,24 @@ void KnxChannelLock::add(LockBridge *lockBridge)
 {
     lockBridges.push_back(lockBridge);
     lockBridge->initialize(this);
+}
+
+void KnxChannelLock::syncBridgeState(ChannelBridge *bridge)
+{
+    if (bridge == nullptr)
+        return;
+
+    auto lockBridge = static_cast<LockBridge *>(bridge);
     lockBridge->setLocked(isLocked());
     lockBridge->setBlocked(koGet(KO_BLOCKED_FEEDBACK));
+}
+
+void KnxChannelLock::syncAllBridgeStates()
+{
+    for (auto it = lockBridges.begin(); it != lockBridges.end(); ++it)
+    {
+        syncBridgeState(*it);
+    }
 }
 
 void KnxChannelLock::remove(LockBridge *lockBridge)

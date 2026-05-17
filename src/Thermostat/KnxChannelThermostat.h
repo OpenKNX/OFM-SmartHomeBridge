@@ -45,6 +45,8 @@ class KnxChannelThermostat : public KnxChannelBase
         void remove(ThermostatBridge* thermostatBridge);
         virtual ChannelBridge* createBridgeDevice(BridgeBase& bridge) override;
         virtual void deleteBridgeDevice(ChannelBridge* device) override;
+        virtual void syncBridgeState(ChannelBridge* bridge) override;
+        virtual void syncAllBridgeStates() override;
     protected:
         virtual void setup() override;
         virtual void processInputKo(GroupObject& ko) override;

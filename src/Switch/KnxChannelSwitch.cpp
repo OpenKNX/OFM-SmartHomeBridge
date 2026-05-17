@@ -26,7 +26,23 @@ void KnxChannelSwitch::add(SwitchBridge *switchBridge)
 {
     switchBridges.push_back(switchBridge);
     switchBridge->initialize(this);
+}
+
+void KnxChannelSwitch::syncBridgeState(ChannelBridge *bridge)
+{
+    if (bridge == nullptr)
+        return;
+
+    auto switchBridge = static_cast<SwitchBridge *>(bridge);
     switchBridge->setPower(koGet(KO_SWITCH_FEEDBACK));
+}
+
+void KnxChannelSwitch::syncAllBridgeStates()
+{
+    for (auto it = switchBridges.begin(); it != switchBridges.end(); ++it)
+    {
+        syncBridgeState(*it);
+    }
 }
 
 void KnxChannelSwitch::remove(SwitchBridge *switchBridge)

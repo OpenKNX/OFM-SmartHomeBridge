@@ -39,6 +39,14 @@ void KnxChannelThermostat::add(ThermostatBridge *thermostatBridge)
 {
     thermostatBridges.push_back(thermostatBridge);
     thermostatBridge->initialize(this);
+}
+
+void KnxChannelThermostat::syncBridgeState(ChannelBridge *bridge)
+{
+    if (bridge == nullptr)
+        return;
+
+    auto thermostatBridge = static_cast<ThermostatBridge *>(bridge);
     thermostatBridge->setCurrentTemperature(koGet(KO_CURRENT_TEMPERATUR_FEEDBACK));
     thermostatBridge->setTargetTemperature(koGet(KO_TARGET_TEMPERATURE_FEEDBACK));
     if (ParamBRI_CHThermostatFeedbackKoType == 0)
@@ -60,6 +68,14 @@ void KnxChannelThermostat::add(ThermostatBridge *thermostatBridge)
         updateBridgeFromKo(KO_COOLING_ACTIVE_FEEDBACK, thermostatBridge);
     else if (ParamBRI_CHThemostateCoolingFeedbackKoType == 1)
         updateBridgeFromKo(KO_COOLING_ACTIVE_PERCENT_FEEDBACK, thermostatBridge);
+}
+
+void KnxChannelThermostat::syncAllBridgeStates()
+{
+    for (auto it = thermostatBridges.begin(); it != thermostatBridges.end(); ++it)
+    {
+        syncBridgeState(*it);
+    }
 }
 
 void KnxChannelThermostat::remove(ThermostatBridge *thermostatBridge)

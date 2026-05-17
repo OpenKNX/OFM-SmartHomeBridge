@@ -35,7 +35,23 @@ void KnxChannelDimmer::add(DimmerBridge *dimmerBridge)
 {
     dimmerBridges.push_back(dimmerBridge);
     dimmerBridge->initialize(this);
+}
+
+void KnxChannelDimmer::syncBridgeState(ChannelBridge *bridge)
+{
+    if (bridge == nullptr)
+        return;
+
+    auto dimmerBridge = static_cast<DimmerBridge *>(bridge);
     dimmerBridge->setBrightness(koGet(KO_DIMMER_FEEDBACK));
+}
+
+void KnxChannelDimmer::syncAllBridgeStates()
+{
+    for (auto it = dimmerBridges.begin(); it != dimmerBridges.end(); ++it)
+    {
+        syncBridgeState(*it);
+    }
 }
 
 void KnxChannelDimmer::remove(DimmerBridge *dimmerBridge)

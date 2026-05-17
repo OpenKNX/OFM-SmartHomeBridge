@@ -10,6 +10,7 @@ protected:
     OpenKNX::Channel** _pChannels = nullptr;
 public:
     void setNumberOfChannels(uint8_t numberOfChannels);
+    uint8_t numberOfChannels() const { return _numberOfChannels; }
     ~ChannelOwnerModule();
 
     virtual OpenKNX::Channel* createChannel(uint8_t _channelIndex /* this parameter is used in macros, do not rename */); 

@@ -30,7 +30,23 @@ void KnxChannelRolladen::add(RolladenBridge* interface)
 {
     interfaces.push_back(interface);
     interface->initialize(this);   
+}
+
+void KnxChannelRolladen::syncBridgeState(ChannelBridge *bridge)
+{
+    if (bridge == nullptr)
+        return;
+
+    auto interface = static_cast<RolladenBridge *>(bridge);
     interface->setPosition(koGet(KO_POSITION_FEEDBACK));
+}
+
+void KnxChannelRolladen::syncAllBridgeStates()
+{
+    for (auto it = interfaces.begin(); it != interfaces.end(); ++it)
+    {
+        syncBridgeState(*it);
+    }
 }
 
 void KnxChannelRolladen::remove(RolladenBridge* interface)

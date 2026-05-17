@@ -46,11 +46,27 @@ void KnxChannelRGB::add(RGBBridge* RGBBridge)
 {
     RGBBridges.push_back(RGBBridge);
     RGBBridge->initialize(this);
-    RGBBridge->setRGB(lastColor);
+}
+
+void KnxChannelRGB::syncBridgeState(ChannelBridge *bridge)
+{
+    if (bridge == nullptr)
+        return;
+
+    auto rgbBridge = static_cast<RGBBridge *>(bridge);
+    rgbBridge->setRGB(lastColor);
     if (ParamBRI_CHLightRGBUseSwitchKO)
-        RGBBridge->setPower(koGet(KO_POWER_FEEDBACK));
+        rgbBridge->setPower(koGet(KO_POWER_FEEDBACK));
     else
-        RGBBridge->setPower((uint32_t) koGet(KO_RGB_FEEDBACK) > 0);
+        rgbBridge->setPower((uint32_t) koGet(KO_RGB_FEEDBACK) > 0);
+}
+
+void KnxChannelRGB::syncAllBridgeStates()
+{
+    for (auto it = RGBBridges.begin(); it != RGBBridges.end(); ++it)
+    {
+        syncBridgeState(*it);
+    }
 }
 
 void KnxChannelRGB::remove(RGBBridge* RGBBridge)

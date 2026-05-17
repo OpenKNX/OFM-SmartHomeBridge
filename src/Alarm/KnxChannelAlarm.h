@@ -31,6 +31,8 @@ class KnxChannelAlarm : public KnxChannelBase
         void remove(AlarmBridge* sensorBridge);
         virtual ChannelBridge* createBridgeDevice(BridgeBase& bridge) override;
         virtual void deleteBridgeDevice(ChannelBridge* device) override;
+        virtual void syncBridgeState(ChannelBridge* bridge) override;
+        virtual void syncAllBridgeStates() override;
         AlarmType getAlarmType();
     protected:
         virtual void setup() override;

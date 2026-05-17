@@ -18,6 +18,8 @@ class KnxChannelSwitch : public KnxChannelBase
         void remove(SwitchBridge* switchBridge);
         virtual ChannelBridge* createBridgeDevice(BridgeBase& bridge) override;
         virtual void deleteBridgeDevice(ChannelBridge* device) override;
+        virtual void syncBridgeState(ChannelBridge* bridge) override;
+        virtual void syncAllBridgeStates() override;
     protected:
         virtual void setup() override;
         virtual void processInputKo(GroupObject& ko) override;

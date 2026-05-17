@@ -39,6 +39,8 @@ class KnxChannelDisplay : public KnxChannelBase
         void remove(DeviceBridge* DeviceBridge);
         virtual ChannelBridge* createBridgeDevice(BridgeBase& bridge) override;
         virtual void deleteBridgeDevice(ChannelBridge* device) override;
+        virtual void syncBridgeState(ChannelBridge* bridge) override;
+        virtual void syncAllBridgeStates() override;
 
     protected:
         virtual void setup() override;

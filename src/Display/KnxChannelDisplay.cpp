@@ -87,13 +87,29 @@ void KnxChannelDisplay::add(DeviceBridge *DeviceBridge)
 {
     DeviceBridges.push_back(DeviceBridge);
     DeviceBridge->initialize(this);
+}
+
+void KnxChannelDisplay::syncBridgeState(ChannelBridge *bridge)
+{
+    if (bridge == nullptr)
+        return;
+
+    auto deviceBridge = static_cast<DeviceBridge *>(bridge);
     if (getDisplayType() == DisplayType::DisplayTypeText)
     {
-        DeviceBridge->setValue(lastStringValue.c_str());
+        deviceBridge->setValue(lastStringValue.c_str());
     }
     else
     {
-        DeviceBridge->setValue(lastValue);
+        deviceBridge->setValue(lastValue);
+    }
+}
+
+void KnxChannelDisplay::syncAllBridgeStates()
+{
+    for (auto it = DeviceBridges.begin(); it != DeviceBridges.end(); ++it)
+    {
+        syncBridgeState(*it);
     }
 }
 
