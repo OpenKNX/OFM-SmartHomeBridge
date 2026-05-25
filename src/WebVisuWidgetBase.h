@@ -57,6 +57,39 @@ class WebVisuWidgetBase
         return escaped;
     }
 
+    static std::string jsonEscape(const std::string& input)
+    {
+        std::string escaped;
+        escaped.reserve(input.size());
+
+        for (char c : input)
+        {
+            switch (c)
+            {
+            case '\\':
+                escaped += "\\\\";
+                break;
+            case '"':
+                escaped += "\\\"";
+                break;
+            case '\n':
+                escaped += "\\n";
+                break;
+            case '\r':
+                escaped += "\\r";
+                break;
+            case '\t':
+                escaped += "\\t";
+                break;
+            default:
+                escaped += c;
+                break;
+            }
+        }
+
+        return escaped;
+    }
+
     static std::string renderCard(uint8_t channelIndex,
                                   const std::string& name,
                                   const std::string& typeLabel,

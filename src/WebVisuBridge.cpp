@@ -77,28 +77,6 @@ void WebVisuBridge::showHelp()
 {
 }
 
-void WebVisuBridge::reportSwitchState(uint8_t channelIndex, const char* name, bool power)
-{
-    DeviceState& state = _devices[channelIndex];
-    state.kind = DeviceKind::Switch;
-    state.channelIndex = channelIndex;
-    state.name = name == nullptr ? "Unbenannt" : std::string(name);
-    state.power = power;
-    state.brightness = power ? 100 : 0;
-    broadcastUpdate(state);
-}
-
-void WebVisuBridge::reportDimmerState(uint8_t channelIndex, const char* name, uint8_t brightness)
-{
-    DeviceState& state = _devices[channelIndex];
-    state.kind = DeviceKind::Dimmer;
-    state.channelIndex = channelIndex;
-    state.name = name == nullptr ? "Unbenannt" : std::string(name);
-    state.brightness = brightness;
-    state.power = brightness > 0;
-    broadcastUpdate(state);
-}
-
 void WebVisuBridge::queueCommand(const uint8_t* data, int length)
 {
     if (data == nullptr || length <= 0)
@@ -151,32 +129,35 @@ void WebVisuBridge::processCommandMessage(const std::string& message)
         return;
     }
 
-    DeviceState* device = findDeviceByChannelOneBased(channelOneBased);
-    if (device == nullptr || _bridge == nullptr)
+    if (channelOneBased <= 0)
     {
         return;
     }
 
-    KnxChannelBase* baseChannel = _bridge->getChannel(device->channelIndex);
+    if (_bridge == nullptr)
+    {
+        return;
+    }
+
+    const uint8_t channelIndex = (uint8_t)(channelOneBased - 1);
+    KnxChannelBase* baseChannel = _bridge->getChannel(channelIndex);
     if (baseChannel == nullptr)
     {
         return;
     }
 
+    const std::string kind = baseChannel->name();
+
     if (action == "toggle")
     {
-        if (device->kind == DeviceKind::Switch)
+        if (kind == "Switch" || kind == "Dimmer")
         {
-            ((KnxChannelSwitch*)baseChannel)->commandPower(nullptr, !device->power);
-        }
-        else if (device->kind == DeviceKind::Dimmer)
-        {
-            ((KnxChannelDimmer*)baseChannel)->commandMainFunctionClick();
+            baseChannel->commandMainFunctionClick();
         }
         return;
     }
 
-    if (action == "setSwitch" && device->kind == DeviceKind::Switch)
+    if (action == "setSwitch" && kind == "Switch")
     {
         bool power = false;
         if (!parseBoolField(message, "power", power))
@@ -187,7 +168,7 @@ void WebVisuBridge::processCommandMessage(const std::string& message)
         return;
     }
 
-    if (action == "setDimmer" && device->kind == DeviceKind::Dimmer)
+    if (action == "setDimmer" && kind == "Dimmer")
     {
         int brightness = 0;
         if (!parseIntField(message, "brightness", brightness))
@@ -203,19 +184,6 @@ void WebVisuBridge::processCommandMessage(const std::string& message)
         ((KnxChannelDimmer*)baseChannel)->commandBrightness(nullptr, (uint8_t)brightness);
         return;
     }
-}
-
-WebVisuBridge::DeviceState* WebVisuBridge::findDeviceByChannelOneBased(int channel)
-{
-    if (channel <= 0)
-        return nullptr;
-
-    uint8_t channelIndex = (uint8_t)(channel - 1);
-    auto it = _devices.find(channelIndex);
-    if (it == _devices.end())
-        return nullptr;
-
-    return &it->second;
 }
 
 std::string WebVisuBridge::buildPageHtml() const
@@ -335,47 +303,52 @@ std::string WebVisuBridge::buildPageHtml() const
 std::string WebVisuBridge::buildSnapshotMessage() const
 {
     std::string json = "{\"type\":\"snapshot\",\"devices\":[";
-    bool first = true;
-    for (const auto& entry : _devices)
+    if (_bridge == nullptr)
     {
+        json += "]}";
+        return json;
+    }
+
+    bool first = true;
+    const uint16_t channels = _bridge->getNumberOfUsedChannels();
+    for (uint16_t idx = 0; idx < channels; ++idx)
+    {
+        KnxChannelBase* baseChannel = _bridge->getChannel((uint8_t)idx);
+        if (baseChannel == nullptr)
+            continue;
+
+        const char* channelName = baseChannel->getNameInUTF8();
+        const std::string name = channelName == nullptr ? "Unbenannt" : std::string(channelName);
+        std::string deviceJson;
+
+        const std::string type = baseChannel->name();
+        if (type == "Switch")
+        {
+            const bool power = baseChannel->mainFunctionValue();
+            deviceJson = WebVisuSwitch::buildDeviceJson((uint8_t)idx, name, power);
+        }
+        else if (type == "Dimmer")
+        {
+            const std::string value = baseChannel->currentValueAsString();
+            int brightnessInt = atoi(value.c_str());
+            if (brightnessInt < 0)
+                brightnessInt = 0;
+            if (brightnessInt > 100)
+                brightnessInt = 100;
+
+            deviceJson = WebVisuDimmer::buildDeviceJson((uint8_t)idx, name, (uint8_t)brightnessInt);
+        }
+        else
+        {
+            continue;
+        }
+
         if (!first)
             json += ",";
         first = false;
-        json += buildDeviceJson(entry.second);
+        json += deviceJson;
     }
     json += "]}";
-    return json;
-}
-
-std::string WebVisuBridge::buildUpdateMessage(const DeviceState& device) const
-{
-    return std::string("{\"type\":\"update\",\"device\":") + buildDeviceJson(device) + "}";
-}
-
-std::string WebVisuBridge::buildDeviceJson(const DeviceState& device) const
-{
-    std::string widgetHtml;
-    if (device.kind == DeviceKind::Dimmer)
-    {
-        widgetHtml = WebVisuDimmer::renderWidgetHtml(device.channelIndex, device.name, device.brightness);
-    }
-    else
-    {
-        widgetHtml = WebVisuSwitch::renderWidgetHtml(device.channelIndex, device.name, device.power);
-    }
-
-    std::string json = "{";
-    json += "\"kind\":\"";
-    json += (device.kind == DeviceKind::Dimmer) ? "dimmer" : "switch";
-    json += "\",";
-    json += "\"channel\":" + std::to_string((int)device.channelIndex + 1) + ",";
-    json += "\"name\":\"" + jsonEscape(device.name) + "\",";
-    json += "\"power\":";
-    json += device.power ? "true" : "false";
-    json += ",";
-    json += "\"brightness\":" + std::to_string((int)device.brightness) + ",";
-    json += "\"html\":\"" + jsonEscape(widgetHtml) + "\"";
-    json += "}";
     return json;
 }
 
@@ -387,10 +360,10 @@ void WebVisuBridge::sendSnapshotToClient(int clientId)
 #endif
 }
 
-void WebVisuBridge::broadcastUpdate(const DeviceState& device)
+void WebVisuBridge::broadcastUpdate(const std::string& deviceJson)
 {
 #ifdef OPENKNX_WEBSERVER
-    std::string update = buildUpdateMessage(device);
+    std::string update = std::string("{\"type\":\"update\",\"device\":") + deviceJson + "}";
     openknxNetwork.webserver.sendWebsocketMessage(SOCKET_URI, update.c_str());
 #endif
 }
@@ -481,39 +454,6 @@ bool WebVisuBridge::parseBoolField(const std::string& message, const char* key, 
         return true;
     }
     return false;
-}
-
-std::string WebVisuBridge::jsonEscape(const std::string& input)
-{
-    std::string escaped;
-    escaped.reserve(input.size());
-
-    for (char c : input)
-    {
-        switch (c)
-        {
-        case '\\':
-            escaped += "\\\\";
-            break;
-        case '"':
-            escaped += "\\\"";
-            break;
-        case '\n':
-            escaped += "\\n";
-            break;
-        case '\r':
-            escaped += "\\r";
-            break;
-        case '\t':
-            escaped += "\\t";
-            break;
-        default:
-            escaped += c;
-            break;
-        }
-    }
-
-    return escaped;
 }
 
 #endif
