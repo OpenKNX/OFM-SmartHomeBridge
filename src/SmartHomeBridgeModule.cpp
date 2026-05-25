@@ -6,6 +6,9 @@
 #include <NetworkModule.h>
 #include "HomeKitBridge.h"
 #include "HueBridge.h"
+#ifdef OPENKNX_WEBSERVER
+#include "WebVisuBridge.h"
+#endif
 #endif
 #include "SmartHomeBridgeModule.h"
 #include "./Switch/KnxChannelSwitch.h"
@@ -89,6 +92,11 @@ void SmartHomeBridgeModule::setup()
     logDebugP("Hue enabled");
     addBridge(new HueBridge());
   }
+
+#ifdef OPENKNX_WEBSERVER
+  logDebugP("WebVisu enabled");
+  addBridge(new WebVisuBridge());
+#endif
 #else
   startBridge();
 #endif
