@@ -313,146 +313,147 @@ std::string WebVisuBridge::buildPageHtml() const
 {
         std::string html = "<div class='webvisu'>";
         html += WebVisuWidgetBase::widgetStyles();
+                /* Original JS before minification:
+                     (function(){
+                         const grid = document.getElementById('webvisu-grid');
+                         const meta = document.getElementById('webvisu-meta');
+                         const devices = {};
+                         let ws = null;
+                         let reconnectTimer = null;
+                         let imageLoadGeneration = 0;
+
+                         function send(payload){
+                             if (ws && ws.readyState === 1){
+                                 ws.send(JSON.stringify(payload));
+                             }
+                         }
+
+                         function loadImagesSequentially(container){
+                             imageLoadGeneration += 1;
+                             const generation = imageLoadGeneration;
+                             const images = Array.from(container.querySelectorAll('img[data-src]'));
+
+                             function loadNext(index){
+                                 if (generation !== imageLoadGeneration || index >= images.length){
+                                     return;
+                                 }
+
+                                 const image = images[index];
+                                 const src = image.getAttribute('data-src');
+                                 if (!src){
+                                     loadNext(index + 1);
+                                     return;
+                                 }
+
+                                 image.addEventListener('load', () => loadNext(index + 1), { once: true });
+                                 image.addEventListener('error', () => loadNext(index + 1), { once: true });
+                                 image.setAttribute('src', src);
+                                 image.removeAttribute('data-src');
+                             }
+
+                             loadNext(0);
+                         }
+
+                         function render(){
+                             const entries = Object.values(devices).sort((a,b) => Number(a.channel) - Number(b.channel));
+                             meta.textContent = ws && ws.readyState === 1 ? 'Live verbunden' : 'Nicht verbunden';
+                             if (entries.length === 0){
+                                 grid.innerHTML = '<div class="webvisu-empty">Noch keine Ger\u00e4te gefunden.</div>';
+                                 return;
+                             }
+
+                             grid.innerHTML = entries.map(device => device.html || '').join('');
+                             loadImagesSequentially(grid);
+                         }
+
+                         function scheduleReconnect(){
+                             if (reconnectTimer){
+                                 return;
+                             }
+                             reconnectTimer = setTimeout(() => {
+                                 reconnectTimer = null;
+                                 connect();
+                             }, 1500);
+                         }
+
+                         function connect(){
+                             const proto = location.protocol === 'https:' ? 'wss://' : 'ws://';
+                             ws = new WebSocket(proto + location.host + '/devices/ws');
+
+                             ws.onopen = () => {
+                                 render();
+                             };
+
+                             ws.onclose = () => {
+                                 render();
+                                 scheduleReconnect();
+                             };
+
+                             ws.onerror = () => {
+                                 render();
+                             };
+
+                             ws.onmessage = (event) => {
+                                 let payload = null;
+                                 try {
+                                     payload = JSON.parse(event.data);
+                                 } catch (e) {
+                                     return;
+                                 }
+
+                                 if (payload.type === 'snapshot' && Array.isArray(payload.devices)){
+                                     Object.keys(devices).forEach(k => delete devices[k]);
+                                     payload.devices.forEach(device => {
+                                         devices[String(device.channel)] = device;
+                                     });
+                                     render();
+                                     return;
+                                 }
+
+                                 if (payload.type === 'update' && payload.device && payload.device.channel){
+                                     devices[String(payload.device.channel)] = payload.device;
+                                     render();
+                                 }
+                             };
+                         }
+
+                         grid.addEventListener('click', (event) => {
+                             const target = event.target;
+                             if (!(target instanceof HTMLElement)) return;
+                             const action = target.getAttribute('data-action');
+                             const channel = Number(target.getAttribute('data-channel'));
+                             if (!action || !channel) return;
+
+                             if (action === 'toggle'){
+                                 send({ action: 'toggle', channel: channel });
+                                 return;
+                             }
+
+                             if (action === 'setDimmerPower'){
+                                 const power = target.getAttribute('data-power') === 'true';
+                                 send({ action: 'setDimmerPower', channel: channel, power: power });
+                             }
+                         });
+
+                         grid.addEventListener('change', (event) => {
+                             const target = event.target;
+                             if (!(target instanceof HTMLInputElement)) return;
+                             const action = target.getAttribute('data-action');
+                             const channel = Number(target.getAttribute('data-channel'));
+                             if (action !== 'setDimmer' || !channel) return;
+
+                             send({ action: 'setDimmer', channel: channel, brightness: Number(target.value) });
+                         });
+
+                         connect();
+                         render();
+                     })();
+                */
         html += R"HTML(
     <h1>Ger&auml;te</h1>
   <div id='webvisu-meta' class='meta'>Verbinde...</div>
   <div id='webvisu-grid' class='webvisu-grid'></div>
-  <script>
-    (function(){
-      const grid = document.getElementById('webvisu-grid');
-      const meta = document.getElementById('webvisu-meta');
-      const devices = {};
-      let ws = null;
-      let reconnectTimer = null;
-    let imageLoadGeneration = 0;
-
-      function send(payload){
-        if (ws && ws.readyState === 1){
-          ws.send(JSON.stringify(payload));
-        }
-      }
-
-            function loadImagesSequentially(container){
-                imageLoadGeneration += 1;
-                const generation = imageLoadGeneration;
-                const images = Array.from(container.querySelectorAll('img[data-src]'));
-
-                function loadNext(index){
-                    if (generation !== imageLoadGeneration || index >= images.length){
-                        return;
-                    }
-
-                    const image = images[index];
-                    const src = image.getAttribute('data-src');
-                    if (!src){
-                        loadNext(index + 1);
-                        return;
-                    }
-
-                    image.addEventListener('load', () => loadNext(index + 1), { once: true });
-                    image.addEventListener('error', () => loadNext(index + 1), { once: true });
-                    image.setAttribute('src', src);
-                    image.removeAttribute('data-src');
-                }
-
-                loadNext(0);
-            }
-
-      function render(){
-        const entries = Object.values(devices).sort((a,b) => Number(a.channel) - Number(b.channel));
-        meta.textContent = ws && ws.readyState === 1 ? 'Live verbunden' : 'Nicht verbunden';
-        if (entries.length === 0){
-                    grid.innerHTML = '<div class="webvisu-empty">Noch keine Ger\u00e4te gefunden.</div>';
-          return;
-        }
-
-                grid.innerHTML = entries.map(device => device.html || '').join('');
-                loadImagesSequentially(grid);
-      }
-
-      function scheduleReconnect(){
-        if (reconnectTimer){
-          return;
-        }
-        reconnectTimer = setTimeout(() => {
-          reconnectTimer = null;
-          connect();
-        }, 1500);
-      }
-
-      function connect(){
-        const proto = location.protocol === 'https:' ? 'wss://' : 'ws://';
-        ws = new WebSocket(proto + location.host + '/devices/ws');
-
-        ws.onopen = () => {
-          render();
-        };
-
-        ws.onclose = () => {
-          render();
-          scheduleReconnect();
-        };
-
-        ws.onerror = () => {
-          render();
-        };
-
-        ws.onmessage = (event) => {
-          let payload = null;
-          try {
-            payload = JSON.parse(event.data);
-          } catch (e) {
-            return;
-          }
-
-          if (payload.type === 'snapshot' && Array.isArray(payload.devices)){
-            Object.keys(devices).forEach(k => delete devices[k]);
-            payload.devices.forEach(device => {
-              devices[String(device.channel)] = device;
-            });
-            render();
-            return;
-          }
-
-          if (payload.type === 'update' && payload.device && payload.device.channel){
-            devices[String(payload.device.channel)] = payload.device;
-            render();
-          }
-        };
-      }
-
-      grid.addEventListener('click', (event) => {
-        const target = event.target;
-        if (!(target instanceof HTMLElement)) return;
-        const action = target.getAttribute('data-action');
-        const channel = Number(target.getAttribute('data-channel'));
-        if (!action || !channel) return;
-
-        if (action === 'toggle'){
-          send({ action: 'toggle', channel: channel });
-                    return;
-                }
-
-                if (action === 'setDimmerPower'){
-                    const power = target.getAttribute('data-power') === 'true';
-                    send({ action: 'setDimmerPower', channel: channel, power: power });
-        }
-      });
-
-      grid.addEventListener('change', (event) => {
-        const target = event.target;
-        if (!(target instanceof HTMLInputElement)) return;
-        const action = target.getAttribute('data-action');
-        const channel = Number(target.getAttribute('data-channel'));
-        if (action !== 'setDimmer' || !channel) return;
-
-        send({ action: 'setDimmer', channel: channel, brightness: Number(target.value) });
-      });
-
-      connect();
-      render();
-    })();
-  </script>
+                <script>(function(){const g=document.getElementById('webvisu-grid'),m=document.getElementById('webvisu-meta'),d={};let w=null,r=null,l=0;function s(p){if(w&&w.readyState===1)w.send(JSON.stringify(p))}function q(c){l+=1;const n=l,i=Array.from(c.querySelectorAll('img[data-src]'));function x(j){if(n!==l||j>=i.length)return;const e=i[j],u=e.getAttribute('data-src');if(!u){x(j+1);return}e.addEventListener('load',()=>x(j+1),{once:true});e.addEventListener('error',()=>x(j+1),{once:true});e.setAttribute('src',u);e.removeAttribute('data-src')}x(0)}function v(){const a=Object.values(d).sort((a,b)=>Number(a.channel)-Number(b.channel));m.textContent=w&&w.readyState===1?'Live verbunden':'Nicht verbunden';if(a.length===0){g.innerHTML='<div class="webvisu-empty">Noch keine Ger\u00e4te gefunden.</div>';return}g.innerHTML=a.map(e=>e.html||'').join('');q(g)}function t(){if(r)return;r=setTimeout(()=>{r=null;o()},1500)}function o(){const p=location.protocol==='https:'?'wss://':'ws://';w=new WebSocket(p+location.host+'/devices/ws');w.onopen=()=>{v()};w.onclose=()=>{v();t()};w.onerror=()=>{v()};w.onmessage=e=>{let p=null;try{p=JSON.parse(e.data)}catch(_){return}if(p.type==='snapshot'&&Array.isArray(p.devices)){Object.keys(d).forEach(k=>delete d[k]);p.devices.forEach(e=>{d[String(e.channel)]=e});v();return}if(p.type==='update'&&p.device&&p.device.channel){d[String(p.device.channel)]=p.device;v()}}}g.addEventListener('click',e=>{const t=e.target;if(!(t instanceof HTMLElement))return;const a=t.getAttribute('data-action'),c=Number(t.getAttribute('data-channel'));if(!a||!c)return;if(a==='toggle'){s({action:'toggle',channel:c});return}if(a==='setDimmerPower')s({action:'setDimmerPower',channel:c,power:t.getAttribute('data-power')==='true'})});g.addEventListener('change',e=>{const t=e.target;if(!(t instanceof HTMLInputElement))return;const a=t.getAttribute('data-action'),c=Number(t.getAttribute('data-channel'));if(a!=='setDimmer'||!c)return;s({action:'setDimmer',channel:c,brightness:Number(t.value)})});o();v()})();</script>
 </div>)HTML";
         return html;
 }
@@ -493,106 +494,104 @@ std::string WebVisuBridge::buildDetailPageHtml(uint8_t channelIndex) const
         <div id='webvisu-meta' class='meta'>Verbinde...</div>
         <div id='webvisu-detail' class='webvisu-grid'>)HTML";
         html += initialDetailHtml;
-        html += R"HTML(</div>
-        <script>
-            (function(){
-                const channel = )HTML";
+        /* Original JS before minification:
+                     const detail = document.getElementById('webvisu-detail');
+                     const meta = document.getElementById('webvisu-meta');
+                     let ws = null;
+                     let reconnectTimer = null;
+                     let current = null;
+
+                     function send(payload){
+                         if (ws && ws.readyState === 1){
+                             ws.send(JSON.stringify(payload));
+                         }
+                     }
+
+                     function render(){
+                         meta.textContent = ws && ws.readyState === 1 ? 'Live verbunden' : 'Nicht verbunden';
+                         if (!current){
+                             detail.innerHTML = '<div class="webvisu-empty">Ger&auml;t nicht gefunden.</div>';
+                             return;
+                         }
+                         detail.innerHTML = current.detailHtml || current.html || '';
+                     }
+
+                     function updateFromPayload(payload){
+                         if (payload && Number(payload.channel) === channel){
+                             current = payload;
+                             render();
+                         }
+                     }
+
+                     function scheduleReconnect(){
+                         if (reconnectTimer){
+                             return;
+                         }
+                         reconnectTimer = setTimeout(() => {
+                             reconnectTimer = null;
+                             connect();
+                         }, 1500);
+                     }
+
+                     function connect(){
+                         const proto = location.protocol === 'https:' ? 'wss://' : 'ws://';
+                         ws = new WebSocket(proto + location.host + '/devices/ws');
+
+                         ws.onopen = () => { render(); };
+                         ws.onclose = () => { render(); scheduleReconnect(); };
+                         ws.onerror = () => { render(); };
+                         ws.onmessage = (event) => {
+                             let payload = null;
+                             try { payload = JSON.parse(event.data); } catch (e) { return; }
+
+                             if (payload.type === 'snapshot' && Array.isArray(payload.devices)){
+                                 const found = payload.devices.find(d => Number(d.channel) === channel);
+                                 if (found) current = found;
+                                 render();
+                                 return;
+                             }
+
+                             if (payload.type === 'update' && payload.device){
+                                 updateFromPayload(payload.device);
+                             }
+                         };
+                     }
+
+                     detail.addEventListener('click', (event) => {
+                         const target = event.target;
+                         if (!(target instanceof HTMLElement)) return;
+                         const action = target.getAttribute('data-action');
+                         const actionChannel = Number(target.getAttribute('data-channel'));
+                         if (!action || !actionChannel) return;
+
+                         if (action === 'toggle'){
+                             send({ action: 'toggle', channel: actionChannel });
+                             return;
+                         }
+
+                         if (action === 'setDimmerPower'){
+                             const power = target.getAttribute('data-power') === 'true';
+                             send({ action: 'setDimmerPower', channel: actionChannel, power: power });
+                         }
+                     });
+
+                     detail.addEventListener('change', (event) => {
+                         const target = event.target;
+                         if (!(target instanceof HTMLInputElement)) return;
+                         const action = target.getAttribute('data-action');
+                         const actionChannel = Number(target.getAttribute('data-channel'));
+                         if (action !== 'setDimmer' || !actionChannel) return;
+
+                         send({ action: 'setDimmer', channel: actionChannel, brightness: Number(target.value) });
+                     });
+
+                     connect();
+                     render();
+    */
+    html += R"HTML(</div>
+        <script>(function(){const c=)HTML";
         html += std::to_string((int)channelIndex + 1);
-        html += R"HTML(;
-                const detail = document.getElementById('webvisu-detail');
-                const meta = document.getElementById('webvisu-meta');
-                let ws = null;
-                let reconnectTimer = null;
-                let current = null;
-
-                function send(payload){
-                    if (ws && ws.readyState === 1){
-                        ws.send(JSON.stringify(payload));
-                    }
-                }
-
-                function render(){
-                    meta.textContent = ws && ws.readyState === 1 ? 'Live verbunden' : 'Nicht verbunden';
-                    if (!current){
-                        detail.innerHTML = '<div class="webvisu-empty">Ger&auml;t nicht gefunden.</div>';
-                        return;
-                    }
-                    detail.innerHTML = current.detailHtml || current.html || '';
-                }
-
-                function updateFromPayload(payload){
-                    if (payload && Number(payload.channel) === channel){
-                        current = payload;
-                        render();
-                    }
-                }
-
-                function scheduleReconnect(){
-                    if (reconnectTimer){
-                        return;
-                    }
-                    reconnectTimer = setTimeout(() => {
-                        reconnectTimer = null;
-                        connect();
-                    }, 1500);
-                }
-
-                function connect(){
-                    const proto = location.protocol === 'https:' ? 'wss://' : 'ws://';
-                    ws = new WebSocket(proto + location.host + '/devices/ws');
-
-                    ws.onopen = () => { render(); };
-                    ws.onclose = () => { render(); scheduleReconnect(); };
-                    ws.onerror = () => { render(); };
-                    ws.onmessage = (event) => {
-                        let payload = null;
-                        try { payload = JSON.parse(event.data); } catch (e) { return; }
-
-                        if (payload.type === 'snapshot' && Array.isArray(payload.devices)){
-                            const found = payload.devices.find(d => Number(d.channel) === channel);
-                            if (found) current = found;
-                            render();
-                            return;
-                        }
-
-                        if (payload.type === 'update' && payload.device){
-                            updateFromPayload(payload.device);
-                        }
-                    };
-                }
-
-                detail.addEventListener('click', (event) => {
-                    const target = event.target;
-                    if (!(target instanceof HTMLElement)) return;
-                    const action = target.getAttribute('data-action');
-                    const actionChannel = Number(target.getAttribute('data-channel'));
-                    if (!action || !actionChannel) return;
-
-                    if (action === 'toggle'){
-                        send({ action: 'toggle', channel: actionChannel });
-                        return;
-                    }
-
-                    if (action === 'setDimmerPower'){
-                        const power = target.getAttribute('data-power') === 'true';
-                        send({ action: 'setDimmerPower', channel: actionChannel, power: power });
-                    }
-                });
-
-                detail.addEventListener('change', (event) => {
-                    const target = event.target;
-                    if (!(target instanceof HTMLInputElement)) return;
-                    const action = target.getAttribute('data-action');
-                    const actionChannel = Number(target.getAttribute('data-channel'));
-                    if (action !== 'setDimmer' || !actionChannel) return;
-
-                    send({ action: 'setDimmer', channel: actionChannel, brightness: Number(target.value) });
-                });
-
-                connect();
-                render();
-            })();
-        </script>
+                html += R"HTML(;const d=document.getElementById('webvisu-detail'),m=document.getElementById('webvisu-meta');let w=null,r=null,p=null;function s(a){if(w&&w.readyState===1)w.send(JSON.stringify(a))}function v(){m.textContent=w&&w.readyState===1?'Live verbunden':'Nicht verbunden';if(!p){d.innerHTML='<div class="webvisu-empty">Ger&auml;t nicht gefunden.</div>';return}d.innerHTML=p.detailHtml||p.html||''}function u(a){if(a&&Number(a.channel)===c){p=a;v()}}function t(){if(r)return;r=setTimeout(()=>{r=null;o()},1500)}function o(){const x=location.protocol==='https:'?'wss://':'ws://';w=new WebSocket(x+location.host+'/devices/ws');w.onopen=()=>{v()};w.onclose=()=>{v();t()};w.onerror=()=>{v()};w.onmessage=e=>{let a=null;try{a=JSON.parse(e.data)}catch(_){return}if(a.type==='snapshot'&&Array.isArray(a.devices)){const f=a.devices.find(e=>Number(e.channel)===c);if(f)p=f;v();return}if(a.type==='update'&&a.device)u(a.device)}}d.addEventListener('click',e=>{const t=e.target;if(!(t instanceof HTMLElement))return;const a=t.getAttribute('data-action'),h=Number(t.getAttribute('data-channel'));if(!a||!h)return;if(a==='toggle'){s({action:'toggle',channel:h});return}if(a==='setDimmerPower')s({action:'setDimmerPower',channel:h,power:t.getAttribute('data-power')==='true'})});d.addEventListener('change',e=>{const t=e.target;if(!(t instanceof HTMLInputElement))return;const a=t.getAttribute('data-action'),h=Number(t.getAttribute('data-channel'));if(a!=='setDimmer'||!h)return;s({action:'setDimmer',channel:h,brightness:Number(t.value)})});o();v()})();</script>
 </div>)HTML";
         return html;
 }
