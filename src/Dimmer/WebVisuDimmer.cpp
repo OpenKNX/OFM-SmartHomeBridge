@@ -23,12 +23,7 @@ void WebVisuDimmer::publishBrightness(uint8_t brightness)
         return;
 
     _lastBrightness = brightness;
-    const char* channelName = _channel->getNameInUTF8();
-    _name = channelName == nullptr ? "Unbenannt" : std::string(channelName);
-    const uint8_t channelIndex = _channel->channelIndex();
-    const std::string deviceJson = buildDeviceJson(channelIndex, _name, _lastBrightness);
-
-    _webVisuBridge->broadcastUpdate(deviceJson);
+    _webVisuBridge->broadcastChannelUpdate(_channel->channelIndex());
 }
 
 std::string WebVisuDimmer::buildDeviceJson(uint8_t channelIndex,

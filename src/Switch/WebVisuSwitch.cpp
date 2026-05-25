@@ -7,6 +7,7 @@
 WebVisuSwitch::WebVisuSwitch(WebVisuBridge* webVisuBridge)
     : _webVisuBridge(webVisuBridge)
 {
+    logDebug("Visu", "WebVisuSwitch created");
 }
 
 void WebVisuSwitch::setPower(bool on)
@@ -14,13 +15,8 @@ void WebVisuSwitch::setPower(bool on)
     if (_channel == nullptr || _webVisuBridge == nullptr)
         return;
 
-    const char* channelName = _channel->getNameInUTF8();
-    _name = channelName == nullptr ? "Unbenannt" : std::string(channelName);
     _power = on;
-    const uint8_t channelIndex = _channel->channelIndex();
-    const std::string deviceJson = buildDeviceJson(channelIndex, _name, _power);
-
-    _webVisuBridge->broadcastUpdate(deviceJson);
+    _webVisuBridge->broadcastChannelUpdate(_channel->channelIndex());
 }
 
 std::string WebVisuSwitch::buildDeviceJson(uint8_t channelIndex, const std::string& name, bool power)
