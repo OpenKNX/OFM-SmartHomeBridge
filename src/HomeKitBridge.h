@@ -7,7 +7,6 @@
 class HomeKitBridge : public BridgeBase
 {
     SmartHomeBridgeModule* _bridge;
-    void serveResetPairingPage();
 public:
     virtual SwitchBridge* createSwitch(KnxChannelSwitch& channel, uint8_t _channelIndex /* this parameter is used in macros, do not rename */, uint8_t deviceType) override;
     virtual DimmerBridge* createDimmer(KnxChannelDimmer& channel, uint8_t _channelIndex /* this parameter is used in macros, do not rename */, uint8_t deviceType) override;
@@ -24,11 +23,10 @@ public:
 
     virtual const std::string name() override;
     virtual void initialize(SmartHomeBridgeModule *bridge) override;
-    virtual void initWebServer(WebServer& webServer) override;
+    virtual void registerWebPages() override;
     virtual void start(SmartHomeBridgeModule *bridge) override;
     virtual void loop() override;
     virtual void processInputKo(GroupObject& ko) override;
-    virtual void getInformation(String& result) override;
     virtual bool processCommand(const std::string cmd, bool diagnoseKo) override;
     virtual void showHelp() override;
 };

@@ -145,10 +145,21 @@ void HueBridge::processInputKo(GroupObject& groupObject)
 }
 
 
-void HueBridge::getInformation(String& result) 
+void HueBridge::registerWebPages()
 {
-    result += "<h3>Hue</h3>";
-    result += "Anzahl der Geräte: " + (String) espalexa.getNumberOfDevices();  
-    result += "<br><a href=\"espalexa\">Information (in Englisch)</a>";
+#ifdef OPENKNX_WEBSERVER
+    openknxNetwork.webserver.addMenuItem("Hue", "/hue", 51);
+    openknxNetwork.webserver.addRoute(OpenKNX::Network::WEB_GET, "/hue", [this](OpenKNX::Network::WebRequest&, OpenKNX::Network::WebResponse& res) {
+        std::string html = "<h3>Hue</h3>";
+        html += "<p>Anzahl der Ger&auml;te: ";
+        html += std::to_string(espalexa.getNumberOfDevices());
+        html += "</p><p><a href=\"http://";
+        html += openknxNetwork.localIP().toString().c_str();
+        html += "/espalexa\">Information (in Englisch)</a></p>";
+        res.setLayout(true);
+        res.setActiveMenu("/hue");
+        res.send(html.c_str());
+    });
+#endif
 }
 #endif

@@ -23,7 +23,7 @@ public:
     virtual void initialize(SmartHomeBridgeModule *bridge) override;
     virtual void start(SmartHomeBridgeModule *bridge) override;
     virtual void loop() override;
-    virtual void getInformation(String& result) override;
+    virtual void registerWebPages() override;
 #ifdef OPENKNX_DUALCORE
     virtual void loop1() override;
 #endif

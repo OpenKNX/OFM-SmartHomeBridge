@@ -53,12 +53,11 @@ public:
 
     virtual void initialize(SmartHomeBridgeModule* bridge) {};
 #ifndef SMARTHOMEBRIDGE_DEVICESONLY  
-    virtual void initWebServer(WebServer& webServer) {};
+    virtual void registerWebPages() {};
 #endif
     virtual void start(SmartHomeBridgeModule* bridge) {};
     virtual void loop() {};
     virtual void processInputKo(GroupObject& ko) {};
-    virtual void getInformation(String& result) {};
     virtual bool processCommand(const std::string cmd, bool diagnoseKo) { return false;};
     virtual void showHelp() {};
 };

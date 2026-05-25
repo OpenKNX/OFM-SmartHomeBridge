@@ -230,53 +230,6 @@ void SmartHomeBridgeModule::startBridge()
 
   logDebugP("Start webserver");
   webServer = new WebServer(80);
-  // serve pages
-  webServer->on("/", HTTP_GET, [this]()
-                { this->serveHomePage(); });
-  webServer->on("/updateFW", HTTP_GET, [this]()
-                { this->serveFirmwareUpdatePage(); });
-  webServer->on("/progMode", HTTP_POST, [this]()
-                { this->serveProgModePage(); });
-  webServer->on("/reboot", HTTP_POST, [this]()
-                { this->serveRebootPage(); });
-  // handling uploading firmware file
-  webServer->on(
-      "/update", HTTP_POST, [this]()
-      {
-    webServer->sendHeader("Connection", "close");
-    webServer->send(200, "text/plain", (Update.hasError()) ? "FAIL" : "OK");
-    ESP.restart(); },
-      [this]()
-      {
-        HTTPUpload &upload = webServer->upload();
-        if (upload.status == UPLOAD_FILE_START)
-        {
-          Serial.printf("Update: %s\n", upload.filename.c_str());
-          if (!Update.begin(UPDATE_SIZE_UNKNOWN))
-          { // start with max available size
-            Update.printError(Serial);
-          }
-        }
-        else if (upload.status == UPLOAD_FILE_WRITE)
-        {
-          /* flashing firmware to ESP*/
-          if (Update.write(upload.buf, upload.currentSize) != upload.currentSize)
-          {
-            Update.printError(Serial);
-          }
-        }
-        else if (upload.status == UPLOAD_FILE_END)
-        {
-          if (Update.end(true))
-          { // true to set the size to the current progress
-            Serial.printf("Update Success: %u\nRebooting...\n", upload.totalSize);
-          }
-          else
-          {
-            Update.printError(Serial);
-          }
-        }
-      });
 #endif
   logDebugP("Initialize briges");
   for (auto it = bridgeInterfaces->begin(); it != bridgeInterfaces->end(); ++it)
@@ -286,7 +239,7 @@ void SmartHomeBridgeModule::startBridge()
 
 #ifndef SMARTHOMEBRIDGE_DEVICESONLY
   for (auto it = bridgeInterfaces->begin(); it != bridgeInterfaces->end(); ++it)
-    (*it)->initWebServer(*webServer);
+    (*it)->registerWebPages();
 
   webServer->enableDelay(false);
 #endif
@@ -345,150 +298,6 @@ WebServer *SmartHomeBridgeModule::getWebServer()
 uint16_t SmartHomeBridgeModule::getWebServerPort()
 {
   return webServerPort;
-}
-
-const char *firmwareUpdatePage =
-    "<script src='https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js'></script>"
-    "<form method='POST' action='#' enctype='multipart/form-data' id='upload_form'>"
-    "<input type='file' name='update'>"
-    "<input type='submit' value='Update'>"
-    "</form>"
-    "<div id='prg'>progress: 0%</div>"
-    "<script>"
-    "$('form').submit(function(e){"
-    "e.preventDefault();"
-    "var form = $('#upload_form')[0];"
-    "var data = new FormData(form);"
-    " $.ajax({"
-    "url: '/update',"
-    "type: 'POST',"
-    "data: data,"
-    "contentType: false,"
-    "processData:false,"
-    "xhr: function() {"
-    "var xhr = new window.XMLHttpRequest();"
-    "xhr.upload.addEventListener('progress', function(evt) {"
-    "if (evt.lengthComputable) {"
-    "var per = evt.loaded / evt.total;"
-    "$('#prg').html('progress: ' + Math.round(per*100) + '%');"
-    "}"
-    "}, false);"
-    "return xhr;"
-    "},"
-    "success:function(d, s) {"
-    "console.log('success!')"
-    "},"
-    "error: function (a, b, c) {"
-    "}"
-    "});"
-    "});"
-    "</script>";
-
-void SmartHomeBridgeModule::serveFirmwareUpdatePage()
-{
-  webServer->send(200, "text/html;charset=UTF-8", firmwareUpdatePage);
-}
-
-void SmartHomeBridgeModule::serveRebootPage()
-{
-  String res = "<!DOCTYPE html><html lang=\"en\"><meta charset=\"UTF-8\"><meta http-equiv=\"refresh\" content=\"20;url=/\"><title>";
-  res + "Smart Home Bridge Reboot";
-  res += "</title><body>";
-  res += "<br>Smart Home Bridge is rebooting...</br>";
-  res += "</body>";
-  webServer->send(200, "text/html;charset=UTF-8", res);
-  vTaskDelay(1000);
-  openknx.restart();
-}
-
-void SmartHomeBridgeModule::serveProgModePage()
-{
-  auto progMode = webServer->arg("progMode") == "1";
-  if (progMode)
-    knx.progMode(true);
-  else
-    knx.progMode(false);
-  String res = "<!DOCTYPE html><html lang=\"en\"><meta charset=\"UTF-8\"><meta http-equiv=\"refresh\" content=\"3;url=/\"><title>";
-  res + "Smart Home Bridge Prog Mode";
-  res += "</title><body>";
-  res += "<br>Prog mode ";
-  res += progMode ? "activated" : "deactivated";
-  res += "</br>";
-  res += "</body>";
-  webServer->send(200, "text/html;charset=UTF-8", res);
-}
-
-void SmartHomeBridgeModule::serveHomePage()
-{
-  auto name = String(getNameInUTF8());
-  name.replace("<", "&lt;");
-  name.replace(">", "&gt;");
-  name.replace("&", "&amp;");
-  name.replace("\"", "&quot;");
-
-  String res = "<!DOCTYPE html><html lang=\"en\"><meta charset=\"UTF-8\"><meta http-equiv=\"refresh\" content=\"10;url=/\"><title>";
-  res += name;
-  res += "</title><body>";
-  res += "<h1>OpenKNX SmartHome Bridge</h1>";
-  res += "© Copyright OpenKNX, Michael Geramb, 2023-";
-  res += (__DATE__ + sizeof(__DATE__) - 5);
-  res += "<br><br>Name: ";
-  res += name;
-  res += "<br>IP Address: ";
-  res += openknxNetwork.localIP().toString();
-  res += "<br>ETS Gerätetype: 0x";
-  char etsType[5];
-  sprintf(etsType, "%02X%02X", MAIN_OpenKnxId, MAIN_ApplicationNumber);
-  res += etsType;
-  res += "<br>ETS App Version: ";
-  res += MAIN_ApplicationVersion;
-  res += "<br>KNX Address: ";
-  res += openknx.info.humanIndividualAddress().c_str();
-  res += "<br>KNX Version: ";
-  res += KNX_Version;
-  res += "<br>Version: ";
-  res += MAIN_Version;
-  res += "<br>Common Version: ";
-  res += MODULE_Common_Version;
-  res += "<br>Logikmodul Version: ";
-  res += MODULE_LogicModule_Version;
-  res += "<br>Arduino Version: ";
-  res += ESP_ARDUINO_VERSION_MAJOR;
-  res += ".";
-  res += ESP_ARDUINO_VERSION_MINOR;
-  res += ".";
-  res += ESP_ARDUINO_VERSION_PATCH;
-  res += "<br>Verwendete Kanäle: " + (String)getNumberOfUsedChannels();
-  res += " von " + (String)BRI_ChannelCount;
-  res += "<br>Freier Heap: " + (String)ESP.getFreeHeap() + " of " + (String)ESP.getHeapSize();
-  res += "<br>Minimaler freier Heap: " + (String)ESP.getMinFreeHeap();
-  res += "<br>Größter freie Heapblock: " + (String)ESP.getMaxAllocHeap();
-  if (ESP.getFreePsram() > 0)
-  {
-    res += "<br>Freier PSRAM: " + (String)ESP.getFreePsram() + " of " + (String)ESP.getPsramSize();
-    res += "<br>Minimaler freier PSRAM: " + (String)ESP.getMinFreePsram();
-  }
-  res += "<br>Maximale Stack Verwendung: " + (String)(8192 - uxTaskGetStackHighWaterMark(nullptr));
-  res += " von 8192";
-  res += "<br>Laufzeit: " + (String)millis();
-  res += "<h2>Bridges:</h2>";
-  for (auto it = bridgeInterfaces->begin(); it != bridgeInterfaces->end(); ++it)
-  {
-    (*it)->getInformation(res);
-    res += "<br>";
-  }
-  // prog button
-  res += "<h2>Control</h2><form method='post' action='/progMode'><input name='progMode' type='hidden' value='";
-  res += knx.progMode() ? "0" : "1";
-  res += "'><input type='submit' value='";
-  res += knx.progMode() ? "Stopp KNX Adressen Programmierungsmodus" : "Start KNX Adressen Programmierungsmodus";
-  res += "'></form>";
-  // reset button
-  res += "<form method='post' action='/reboot'><input type='submit' value='Gerät neustarten'></form>";
-  // firmware update button
-  // res += "<form action='/updateFW'><button type='submit'>Update Firmware</button></form>";
-  res += "</body>";
-  webServer->send(200, "text/html;charset=UTF-8", res);
 }
 #endif
 

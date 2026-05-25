@@ -47,10 +47,6 @@ class SmartHomeBridgeModule : public ChannelOwnerModule
 #ifndef SMARTHOMEBRIDGE_DEVICESONLY
         WebServer* getWebServer();
         uint16_t getWebServerPort();
-        void serveHomePage();
-        void serveProgModePage();
-        void serveFirmwareUpdatePage();
-        void serveRebootPage();
 #endif
 };
 

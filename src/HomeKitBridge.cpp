@@ -156,23 +156,40 @@ DoorWindowBridge* HomeKitBridge::createDoorWindow(KnxChannelDoorWindow& channel,
     channel.add(bridge);
     return bridge;
 }
-void HomeKitBridge::initWebServer(WebServer &webServer)
+void HomeKitBridge::registerWebPages()
 {
-    webServer.on("/resetPairing", HTTP_POST, [this]()
-                 { this->serveResetPairingPage(); });
-}
-
-void HomeKitBridge::serveResetPairingPage()
-{
-    auto webServer = _bridge->getWebServer();
-
-    String res = "<!DOCTYPE html><html lang=\"en\"><meta charset=\"UTF-8\"><meta http-equiv=\"refresh\" content=\"3;url=/\"><title>";
-    res + "HomeKit Pairing Reset";
-    res += "</title><body>";
-    res += "<br>HomeKit Pairing reseted</br>";
-    res += "</body>";
-    webServer->send(200, "text/html;charset=UTF-8", res);
-    homeSpan.processSerialCommand("F");
+#ifdef OPENKNX_WEBSERVER
+    openknxNetwork.webserver.addMenuItem("HomeKit", "/homekit", 50);
+    openknxNetwork.webserver.addRoute(OpenKNX::Network::WEB_GET, "/homekit", [this](OpenKNX::Network::WebRequest&, OpenKNX::Network::WebResponse& res) {
+        std::string html = "<h3>HomeKit</h3>";
+        auto handle = homeSpan.getAutoPollTask();
+        if (handle != nullptr)
+        {
+            auto minFreeStack = uxTaskGetStackHighWaterMark(handle);
+            if (minFreeStack != 0)
+            {
+                html += "<p>Maximale Stack Verwendung: ";
+                html += std::to_string(HOMESPAN_STACK_SIZE - minFreeStack);
+                html += " von ";
+                html += std::to_string(HOMESPAN_STACK_SIZE);
+                html += "</p>";
+                html += "<form method='post' action='/resetPairing'>";
+                html += "<input name='resetPairing' type='hidden' value='1'>";
+                html += "<input type='submit' value='Alle HomeKit Kopplungen L\xC3\xB6schen'>";
+                html += "</form>";
+            }
+        }
+        res.setLayout(true);
+        res.setActiveMenu("/homekit");
+        res.send(html.c_str());
+    });
+    openknxNetwork.webserver.addRoute(OpenKNX::Network::WEB_POST, "/resetPairing", [this](OpenKNX::Network::WebRequest&, OpenKNX::Network::WebResponse& res) {
+        homeSpan.processSerialCommand("F");
+        res.setStatus(303);
+        res.setHeader("Location", "/homekit");
+        res.send("");
+    });
+#endif
 }
 
 const std::string HomeKitBridge::name()
@@ -195,22 +212,5 @@ void HomeKitBridge::processInputKo(GroupObject &ko)
 {
 }
 
-void HomeKitBridge::getInformation(String &result)
-{
-    result += "<h3>HomeKit</h3>";
-    auto handle = homeSpan.getAutoPollTask();
-    if (handle != nullptr)
-    {
-        auto minFreeStack = uxTaskGetStackHighWaterMark(handle);
-        if (minFreeStack != 0)
-        {
-            result += "Maximale Stack Verwendung: ";
-            result += HOMESPAN_STACK_SIZE - minFreeStack;
-            result += " von " + (String)HOMESPAN_STACK_SIZE;
-            // HomeKit Factory Reset
-            result += "<form method='post' action='/resetPairing'><input name='resetPairing' type='hidden' value='1'><input type='submit' value='Alle HomeKit Kopplungen Löschen'></form>";
-        }
-    }
-}
 
 #endif
