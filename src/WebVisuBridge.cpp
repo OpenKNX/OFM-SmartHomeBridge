@@ -578,7 +578,7 @@ std::string WebVisuBridge::buildDeviceJson(KnxChannelBase& channel, uint8_t chan
     const bool state = channel.mainFunctionValue();
     const bool supportMainAction = channel.supportMainFunctionClick();
     const MainFunctionStateImage image = channel.mainFunctionImage();
-    const std::string imageUrl = buildImageUrl(image.imageFile, image.allowRecolor, state);
+    const std::string imageUrl = buildImageUrl(image.imageFile);
     const std::string detailUrl = std::string("/devices/") + std::to_string((int)channelIndex + 1);
 
     const std::string html = WebVisuWidgetBase::renderGenericCard(channelIndex,
@@ -629,14 +629,9 @@ std::string WebVisuBridge::buildDeviceJson(KnxChannelBase& channel, uint8_t chan
     return json;
 }
 
-std::string WebVisuBridge::buildImageUrl(const std::string& imageFile, bool allowRecolor, bool state) const
+std::string WebVisuBridge::buildImageUrl(const std::string& imageFile) const
 {
-    std::string url = "/devices/image/" + urlEncode(imageFile.empty() ? "missing_file.png" : imageFile);
-    url += "?recolor=";
-    url += allowRecolor ? "1" : "0";
-    url += "&state=";
-    url += state ? "1" : "0";
-    return url;
+    return "/devices/image/" + urlEncode(imageFile.empty() ? "missing_file.png" : imageFile);
 }
 
 void WebVisuBridge::sendSnapshotToClient(int clientId)

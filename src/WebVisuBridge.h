@@ -50,7 +50,7 @@ class WebVisuBridge : public BridgeBase
     std::string buildDetailPageHtml(uint8_t channelIndex) const;
     std::string buildSnapshotMessage() const;
     std::string buildDeviceJson(KnxChannelBase& channel, uint8_t channelIndex) const;
-    std::string buildImageUrl(const std::string& imageFile, bool allowRecolor, bool state) const;
+    std::string buildImageUrl(const std::string& imageFile) const;
 
     void handleDetailRequest(const OpenKNX::Network::WebRequest& req, OpenKNX::Network::WebResponse& res) const;
     void handleImageRequest(const OpenKNX::Network::WebRequest& req, OpenKNX::Network::WebResponse& res) const;
