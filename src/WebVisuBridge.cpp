@@ -168,6 +168,17 @@ void WebVisuBridge::processCommandMessage(const std::string& message)
         return;
     }
 
+    if (action == "setDimmerPower" && kind == "Dimmer")
+    {
+        bool power = false;
+        if (!parseBoolField(message, "power", power))
+        {
+            return;
+        }
+        ((KnxChannelDimmer*)baseChannel)->commandPower(nullptr, power);
+        return;
+    }
+
     if (action == "setDimmer" && kind == "Dimmer")
     {
         int brightness = 0;
@@ -231,7 +242,7 @@ std::string WebVisuBridge::buildPageHtml() const
 
       function connect(){
         const proto = location.protocol === 'https:' ? 'wss://' : 'ws://';
-        ws = new WebSocket(proto + location.host + '/geraete/ws');
+        ws = new WebSocket(proto + location.host + '/devices/ws');
 
         ws.onopen = () => {
           render();
@@ -279,6 +290,12 @@ std::string WebVisuBridge::buildPageHtml() const
 
         if (action === 'toggle'){
           send({ action: 'toggle', channel: channel });
+                    return;
+                }
+
+                if (action === 'setDimmerPower'){
+                    const power = target.getAttribute('data-power') === 'true';
+                    send({ action: 'setDimmerPower', channel: channel, power: power });
         }
       });
 

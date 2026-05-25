@@ -59,10 +59,10 @@ std::string WebVisuDimmer::renderWidgetHtml(uint8_t channelIndex,
     const int channelOneBased = (int)channelIndex + 1;
 
     std::string controls;
-    controls += "<button class=\"webvisu-btn\" data-action=\"setDimmer\" data-channel=\"";
+    controls += "<button class=\"webvisu-btn\" data-action=\"setDimmerPower\" data-channel=\"";
     controls += std::to_string(channelOneBased);
-    controls += "\" data-brightness=\"";
-    controls += std::to_string(isOn ? 0 : 100);
+    controls += "\" data-power=\"";
+    controls += isOn ? "false" : "true";
     controls += "\">";
     controls += isOn ? "Aus" : "Ein";
     controls += "</button>";
