@@ -148,7 +148,7 @@ std::string WebVisuWidgetBase::renderGenericCard(uint8_t channelIndex,
 
     std::string mainHtml;
     mainHtml += "<div class=\"webvisu-main\">";
-    mainHtml += "<div class=\"webvisu-icon-wrap\"><img class=\"" + escapeHtml(imageClass) + "\" src=\"" + escapeHtml(imageUrl) + "\" alt=\"" + escapeHtml(name) + "\" loading=\"lazy\"></div>";
+    mainHtml += "<div class=\"webvisu-icon-wrap\"><img class=\"" + escapeHtml(imageClass) + "\" data-src=\"" + escapeHtml(imageUrl) + "\" alt=\"" + escapeHtml(name) + "\" loading=\"lazy\"></div>";
     mainHtml += "<div class=\"webvisu-value\">" + escapeHtml(valueText) + "</div>";
     mainHtml += "</div>";
 

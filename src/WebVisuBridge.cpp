@@ -324,12 +324,39 @@ std::string WebVisuBridge::buildPageHtml() const
       const devices = {};
       let ws = null;
       let reconnectTimer = null;
+    let imageLoadGeneration = 0;
 
       function send(payload){
         if (ws && ws.readyState === 1){
           ws.send(JSON.stringify(payload));
         }
       }
+
+            function loadImagesSequentially(container){
+                imageLoadGeneration += 1;
+                const generation = imageLoadGeneration;
+                const images = Array.from(container.querySelectorAll('img[data-src]'));
+
+                function loadNext(index){
+                    if (generation !== imageLoadGeneration || index >= images.length){
+                        return;
+                    }
+
+                    const image = images[index];
+                    const src = image.getAttribute('data-src');
+                    if (!src){
+                        loadNext(index + 1);
+                        return;
+                    }
+
+                    image.addEventListener('load', () => loadNext(index + 1), { once: true });
+                    image.addEventListener('error', () => loadNext(index + 1), { once: true });
+                    image.setAttribute('src', src);
+                    image.removeAttribute('data-src');
+                }
+
+                loadNext(0);
+            }
 
       function render(){
         const entries = Object.values(devices).sort((a,b) => Number(a.channel) - Number(b.channel));
@@ -340,6 +367,7 @@ std::string WebVisuBridge::buildPageHtml() const
         }
 
                 grid.innerHTML = entries.map(device => device.html || '').join('');
+                loadImagesSequentially(grid);
       }
 
       function scheduleReconnect(){
@@ -431,13 +459,41 @@ std::string WebVisuBridge::buildPageHtml() const
 
 std::string WebVisuBridge::buildDetailPageHtml(uint8_t channelIndex) const
 {
+        std::string initialDetailHtml;
+        if (_bridge != nullptr)
+        {
+            KnxChannelBase* channel = _bridge->getChannel(channelIndex);
+            if (channel != nullptr)
+            {
+                const char* channelName = channel->getNameInUTF8();
+                const std::string name = channelName == nullptr ? "Unbenannt" : std::string(channelName);
+                const std::string type = channel->name();
+                const std::string value = channel->currentValueAsString();
+                const bool state = channel->mainFunctionValue();
+                const bool supportMainAction = channel->supportMainFunctionClick();
+                const MainFunctionStateImage image = channel->mainFunctionImage();
+                const std::string imageUrl = buildImageUrl(image.imageFile);
+                initialDetailHtml = buildDetailWidgetHtml(*channel,
+                                                          channelIndex,
+                                                          name,
+                                                          type,
+                                                          value,
+                                                          state,
+                                                          imageUrl,
+                                                          supportMainAction,
+                                                          image.allowRecolor);
+            }
+        }
+
         std::string html = "<div class='webvisu'>";
         html += WebVisuWidgetBase::widgetStyles();
         html += R"HTML(
         <h1>Ger&auml;tedetails</h1>
         <div class='meta'><a class='webvisu-link' href='/devices'>&larr; Zur&uuml;ck zur &Uuml;bersicht</a></div>
         <div id='webvisu-meta' class='meta'>Verbinde...</div>
-        <div id='webvisu-detail' class='webvisu-grid'></div>
+        <div id='webvisu-detail' class='webvisu-grid'>)HTML";
+        html += initialDetailHtml;
+        html += R"HTML(</div>
         <script>
             (function(){
                 const channel = )HTML";
@@ -591,20 +647,15 @@ std::string WebVisuBridge::buildDeviceJson(KnxChannelBase& channel, uint8_t chan
                                                                    state,
                                                                    image.allowRecolor);
 
-    std::string detailHtml = html;
-    if (type == "Switch")
-    {
-        detailHtml = WebVisuSwitch::renderWidgetHtml(channelIndex, name, state);
-    }
-    else if (type == "Dimmer")
-    {
-        int brightnessInt = atoi(value.c_str());
-        if (brightnessInt < 0)
-            brightnessInt = 0;
-        if (brightnessInt > 100)
-            brightnessInt = 100;
-        detailHtml = WebVisuDimmer::renderWidgetHtml(channelIndex, name, (uint8_t)brightnessInt);
-    }
+    const std::string detailHtml = buildDetailWidgetHtml(channel,
+                                                         channelIndex,
+                                                         name,
+                                                         type,
+                                                         value,
+                                                         state,
+                                                         imageUrl,
+                                                         supportMainAction,
+                                                         image.allowRecolor);
 
     std::string json = "{";
     json += "\"kind\":\"generic\",";
@@ -627,6 +678,45 @@ std::string WebVisuBridge::buildDeviceJson(KnxChannelBase& channel, uint8_t chan
     json += "\"detailHtml\":\"" + jsonEscape(detailHtml) + "\"";
     json += "}";
     return json;
+}
+
+std::string WebVisuBridge::buildDetailWidgetHtml(KnxChannelBase& channel,
+                                                 uint8_t channelIndex,
+                                                 const std::string& name,
+                                                 const std::string& type,
+                                                 const std::string& value,
+                                                 bool state,
+                                                 const std::string& imageUrl,
+                                                 bool supportMainAction,
+                                                 bool allowRecolor) const
+{
+    (void)channel;
+
+    if (type == "Switch")
+    {
+        return WebVisuSwitch::renderWidgetHtml(channelIndex, name, state);
+    }
+
+    if (type == "Dimmer")
+    {
+        int brightnessInt = atoi(value.c_str());
+        if (brightnessInt < 0)
+            brightnessInt = 0;
+        if (brightnessInt > 100)
+            brightnessInt = 100;
+        return WebVisuDimmer::renderWidgetHtml(channelIndex, name, (uint8_t)brightnessInt);
+    }
+
+    const std::string detailUrl = std::string("/devices/") + std::to_string((int)channelIndex + 1);
+    return WebVisuWidgetBase::renderGenericCard(channelIndex,
+                                                name,
+                                                type,
+                                                value,
+                                                imageUrl,
+                                                supportMainAction,
+                                                detailUrl,
+                                                state,
+                                                allowRecolor);
 }
 
 std::string WebVisuBridge::buildImageUrl(const std::string& imageFile) const
