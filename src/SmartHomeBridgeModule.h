@@ -3,22 +3,12 @@
 #include "ChannelOwnerModule.h"
 #include "KnxChannelBase.h"
 #include "Component.h"
-#ifndef SMARTHOMEBRIDGE_DEVICESONLY
-    #include <WebServer.h>
-    #if !defined(ARDUINO_ARCH_ESP32)
-    #error Your archetecture is not supported by the smart home brigde. Currently only ESP32 is supported.
-    #endif
-#endif
 
 #include "BridgeBase.h"
 
 class SmartHomeBridgeModule : public ChannelOwnerModule
 {
     private:
-#ifndef SMARTHOMEBRIDGE_DEVICESONLY
-        const uint16_t webServerPort = 80;
-        WebServer* webServer = nullptr;
-#endif
         const char* _utf8Name = nullptr;
         DynamicPointerArray<BridgeBase>* bridgeInterfaces = nullptr;
         volatile bool started = false;
@@ -44,10 +34,6 @@ class SmartHomeBridgeModule : public ChannelOwnerModule
         const char* getNameInUTF8();
         bool processCommand(const std::string cmd, bool diagnoseKo) override;
         void showHelp() override;
-#ifndef SMARTHOMEBRIDGE_DEVICESONLY
-        WebServer* getWebServer();
-        uint16_t getWebServerPort();
-#endif
 };
 
 extern SmartHomeBridgeModule openknxSmartHomeBridgeModule;

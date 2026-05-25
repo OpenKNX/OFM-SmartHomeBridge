@@ -82,9 +82,21 @@ private:
   ESP8266WebServer* server;
   #endif
   bool serverOwner = false;
+  bool useOpenKnxWebserver = false;
   bool discoverable = true;
   bool udpConnected = false;
   bool enableSubnetFilter = false;  // default false for backward compatibility
+
+#ifdef OPENKNX_WEBSERVER
+  struct PendingWebResponse {
+    uint16_t statusCode = 200;
+    String contentType = "text/plain";
+    String body = "";
+    bool sent = false;
+  };
+
+  PendingWebResponse* pendingWebResponse = nullptr;
+#endif
 
   std::map<uint8_t, EspalexaDevice*>  _devices;
   //Keep in mind that Device IDs go from 1 to DEVICES, cpp arrays from 0 to DEVICES-1!!
@@ -99,6 +111,21 @@ private:
   String escapedMac=""; //lowercase mac address
   
   //private member functions
+  void sendResponse(uint16_t statusCode, const char* contentType, const String& body)
+  {
+#ifdef OPENKNX_WEBSERVER
+    if (useOpenKnxWebserver && pendingWebResponse != nullptr)
+    {
+      pendingWebResponse->statusCode = statusCode;
+      pendingWebResponse->contentType = contentType;
+      pendingWebResponse->body = body;
+      pendingWebResponse->sent = true;
+      return;
+    }
+#endif
+    server->send(statusCode, contentType, body);
+  }
+
   const char* modeString(EspalexaColorMode m)
   {
     if (m == EspalexaColorMode::xy) return "xy";
@@ -214,7 +241,7 @@ private:
     res += "\r\nFree Heap: " + (String)ESP.getFreeHeap();
     res += "\r\nUptime: " + (String)millis();
     res += "\r\n\r\nEspalexa library v2.7.0 by Christian Schwinne 2021";
-    server->send(200, "text/plain;charset=UTF-8", res);
+    sendResponse(200, "text/plain;charset=UTF-8", res);
   }
   #endif
 
@@ -246,8 +273,8 @@ private:
           "<presentationURL>index.html</presentationURL>"
         "</device>"
         "</root>"),s, (int) webserverPort, s, (int) webserverPort,escapedMac.c_str(),escapedMac.c_str());
-          
-    server->send(200, "text/xml", buf);
+
+    sendResponse(200, "text/xml", String(buf));
     
     EA_DEBUGLN("Send setup.xml");
     EA_DEBUGLN(buf);
@@ -277,6 +304,89 @@ private:
     serverAsync->begin();
     
     #else
+#ifdef OPENKNX_WEBSERVER
+    if (useOpenKnxWebserver)
+    {
+      #ifndef ESPALEXA_NO_SUBPAGE
+      openknxNetwork.webserver.addRoute(OpenKNX::Network::WEB_GET, "/espalexa", [this](OpenKNX::Network::WebRequest&, OpenKNX::Network::WebResponse& res) {
+        PendingWebResponse response;
+        pendingWebResponse = &response;
+        this->servePage();
+        pendingWebResponse = nullptr;
+        if (!response.sent)
+        {
+          res.setStatus(500);
+          res.setContentType("text/plain");
+          res.send("Internal Espalexa error");
+          return;
+        }
+        res.setStatus(response.statusCode);
+        res.setContentType(response.contentType.c_str());
+        res.send(response.body.c_str());
+      });
+      #endif
+
+      openknxNetwork.webserver.addRoute(OpenKNX::Network::WEB_GET, "/description.xml", [this](OpenKNX::Network::WebRequest&, OpenKNX::Network::WebResponse& res) {
+        PendingWebResponse response;
+        pendingWebResponse = &response;
+        this->serveDescription();
+        pendingWebResponse = nullptr;
+        if (!response.sent)
+        {
+          res.setStatus(500);
+          res.setContentType("text/plain");
+          res.send("Internal Espalexa error");
+          return;
+        }
+        res.setStatus(response.statusCode);
+        res.setContentType(response.contentType.c_str());
+        res.send(response.body.c_str());
+      });
+
+      auto apiRouteHandler = [this](OpenKNX::Network::WebRequest& req, OpenKNX::Network::WebResponse& res) {
+        String body;
+        body.reserve(req.bodyLength());
+        const uint8_t* requestBody = req.body();
+        if (requestBody != nullptr)
+        {
+          for (size_t i = 0; i < req.bodyLength(); i++) body += (char)requestBody[i];
+        }
+
+        PendingWebResponse response;
+        pendingWebResponse = &response;
+        bool handled = this->handleAlexaApiCall(req.uri.c_str(), body);
+        pendingWebResponse = nullptr;
+
+        if (!handled)
+        {
+          res.setStatus(404);
+          res.setContentType("application/json");
+          res.send("{}");
+          return;
+        }
+        if (!response.sent)
+        {
+          res.setStatus(500);
+          res.setContentType("text/plain");
+          res.send("Internal Espalexa error");
+          return;
+        }
+
+        res.setStatus(response.statusCode);
+        res.setContentType(response.contentType.c_str());
+        res.send(response.body.c_str());
+      };
+
+      openknxNetwork.webserver.addRoute(OpenKNX::Network::WEB_GET, "/api", apiRouteHandler);
+      openknxNetwork.webserver.addRoute(OpenKNX::Network::WEB_POST, "/api", apiRouteHandler);
+      openknxNetwork.webserver.addRoute(OpenKNX::Network::WEB_PUT, "/api", apiRouteHandler);
+      openknxNetwork.webserver.addRoute(OpenKNX::Network::WEB_GET, "/api/*", apiRouteHandler);
+      openknxNetwork.webserver.addRoute(OpenKNX::Network::WEB_POST, "/api/*", apiRouteHandler);
+      openknxNetwork.webserver.addRoute(OpenKNX::Network::WEB_PUT, "/api/*", apiRouteHandler);
+      return;
+    }
+#endif
+
     if (server == nullptr) {
       #ifdef ARDUINO_ARCH_ESP32
       server = new WebServer(webserverPort);
@@ -346,14 +456,16 @@ public:
 
   //initialize interfaces
   #ifdef ESPALEXA_ASYNC
-  bool begin(AsyncWebServer* externalServer = nullptr, uint8_t webserverPort = 80, uint8_t* mac = nullptr)
+  bool begin(AsyncWebServer* externalServer = nullptr, uint16_t webserverPort = 80, uint8_t* mac = nullptr)
   #elif defined ARDUINO_ARCH_ESP32
-  bool begin(WebServer* externalServer = nullptr, uint8_t webserverPort = 80, uint8_t* mac = nullptr)
+  bool begin(WebServer* externalServer = nullptr, uint16_t webserverPort = 80, uint8_t* mac = nullptr)
   #else
-  bool begin(ESP8266WebServer* externalServer = nullptr, uint8_t webserverPort = 80, uint8_t* mac = nullptr)
+  bool begin(ESP8266WebServer* externalServer = nullptr, uint16_t webserverPort = 80, uint8_t* mac = nullptr)
   #endif
   {
-    serverOwner = externalServer == nullptr;
+    if (externalServer != nullptr)
+      useOpenKnxWebserver = false;
+    serverOwner = externalServer == nullptr && !useOpenKnxWebserver;
     this->webserverPort = webserverPort;
     EA_DEBUGLN("Espalexa Begin...");
     EA_DEBUG("MAXDEVICES ");
@@ -411,6 +523,16 @@ public:
     return false;
   }
 
+#ifdef OPENKNX_WEBSERVER
+  #ifndef ESPALEXA_ASYNC
+  bool beginWithNetworkWebserver(uint16_t webserverPort = 9080, uint8_t* mac = nullptr)
+  {
+    useOpenKnxWebserver = true;
+    return begin(nullptr, webserverPort, mac);
+  }
+  #endif
+#endif
+
   size_t getNumberOfDevices()
   {
     return _devices.size();
@@ -456,9 +578,12 @@ public:
   //service loop
   void loop() {
     #ifndef ESPALEXA_ASYNC
-    if (server == nullptr) return; //only if begin() was not called
-    if (serverOwner)
+    if (!useOpenKnxWebserver)
+    {
+      if (server == nullptr) return; //only if begin() was not called
+      if (serverOwner)
       server->handleClient();
+    }
     #endif
     
     #ifndef USE_ESP32_ASYNC_UDP
@@ -550,7 +675,7 @@ public:
     {
       EA_DEBUGLN("devType");
       body.clear();
-      server->send(200, "application/json", F("[{\"success\":{\"username\":\"2WLEDHardQrI3WHYTHoMcXHgEspsM8ZZRpSKtBQr\"}}]"));
+      sendResponse(200, "application/json", F("[{\"success\":{\"username\":\"2WLEDHardQrI3WHYTHoMcXHgEspsM8ZZRpSKtBQr\"}}]"));
       return true;
     }
 
@@ -620,7 +745,7 @@ public:
       body.clear();
       char rsp[128];
       sprintf_P(rsp, PSTR("[{\"success\":{\"/lights/%d/state/on\": %s}}]"), devId, dev->getState() ? "true" : "false");
-      server->send(200, "application/json", rsp);
+      sendResponse(200, "application/json", String(rsp));
       EA_DEBUG("State Response: ");
       EA_DEBUGLN(rsp); 
 
@@ -653,7 +778,7 @@ public:
           if (++i < _devices.size()) jsonTemp += ',';
         }
         jsonTemp += '}';
-        server->send(200, "application/json", jsonTemp);
+        sendResponse(200, "application/json", jsonTemp);
       } else //client wants one light (devId)
       {
         EA_DEBUGLN(devId);
@@ -663,11 +788,11 @@ public:
         {
           char buf[512];
           deviceJsonString(it->second, buf);
-          server->send(200, "application/json", buf);
+          sendResponse(200, "application/json", String(buf));
           EA_DEBUG("Response: ");
           EA_DEBUGLN(buf);
         } else {
-          server->send(200, "application/json", "{}");
+          sendResponse(200, "application/json", "{}");
           EA_DEBUGLN("Response: {}");
         }
       }
@@ -676,7 +801,7 @@ public:
     }
 
     //we don't care about other api commands at this time and send empty JSON
-    server->send(200, "application/json", "{}");
+    sendResponse(200, "application/json", "{}");
     body.clear();
     return true;
   }

@@ -159,32 +159,35 @@ DoorWindowBridge* HomeKitBridge::createDoorWindow(KnxChannelDoorWindow& channel,
 void HomeKitBridge::registerWebPages()
 {
 #ifdef OPENKNX_WEBSERVER
-    openknxNetwork.webserver.addMenuItem("HomeKit", "/homekit", 50);
+    openknxNetwork.webserver.addMenuItem("Homekit", "/homekit", 50);
     openknxNetwork.webserver.addRoute(OpenKNX::Network::WEB_GET, "/homekit", [this](OpenKNX::Network::WebRequest&, OpenKNX::Network::WebResponse& res) {
-        std::string html = "<h3>HomeKit</h3>";
+        std::string html = "<div class='container'>";
+        html += "<h1 style='margin-bottom:0.75em;'>Homekit</h1>";
         auto handle = homeSpan.getAutoPollTask();
         if (handle != nullptr)
         {
             auto minFreeStack = uxTaskGetStackHighWaterMark(handle);
             if (minFreeStack != 0)
             {
-                html += "<p>Maximale Stack Verwendung: ";
+                html += "<p style='margin-bottom:0.75em;'>Maximale Stack Verwendung: ";
                 html += std::to_string(HOMESPAN_STACK_SIZE - minFreeStack);
                 html += " von ";
                 html += std::to_string(HOMESPAN_STACK_SIZE);
                 html += "</p>";
-                html += "<form method='post' action='/resetPairing'>";
+                html += "<form method='post' action='/resetPairing' style='margin:0 0 0.75em 0;'>";
                 html += "<input name='resetPairing' type='hidden' value='1'>";
-                html += "<input type='submit' value='Alle HomeKit Kopplungen L\xC3\xB6schen'>";
+                html += "<input type='submit' value='Alle Homekit Kopplungen L\xC3\xB6schen'>";
                 html += "</form>";
+                html += "<p class='meta'>Hinweis: Es werden nur Homekit-Kopplungen gelöschst. WLAN-Zugangsdaten bleiben erhalten.</p>";
             }
         }
+        html += "</div>";
         res.setLayout(true);
         res.setActiveMenu("/homekit");
         res.send(html.c_str());
     });
     openknxNetwork.webserver.addRoute(OpenKNX::Network::WEB_POST, "/resetPairing", [this](OpenKNX::Network::WebRequest&, OpenKNX::Network::WebResponse& res) {
-        homeSpan.processSerialCommand("F");
+        homeSpan.processSerialCommand("U");
         res.setStatus(303);
         res.setHeader("Location", "/homekit");
         res.send("");

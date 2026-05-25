@@ -76,8 +76,6 @@ void SmartHomeBridgeModule::setup()
   _utf8Name = convertISO8859_15ToUTF8((const char *)ParamBRI_BridgeName);
 
 #ifndef SMARTHOMEBRIDGE_DEVICESONLY
-  webServer = new WebServer(webServerPort);
-
   bool homeKitEnabled = ParamBRI_HomeKitEnabled;
   if (homeKitEnabled)
   {
@@ -226,11 +224,6 @@ void SmartHomeBridgeModule::showHelp()
 void SmartHomeBridgeModule::startBridge()
 {
   started = true;
-#ifndef SMARTHOMEBRIDGE_DEVICESONLY
-
-  logDebugP("Start webserver");
-  webServer = new WebServer(80);
-#endif
   logDebugP("Initialize briges");
   for (auto it = bridgeInterfaces->begin(); it != bridgeInterfaces->end(); ++it)
     (*it)->initialize(this);
@@ -240,15 +233,9 @@ void SmartHomeBridgeModule::startBridge()
 #ifndef SMARTHOMEBRIDGE_DEVICESONLY
   for (auto it = bridgeInterfaces->begin(); it != bridgeInterfaces->end(); ++it)
     (*it)->registerWebPages();
-
-  webServer->enableDelay(false);
 #endif
   for (auto it = bridgeInterfaces->begin(); it != bridgeInterfaces->end(); ++it)
     (*it)->start(this);
-
-#ifndef SMARTHOMEBRIDGE_DEVICESONLY
-  webServer->begin();
-#endif
 }
 
 void SmartHomeBridgeModule::loop()
@@ -260,8 +247,6 @@ void SmartHomeBridgeModule::loop()
   {
     startBridge();
   }
-  if (webServer != nullptr)
-    webServer->handleClient();
 #endif
   for (auto it = bridgeInterfaces->begin(); it != bridgeInterfaces->end(); ++it)
     (*it)->loop();
@@ -288,17 +273,5 @@ void SmartHomeBridgeModule::processInputKo(GroupObject &ko)
   }
   ChannelOwnerModule::processInputKo(ko);
 }
-
-#ifndef SMARTHOMEBRIDGE_DEVICESONLY
-WebServer *SmartHomeBridgeModule::getWebServer()
-{
-  return webServer;
-}
-
-uint16_t SmartHomeBridgeModule::getWebServerPort()
-{
-  return webServerPort;
-}
-#endif
 
 SmartHomeBridgeModule openknxSmartHomeBridgeModule;
