@@ -11,6 +11,7 @@
 #include "Switch/WebVisuSwitch.h"
 #include "Dimmer/KnxChannelDimmer.h"
 #include "Dimmer/WebVisuDimmer.h"
+#include "WebVisuWidgetBase.h"
 
 SwitchBridge* WebVisuBridge::createSwitch(KnxChannelSwitch& channel, uint8_t _channelIndex, uint8_t deviceType)
 {
@@ -219,26 +220,10 @@ WebVisuBridge::DeviceState* WebVisuBridge::findDeviceByChannelOneBased(int chann
 
 std::string WebVisuBridge::buildPageHtml() const
 {
-    return R"HTML(<div class='webvisu'>
-  <style>
-    .webvisu{padding:0.5rem 0;}
-    .webvisu h1{margin:0 0 0.75rem 0;}
-    .webvisu .meta{margin-bottom:1rem;color:var(--muted,#555);}
-    .webvisu-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:0.75rem;}
-    .webvisu-card{border:1px solid #d5d5d5;border-radius:8px;padding:0.9rem;background:#fff;display:flex;flex-direction:column;gap:0.6rem;box-shadow:0 1px 2px rgba(0,0,0,0.04);}
-    .webvisu-title{display:flex;justify-content:space-between;align-items:center;gap:0.75rem;font-weight:600;}
-    .webvisu-type{font-size:0.8rem;color:#666;background:#f1f1f1;border-radius:999px;padding:0.1rem 0.5rem;}
-    .webvisu-value{font-size:1.25rem;font-weight:700;}
-    .webvisu-controls{display:flex;align-items:center;gap:0.6rem;flex-wrap:wrap;}
-    .webvisu-btn{border:1px solid #999;background:#fafafa;border-radius:6px;padding:0.35rem 0.75rem;cursor:pointer;font-size:0.95rem;}
-    .webvisu-btn:hover{background:#efefef;}
-    .webvisu-slider{width:100%;accent-color:#3b6ea8;}
-    .webvisu-empty{padding:0.75rem;border:1px dashed #bbb;border-radius:8px;color:#666;background:#fafafa;}
-    @media (max-width: 640px){
-      .webvisu-grid{grid-template-columns:1fr;}
-    }
-  </style>
-  <h1>Ger&auml;te</h1>
+        std::string html = "<div class='webvisu'>";
+        html += WebVisuWidgetBase::widgetStyles();
+        html += R"HTML(
+    <h1>Ger&auml;te</h1>
   <div id='webvisu-meta' class='meta'>Verbinde...</div>
   <div id='webvisu-grid' class='webvisu-grid'></div>
   <script>
@@ -255,39 +240,6 @@ std::string WebVisuBridge::buildPageHtml() const
         }
       }
 
-      function cardHeader(device){
-        const typeLabel = device.kind === 'dimmer' ? 'Dimmer' : 'Switch';
-        return '<div class="webvisu-title"><span>' + escapeHtml(device.name) + '</span><span class="webvisu-type">' + typeLabel + ' #' + device.channel + '</span></div>';
-      }
-
-      function escapeHtml(value){
-        return String(value)
-          .replace(/&/g, '&amp;')
-          .replace(/</g, '&lt;')
-          .replace(/>/g, '&gt;')
-          .replace(/\"/g, '&quot;');
-      }
-
-      function renderSwitch(device){
-        const value = device.power ? 'Ein' : 'Aus';
-        const next = device.power ? 'Aus' : 'Ein';
-        return cardHeader(device) +
-          '<div class="webvisu-value">' + value + '</div>' +
-          '<div class="webvisu-controls">' +
-            '<button class="webvisu-btn" data-action="toggle" data-channel="' + device.channel + '">' + next + '</button>' +
-          '</div>';
-      }
-
-      function renderDimmer(device){
-        const brightness = Number(device.brightness || 0);
-        return cardHeader(device) +
-          '<div class="webvisu-value">' + brightness + '%</div>' +
-          '<div class="webvisu-controls">' +
-            '<button class="webvisu-btn" data-action="toggle" data-channel="' + device.channel + '">' + (brightness > 0 ? 'Aus' : 'Ein') + '</button>' +
-          '</div>' +
-          '<input class="webvisu-slider" type="range" min="0" max="100" step="1" value="' + brightness + '" data-action="setDimmer" data-channel="' + device.channel + '">';
-      }
-
       function render(){
         const entries = Object.values(devices).sort((a,b) => Number(a.channel) - Number(b.channel));
         meta.textContent = ws && ws.readyState === 1 ? 'Live verbunden' : 'Nicht verbunden';
@@ -296,10 +248,7 @@ std::string WebVisuBridge::buildPageHtml() const
           return;
         }
 
-        grid.innerHTML = entries.map(device => {
-          const body = device.kind === 'dimmer' ? renderDimmer(device) : renderSwitch(device);
-          return '<article class="webvisu-card">' + body + '</article>';
-        }).join('');
+                grid.innerHTML = entries.map(device => device.html || '').join('');
       }
 
       function scheduleReconnect(){
@@ -380,6 +329,7 @@ std::string WebVisuBridge::buildPageHtml() const
     })();
   </script>
 </div>)HTML";
+        return html;
 }
 
 std::string WebVisuBridge::buildSnapshotMessage() const
@@ -404,6 +354,16 @@ std::string WebVisuBridge::buildUpdateMessage(const DeviceState& device) const
 
 std::string WebVisuBridge::buildDeviceJson(const DeviceState& device) const
 {
+    std::string widgetHtml;
+    if (device.kind == DeviceKind::Dimmer)
+    {
+        widgetHtml = WebVisuDimmer::renderWidgetHtml(device.channelIndex, device.name, device.brightness);
+    }
+    else
+    {
+        widgetHtml = WebVisuSwitch::renderWidgetHtml(device.channelIndex, device.name, device.power);
+    }
+
     std::string json = "{";
     json += "\"kind\":\"";
     json += (device.kind == DeviceKind::Dimmer) ? "dimmer" : "switch";
@@ -413,7 +373,8 @@ std::string WebVisuBridge::buildDeviceJson(const DeviceState& device) const
     json += "\"power\":";
     json += device.power ? "true" : "false";
     json += ",";
-    json += "\"brightness\":" + std::to_string((int)device.brightness);
+    json += "\"brightness\":" + std::to_string((int)device.brightness) + ",";
+    json += "\"html\":\"" + jsonEscape(widgetHtml) + "\"";
     json += "}";
     return json;
 }
