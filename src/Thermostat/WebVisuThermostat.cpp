@@ -3,8 +3,20 @@
 #include "WebVisuThermostat.h"
 
 #include <cstdlib>
+#include <iomanip>
+#include <sstream>
 
 #include "../WebVisuBridge.h"
+
+namespace
+{
+std::string formatTemperature(double value)
+{
+    std::ostringstream stream;
+    stream << std::fixed << std::setprecision(1) << value;
+    return stream.str();
+}
+}
 
 WebVisuThermostat::WebVisuThermostat(WebVisuBridge* webVisuBridge)
     : _webVisuBridge(webVisuBridge)
@@ -54,20 +66,26 @@ std::string WebVisuThermostat::webVisuDetailHtml(uint8_t channelIndex) const
 {
     const int channelOneBased = (int)channelIndex + 1;
     std::string controls;
-    controls += "<button class=\"webvisu-btn\" data-wv-payload='{";
-    controls += "\"action\":\"stepThermostatTarget\",\"channel\":" + std::to_string(channelOneBased) + ",\"delta\":-0.5}'>-</button>";
-    controls += "<input class=\"webvisu-slider\" type=\"number\" step=\"0.5\" data-wv-payload-template='{";
-    controls += "\"action\":\"setThermostatTarget\",\"channel\":__CHANNEL__,\"target\":__VALUE__}' data-channel=\"" + std::to_string(channelOneBased) + "\" value=\"" + std::to_string(_targetTemperature) + "\">";
-    controls += "<button class=\"webvisu-btn\" data-wv-payload='{";
-    controls += "\"action\":\"stepThermostatTarget\",\"channel\":" + std::to_string(channelOneBased) + ",\"delta\":0.5}'>+</button>";
-    controls += "<select data-wv-payload-template='{";
+    controls += "<div style=\"width:100%;\">";
+    controls += "<select style=\"width:100%;\" data-wv-payload-template='{";
     controls += "\"action\":\"setThermostatMode\",\"channel\":__CHANNEL__,\"mode\":\"__VALUE__\"}' data-channel=\"" + std::to_string(channelOneBased) + "\">";
     controls += "<option value=\"0\"" + std::string(_mode == ThermostatModeOff ? " selected" : "") + ">Aus</option>";
     controls += "<option value=\"1\"" + std::string(_mode == ThermostatModeHeating ? " selected" : "") + ">Heizen</option>";
     controls += "<option value=\"2\"" + std::string(_mode == ThermostatModeCooling ? " selected" : "") + ">Kühlen</option>";
     controls += "<option value=\"3\"" + std::string(_mode == ThermostatModeAutoHeatingCooling ? " selected" : "") + ">Auto</option>";
     controls += "</select>";
-    return renderCard(channelIndex, _name, "Thermostat", std::to_string(_currentTemperature) + " / " + std::to_string(_targetTemperature), controls);
+    controls += "</div>";
+    controls += "<div style=\"width:100%; margin-top:8px; display:flex; align-items:center; gap:8px; flex-wrap:nowrap;\">";
+    controls += "<span>Solltemperatur:</span>";
+    controls += "<button class=\"webvisu-btn\" data-wv-payload='{";
+    controls += "\"action\":\"stepThermostatTarget\",\"channel\":" + std::to_string(channelOneBased) + ",\"delta\":-1.0}'>-</button>";
+    controls += "<input class=\"webvisu-slider\" style=\"width:90px; min-width:90px;\" type=\"number\" step=\"1\" data-wv-payload-template='{";
+    controls += "\"action\":\"setThermostatTarget\",\"channel\":__CHANNEL__,\"target\":__VALUE__}' data-channel=\"" + std::to_string(channelOneBased) + "\" value=\"" + formatTemperature(_targetTemperature) + "\">";
+    controls += "<button class=\"webvisu-btn\" data-wv-payload='{";
+    controls += "\"action\":\"stepThermostatTarget\",\"channel\":" + std::to_string(channelOneBased) + ",\"delta\":1.0}'>+</button>";
+    controls += "</div>";
+    const std::string value = "Raumtemperatur: " + formatTemperature(_currentTemperature) + " &deg;";
+    return renderCard(channelIndex, _name, "Thermostat", value, controls);
 }
 
 std::string WebVisuThermostat::webVisuJson(uint8_t channelIndex) const

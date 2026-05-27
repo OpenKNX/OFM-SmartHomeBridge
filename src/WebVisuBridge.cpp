@@ -441,20 +441,6 @@ std::string WebVisuBridge::buildPageHtml() const
             }
         }
 
-        function buildLegacyPayload(target){
-            const action = target.getAttribute('data-action');
-            const channel = Number(target.getAttribute('data-channel'));
-            if(!action || !channel){
-                return null;
-            }
-
-            if(action === 'toggle') return { action:'toggle', channel:channel };
-            if(action === 'setDimmerPower') return { action:'setDimmerPower', channel:channel, power:target.getAttribute('data-power') === 'true' };
-            if(action === 'setDimmer') return { action:'setDimmer', channel:channel, brightness:Number(target.value) };
-            if(action === 'setSwitch') return { action:'setSwitch', channel:channel, power:target.getAttribute('data-power') === 'true' };
-            return null;
-        }
-
         function loadImagesSequentially(container){
             imageLoadGeneration += 1;
             const generation = imageLoadGeneration;
@@ -537,8 +523,8 @@ std::string WebVisuBridge::buildPageHtml() const
         grid.addEventListener('click', event => {
             const target = event.target;
             if(!(target instanceof HTMLElement)) return;
-            const payloadTarget = target.closest('[data-wv-payload], [data-wv-payload-template], [data-action]') || target;
-            const payload = buildPayload(payloadTarget) || buildLegacyPayload(payloadTarget);
+            const payloadTarget = target.closest('[data-wv-payload], [data-wv-payload-template]') || target;
+            const payload = buildPayload(payloadTarget);
             if(payload){
                 send(payload);
             }
@@ -547,8 +533,8 @@ std::string WebVisuBridge::buildPageHtml() const
         grid.addEventListener('change', event => {
             const target = event.target;
             if(!(target instanceof HTMLElement)) return;
-            const payloadTarget = target.closest('[data-wv-payload], [data-wv-payload-template], [data-action]') || target;
-            const payload = buildPayload(payloadTarget) || buildLegacyPayload(payloadTarget);
+            const payloadTarget = target.closest('[data-wv-payload], [data-wv-payload-template]') || target;
+            const payload = buildPayload(payloadTarget);
             if(payload){
                 send(payload);
             }
@@ -655,20 +641,6 @@ std::string WebVisuBridge::buildDetailPageHtml(uint8_t channelIndex) const
             }
         }
 
-        function buildLegacyPayload(target){
-            const action = target.getAttribute('data-action');
-            const actionChannel = Number(target.getAttribute('data-channel'));
-            if(!action || !actionChannel){
-                return null;
-            }
-
-            if(action === 'toggle') return { action:'toggle', channel:actionChannel };
-            if(action === 'setDimmerPower') return { action:'setDimmerPower', channel:actionChannel, power:target.getAttribute('data-power') === 'true' };
-            if(action === 'setDimmer') return { action:'setDimmer', channel:actionChannel, brightness:Number(target.value) };
-            if(action === 'setSwitch') return { action:'setSwitch', channel:actionChannel, power:target.getAttribute('data-power') === 'true' };
-            return null;
-        }
-
         function render(){
             meta.textContent = ws && ws.readyState === 1 ? 'Live verbunden' : 'Nicht verbunden';
             if(!current){
@@ -728,9 +700,9 @@ std::string WebVisuBridge::buildDetailPageHtml(uint8_t channelIndex) const
         detail.addEventListener('click', event => {
             const target = event.target;
             if(!(target instanceof HTMLElement)) return;
-            const payloadTarget = target.closest('[data-wv-payload], [data-wv-payload-template], [data-action]');
+            const payloadTarget = target.closest('[data-wv-payload], [data-wv-payload-template]');
             if(!(payloadTarget instanceof HTMLElement)) return;
-            const payload = buildPayload(payloadTarget) || buildLegacyPayload(payloadTarget);
+            const payload = buildPayload(payloadTarget);
             if(payload){
                 send(payload);
             }
@@ -739,9 +711,9 @@ std::string WebVisuBridge::buildDetailPageHtml(uint8_t channelIndex) const
         detail.addEventListener('change', event => {
             const target = event.target;
             if(!(target instanceof HTMLElement)) return;
-            const payloadTarget = target.closest('[data-wv-payload], [data-wv-payload-template], [data-action]');
+            const payloadTarget = target.closest('[data-wv-payload], [data-wv-payload-template]');
             if(!(payloadTarget instanceof HTMLElement)) return;
-            const payload = buildPayload(payloadTarget) || buildLegacyPayload(payloadTarget);
+            const payload = buildPayload(payloadTarget);
             if(payload){
                 send(payload);
             }
@@ -764,7 +736,7 @@ std::string WebVisuBridge::buildSnapshotMessage() const
     }
 
     bool first = true;
-    const uint16_t channels = _bridge->getNumberOfUsedChannels();
+    const uint16_t channels = _bridge->getNumberOfChannels();
     for (uint16_t idx = 0; idx < channels; ++idx)
     {
         KnxChannelBase* baseChannel = _bridge->getChannel((uint8_t)idx);
@@ -912,7 +884,7 @@ void WebVisuBridge::ensureChangeHandlersRegistered()
     if (_bridge == nullptr)
         return;
 
-    const uint16_t channels = _bridge->getNumberOfUsedChannels();
+    const uint16_t channels = _bridge->getNumberOfChannels();
     if (_channelChangedHandlers.size() < channels)
     {
         _channelChangedHandlers.resize(channels);

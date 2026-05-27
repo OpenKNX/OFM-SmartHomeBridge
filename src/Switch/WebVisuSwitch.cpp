@@ -94,9 +94,9 @@ std::string WebVisuSwitch::renderWidgetHtml(uint8_t channelIndex, const std::str
     const std::string next = power ? "Aus" : "Ein";
 
     std::string controls;
-    controls += "<button class=\"webvisu-btn\" data-action=\"toggle\" data-channel=\"";
+    controls += "<button class=\"webvisu-btn\" data-wv-payload='{\"action\":\"toggle\",\"channel\":";
     controls += std::to_string((int)channelIndex + 1);
-    controls += "\">" + next + "</button>";
+    controls += "}'>" + next + "</button>";
 
     return renderCard(channelIndex, name, "Switch", value, controls);
 }

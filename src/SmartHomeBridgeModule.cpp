@@ -201,7 +201,7 @@ KnxChannelBase* SmartHomeBridgeModule::getChannel(uint8_t channelIndex)
 {
   if (_pChannels == nullptr)
     return nullptr;
-  if (channelIndex >= getNumberOfUsedChannels())
+  if (channelIndex >= getNumberOfChannels())
     return nullptr;
 
   return (KnxChannelBase*)_pChannels[channelIndex];

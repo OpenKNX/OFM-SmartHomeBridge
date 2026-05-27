@@ -123,16 +123,16 @@ std::string WebVisuDimmer::renderWidgetHtml(uint8_t channelIndex,
     const int channelOneBased = (int)channelIndex + 1;
 
     std::string controls;
-    controls += "<button class=\"webvisu-btn\" data-action=\"setDimmerPower\" data-channel=\"";
+    controls += "<button class=\"webvisu-btn\" data-wv-payload='{\"action\":\"setDimmerPower\",\"channel\":";
     controls += std::to_string(channelOneBased);
-    controls += "\" data-power=\"";
+    controls += ",\"power\":";
     controls += isOn ? "false" : "true";
-    controls += "\">";
+    controls += "}'>";
     controls += isOn ? "Aus" : "Ein";
     controls += "</button>";
 
     std::string detail;
-    detail += "<input class=\"webvisu-slider\" type=\"range\" min=\"0\" max=\"100\" step=\"1\" data-action=\"setDimmer\" data-channel=\"";
+    detail += "<input class=\"webvisu-slider\" type=\"range\" min=\"0\" max=\"100\" step=\"1\" data-wv-payload-template='{\"action\":\"setDimmer\",\"channel\":__CHANNEL__,\"brightness\":__VALUE__}' data-channel=\"";
     detail += std::to_string(channelOneBased);
     detail += "\" value=\"";
     detail += std::to_string((int)brightness);

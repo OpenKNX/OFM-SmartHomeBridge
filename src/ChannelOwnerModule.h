@@ -28,6 +28,7 @@ public:
     virtual void loop(bool configured) override;
     virtual void loop() override;
     uint16_t getNumberOfUsedChannels();
+    uint16_t getNumberOfChannels() const { return _numberOfChannels; }
  
 #ifdef OPENKNX_DUALCORE
     /*

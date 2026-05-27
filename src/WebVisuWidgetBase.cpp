@@ -321,9 +321,9 @@ std::string WebVisuWidgetBase::renderGenericCard(uint8_t channelIndex,
     std::string controls;
     if (allowMainAction)
     {
-        controls += "<button class=\"webvisu-btn webvisu-mainaction\" data-action=\"toggle\" data-channel=\"";
+        controls += "<button class=\"webvisu-btn webvisu-mainaction\" data-wv-payload='{\"action\":\"toggle\",\"channel\":";
         controls += std::to_string(channelOneBased);
-        controls += "\">Aktion</button>";
+        controls += "}'>Aktion</button>";
     }
     if (!detailUrl.empty())
     {
