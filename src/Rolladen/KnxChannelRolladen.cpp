@@ -205,7 +205,7 @@ void KnxChannelRolladen::processInputKo(GroupObject &ko)
 
 std::string KnxChannelRolladen::currentValueAsString()
 {
-    return std::to_string((uint8_t) koGet(KO_POSITION_FEEDBACK));
+    return std::to_string((uint8_t) koGet(KO_POSITION_FEEDBACK)) + "%";
 }
 
 bool KnxChannelRolladen::mainFunctionValue()
