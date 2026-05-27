@@ -3,30 +3,32 @@
 
 #include <string>
 
-#include "KnxChannelDimmer.h"
+#include "KnxChannelRGB.h"
 #include "../WebVisuWidgetBase.h"
 
 class WebVisuBridge;
 
-class WebVisuDimmer : public DimmerBridge, public WebVisuWidgetBase
+class WebVisuRGB : public RGBBridge, public WebVisuWidgetBase
 {
-  public:
-    explicit WebVisuDimmer(WebVisuBridge* webVisuBridge);
+public:
+    explicit WebVisuRGB(WebVisuBridge* webVisuBridge);
+
     virtual void setWebVisuName(const std::string& name) override;
-    virtual void setBrightness(uint8_t brightness) override;
+
+    virtual void setRGB(uint32_t rgb) override;
+    virtual void setPower(bool on) override;
+
     virtual std::string webVisuKind() const override;
     virtual std::string webVisuOverviewHtml(uint8_t channelIndex) const override;
     virtual std::string webVisuDetailHtml(uint8_t channelIndex) const override;
     virtual std::string webVisuJson(uint8_t channelIndex) const override;
     virtual bool webVisuHandleCommand(const std::string& action, const std::string& message) override;
-    static std::string buildDeviceJson(uint8_t channelIndex, const std::string& name, uint8_t brightness);
-    static std::string renderWidgetHtml(uint8_t channelIndex, const std::string& name, uint8_t brightness);
 
-  private:
+private:
     std::string _name = "Unbenannt";
-    uint8_t _lastBrightness = 0;
+    uint32_t _rgb = 0xFFFFFF;
+    bool _power = false;
     WebVisuBridge* _webVisuBridge;
-    void publishBrightness(uint8_t brightness);
 };
 
 #endif

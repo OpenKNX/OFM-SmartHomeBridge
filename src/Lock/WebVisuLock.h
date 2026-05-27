@@ -3,30 +3,36 @@
 
 #include <string>
 
-#include "KnxChannelDimmer.h"
+#include "KnxChannelLock.h"
 #include "../WebVisuWidgetBase.h"
 
 class WebVisuBridge;
 
-class WebVisuDimmer : public DimmerBridge, public WebVisuWidgetBase
+class WebVisuLock : public LockBridge, public WebVisuWidgetBase
 {
-  public:
-    explicit WebVisuDimmer(WebVisuBridge* webVisuBridge);
+public:
+    explicit WebVisuLock(WebVisuBridge* webVisuBridge);
+
     virtual void setWebVisuName(const std::string& name) override;
-    virtual void setBrightness(uint8_t brightness) override;
+
+    virtual void setLocked(bool lock) override;
+    virtual void setBlocked(bool lock) override;
+    virtual void setUnlocking(bool unlocking) override;
+    virtual void setLocking(bool locking) override;
+
     virtual std::string webVisuKind() const override;
     virtual std::string webVisuOverviewHtml(uint8_t channelIndex) const override;
     virtual std::string webVisuDetailHtml(uint8_t channelIndex) const override;
     virtual std::string webVisuJson(uint8_t channelIndex) const override;
     virtual bool webVisuHandleCommand(const std::string& action, const std::string& message) override;
-    static std::string buildDeviceJson(uint8_t channelIndex, const std::string& name, uint8_t brightness);
-    static std::string renderWidgetHtml(uint8_t channelIndex, const std::string& name, uint8_t brightness);
 
-  private:
+private:
     std::string _name = "Unbenannt";
-    uint8_t _lastBrightness = 0;
+    bool _locked = false;
+    bool _blocked = false;
+    bool _unlocking = false;
+    bool _locking = false;
     WebVisuBridge* _webVisuBridge;
-    void publishBrightness(uint8_t brightness);
 };
 
 #endif

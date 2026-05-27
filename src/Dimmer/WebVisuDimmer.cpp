@@ -9,6 +9,75 @@ WebVisuDimmer::WebVisuDimmer(WebVisuBridge* webVisuBridge)
 {
 }
 
+void WebVisuDimmer::setWebVisuName(const std::string& name)
+{
+    _name = name;
+}
+
+std::string WebVisuDimmer::webVisuKind() const
+{
+    return "dimmer";
+}
+
+std::string WebVisuDimmer::webVisuOverviewHtml(uint8_t channelIndex) const
+{
+    return renderWidgetHtml(channelIndex, _name, _lastBrightness);
+}
+
+std::string WebVisuDimmer::webVisuDetailHtml(uint8_t channelIndex) const
+{
+    return renderWidgetHtml(channelIndex, _name, _lastBrightness);
+}
+
+std::string WebVisuDimmer::webVisuJson(uint8_t channelIndex) const
+{
+    return buildDeviceJson(channelIndex, _name, _lastBrightness);
+}
+
+bool WebVisuDimmer::webVisuHandleCommand(const std::string& action, const std::string& message)
+{
+    if (_channel == nullptr)
+    {
+        return false;
+    }
+
+    if (action == "toggle")
+    {
+        _channel->commandMainFunctionClick();
+        return true;
+    }
+
+    if (action == "setDimmerPower")
+    {
+        bool power = false;
+        if (!parseBoolField(message, "power", power))
+        {
+            return false;
+        }
+        _channel->commandPower(this, power);
+        return true;
+    }
+
+    if (action == "setDimmer")
+    {
+        int brightness = 0;
+        if (!parseIntField(message, "brightness", brightness))
+        {
+            return false;
+        }
+
+        if (brightness < 0)
+            brightness = 0;
+        if (brightness > 100)
+            brightness = 100;
+
+        _channel->commandBrightness(this, (uint8_t)brightness);
+        return true;
+    }
+
+    return false;
+}
+
 void WebVisuDimmer::setBrightness(uint8_t brightness)
 {
     if (_channel == nullptr || _webVisuBridge == nullptr)

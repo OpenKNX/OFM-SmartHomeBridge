@@ -3,30 +3,34 @@
 
 #include <string>
 
-#include "KnxChannelDimmer.h"
+#include "KnxChannelMedia.h"
 #include "../WebVisuWidgetBase.h"
 
 class WebVisuBridge;
 
-class WebVisuDimmer : public DimmerBridge, public WebVisuWidgetBase
+class WebVisuMedia : public MediaBridge, public WebVisuWidgetBase
 {
-  public:
-    explicit WebVisuDimmer(WebVisuBridge* webVisuBridge);
+public:
+    explicit WebVisuMedia(WebVisuBridge* webVisuBridge);
+
     virtual void setWebVisuName(const std::string& name) override;
-    virtual void setBrightness(uint8_t brightness) override;
+
+    virtual void setPlay(bool play) override;
+    virtual void setVolume(uint8_t volume) override;
+    virtual void setTitle(const char* text) override;
+
     virtual std::string webVisuKind() const override;
     virtual std::string webVisuOverviewHtml(uint8_t channelIndex) const override;
     virtual std::string webVisuDetailHtml(uint8_t channelIndex) const override;
     virtual std::string webVisuJson(uint8_t channelIndex) const override;
     virtual bool webVisuHandleCommand(const std::string& action, const std::string& message) override;
-    static std::string buildDeviceJson(uint8_t channelIndex, const std::string& name, uint8_t brightness);
-    static std::string renderWidgetHtml(uint8_t channelIndex, const std::string& name, uint8_t brightness);
 
-  private:
+private:
     std::string _name = "Unbenannt";
-    uint8_t _lastBrightness = 0;
+    bool _play = false;
+    uint8_t _volume = 0;
+    std::string _title;
     WebVisuBridge* _webVisuBridge;
-    void publishBrightness(uint8_t brightness);
 };
 
 #endif

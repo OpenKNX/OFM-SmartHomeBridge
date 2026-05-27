@@ -10,6 +10,57 @@ WebVisuSwitch::WebVisuSwitch(WebVisuBridge* webVisuBridge)
     logDebug("Visu", "WebVisuSwitch created");
 }
 
+void WebVisuSwitch::setWebVisuName(const std::string& name)
+{
+    _name = name;
+}
+
+std::string WebVisuSwitch::webVisuKind() const
+{
+    return "switch";
+}
+
+std::string WebVisuSwitch::webVisuOverviewHtml(uint8_t channelIndex) const
+{
+    return renderWidgetHtml(channelIndex, _name, _power);
+}
+
+std::string WebVisuSwitch::webVisuDetailHtml(uint8_t channelIndex) const
+{
+    return renderWidgetHtml(channelIndex, _name, _power);
+}
+
+std::string WebVisuSwitch::webVisuJson(uint8_t channelIndex) const
+{
+    return buildDeviceJson(channelIndex, _name, _power);
+}
+
+bool WebVisuSwitch::webVisuHandleCommand(const std::string& action, const std::string& message)
+{
+    if (action == "toggle")
+    {
+        if (_channel != nullptr && _channel->supportMainFunctionClick())
+        {
+            _channel->commandMainFunctionClick();
+            return true;
+        }
+        return false;
+    }
+
+    if (action == "setSwitch")
+    {
+        bool power = false;
+        if (!parseBoolField(message, "power", power))
+        {
+            return false;
+        }
+        setPower(power);
+        return true;
+    }
+
+    return false;
+}
+
 void WebVisuSwitch::setPower(bool on)
 {
     if (_channel == nullptr || _webVisuBridge == nullptr)

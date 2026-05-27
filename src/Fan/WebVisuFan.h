@@ -3,30 +3,32 @@
 
 #include <string>
 
-#include "KnxChannelDimmer.h"
+#include "KnxChannelFan.h"
 #include "../WebVisuWidgetBase.h"
 
 class WebVisuBridge;
 
-class WebVisuDimmer : public DimmerBridge, public WebVisuWidgetBase
+class WebVisuFan : public FanBridge, public WebVisuWidgetBase
 {
-  public:
-    explicit WebVisuDimmer(WebVisuBridge* webVisuBridge);
+public:
+    explicit WebVisuFan(WebVisuBridge* webVisuBridge);
+
     virtual void setWebVisuName(const std::string& name) override;
-    virtual void setBrightness(uint8_t brightness) override;
+
+    virtual void setAutomatic(bool automatic) override;
+    virtual void setPower(bool on) override;
+
     virtual std::string webVisuKind() const override;
     virtual std::string webVisuOverviewHtml(uint8_t channelIndex) const override;
     virtual std::string webVisuDetailHtml(uint8_t channelIndex) const override;
     virtual std::string webVisuJson(uint8_t channelIndex) const override;
     virtual bool webVisuHandleCommand(const std::string& action, const std::string& message) override;
-    static std::string buildDeviceJson(uint8_t channelIndex, const std::string& name, uint8_t brightness);
-    static std::string renderWidgetHtml(uint8_t channelIndex, const std::string& name, uint8_t brightness);
 
-  private:
+private:
     std::string _name = "Unbenannt";
-    uint8_t _lastBrightness = 0;
+    bool _power = false;
+    bool _automatic = false;
     WebVisuBridge* _webVisuBridge;
-    void publishBrightness(uint8_t brightness);
 };
 
 #endif

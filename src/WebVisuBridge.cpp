@@ -13,6 +13,28 @@
 #include "Switch/WebVisuSwitch.h"
 #include "Dimmer/KnxChannelDimmer.h"
 #include "Dimmer/WebVisuDimmer.h"
+#include "RGB/KnxChannelRGB.h"
+#include "RGB/WebVisuRGB.h"
+#include "Scene/KnxChannelScene.h"
+#include "Scene/WebVisuScene.h"
+#include "Rolladen/KnxChannelRolladen.h"
+#include "Rolladen/WebVisuRolladen.h"
+#include "Jalousie/KnxChannelJalousie.h"
+#include "Jalousie/WebVisuJalousie.h"
+#include "Thermostat/KnxChannelThermostat.h"
+#include "Thermostat/WebVisuThermostat.h"
+#include "Display/KnxChannelDisplay.h"
+#include "Display/WebVisuDisplay.h"
+#include "Alarm/KnxChannelAlarm.h"
+#include "Alarm/WebVisuAlarm.h"
+#include "Fan/KnxChannelFan.h"
+#include "Fan/WebVisuFan.h"
+#include "DoorWindow/KnxChannelDoorWindow.h"
+#include "DoorWindow/WebVisuDoorWindow.h"
+#include "Media/KnxChannelMedia.h"
+#include "Media/WebVisuMedia.h"
+#include "Lock/KnxChannelLock.h"
+#include "Lock/WebVisuLock.h"
 #include "ImageLoader.h"
 #include "WebVisuWidgetBase.h"
 
@@ -119,14 +141,117 @@ std::string headerIgnoreCase(const OpenKNX::Network::WebRequest& req, const char
 SwitchBridge* WebVisuBridge::createSwitch(KnxChannelSwitch& channel, uint8_t _channelIndex, uint8_t deviceType)
 {
     auto bridge = new WebVisuSwitch(this);
+    bridge->setWebVisuName(channel.getNameInUTF8() == nullptr ? "Unbenannt" : std::string(channel.getNameInUTF8()));
     channel.add(bridge);
+    registerWebVisuWidget(_channelIndex, bridge);
     return bridge;
 }
 
 DimmerBridge* WebVisuBridge::createDimmer(KnxChannelDimmer& channel, uint8_t _channelIndex, uint8_t deviceType)
 {
     auto bridge = new WebVisuDimmer(this);
+    bridge->setWebVisuName(channel.getNameInUTF8() == nullptr ? "Unbenannt" : std::string(channel.getNameInUTF8()));
     channel.add(bridge);
+    registerWebVisuWidget(_channelIndex, bridge);
+    return bridge;
+}
+
+RGBBridge* WebVisuBridge::createRGB(KnxChannelRGB& channel, uint8_t _channelIndex, uint8_t deviceType)
+{
+    auto bridge = new WebVisuRGB(this);
+    bridge->setWebVisuName(channel.getNameInUTF8() == nullptr ? "Unbenannt" : std::string(channel.getNameInUTF8()));
+    channel.add(bridge);
+    registerWebVisuWidget(_channelIndex, bridge);
+    return bridge;
+}
+
+SceneBridge* WebVisuBridge::createScene(KnxChannelScene& channel, uint8_t _channelIndex, uint8_t deviceType)
+{
+    auto bridge = new WebVisuScene(this);
+    bridge->setWebVisuName(channel.getNameInUTF8() == nullptr ? "Unbenannt" : std::string(channel.getNameInUTF8()));
+    channel.add(bridge);
+    registerWebVisuWidget(_channelIndex, bridge);
+    return bridge;
+}
+
+RolladenBridge* WebVisuBridge::createJalousien(KnxChannelJalousie& channel, uint8_t _channelIndex, uint8_t deviceType)
+{
+    auto bridge = new WebVisuJalousie(this);
+    bridge->setWebVisuName(channel.getNameInUTF8() == nullptr ? "Unbenannt" : std::string(channel.getNameInUTF8()));
+    channel.add(bridge);
+    registerWebVisuWidget(_channelIndex, bridge);
+    return bridge;
+}
+
+RolladenBridge* WebVisuBridge::createRolladen(KnxChannelRolladen& channel, uint8_t _channelIndex, uint8_t deviceType)
+{
+    auto bridge = new WebVisuRolladen(this);
+    bridge->setWebVisuName(channel.getNameInUTF8() == nullptr ? "Unbenannt" : std::string(channel.getNameInUTF8()));
+    channel.add(bridge);
+    registerWebVisuWidget(_channelIndex, bridge);
+    return bridge;
+}
+
+ThermostatBridge* WebVisuBridge::createThermostat(KnxChannelThermostat& channel, uint8_t _channelIndex, uint8_t deviceType)
+{
+    auto bridge = new WebVisuThermostat(this);
+    bridge->setWebVisuName(channel.getNameInUTF8() == nullptr ? "Unbenannt" : std::string(channel.getNameInUTF8()));
+    channel.add(bridge);
+    registerWebVisuWidget(_channelIndex, bridge);
+    return bridge;
+}
+
+DeviceBridge* WebVisuBridge::createDisplay(KnxChannelDisplay& channel, uint8_t _channelIndex, uint8_t deviceType)
+{
+    auto bridge = new WebVisuDisplay(this);
+    bridge->setWebVisuName(channel.getNameInUTF8() == nullptr ? "Unbenannt" : std::string(channel.getNameInUTF8()));
+    channel.add(bridge);
+    registerWebVisuWidget(_channelIndex, bridge);
+    return bridge;
+}
+
+AlarmBridge* WebVisuBridge::createSensor(KnxChannelAlarm& channel, uint8_t _channelIndex, uint8_t deviceType)
+{
+    auto bridge = new WebVisuAlarm(this);
+    bridge->setWebVisuName(channel.getNameInUTF8() == nullptr ? "Unbenannt" : std::string(channel.getNameInUTF8()));
+    channel.add(bridge);
+    registerWebVisuWidget(_channelIndex, bridge);
+    return bridge;
+}
+
+FanBridge* WebVisuBridge::createFan(KnxChannelFan& channel, uint8_t _channelIndex, uint8_t deviceType)
+{
+    auto bridge = new WebVisuFan(this);
+    bridge->setWebVisuName(channel.getNameInUTF8() == nullptr ? "Unbenannt" : std::string(channel.getNameInUTF8()));
+    channel.add(bridge);
+    registerWebVisuWidget(_channelIndex, bridge);
+    return bridge;
+}
+
+DoorWindowBridge* WebVisuBridge::createDoorWindow(KnxChannelDoorWindow& channel, uint8_t _channelIndex, uint8_t deviceType)
+{
+    auto bridge = new WebVisuDoorWindow(this);
+    bridge->setWebVisuName(channel.getNameInUTF8() == nullptr ? "Unbenannt" : std::string(channel.getNameInUTF8()));
+    channel.add(bridge);
+    registerWebVisuWidget(_channelIndex, bridge);
+    return bridge;
+}
+
+MediaBridge* WebVisuBridge::createMedia(KnxChannelMedia& channel, uint8_t _channelIndex, uint8_t deviceType)
+{
+    auto bridge = new WebVisuMedia(this);
+    bridge->setWebVisuName(channel.getNameInUTF8() == nullptr ? "Unbenannt" : std::string(channel.getNameInUTF8()));
+    channel.add(bridge);
+    registerWebVisuWidget(_channelIndex, bridge);
+    return bridge;
+}
+
+LockBridge* WebVisuBridge::createLock(KnxChannelLock& channel, uint8_t _channelIndex, uint8_t deviceType)
+{
+    auto bridge = new WebVisuLock(this);
+    bridge->setWebVisuName(channel.getNameInUTF8() == nullptr ? "Unbenannt" : std::string(channel.getNameInUTF8()));
+    channel.add(bridge);
+    registerWebVisuWidget(_channelIndex, bridge);
     return bridge;
 }
 
@@ -252,219 +377,204 @@ void WebVisuBridge::processCommandMessage(const std::string& message)
     }
 
     const uint8_t channelIndex = (uint8_t)(channelOneBased - 1);
-    KnxChannelBase* baseChannel = _bridge->getChannel(channelIndex);
-    if (baseChannel == nullptr)
+    WebVisuWidgetBase* widget = webVisuWidget(channelIndex);
+    if (widget == nullptr)
     {
         return;
     }
 
-    const std::string kind = baseChannel->name();
-
-    if (action == "toggle")
-    {
-        if (baseChannel->supportMainFunctionClick())
-        {
-            baseChannel->commandMainFunctionClick();
-        }
-        return;
-    }
-
-    if (action == "setSwitch" && kind == "Switch")
-    {
-        bool power = false;
-        if (!parseBoolField(message, "power", power))
-        {
-            return;
-        }
-        ((KnxChannelSwitch*)baseChannel)->commandPower(nullptr, power);
-        return;
-    }
-
-    if (action == "setDimmerPower" && kind == "Dimmer")
-    {
-        bool power = false;
-        if (!parseBoolField(message, "power", power))
-        {
-            return;
-        }
-        ((KnxChannelDimmer*)baseChannel)->commandPower(nullptr, power);
-        return;
-    }
-
-    if (action == "setDimmer" && kind == "Dimmer")
-    {
-        int brightness = 0;
-        if (!parseIntField(message, "brightness", brightness))
-        {
-            return;
-        }
-
-        if (brightness < 0)
-            brightness = 0;
-        if (brightness > 100)
-            brightness = 100;
-
-        ((KnxChannelDimmer*)baseChannel)->commandBrightness(nullptr, (uint8_t)brightness);
-        return;
-    }
+    widget->webVisuHandleCommand(action, message);
 }
 
 std::string WebVisuBridge::buildPageHtml() const
 {
-        std::string html = "<div class='webvisu'>";
-        html += WebVisuWidgetBase::widgetStyles();
-                /* Original JS before minification:
-                     (function(){
-                         const grid = document.getElementById('webvisu-grid');
-                         const meta = document.getElementById('webvisu-meta');
-                         const devices = {};
-                         let ws = null;
-                         let reconnectTimer = null;
-                         let imageLoadGeneration = 0;
-
-                         function send(payload){
-                             if (ws && ws.readyState === 1){
-                                 ws.send(JSON.stringify(payload));
-                             }
-                         }
-
-                         function loadImagesSequentially(container){
-                             imageLoadGeneration += 1;
-                             const generation = imageLoadGeneration;
-                             const images = Array.from(container.querySelectorAll('img[data-src]'));
-
-                             function loadNext(index){
-                                 if (generation !== imageLoadGeneration || index >= images.length){
-                                     return;
-                                 }
-
-                                 const image = images[index];
-                                 const src = image.getAttribute('data-src');
-                                 if (!src){
-                                     loadNext(index + 1);
-                                     return;
-                                 }
-
-                                 image.addEventListener('load', () => loadNext(index + 1), { once: true });
-                                 image.addEventListener('error', () => loadNext(index + 1), { once: true });
-                                 image.setAttribute('src', src);
-                                 image.removeAttribute('data-src');
-                             }
-
-                             loadNext(0);
-                         }
-
-                         function render(){
-                             const entries = Object.values(devices).sort((a,b) => Number(a.channel) - Number(b.channel));
-                             meta.textContent = ws && ws.readyState === 1 ? 'Live verbunden' : 'Nicht verbunden';
-                             if (entries.length === 0){
-                                 grid.innerHTML = '<div class="webvisu-empty">Noch keine Ger\u00e4te gefunden.</div>';
-                                 return;
-                             }
-
-                             grid.innerHTML = entries.map(device => device.html || '').join('');
-                             loadImagesSequentially(grid);
-                         }
-
-                         function scheduleReconnect(){
-                             if (reconnectTimer){
-                                 return;
-                             }
-                             reconnectTimer = setTimeout(() => {
-                                 reconnectTimer = null;
-                                 connect();
-                             }, 1500);
-                         }
-
-                         function connect(){
-                             const proto = location.protocol === 'https:' ? 'wss://' : 'ws://';
-                             ws = new WebSocket(proto + location.host + '/devices/ws');
-
-                             ws.onopen = () => {
-                                 render();
-                             };
-
-                             ws.onclose = () => {
-                                 render();
-                                 scheduleReconnect();
-                             };
-
-                             ws.onerror = () => {
-                                 render();
-                             };
-
-                             ws.onmessage = (event) => {
-                                 let payload = null;
-                                 try {
-                                     payload = JSON.parse(event.data);
-                                 } catch (e) {
-                                     return;
-                                 }
-
-                                 if (payload.type === 'snapshot' && Array.isArray(payload.devices)){
-                                     Object.keys(devices).forEach(k => delete devices[k]);
-                                     payload.devices.forEach(device => {
-                                         devices[String(device.channel)] = device;
-                                     });
-                                     render();
-                                     return;
-                                 }
-
-                                 if (payload.type === 'update' && payload.device && payload.device.channel){
-                                     devices[String(payload.device.channel)] = payload.device;
-                                     render();
-                                 }
-                             };
-                         }
-
-                         grid.addEventListener('click', (event) => {
-                             const target = event.target;
-                             if (!(target instanceof HTMLElement)) return;
-                             const action = target.getAttribute('data-action');
-                             const channel = Number(target.getAttribute('data-channel'));
-                             if (!action || !channel) return;
-
-                             if (action === 'toggle'){
-                                 send({ action: 'toggle', channel: channel });
-                                 return;
-                             }
-
-                             if (action === 'setDimmerPower'){
-                                 const power = target.getAttribute('data-power') === 'true';
-                                 send({ action: 'setDimmerPower', channel: channel, power: power });
-                             }
-                         });
-
-                         grid.addEventListener('change', (event) => {
-                             const target = event.target;
-                             if (!(target instanceof HTMLInputElement)) return;
-                             const action = target.getAttribute('data-action');
-                             const channel = Number(target.getAttribute('data-channel'));
-                             if (action !== 'setDimmer' || !channel) return;
-
-                             send({ action: 'setDimmer', channel: channel, brightness: Number(target.value) });
-                         });
-
-                         connect();
-                         render();
-                     })();
-                */
-        html += R"HTML(
+    std::string html = "<div class='webvisu'>";
+    html += WebVisuWidgetBase::widgetStyles();
+    html += R"HTML(
     <h1>Ger&auml;te</h1>
-  <div id='webvisu-meta' class='meta'>Verbinde...</div>
-  <div id='webvisu-grid' class='webvisu-grid'></div>
-                <script>(function(){const g=document.getElementById('webvisu-grid'),m=document.getElementById('webvisu-meta'),d={};let w=null,r=null,l=0;function s(p){if(w&&w.readyState===1)w.send(JSON.stringify(p))}function q(c){l+=1;const n=l,i=Array.from(c.querySelectorAll('img[data-src]'));function x(j){if(n!==l||j>=i.length)return;const e=i[j],u=e.getAttribute('data-src');if(!u){x(j+1);return}e.addEventListener('load',()=>x(j+1),{once:true});e.addEventListener('error',()=>x(j+1),{once:true});e.setAttribute('src',u);e.removeAttribute('data-src')}x(0)}function v(){const a=Object.values(d).sort((a,b)=>Number(a.channel)-Number(b.channel));m.textContent=w&&w.readyState===1?'Live verbunden':'Nicht verbunden';if(a.length===0){g.innerHTML='<div class="webvisu-empty">Noch keine Ger\u00e4te gefunden.</div>';return}g.innerHTML=a.map(e=>e.html||'').join('');q(g)}function t(){if(r)return;r=setTimeout(()=>{r=null;o()},1500)}function o(){const p=location.protocol==='https:'?'wss://':'ws://';w=new WebSocket(p+location.host+'/devices/ws');w.onopen=()=>{v()};w.onclose=()=>{v();t()};w.onerror=()=>{v()};w.onmessage=e=>{let p=null;try{p=JSON.parse(e.data)}catch(_){return}if(p.type==='snapshot'&&Array.isArray(p.devices)){Object.keys(d).forEach(k=>delete d[k]);p.devices.forEach(e=>{d[String(e.channel)]=e});v();return}if(p.type==='update'&&p.device&&p.device.channel){d[String(p.device.channel)]=p.device;v()}}}g.addEventListener('click',e=>{const t=e.target;if(!(t instanceof HTMLElement))return;const a=t.getAttribute('data-action'),c=Number(t.getAttribute('data-channel'));if(!a||!c)return;if(a==='toggle'){s({action:'toggle',channel:c});return}if(a==='setDimmerPower')s({action:'setDimmerPower',channel:c,power:t.getAttribute('data-power')==='true'})});g.addEventListener('change',e=>{const t=e.target;if(!(t instanceof HTMLInputElement))return;const a=t.getAttribute('data-action'),c=Number(t.getAttribute('data-channel'));if(a!=='setDimmer'||!c)return;s({action:'setDimmer',channel:c,brightness:Number(t.value)})});o();v()})();</script>
+    <div id='webvisu-meta' class='meta'>Verbinde...</div>
+    <div id='webvisu-grid' class='webvisu-grid'></div>
+    <script>(function(){
+        const grid=document.getElementById('webvisu-grid');
+        const meta=document.getElementById('webvisu-meta');
+        const devices={};
+        let ws=null;
+        let reconnectTimer=null;
+        let imageLoadGeneration=0;
+
+        function send(payload){
+            if(ws&&ws.readyState===1){
+                ws.send(JSON.stringify(payload));
+            }
+        }
+
+        function buildPayload(target){
+            const template = target.getAttribute('data-wv-payload') || target.getAttribute('data-wv-payload-template');
+            if(!template){
+                return null;
+            }
+
+            let payloadText = template;
+            const channel = target.getAttribute('data-channel');
+            if(channel){
+                payloadText = payloadText.replaceAll('__CHANNEL__', channel);
+            }
+
+            if(target instanceof HTMLInputElement || target instanceof HTMLTextAreaElement || target instanceof HTMLSelectElement){
+                payloadText = payloadText.replaceAll('__VALUE__', target.value);
+            }
+
+            const container = target.closest('[data-wv-container]');
+            if(container){
+                container.querySelectorAll('[data-wv-role]').forEach(source => {
+                    const role = source.getAttribute('data-wv-role');
+                    if(role){
+                        payloadText = payloadText.replaceAll(`__${role.toUpperCase()}__`, source.value);
+                    }
+                });
+            }
+
+            try {
+                return JSON.parse(payloadText);
+            } catch (error) {
+                return null;
+            }
+        }
+
+        function buildLegacyPayload(target){
+            const action = target.getAttribute('data-action');
+            const channel = Number(target.getAttribute('data-channel'));
+            if(!action || !channel){
+                return null;
+            }
+
+            if(action === 'toggle') return { action:'toggle', channel:channel };
+            if(action === 'setDimmerPower') return { action:'setDimmerPower', channel:channel, power:target.getAttribute('data-power') === 'true' };
+            if(action === 'setDimmer') return { action:'setDimmer', channel:channel, brightness:Number(target.value) };
+            if(action === 'setSwitch') return { action:'setSwitch', channel:channel, power:target.getAttribute('data-power') === 'true' };
+            return null;
+        }
+
+        function loadImagesSequentially(container){
+            imageLoadGeneration += 1;
+            const generation = imageLoadGeneration;
+            const images = Array.from(container.querySelectorAll('img[data-src]'));
+
+            function loadNext(index){
+                if(generation !== imageLoadGeneration || index >= images.length){
+                    return;
+                }
+
+                const image = images[index];
+                const src = image.getAttribute('data-src');
+                if(!src){
+                    loadNext(index + 1);
+                    return;
+                }
+
+                image.addEventListener('load', () => loadNext(index + 1), { once: true });
+                image.addEventListener('error', () => loadNext(index + 1), { once: true });
+                image.setAttribute('src', src);
+                image.removeAttribute('data-src');
+            }
+
+            loadNext(0);
+        }
+
+        function render(){
+            const entries = Object.values(devices).sort((a, b) => Number(a.channel) - Number(b.channel));
+            meta.textContent = ws && ws.readyState === 1 ? 'Live verbunden' : 'Nicht verbunden';
+            if(entries.length === 0){
+                grid.innerHTML = '<div class="webvisu-empty">Noch keine Ger&auml;te gefunden.</div>';
+                return;
+            }
+
+            grid.innerHTML = entries.map(device => device.html || '').join('');
+            loadImagesSequentially(grid);
+        }
+
+        function scheduleReconnect(){
+            if(reconnectTimer){
+                return;
+            }
+            reconnectTimer = setTimeout(() => {
+                reconnectTimer = null;
+                connect();
+            }, 1500);
+        }
+
+        function connect(){
+            const proto = location.protocol === 'https:' ? 'wss://' : 'ws://';
+            ws = new WebSocket(proto + location.host + '/devices/ws');
+
+            ws.onopen = () => { render(); };
+            ws.onclose = () => { render(); scheduleReconnect(); };
+            ws.onerror = () => { render(); };
+            ws.onmessage = (event) => {
+                let payload = null;
+                try {
+                    payload = JSON.parse(event.data);
+                } catch (error) {
+                    return;
+                }
+
+                if(payload.type === 'snapshot' && Array.isArray(payload.devices)){
+                    Object.keys(devices).forEach(key => delete devices[key]);
+                    payload.devices.forEach(device => {
+                        devices[String(device.channel)] = device;
+                    });
+                    render();
+                    return;
+                }
+
+                if(payload.type === 'update' && payload.device && payload.device.channel){
+                    devices[String(payload.device.channel)] = payload.device;
+                    render();
+                }
+            };
+        }
+
+        grid.addEventListener('click', event => {
+            const target = event.target;
+            if(!(target instanceof HTMLElement)) return;
+            const payloadTarget = target.closest('[data-wv-payload], [data-wv-payload-template], [data-action]') || target;
+            const payload = buildPayload(payloadTarget) || buildLegacyPayload(payloadTarget);
+            if(payload){
+                send(payload);
+            }
+        });
+
+        grid.addEventListener('change', event => {
+            const target = event.target;
+            if(!(target instanceof HTMLElement)) return;
+            const payloadTarget = target.closest('[data-wv-payload], [data-wv-payload-template], [data-action]') || target;
+            const payload = buildPayload(payloadTarget) || buildLegacyPayload(payloadTarget);
+            if(payload){
+                send(payload);
+            }
+        });
+
+        connect();
+        render();
+    })();</script>
 </div>)HTML";
-        return html;
+    return html;
 }
 
 std::string WebVisuBridge::buildDetailPageHtml(uint8_t channelIndex) const
 {
-        std::string initialDetailHtml;
-        if (_bridge != nullptr)
+    std::string initialDetailHtml;
+    if (_bridge != nullptr)
+    {
+        KnxChannelBase* channel = _bridge->getChannel(channelIndex);
+        WebVisuWidgetBase* widget = webVisuWidget(channelIndex);
+        if (channel != nullptr)
         {
-            KnxChannelBase* channel = _bridge->getChannel(channelIndex);
-            if (channel != nullptr)
+            if (widget != nullptr)
+            {
+                initialDetailHtml = widget->webVisuDetailHtml(channelIndex);
+            }
+            else
             {
                 const char* channelName = channel->getNameInUTF8();
                 const std::string name = channelName == nullptr ? "Unbenannt" : std::string(channelName);
@@ -485,115 +595,163 @@ std::string WebVisuBridge::buildDetailPageHtml(uint8_t channelIndex) const
                                                           image.allowRecolor);
             }
         }
+    }
 
-        std::string html = "<div class='webvisu'>";
-        html += WebVisuWidgetBase::widgetStyles();
-        html += R"HTML(
-        <h1>Ger&auml;tedetails</h1>
-        <div class='meta'><a class='webvisu-link' href='/devices'>&larr; Zur&uuml;ck zur &Uuml;bersicht</a></div>
-        <div id='webvisu-meta' class='meta'>Verbinde...</div>
-        <div id='webvisu-detail' class='webvisu-grid'>)HTML";
-        html += initialDetailHtml;
-        /* Original JS before minification:
-                     const detail = document.getElementById('webvisu-detail');
-                     const meta = document.getElementById('webvisu-meta');
-                     let ws = null;
-                     let reconnectTimer = null;
-                     let current = null;
-
-                     function send(payload){
-                         if (ws && ws.readyState === 1){
-                             ws.send(JSON.stringify(payload));
-                         }
-                     }
-
-                     function render(){
-                         meta.textContent = ws && ws.readyState === 1 ? 'Live verbunden' : 'Nicht verbunden';
-                         if (!current){
-                             detail.innerHTML = '<div class="webvisu-empty">Ger&auml;t nicht gefunden.</div>';
-                             return;
-                         }
-                         detail.innerHTML = current.detailHtml || current.html || '';
-                     }
-
-                     function updateFromPayload(payload){
-                         if (payload && Number(payload.channel) === channel){
-                             current = payload;
-                             render();
-                         }
-                     }
-
-                     function scheduleReconnect(){
-                         if (reconnectTimer){
-                             return;
-                         }
-                         reconnectTimer = setTimeout(() => {
-                             reconnectTimer = null;
-                             connect();
-                         }, 1500);
-                     }
-
-                     function connect(){
-                         const proto = location.protocol === 'https:' ? 'wss://' : 'ws://';
-                         ws = new WebSocket(proto + location.host + '/devices/ws');
-
-                         ws.onopen = () => { render(); };
-                         ws.onclose = () => { render(); scheduleReconnect(); };
-                         ws.onerror = () => { render(); };
-                         ws.onmessage = (event) => {
-                             let payload = null;
-                             try { payload = JSON.parse(event.data); } catch (e) { return; }
-
-                             if (payload.type === 'snapshot' && Array.isArray(payload.devices)){
-                                 const found = payload.devices.find(d => Number(d.channel) === channel);
-                                 if (found) current = found;
-                                 render();
-                                 return;
-                             }
-
-                             if (payload.type === 'update' && payload.device){
-                                 updateFromPayload(payload.device);
-                             }
-                         };
-                     }
-
-                     detail.addEventListener('click', (event) => {
-                         const target = event.target;
-                         if (!(target instanceof HTMLElement)) return;
-                         const action = target.getAttribute('data-action');
-                         const actionChannel = Number(target.getAttribute('data-channel'));
-                         if (!action || !actionChannel) return;
-
-                         if (action === 'toggle'){
-                             send({ action: 'toggle', channel: actionChannel });
-                             return;
-                         }
-
-                         if (action === 'setDimmerPower'){
-                             const power = target.getAttribute('data-power') === 'true';
-                             send({ action: 'setDimmerPower', channel: actionChannel, power: power });
-                         }
-                     });
-
-                     detail.addEventListener('change', (event) => {
-                         const target = event.target;
-                         if (!(target instanceof HTMLInputElement)) return;
-                         const action = target.getAttribute('data-action');
-                         const actionChannel = Number(target.getAttribute('data-channel'));
-                         if (action !== 'setDimmer' || !actionChannel) return;
-
-                         send({ action: 'setDimmer', channel: actionChannel, brightness: Number(target.value) });
-                     });
-
-                     connect();
-                     render();
-    */
+    std::string html = "<div class='webvisu'>";
+    html += WebVisuWidgetBase::widgetStyles();
+    html += R"HTML(
+    <h1>Ger&auml;tedetails</h1>
+    <div class='meta'><a class='webvisu-link' href='/devices'>&larr; Zur&uuml;ck zur &Uuml;bersicht</a></div>
+    <div id='webvisu-meta' class='meta'>Verbinde...</div>
+    <div id='webvisu-detail' class='webvisu-grid'>)HTML";
+    html += initialDetailHtml;
     html += R"HTML(</div>
-        <script>(function(){const c=)HTML";
-        html += std::to_string((int)channelIndex + 1);
-                html += R"HTML(;const d=document.getElementById('webvisu-detail'),m=document.getElementById('webvisu-meta');let w=null,r=null,p=null;function s(a){if(w&&w.readyState===1)w.send(JSON.stringify(a))}function v(){m.textContent=w&&w.readyState===1?'Live verbunden':'Nicht verbunden';if(!p){d.innerHTML='<div class="webvisu-empty">Ger&auml;t nicht gefunden.</div>';return}d.innerHTML=p.detailHtml||p.html||''}function u(a){if(a&&Number(a.channel)===c){p=a;v()}}function t(){if(r)return;r=setTimeout(()=>{r=null;o()},1500)}function o(){const x=location.protocol==='https:'?'wss://':'ws://';w=new WebSocket(x+location.host+'/devices/ws');w.onopen=()=>{v()};w.onclose=()=>{v();t()};w.onerror=()=>{v()};w.onmessage=e=>{let a=null;try{a=JSON.parse(e.data)}catch(_){return}if(a.type==='snapshot'&&Array.isArray(a.devices)){const f=a.devices.find(e=>Number(e.channel)===c);if(f)p=f;v();return}if(a.type==='update'&&a.device)u(a.device)}}d.addEventListener('click',e=>{const t=e.target;if(!(t instanceof HTMLElement))return;const a=t.getAttribute('data-action'),h=Number(t.getAttribute('data-channel'));if(!a||!h)return;if(a==='toggle'){s({action:'toggle',channel:h});return}if(a==='setDimmerPower')s({action:'setDimmerPower',channel:h,power:t.getAttribute('data-power')==='true'})});d.addEventListener('change',e=>{const t=e.target;if(!(t instanceof HTMLInputElement))return;const a=t.getAttribute('data-action'),h=Number(t.getAttribute('data-channel'));if(a!=='setDimmer'||!h)return;s({action:'setDimmer',channel:h,brightness:Number(t.value)})});o();v()})();</script>
+    <script>(function(){
+        const channel=)HTML";
+    html += std::to_string((int)channelIndex + 1);
+    html += R"HTML(;
+        const detail=document.getElementById('webvisu-detail');
+        const meta=document.getElementById('webvisu-meta');
+        let ws=null;
+        let reconnectTimer=null;
+        let current=null;
+
+        function send(payload){
+            if(ws&&ws.readyState===1){
+                ws.send(JSON.stringify(payload));
+            }
+        }
+
+        function buildPayload(target){
+            const template = target.getAttribute('data-wv-payload') || target.getAttribute('data-wv-payload-template');
+            if(!template){
+                return null;
+            }
+
+            let payloadText = template;
+            const payloadChannel = target.getAttribute('data-channel');
+            if(payloadChannel){
+                payloadText = payloadText.replaceAll('__CHANNEL__', payloadChannel);
+            }
+
+            if(target instanceof HTMLInputElement || target instanceof HTMLTextAreaElement || target instanceof HTMLSelectElement){
+                payloadText = payloadText.replaceAll('__VALUE__', target.value);
+            }
+
+            const container = target.closest('[data-wv-container]');
+            if(container){
+                container.querySelectorAll('[data-wv-role]').forEach(source => {
+                    const role = source.getAttribute('data-wv-role');
+                    if(role){
+                        payloadText = payloadText.replaceAll(`__${role.toUpperCase()}__`, source.value);
+                    }
+                });
+            }
+
+            try {
+                return JSON.parse(payloadText);
+            } catch (error) {
+                return null;
+            }
+        }
+
+        function buildLegacyPayload(target){
+            const action = target.getAttribute('data-action');
+            const actionChannel = Number(target.getAttribute('data-channel'));
+            if(!action || !actionChannel){
+                return null;
+            }
+
+            if(action === 'toggle') return { action:'toggle', channel:actionChannel };
+            if(action === 'setDimmerPower') return { action:'setDimmerPower', channel:actionChannel, power:target.getAttribute('data-power') === 'true' };
+            if(action === 'setDimmer') return { action:'setDimmer', channel:actionChannel, brightness:Number(target.value) };
+            if(action === 'setSwitch') return { action:'setSwitch', channel:actionChannel, power:target.getAttribute('data-power') === 'true' };
+            return null;
+        }
+
+        function render(){
+            meta.textContent = ws && ws.readyState === 1 ? 'Live verbunden' : 'Nicht verbunden';
+            if(!current){
+                detail.innerHTML = '<div class="webvisu-empty">Ger&auml;t nicht gefunden.</div>';
+                return;
+            }
+            detail.innerHTML = current.detailHtml || current.html || '';
+        }
+
+        function updateFromPayload(payload){
+            if(payload && Number(payload.channel) === channel){
+                current = payload;
+                render();
+            }
+        }
+
+        function scheduleReconnect(){
+            if(reconnectTimer){
+                return;
+            }
+            reconnectTimer = setTimeout(() => {
+                reconnectTimer = null;
+                connect();
+            }, 1500);
+        }
+
+        function connect(){
+            const proto = location.protocol === 'https:' ? 'wss://' : 'ws://';
+            ws = new WebSocket(proto + location.host + '/devices/ws');
+
+            ws.onopen = () => { render(); };
+            ws.onclose = () => { render(); scheduleReconnect(); };
+            ws.onerror = () => { render(); };
+            ws.onmessage = (event) => {
+                let payload = null;
+                try {
+                    payload = JSON.parse(event.data);
+                } catch (error) {
+                    return;
+                }
+
+                if(payload.type === 'snapshot' && Array.isArray(payload.devices)){
+                    const found = payload.devices.find(device => Number(device.channel) === channel);
+                    if(found){
+                        current = found;
+                    }
+                    render();
+                    return;
+                }
+
+                if(payload.type === 'update' && payload.device){
+                    updateFromPayload(payload.device);
+                }
+            };
+        }
+
+        detail.addEventListener('click', event => {
+            const target = event.target;
+            if(!(target instanceof HTMLElement)) return;
+            const payloadTarget = target.closest('[data-wv-payload], [data-wv-payload-template], [data-action]');
+            if(!(payloadTarget instanceof HTMLElement)) return;
+            const payload = buildPayload(payloadTarget) || buildLegacyPayload(payloadTarget);
+            if(payload){
+                send(payload);
+            }
+        });
+
+        detail.addEventListener('change', event => {
+            const target = event.target;
+            if(!(target instanceof HTMLElement)) return;
+            const payloadTarget = target.closest('[data-wv-payload], [data-wv-payload-template], [data-action]');
+            if(!(payloadTarget instanceof HTMLElement)) return;
+            const payload = buildPayload(payloadTarget) || buildLegacyPayload(payloadTarget);
+            if(payload){
+                send(payload);
+            }
+        });
+
+        connect();
+        render();
+    })();</script>
 </div>)HTML";
-        return html;
+    return html;
 }
 
 std::string WebVisuBridge::buildSnapshotMessage() const
@@ -626,6 +784,8 @@ std::string WebVisuBridge::buildSnapshotMessage() const
 
 std::string WebVisuBridge::buildDeviceJson(KnxChannelBase& channel, uint8_t channelIndex) const
 {
+    WebVisuWidgetBase* widget = webVisuWidget(channelIndex);
+
     const char* channelName = channel.getNameInUTF8();
     const std::string name = channelName == nullptr ? "Unbenannt" : std::string(channelName);
     const std::string type = channel.name();
@@ -656,8 +816,10 @@ std::string WebVisuBridge::buildDeviceJson(KnxChannelBase& channel, uint8_t chan
                                                          supportMainAction,
                                                          image.allowRecolor);
 
+    const std::string kind = widget != nullptr ? widget->webVisuKind() : "generic";
+
     std::string json = "{";
-    json += "\"kind\":\"generic\",";
+    json += "\"kind\":\"" + jsonEscape(kind) + "\",";
     json += "\"type\":\"" + jsonEscape(type) + "\",";
     json += "\"channel\":" + std::to_string((int)channelIndex + 1) + ",";
     json += "\"name\":\"" + jsonEscape(name) + "\",";
@@ -689,21 +851,14 @@ std::string WebVisuBridge::buildDetailWidgetHtml(KnxChannelBase& channel,
                                                  bool supportMainAction,
                                                  bool allowRecolor) const
 {
-    (void)channel;
-
-    if (type == "Switch")
+    WebVisuWidgetBase* widget = webVisuWidget(channelIndex);
+    if (widget != nullptr)
     {
-        return WebVisuSwitch::renderWidgetHtml(channelIndex, name, state);
-    }
-
-    if (type == "Dimmer")
-    {
-        int brightnessInt = atoi(value.c_str());
-        if (brightnessInt < 0)
-            brightnessInt = 0;
-        if (brightnessInt > 100)
-            brightnessInt = 100;
-        return WebVisuDimmer::renderWidgetHtml(channelIndex, name, (uint8_t)brightnessInt);
+        const std::string widgetHtml = widget->webVisuDetailHtml(channelIndex);
+        if (!widgetHtml.empty())
+        {
+            return widgetHtml;
+        }
     }
 
     const std::string detailUrl = std::string("/devices/") + std::to_string((int)channelIndex + 1);
@@ -779,6 +934,25 @@ void WebVisuBridge::ensureChangeHandlersRegistered()
         channel->addChangedHandler(_channelChangedHandlers[idx]);
         _channelChangedHandlerRegistered[idx] = true;
     }
+}
+
+void WebVisuBridge::registerWebVisuWidget(uint8_t channelIndex, WebVisuWidgetBase* widget)
+{
+    if (_webVisuWidgets.size() <= channelIndex)
+    {
+        _webVisuWidgets.resize((size_t)channelIndex + 1, nullptr);
+    }
+    _webVisuWidgets[channelIndex] = widget;
+}
+
+WebVisuWidgetBase* WebVisuBridge::webVisuWidget(uint8_t channelIndex) const
+{
+    if (channelIndex >= _webVisuWidgets.size())
+    {
+        return nullptr;
+    }
+
+    return _webVisuWidgets[channelIndex];
 }
 
 void WebVisuBridge::handleDetailRequest(const OpenKNX::Network::WebRequest& req,

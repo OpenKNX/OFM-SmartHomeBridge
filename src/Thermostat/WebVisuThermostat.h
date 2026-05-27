@@ -3,30 +3,36 @@
 
 #include <string>
 
-#include "KnxChannelDimmer.h"
+#include "KnxChannelThermostat.h"
 #include "../WebVisuWidgetBase.h"
 
 class WebVisuBridge;
 
-class WebVisuDimmer : public DimmerBridge, public WebVisuWidgetBase
+class WebVisuThermostat : public ThermostatBridge, public WebVisuWidgetBase
 {
-  public:
-    explicit WebVisuDimmer(WebVisuBridge* webVisuBridge);
+public:
+    explicit WebVisuThermostat(WebVisuBridge* webVisuBridge);
+
     virtual void setWebVisuName(const std::string& name) override;
-    virtual void setBrightness(uint8_t brightness) override;
+
+    virtual void setTargetTemperature(double temperature) override;
+    virtual void setCurrentTemperature(double temperature) override;
+    virtual void setMode(ThermostatMode mode) override;
+    virtual void setCurrentState(ThermostatCurrentState currentState) override;
+
     virtual std::string webVisuKind() const override;
     virtual std::string webVisuOverviewHtml(uint8_t channelIndex) const override;
     virtual std::string webVisuDetailHtml(uint8_t channelIndex) const override;
     virtual std::string webVisuJson(uint8_t channelIndex) const override;
     virtual bool webVisuHandleCommand(const std::string& action, const std::string& message) override;
-    static std::string buildDeviceJson(uint8_t channelIndex, const std::string& name, uint8_t brightness);
-    static std::string renderWidgetHtml(uint8_t channelIndex, const std::string& name, uint8_t brightness);
 
-  private:
+private:
     std::string _name = "Unbenannt";
-    uint8_t _lastBrightness = 0;
+    double _targetTemperature = 0;
+    double _currentTemperature = 0;
+    ThermostatMode _mode = ThermostatModeOff;
+    ThermostatCurrentState _currentState = ThermostatCurrentStateOff;
     WebVisuBridge* _webVisuBridge;
-    void publishBrightness(uint8_t brightness);
 };
 
 #endif

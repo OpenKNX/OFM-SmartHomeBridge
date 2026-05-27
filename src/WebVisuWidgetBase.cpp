@@ -31,6 +31,40 @@ std::string WebVisuWidgetBase::widgetStyles()
     </style>)CSS";
 }
 
+std::string WebVisuWidgetBase::webVisuKind() const
+{
+    return "generic";
+}
+
+void WebVisuWidgetBase::setWebVisuName(const std::string& name)
+{
+    (void)name;
+}
+
+std::string WebVisuWidgetBase::webVisuOverviewHtml(uint8_t channelIndex) const
+{
+    (void)channelIndex;
+    return "";
+}
+
+std::string WebVisuWidgetBase::webVisuDetailHtml(uint8_t channelIndex) const
+{
+    return webVisuOverviewHtml(channelIndex);
+}
+
+std::string WebVisuWidgetBase::webVisuJson(uint8_t channelIndex) const
+{
+    (void)channelIndex;
+    return "";
+}
+
+bool WebVisuWidgetBase::webVisuHandleCommand(const std::string& action, const std::string& message)
+{
+    (void)action;
+    (void)message;
+    return false;
+}
+
 std::string WebVisuWidgetBase::escapeHtml(const std::string& value)
 {
     std::string escaped;
@@ -90,6 +124,165 @@ std::string WebVisuWidgetBase::jsonEscape(const std::string& input)
     }
 
     return escaped;
+}
+
+bool WebVisuWidgetBase::parseStringField(const std::string& message, const char* key, std::string& value)
+{
+    const std::string pattern = std::string("\"") + key + "\":";
+    const size_t keyPos = message.find(pattern);
+    if (keyPos == std::string::npos)
+    {
+        return false;
+    }
+
+    size_t valuePos = keyPos + pattern.size();
+    while (valuePos < message.size() && (message[valuePos] == ' ' || message[valuePos] == '\t'))
+    {
+        valuePos++;
+    }
+
+    if (valuePos >= message.size() || message[valuePos] != '"')
+    {
+        return false;
+    }
+
+    valuePos++;
+    std::string parsed;
+    bool escaped = false;
+    for (size_t i = valuePos; i < message.size(); ++i)
+    {
+        const char c = message[i];
+        if (escaped)
+        {
+            switch (c)
+            {
+            case 'n': parsed += '\n'; break;
+            case 'r': parsed += '\r'; break;
+            case 't': parsed += '\t'; break;
+            case '"': parsed += '"'; break;
+            case '\\': parsed += '\\'; break;
+            default: parsed += c; break;
+            }
+            escaped = false;
+            continue;
+        }
+
+        if (c == '\\')
+        {
+            escaped = true;
+            continue;
+        }
+        if (c == '"')
+        {
+            value = parsed;
+            return true;
+        }
+        parsed += c;
+    }
+
+    return false;
+}
+
+bool WebVisuWidgetBase::parseIntField(const std::string& message, const char* key, int& value)
+{
+    const std::string pattern = std::string("\"") + key + "\":";
+    const size_t keyPos = message.find(pattern);
+    if (keyPos == std::string::npos)
+    {
+        return false;
+    }
+
+    size_t valuePos = keyPos + pattern.size();
+    while (valuePos < message.size() && (message[valuePos] == ' ' || message[valuePos] == '\t'))
+    {
+        valuePos++;
+    }
+
+    size_t endPos = valuePos;
+    while (endPos < message.size() && (message[endPos] == '-' || (message[endPos] >= '0' && message[endPos] <= '9')))
+    {
+        endPos++;
+    }
+
+    if (endPos == valuePos)
+    {
+        return false;
+    }
+
+    try
+    {
+        value = std::stoi(message.substr(valuePos, endPos - valuePos));
+        return true;
+    }
+    catch (...)
+    {
+        return false;
+    }
+}
+
+bool WebVisuWidgetBase::parseDoubleField(const std::string& message, const char* key, double& value)
+{
+    const std::string pattern = std::string("\"") + key + "\":";
+    const size_t keyPos = message.find(pattern);
+    if (keyPos == std::string::npos)
+    {
+        return false;
+    }
+
+    size_t valuePos = keyPos + pattern.size();
+    while (valuePos < message.size() && (message[valuePos] == ' ' || message[valuePos] == '\t'))
+    {
+        valuePos++;
+    }
+
+    size_t endPos = valuePos;
+    while (endPos < message.size() && (message[endPos] == '-' || message[endPos] == '+' || message[endPos] == '.' || (message[endPos] >= '0' && message[endPos] <= '9') || message[endPos] == 'e' || message[endPos] == 'E'))
+    {
+        endPos++;
+    }
+
+    if (endPos == valuePos)
+    {
+        return false;
+    }
+
+    try
+    {
+        value = std::stod(message.substr(valuePos, endPos - valuePos));
+        return true;
+    }
+    catch (...)
+    {
+        return false;
+    }
+}
+
+bool WebVisuWidgetBase::parseBoolField(const std::string& message, const char* key, bool& value)
+{
+    const std::string pattern = std::string("\"") + key + "\":";
+    const size_t keyPos = message.find(pattern);
+    if (keyPos == std::string::npos)
+    {
+        return false;
+    }
+
+    size_t valuePos = keyPos + pattern.size();
+    while (valuePos < message.size() && (message[valuePos] == ' ' || message[valuePos] == '\t'))
+    {
+        valuePos++;
+    }
+
+    if (message.compare(valuePos, 4, "true") == 0)
+    {
+        value = true;
+        return true;
+    }
+    if (message.compare(valuePos, 5, "false") == 0)
+    {
+        value = false;
+        return true;
+    }
+    return false;
 }
 
 std::string WebVisuWidgetBase::renderCard(uint8_t channelIndex,

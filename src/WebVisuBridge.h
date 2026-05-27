@@ -21,6 +21,17 @@ class WebVisuBridge : public BridgeBase
   public:
     virtual SwitchBridge* createSwitch(KnxChannelSwitch& channel, uint8_t _channelIndex /* this parameter is used in macros, do not rename */, uint8_t deviceType) override;
     virtual DimmerBridge* createDimmer(KnxChannelDimmer& channel, uint8_t _channelIndex /* this parameter is used in macros, do not rename */, uint8_t deviceType) override;
+    virtual RGBBridge* createRGB(KnxChannelRGB& channel, uint8_t _channelIndex /* this parameter is used in macros, do not rename */, uint8_t deviceType) override;
+    virtual SceneBridge* createScene(KnxChannelScene& channel, uint8_t _channelIndex /* this parameter is used in macros, do not rename */, uint8_t deviceType) override;
+    virtual RolladenBridge* createJalousien(KnxChannelJalousie& channel, uint8_t _channelIndex /* this parameter is used in macros, do not rename */, uint8_t deviceType) override;
+    virtual RolladenBridge* createRolladen(KnxChannelRolladen& channel, uint8_t _channelIndex /* this parameter is used in macros, do not rename */, uint8_t deviceType) override;
+    virtual ThermostatBridge* createThermostat(KnxChannelThermostat& channel, uint8_t _channelIndex /* this parameter is used in macros, do not rename */, uint8_t deviceType) override;
+    virtual DeviceBridge* createDisplay(KnxChannelDisplay& channel, uint8_t _channelIndex /* this parameter is used in macros, do not rename */, uint8_t deviceType) override;
+    virtual AlarmBridge* createSensor(KnxChannelAlarm& channel, uint8_t _channelIndex /* this parameter is used in macros, do not rename */, uint8_t deviceType) override;
+    virtual FanBridge* createFan(KnxChannelFan& channel, uint8_t _channelIndex /* this parameter is used in macros, do not rename */, uint8_t deviceType) override;
+    virtual DoorWindowBridge* createDoorWindow(KnxChannelDoorWindow& channel, uint8_t _channelIndex /* this parameter is used in macros, do not rename */, uint8_t deviceType) override;
+    virtual MediaBridge* createMedia(KnxChannelMedia& channel, uint8_t _channelIndex /* this parameter is used in macros, do not rename */, uint8_t deviceType) override;
+    virtual LockBridge* createLock(KnxChannelLock& channel, uint8_t _channelIndex /* this parameter is used in macros, do not rename */, uint8_t deviceType) override;
 
     virtual const std::string name() override;
     virtual void initialize(SmartHomeBridgeModule* bridge) override;
@@ -40,11 +51,14 @@ class WebVisuBridge : public BridgeBase
     std::vector<std::string> _pendingCommands;
     std::vector<MainFunctionChangedHandler> _channelChangedHandlers;
     std::vector<bool> _channelChangedHandlerRegistered;
+    std::vector<class WebVisuWidgetBase*> _webVisuWidgets;
 
     void queueCommand(const uint8_t* data, int length);
     void processPendingCommands();
     void processCommandMessage(const std::string& message);
     void ensureChangeHandlersRegistered();
+    void registerWebVisuWidget(uint8_t channelIndex, class WebVisuWidgetBase* widget);
+    class WebVisuWidgetBase* webVisuWidget(uint8_t channelIndex) const;
 
     std::string buildPageHtml() const;
     std::string buildDetailPageHtml(uint8_t channelIndex) const;
