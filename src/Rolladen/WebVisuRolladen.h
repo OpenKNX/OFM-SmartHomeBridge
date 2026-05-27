@@ -24,7 +24,12 @@ public:
     virtual std::string webVisuJson(uint8_t channelIndex) const override;
     virtual bool webVisuHandleCommand(const std::string& action, const std::string& message) override;
 
-private:
+protected:
+    static const char* movementText(MoveState movement);
+    virtual std::string webVisuCardTypeLabel() const;
+    virtual std::string webVisuExtraControlsHtml(uint8_t channelIndex) const;
+    virtual std::string webVisuExtraJsonFields(uint8_t channelIndex) const;
+
     std::string _name = "Unbenannt";
     uint8_t _position = 0;
     MoveState _movement = MoveStateHold;
