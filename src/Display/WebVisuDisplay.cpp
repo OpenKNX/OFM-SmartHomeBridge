@@ -46,13 +46,17 @@ std::string WebVisuDisplay::webVisuOverviewHtml(uint8_t channelIndex) const
 
 std::string WebVisuDisplay::webVisuDetailHtml(uint8_t channelIndex) const
 {
-    const std::string value = _hasText ? _textValue : std::to_string(_value);
+    const std::string value = _channel != nullptr
+                                  ? _channel->currentValueAsString()
+                                  : (_hasText ? _textValue : std::to_string(_value));
     return renderCard(channelIndex, _name, "Display", value, "");
 }
 
 std::string WebVisuDisplay::webVisuJson(uint8_t channelIndex) const
 {
-    const std::string value = _hasText ? _textValue : std::to_string(_value);
+    const std::string value = _channel != nullptr
+                                  ? _channel->currentValueAsString()
+                                  : (_hasText ? _textValue : std::to_string(_value));
     std::string json = "{";
     json += "\"kind\":\"display\",";
     json += "\"channel\":" + std::to_string((int)channelIndex + 1) + ",";
