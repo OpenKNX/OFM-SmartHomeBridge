@@ -3,10 +3,10 @@
         <when test="1"> <!-- Hue -->
             <choose ParamRefId="%AID%_UP-%T%000002_R-%T%00000201">  <!-- Homekit-->
                 <when test="1"> <!-- Homekit -->
-                    <ParameterSeparator Id="%AID%_PS-nnn" Text="Fehler: Diese Gerät wird von der Hue Emulation nicht unterstützt" UIHint="Error" />   
+                    <ParameterSeparator Id="%AID%_PS-nnn" Text="Hinweis: Diese Gerät wird von der Hue Emulation nicht unterstützt" UIHint="Information" />                
                 </when> 
                 <when test="0" >
-                    <ParameterSeparator Id="%AID%_PS-nnn" Text="Hinweis: Diese Gerät wird von der Hue Emulation nicht unterstützt" UIHint="Information" />                
+                    <ParameterSeparator Id="%AID%_PS-nnn" Text="Fehler: Diese Gerät wird von der Hue Emulation nicht unterstützt" UIHint="Error" />   
                 </when>    
             </choose>        
         </when> 
