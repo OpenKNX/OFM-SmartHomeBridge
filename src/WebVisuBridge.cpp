@@ -404,6 +404,8 @@ std::string WebVisuBridge::buildPageHtml() const
         let ws=null;
         let reconnectTimer=null;
         let imageLoadGeneration=0;
+        let deferImageLoading=false;
+        let isClosing=false;
         let wsMessageCount=0;
         let snapshotActive=false;
         let snapshotDeviceCount=0;
@@ -519,7 +521,9 @@ std::string WebVisuBridge::buildPageHtml() const
                 insertCardInOrder(card, channel);
             }
 
-            loadImagesSequentially(card);
+            if(!deferImageLoading){
+                loadImagesSequentially(card);
+            }
         }
 
         function buildPayload(target){
@@ -582,13 +586,29 @@ std::string WebVisuBridge::buildPageHtml() const
         }
 
         function scheduleReconnect(){
-            if(reconnectTimer){
+            if(isClosing || reconnectTimer){
                 return;
             }
             reconnectTimer = setTimeout(() => {
                 reconnectTimer = null;
                 connect();
             }, 1500);
+        }
+
+        function closeSocket(){
+            isClosing = true;
+            imageLoadGeneration += 1;
+            if(reconnectTimer){
+                clearTimeout(reconnectTimer);
+                reconnectTimer = null;
+            }
+            clearSnapshotTimeout();
+            if(ws && (ws.readyState === 0 || ws.readyState === 1)){
+                try {
+                    ws.close(1000, 'page unload');
+                } catch (error) {
+                }
+            }
         }
 
         function connect(){
@@ -605,9 +625,12 @@ std::string WebVisuBridge::buildPageHtml() const
                 trace('warn','ws close');
                 clearSnapshotTimeout();
                 snapshotActive=false;
+                ws = null;
                 updateConnectionState();
                 showEmptyIfNeeded();
-                scheduleReconnect();
+                if(!isClosing){
+                    scheduleReconnect();
+                }
             };
             ws.onerror = () => {
                 trace('error','ws error');
@@ -628,6 +651,7 @@ std::string WebVisuBridge::buildPageHtml() const
 
                 if(payload.type === 'snapshotBegin'){
                     snapshotActive=true;
+                    deferImageLoading=true;
                     snapshotDeviceCount=0;
                     snapshotStartedAt=Date.now();
                     armSnapshotTimeout();
@@ -650,7 +674,9 @@ std::string WebVisuBridge::buildPageHtml() const
                     const duration=Date.now()-snapshotStartedAt;
                     trace('info','snapshotEnd devices=' + snapshotDeviceCount + ' durationMs=' + duration);
                     snapshotActive=false;
+                    deferImageLoading=false;
                     clearSnapshotTimeout();
+                    loadImagesSequentially(grid);
                     showEmptyIfNeeded();
                     updateConnectionState();
                     return;
@@ -658,7 +684,10 @@ std::string WebVisuBridge::buildPageHtml() const
 
                 if(payload.type === 'snapshot' && Array.isArray(payload.devices)){
                     clearDevices();
+                    deferImageLoading=true;
                     payload.devices.forEach(device => upsertDevice(device));
+                    deferImageLoading=false;
+                    loadImagesSequentially(grid);
                     showEmptyIfNeeded();
                     updateConnectionState();
                     return;
@@ -692,6 +721,9 @@ std::string WebVisuBridge::buildPageHtml() const
                 send(payload);
             }
         });
+
+        window.addEventListener('pagehide', closeSocket);
+        window.addEventListener('beforeunload', closeSocket);
 
         connect();
         updateConnectionState();
@@ -761,6 +793,7 @@ std::string WebVisuBridge::buildDetailPageHtml(uint8_t channelIndex) const
         let snapshotDeviceCount=0;
         let snapshotStartedAt=0;
         let snapshotTimeoutTimer=null;
+        let isClosing=false;
 
         function trace(level, message, extra){
             if(!debugEnabled){
@@ -847,13 +880,28 @@ std::string WebVisuBridge::buildDetailPageHtml(uint8_t channelIndex) const
         }
 
         function scheduleReconnect(){
-            if(reconnectTimer){
+            if(isClosing || reconnectTimer){
                 return;
             }
             reconnectTimer = setTimeout(() => {
                 reconnectTimer = null;
                 connect();
             }, 1500);
+        }
+
+        function closeSocket(){
+            isClosing = true;
+            if(reconnectTimer){
+                clearTimeout(reconnectTimer);
+                reconnectTimer = null;
+            }
+            clearSnapshotTimeout();
+            if(ws && (ws.readyState === 0 || ws.readyState === 1)){
+                try {
+                    ws.close(1000, 'page unload');
+                } catch (error) {
+                }
+            }
         }
 
         function connect(){
@@ -868,8 +916,11 @@ std::string WebVisuBridge::buildDetailPageHtml(uint8_t channelIndex) const
             ws.onclose = () => {
                 trace('warn','ws close');
                 clearSnapshotTimeout();
+                ws = null;
                 render();
-                scheduleReconnect();
+                if(!isClosing){
+                    scheduleReconnect();
+                }
             };
             ws.onerror = () => {
                 trace('error','ws error');
@@ -949,6 +1000,9 @@ std::string WebVisuBridge::buildDetailPageHtml(uint8_t channelIndex) const
                 send(payload);
             }
         });
+
+        window.addEventListener('pagehide', closeSocket);
+        window.addEventListener('beforeunload', closeSocket);
 
         connect();
         render();
