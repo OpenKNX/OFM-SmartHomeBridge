@@ -5,6 +5,7 @@
 #include <algorithm>
 #include <cctype>
 #include <cstdlib>
+#include <cstring>
 #include <vector>
 
 #include <NetworkModule.h>
@@ -398,14 +399,127 @@ std::string WebVisuBridge::buildPageHtml() const
         const grid=document.getElementById('webvisu-grid');
         const meta=document.getElementById('webvisu-meta');
         const devices={};
+        const debugEnabled=(new URLSearchParams(location.search).get('wvdebug')||'1') !== '0';
+        const tracePrefix='[WebVisu][Overview]';
         let ws=null;
         let reconnectTimer=null;
         let imageLoadGeneration=0;
+        let wsMessageCount=0;
+        let snapshotActive=false;
+        let snapshotDeviceCount=0;
+        let snapshotStartedAt=0;
+        let snapshotTimeoutTimer=null;
+
+        function trace(level, message, extra){
+            if(!debugEnabled){
+                return;
+            }
+            const fn=(console[level]&&typeof console[level]==='function')?console[level]:console.log;
+            if(extra!==undefined){
+                fn(tracePrefix + ' ' + message, extra);
+            } else {
+                fn(tracePrefix + ' ' + message);
+            }
+        }
+
+        function clearSnapshotTimeout(){
+            if(snapshotTimeoutTimer){
+                clearTimeout(snapshotTimeoutTimer);
+                snapshotTimeoutTimer=null;
+            }
+        }
+
+        function armSnapshotTimeout(){
+            clearSnapshotTimeout();
+            snapshotTimeoutTimer=setTimeout(() => {
+                if(snapshotActive){
+                    trace('warn','snapshot timeout after 5000ms, devices=' + snapshotDeviceCount);
+                }
+            }, 5000);
+        }
 
         function send(payload){
             if(ws&&ws.readyState===1){
+                trace('debug','send payload action=' + String(payload.action || 'n/a') + ' channel=' + String(payload.channel || 'n/a'));
                 ws.send(JSON.stringify(payload));
             }
+        }
+
+        function clearDevices(){
+            Object.keys(devices).forEach(key => delete devices[key]);
+            grid.innerHTML='';
+        }
+
+        function updateConnectionState(){
+            meta.textContent = ws && ws.readyState === 1 ? 'Live verbunden' : 'Nicht verbunden';
+        }
+
+        function cardId(channel){
+            return 'webvisu-card-' + String(channel);
+        }
+
+        function createCardFromHtml(html){
+            if(!html){
+                return null;
+            }
+            const template=document.createElement('template');
+            template.innerHTML=String(html).trim();
+            return template.content.firstElementChild;
+        }
+
+        function insertCardInOrder(element, channel){
+            const children=Array.from(grid.children);
+            for(const child of children){
+                const childChannel=Number(child.getAttribute('data-channel-order') || '0');
+                if(childChannel > channel){
+                    grid.insertBefore(element, child);
+                    return;
+                }
+            }
+            grid.appendChild(element);
+        }
+
+        function showEmptyIfNeeded(){
+            if(grid.children.length !== 0){
+                return;
+            }
+            grid.innerHTML = '<div class="webvisu-empty">Noch keine Ger&auml;te gefunden.</div>';
+        }
+
+        function upsertDevice(device){
+            if(!device || !device.channel){
+                return;
+            }
+
+            const channel=Number(device.channel);
+            if(!Number.isFinite(channel) || channel <= 0){
+                return;
+            }
+
+            devices[String(channel)] = device;
+
+            const card=createCardFromHtml(device.html || '');
+            if(!card){
+                return;
+            }
+
+            const id=cardId(channel);
+            card.setAttribute('id', id);
+            card.setAttribute('data-channel-order', String(channel));
+
+            const emptyState=grid.querySelector('.webvisu-empty');
+            if(emptyState){
+                emptyState.remove();
+            }
+
+            const existing=document.getElementById(id);
+            if(existing && existing.parentElement === grid){
+                grid.replaceChild(card, existing);
+            } else {
+                insertCardInOrder(card, channel);
+            }
+
+            loadImagesSequentially(card);
         }
 
         function buildPayload(target){
@@ -467,18 +581,6 @@ std::string WebVisuBridge::buildPageHtml() const
             loadNext(0);
         }
 
-        function render(){
-            const entries = Object.values(devices).sort((a, b) => Number(a.channel) - Number(b.channel));
-            meta.textContent = ws && ws.readyState === 1 ? 'Live verbunden' : 'Nicht verbunden';
-            if(entries.length === 0){
-                grid.innerHTML = '<div class="webvisu-empty">Noch keine Ger&auml;te gefunden.</div>';
-                return;
-            }
-
-            grid.innerHTML = entries.map(device => device.html || '').join('');
-            loadImagesSequentially(grid);
-        }
-
         function scheduleReconnect(){
             if(reconnectTimer){
                 return;
@@ -492,30 +594,81 @@ std::string WebVisuBridge::buildPageHtml() const
         function connect(){
             const proto = location.protocol === 'https:' ? 'wss://' : 'ws://';
             ws = new WebSocket(proto + location.host + '/devices/ws');
+            trace('info','connecting to ' + (proto + location.host + '/devices/ws'));
 
-            ws.onopen = () => { render(); };
-            ws.onclose = () => { render(); scheduleReconnect(); };
-            ws.onerror = () => { render(); };
+            ws.onopen = () => {
+                trace('info','ws open');
+                updateConnectionState();
+                showEmptyIfNeeded();
+            };
+            ws.onclose = () => {
+                trace('warn','ws close');
+                clearSnapshotTimeout();
+                snapshotActive=false;
+                updateConnectionState();
+                showEmptyIfNeeded();
+                scheduleReconnect();
+            };
+            ws.onerror = () => {
+                trace('error','ws error');
+                updateConnectionState();
+                showEmptyIfNeeded();
+            };
             ws.onmessage = (event) => {
+                wsMessageCount += 1;
                 let payload = null;
                 try {
                     payload = JSON.parse(event.data);
                 } catch (error) {
+                    const preview = String(event.data || '').replace(/\s+/g, ' ').slice(0, 140);
+                    meta.textContent = 'WS JSON-Fehler: ' + preview;
+                    trace('error','json parse failed #' + wsMessageCount + ' preview=' + preview);
+                    return;
+                }
+
+                if(payload.type === 'snapshotBegin'){
+                    snapshotActive=true;
+                    snapshotDeviceCount=0;
+                    snapshotStartedAt=Date.now();
+                    armSnapshotTimeout();
+                    trace('info','snapshotBegin #' + wsMessageCount);
+                    clearDevices();
+                    updateConnectionState();
+                    return;
+                }
+
+                if(payload.type === 'snapshotDevice' && payload.device){
+                    snapshotDeviceCount += 1;
+                    armSnapshotTimeout();
+                    trace('debug','snapshotDevice #' + snapshotDeviceCount + ' channel=' + String(payload.device.channel || 'n/a'));
+                    upsertDevice(payload.device);
+                    updateConnectionState();
+                    return;
+                }
+
+                if(payload.type === 'snapshotEnd'){
+                    const duration=Date.now()-snapshotStartedAt;
+                    trace('info','snapshotEnd devices=' + snapshotDeviceCount + ' durationMs=' + duration);
+                    snapshotActive=false;
+                    clearSnapshotTimeout();
+                    showEmptyIfNeeded();
+                    updateConnectionState();
                     return;
                 }
 
                 if(payload.type === 'snapshot' && Array.isArray(payload.devices)){
-                    Object.keys(devices).forEach(key => delete devices[key]);
-                    payload.devices.forEach(device => {
-                        devices[String(device.channel)] = device;
-                    });
-                    render();
+                    clearDevices();
+                    payload.devices.forEach(device => upsertDevice(device));
+                    showEmptyIfNeeded();
+                    updateConnectionState();
                     return;
                 }
 
                 if(payload.type === 'update' && payload.device && payload.device.channel){
-                    devices[String(payload.device.channel)] = payload.device;
-                    render();
+                    trace('debug','update channel=' + String(payload.device.channel));
+                    upsertDevice(payload.device);
+                    showEmptyIfNeeded();
+                    updateConnectionState();
                 }
             };
         }
@@ -541,7 +694,8 @@ std::string WebVisuBridge::buildPageHtml() const
         });
 
         connect();
-        render();
+        updateConnectionState();
+        showEmptyIfNeeded();
     })();</script>
 </div>)HTML";
     return html;
@@ -598,12 +752,45 @@ std::string WebVisuBridge::buildDetailPageHtml(uint8_t channelIndex) const
     html += R"HTML(;
         const detail=document.getElementById('webvisu-detail');
         const meta=document.getElementById('webvisu-meta');
+        const debugEnabled=(new URLSearchParams(location.search).get('wvdebug')||'1') !== '0';
+        const tracePrefix='[WebVisu][Detail ch=' + String(channel) + ']';
         let ws=null;
         let reconnectTimer=null;
         let current=null;
+        let wsMessageCount=0;
+        let snapshotDeviceCount=0;
+        let snapshotStartedAt=0;
+        let snapshotTimeoutTimer=null;
+
+        function trace(level, message, extra){
+            if(!debugEnabled){
+                return;
+            }
+            const fn=(console[level]&&typeof console[level]==='function')?console[level]:console.log;
+            if(extra!==undefined){
+                fn(tracePrefix + ' ' + message, extra);
+            } else {
+                fn(tracePrefix + ' ' + message);
+            }
+        }
+
+        function clearSnapshotTimeout(){
+            if(snapshotTimeoutTimer){
+                clearTimeout(snapshotTimeoutTimer);
+                snapshotTimeoutTimer=null;
+            }
+        }
+
+        function armSnapshotTimeout(){
+            clearSnapshotTimeout();
+            snapshotTimeoutTimer=setTimeout(() => {
+                trace('warn','snapshot timeout after 5000ms, devices=' + snapshotDeviceCount);
+            }, 5000);
+        }
 
         function send(payload){
             if(ws&&ws.readyState===1){
+                trace('debug','send payload action=' + String(payload.action || 'n/a') + ' channel=' + String(payload.channel || 'n/a'));
                 ws.send(JSON.stringify(payload));
             }
         }
@@ -652,6 +839,9 @@ std::string WebVisuBridge::buildDetailPageHtml(uint8_t channelIndex) const
 
         function updateFromPayload(payload){
             if(payload && Number(payload.channel) === channel){
+                if((!payload.detailHtml || payload.detailHtml === '') && current && current.detailHtml){
+                    payload.detailHtml = current.detailHtml;
+                }
                 current = payload;
                 render();
             }
@@ -670,15 +860,57 @@ std::string WebVisuBridge::buildDetailPageHtml(uint8_t channelIndex) const
         function connect(){
             const proto = location.protocol === 'https:' ? 'wss://' : 'ws://';
             ws = new WebSocket(proto + location.host + '/devices/ws');
+            trace('info','connecting to ' + (proto + location.host + '/devices/ws'));
 
-            ws.onopen = () => { render(); };
-            ws.onclose = () => { render(); scheduleReconnect(); };
-            ws.onerror = () => { render(); };
+            ws.onopen = () => {
+                trace('info','ws open');
+                render();
+            };
+            ws.onclose = () => {
+                trace('warn','ws close');
+                clearSnapshotTimeout();
+                render();
+                scheduleReconnect();
+            };
+            ws.onerror = () => {
+                trace('error','ws error');
+                render();
+            };
             ws.onmessage = (event) => {
+                wsMessageCount += 1;
                 let payload = null;
                 try {
                     payload = JSON.parse(event.data);
                 } catch (error) {
+                    const preview = String(event.data || '').replace(/\s+/g, ' ').slice(0, 140);
+                    meta.textContent = 'WS JSON-Fehler: ' + preview;
+                    trace('error','json parse failed #' + wsMessageCount + ' preview=' + preview);
+                    return;
+                }
+
+                if(payload.type === 'snapshotBegin'){
+                    snapshotDeviceCount=0;
+                    snapshotStartedAt=Date.now();
+                    armSnapshotTimeout();
+                    trace('info','snapshotBegin #' + wsMessageCount);
+                    current = null;
+                    render();
+                    return;
+                }
+
+                if(payload.type === 'snapshotDevice' && payload.device){
+                    snapshotDeviceCount += 1;
+                    armSnapshotTimeout();
+                    trace('debug','snapshotDevice #' + snapshotDeviceCount + ' channel=' + String(payload.device.channel || 'n/a'));
+                    updateFromPayload(payload.device);
+                    return;
+                }
+
+                if(payload.type === 'snapshotEnd'){
+                    const duration=Date.now()-snapshotStartedAt;
+                    trace('info','snapshotEnd devices=' + snapshotDeviceCount + ' durationMs=' + duration);
+                    clearSnapshotTimeout();
+                    render();
                     return;
                 }
 
@@ -692,6 +924,7 @@ std::string WebVisuBridge::buildDetailPageHtml(uint8_t channelIndex) const
                 }
 
                 if(payload.type === 'update' && payload.device){
+                    trace('debug','update channel=' + String(payload.device.channel || 'n/a'));
                     updateFromPayload(payload.device);
                 }
             };
@@ -726,34 +959,6 @@ std::string WebVisuBridge::buildDetailPageHtml(uint8_t channelIndex) const
     return html;
 }
 
-std::string WebVisuBridge::buildSnapshotMessage() const
-{
-    std::string json = "{\"type\":\"snapshot\",\"devices\":[";
-    if (_bridge == nullptr)
-    {
-        json += "]}";
-        return json;
-    }
-
-    bool first = true;
-    const uint16_t channels = _bridge->getNumberOfChannels();
-    for (uint16_t idx = 0; idx < channels; ++idx)
-    {
-        KnxChannelBase* baseChannel = _bridge->getChannel((uint8_t)idx);
-        if (baseChannel == nullptr)
-            continue;
-
-        std::string deviceJson = buildDeviceJson(*baseChannel, (uint8_t)idx);
-
-        if (!first)
-            json += ",";
-        first = false;
-        json += deviceJson;
-    }
-    json += "]}";
-    return json;
-}
-
 std::string WebVisuBridge::buildDeviceJson(KnxChannelBase& channel, uint8_t channelIndex) const
 {
     WebVisuWidgetBase* widget = webVisuWidget(channelIndex);
@@ -778,16 +983,6 @@ std::string WebVisuBridge::buildDeviceJson(KnxChannelBase& channel, uint8_t chan
                                                                    state,
                                                                    image.allowRecolor);
 
-    const std::string detailHtml = buildDetailWidgetHtml(channel,
-                                                         channelIndex,
-                                                         name,
-                                                         type,
-                                                         value,
-                                                         state,
-                                                         imageUrl,
-                                                         supportMainAction,
-                                                         image.allowRecolor);
-
     const std::string kind = widget != nullptr ? widget->webVisuKind() : "generic";
 
     std::string json = "{";
@@ -807,8 +1002,7 @@ std::string WebVisuBridge::buildDeviceJson(KnxChannelBase& channel, uint8_t chan
     json += supportMainAction ? "true" : "false";
     json += ",";
     json += "\"detailUrl\":\"" + jsonEscape(detailUrl) + "\",";
-    json += "\"html\":\"" + jsonEscape(html) + "\",";
-    json += "\"detailHtml\":\"" + jsonEscape(detailHtml) + "\"";
+    json += "\"html\":\"" + jsonEscape(html) + "\"";
     json += "}";
     return json;
 }
@@ -854,8 +1048,57 @@ void WebVisuBridge::sendSnapshotToClient(int clientId)
 {
 #ifdef OPENKNX_WEBSERVER
     ensureChangeHandlersRegistered();
-    std::string snapshot = buildSnapshotMessage();
-    openknxNetwork.webserver.sendWebsocketMessage(SOCKET_URI, snapshot.c_str(), clientId);
+    const unsigned long startedAt = millis();
+    uint16_t sentDevices = 0;
+    uint16_t skippedChannels = 0;
+    const uint16_t totalChannels = _bridge != nullptr ? _bridge->getNumberOfChannels() : 0;
+
+    logDebug("WebVisu", "snapshot start client=%d channels=%u", clientId, (unsigned)totalChannels);
+
+    if (!openknxNetwork.webserver.sendToClient(SOCKET_URI, clientId, "{\"type\":\"snapshotBegin\"}", strlen("{\"type\":\"snapshotBegin\"}")))
+    {
+        logError("WebVisu", "snapshot abort client=%d stage=snapshotBegin", clientId);
+        return;
+    }
+
+    if (_bridge != nullptr)
+    {
+        const uint16_t channels = _bridge->getNumberOfChannels();
+        for (uint16_t idx = 0; idx < channels; ++idx)
+        {
+            KnxChannelBase* baseChannel = _bridge->getChannel((uint8_t)idx);
+            if (baseChannel == nullptr)
+            {
+                ++skippedChannels;
+                continue;
+            }
+
+            const std::string deviceJson = buildDeviceJson(*baseChannel, (uint8_t)idx);
+            std::string message;
+            message.reserve(deviceJson.size() + 40);
+            message = "{\"type\":\"snapshotDevice\",\"device\":";
+            message += deviceJson;
+            message += "}";
+            if (!openknxNetwork.webserver.sendToClient(SOCKET_URI, clientId, message.c_str(), message.size()))
+            {
+                logError("WebVisu", "snapshot abort client=%d stage=snapshotDevice channel=%u sent=%u",
+                         clientId, (unsigned)(idx + 1), (unsigned)sentDevices);
+                return;
+            }
+
+            ++sentDevices;
+        }
+    }
+
+    if (!openknxNetwork.webserver.sendToClient(SOCKET_URI, clientId, "{\"type\":\"snapshotEnd\"}", strlen("{\"type\":\"snapshotEnd\"}")))
+    {
+        logError("WebVisu", "snapshot abort client=%d stage=snapshotEnd sent=%u", clientId, (unsigned)sentDevices);
+        return;
+    }
+
+    const unsigned long duration = millis() - startedAt;
+    logDebug("WebVisu", "snapshot done client=%d sent=%u skipped=%u durationMs=%u",
+            clientId, (unsigned)sentDevices, (unsigned)skippedChannels, (unsigned)duration);
 #endif
 }
 

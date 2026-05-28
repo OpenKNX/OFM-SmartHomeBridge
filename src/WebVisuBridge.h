@@ -62,7 +62,6 @@ class WebVisuBridge : public BridgeBase
 
     std::string buildPageHtml() const;
     std::string buildDetailPageHtml(uint8_t channelIndex) const;
-    std::string buildSnapshotMessage() const;
     std::string buildDeviceJson(KnxChannelBase& channel, uint8_t channelIndex) const;
     std::string buildDetailWidgetHtml(KnxChannelBase& channel,
                       uint8_t channelIndex,
