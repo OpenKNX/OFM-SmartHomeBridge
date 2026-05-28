@@ -269,6 +269,7 @@ void WebVisuBridge::initialize(SmartHomeBridgeModule* bridge)
 void WebVisuBridge::loop()
 {
     processPendingCommands();
+    processPendingSnapshots();
 }
 
 void WebVisuBridge::registerWebPages()
@@ -300,7 +301,12 @@ void WebVisuBridge::registerWebPages()
         [this](int clientId, bool connected) {
             if (connected)
             {
-                sendSnapshotToClient(clientId);
+                queueSnapshotForClient(clientId);
+            }
+            else
+            {
+                _pendingSnapshotClients.erase(std::remove(_pendingSnapshotClients.begin(), _pendingSnapshotClients.end(), clientId),
+                                              _pendingSnapshotClients.end());
             }
         });
 #endif
@@ -351,6 +357,42 @@ void WebVisuBridge::processPendingCommands()
     {
         processCommandMessage(command);
     }
+}
+
+void WebVisuBridge::queueSnapshotForClient(int clientId)
+{
+    if (clientId < 0)
+        return;
+
+    if (std::find(_pendingSnapshotClients.begin(), _pendingSnapshotClients.end(), clientId) != _pendingSnapshotClients.end())
+        return;
+
+    _pendingSnapshotClients.push_back(clientId);
+}
+
+void WebVisuBridge::processPendingSnapshots()
+{
+    if (_pendingSnapshotClients.empty())
+        return;
+
+    const int clientId = _pendingSnapshotClients.front();
+    _pendingSnapshotClients.erase(_pendingSnapshotClients.begin());
+
+    if (!isSocketClientConnected(clientId))
+        return;
+
+    sendSnapshotToClient(clientId);
+}
+
+bool WebVisuBridge::isSocketClientConnected(int clientId) const
+{
+#ifdef OPENKNX_WEBSERVER
+    const auto clients = openknxNetwork.webserver.connectedClientFds(SOCKET_URI);
+    return std::find(clients.begin(), clients.end(), clientId) != clients.end();
+#else
+    (void)clientId;
+    return false;
+#endif
 }
 
 void WebVisuBridge::processCommandMessage(const std::string& message)
@@ -783,12 +825,13 @@ std::string WebVisuBridge::buildDetailPageHtml(uint8_t channelIndex) const
     html += std::to_string((int)channelIndex + 1);
     html += R"HTML(;
         const detail=document.getElementById('webvisu-detail');
+        const initialDetailHtml=detail ? detail.innerHTML : '';
         const meta=document.getElementById('webvisu-meta');
         const debugEnabled=(new URLSearchParams(location.search).get('wvdebug')||'1') !== '0';
         const tracePrefix='[WebVisu][Detail ch=' + String(channel) + ']';
         let ws=null;
         let reconnectTimer=null;
-        let current=null;
+        let current=initialDetailHtml ? { channel: channel, detailHtml: initialDetailHtml } : null;
         let wsMessageCount=0;
         let snapshotDeviceCount=0;
         let snapshotStartedAt=0;
@@ -872,8 +915,12 @@ std::string WebVisuBridge::buildDetailPageHtml(uint8_t channelIndex) const
 
         function updateFromPayload(payload){
             if(payload && Number(payload.channel) === channel){
-                if((!payload.detailHtml || payload.detailHtml === '') && current && current.detailHtml){
-                    payload.detailHtml = current.detailHtml;
+                if(!payload.detailHtml || payload.detailHtml === ''){
+                    if(current && current.detailHtml){
+                        payload.detailHtml = current.detailHtml;
+                    } else if(initialDetailHtml){
+                        payload.detailHtml = initialDetailHtml;
+                    }
                 }
                 current = payload;
                 render();
@@ -944,7 +991,6 @@ std::string WebVisuBridge::buildDetailPageHtml(uint8_t channelIndex) const
                     snapshotStartedAt=Date.now();
                     armSnapshotTimeout();
                     trace('info','snapshotBegin #' + wsMessageCount);
-                    current = null;
                     render();
                     return;
                 }
@@ -968,6 +1014,11 @@ std::string WebVisuBridge::buildDetailPageHtml(uint8_t channelIndex) const
                 if(payload.type === 'snapshot' && Array.isArray(payload.devices)){
                     const found = payload.devices.find(device => Number(device.channel) === channel);
                     if(found){
+                        if((!found.detailHtml || found.detailHtml === '') && current && current.detailHtml){
+                            found.detailHtml = current.detailHtml;
+                        } else if(!found.detailHtml || found.detailHtml === ''){
+                            found.detailHtml = initialDetailHtml;
+                        }
                         current = found;
                     }
                     render();
@@ -1101,6 +1152,12 @@ std::string WebVisuBridge::buildImageUrl(const std::string& imageFile) const
 void WebVisuBridge::sendSnapshotToClient(int clientId)
 {
 #ifdef OPENKNX_WEBSERVER
+    if (!isSocketClientConnected(clientId))
+    {
+        logDebug("WebVisu", "snapshot skip disconnected client=%d", clientId);
+        return;
+    }
+
     ensureChangeHandlersRegistered();
     const unsigned long startedAt = millis();
     uint16_t sentDevices = 0;
@@ -1120,6 +1177,12 @@ void WebVisuBridge::sendSnapshotToClient(int clientId)
         const uint16_t channels = _bridge->getNumberOfChannels();
         for (uint16_t idx = 0; idx < channels; ++idx)
         {
+            if (!isSocketClientConnected(clientId))
+            {
+                logDebug("WebVisu", "snapshot stop disconnected client=%d sent=%u", clientId, (unsigned)sentDevices);
+                return;
+            }
+
             KnxChannelBase* baseChannel = _bridge->getChannel((uint8_t)idx);
             if (baseChannel == nullptr)
             {

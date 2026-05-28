@@ -49,12 +49,16 @@ class WebVisuBridge : public BridgeBase
 
     SmartHomeBridgeModule* _bridge = nullptr;
     std::vector<std::string> _pendingCommands;
+    std::vector<int> _pendingSnapshotClients;
     std::vector<MainFunctionChangedHandler> _channelChangedHandlers;
     std::vector<bool> _channelChangedHandlerRegistered;
     std::vector<class WebVisuWidgetBase*> _webVisuWidgets;
 
     void queueCommand(const uint8_t* data, int length);
     void processPendingCommands();
+    void queueSnapshotForClient(int clientId);
+    void processPendingSnapshots();
+    bool isSocketClientConnected(int clientId) const;
     void processCommandMessage(const std::string& message);
     void ensureChangeHandlersRegistered();
     void registerWebVisuWidget(uint8_t channelIndex, class WebVisuWidgetBase* widget);
