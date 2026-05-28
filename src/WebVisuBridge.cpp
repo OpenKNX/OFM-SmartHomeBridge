@@ -864,6 +864,7 @@ std::string WebVisuBridge::buildDetailPageHtml(uint8_t channelIndex) const
         function render(){
             meta.textContent = ws && ws.readyState === 1 ? 'Live verbunden' : 'Nicht verbunden';
             if(!current){
+                detail.innerHTML = '<div class="webvisu-empty">Ger&auml;t nicht gefunden.</div>';
                 return;
             }
             detail.innerHTML = current.detailHtml || current.html || '';
@@ -943,6 +944,7 @@ std::string WebVisuBridge::buildDetailPageHtml(uint8_t channelIndex) const
                     snapshotStartedAt=Date.now();
                     armSnapshotTimeout();
                     trace('info','snapshotBegin #' + wsMessageCount);
+                    current = null;
                     render();
                     return;
                 }
