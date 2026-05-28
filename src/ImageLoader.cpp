@@ -59,7 +59,7 @@ std::string ImageLoader::imageTag(const std::string& fileName,
     std::string html;
     html += "<img class=\"" + escapeHtml(effectiveClass) + "\" src=\"";
     html += loadImage(fileName, useStateColor, state);
-    html += "\" alt=\"" + escapeHtml(alt) + "\" loading=\"lazy\">";
+    html += "\" alt=\"" + escapeHtml(alt) + "\">";
     return html;
 }
 

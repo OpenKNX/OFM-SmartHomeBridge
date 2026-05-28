@@ -137,6 +137,32 @@ std::string headerIgnoreCase(const OpenKNX::Network::WebRequest& req, const char
     }
     return std::string();
 }
+
+uint32_t fnv1a32(const std::string& value)
+{
+    uint32_t hash = 2166136261u;
+    for (unsigned char c : value)
+    {
+        hash ^= (uint32_t)c;
+        hash *= 16777619u;
+    }
+    return hash;
+}
+
+std::string stripQueryString(const std::string& value)
+{
+    const size_t queryPos = value.find('?');
+    if (queryPos == std::string::npos)
+    {
+        return value;
+    }
+    return value.substr(0, queryPos);
+}
+
+std::string imageVersionTokenFromDataUri(const std::string& dataUri)
+{
+    return std::to_string((unsigned)fnv1a32(dataUri));
+}
 }
 
 SwitchBridge* WebVisuBridge::createSwitch(KnxChannelSwitch& channel, uint8_t _channelIndex, uint8_t deviceType)
@@ -445,8 +471,6 @@ std::string WebVisuBridge::buildPageHtml() const
         const tracePrefix='[WebVisu][Overview]';
         let ws=null;
         let reconnectTimer=null;
-        let imageLoadGeneration=0;
-        let deferImageLoading=false;
         let isClosing=false;
         let wsMessageCount=0;
         let snapshotActive=false;
@@ -562,10 +586,6 @@ std::string WebVisuBridge::buildPageHtml() const
             } else {
                 insertCardInOrder(card, channel);
             }
-
-            if(!deferImageLoading){
-                loadImagesSequentially(card);
-            }
         }
 
         function buildPayload(target){
@@ -601,32 +621,6 @@ std::string WebVisuBridge::buildPageHtml() const
             }
         }
 
-        function loadImagesSequentially(container){
-            imageLoadGeneration += 1;
-            const generation = imageLoadGeneration;
-            const images = Array.from(container.querySelectorAll('img[data-src]'));
-
-            function loadNext(index){
-                if(generation !== imageLoadGeneration || index >= images.length){
-                    return;
-                }
-
-                const image = images[index];
-                const src = image.getAttribute('data-src');
-                if(!src){
-                    loadNext(index + 1);
-                    return;
-                }
-
-                image.addEventListener('load', () => loadNext(index + 1), { once: true });
-                image.addEventListener('error', () => loadNext(index + 1), { once: true });
-                image.setAttribute('src', src);
-                image.removeAttribute('data-src');
-            }
-
-            loadNext(0);
-        }
-
         function scheduleReconnect(){
             if(isClosing || reconnectTimer){
                 return;
@@ -639,7 +633,6 @@ std::string WebVisuBridge::buildPageHtml() const
 
         function closeSocket(){
             isClosing = true;
-            imageLoadGeneration += 1;
             if(reconnectTimer){
                 clearTimeout(reconnectTimer);
                 reconnectTimer = null;
@@ -693,7 +686,6 @@ std::string WebVisuBridge::buildPageHtml() const
 
                 if(payload.type === 'snapshotBegin'){
                     snapshotActive=true;
-                    deferImageLoading=true;
                     snapshotDeviceCount=0;
                     snapshotStartedAt=Date.now();
                     armSnapshotTimeout();
@@ -716,9 +708,7 @@ std::string WebVisuBridge::buildPageHtml() const
                     const duration=Date.now()-snapshotStartedAt;
                     trace('info','snapshotEnd devices=' + snapshotDeviceCount + ' durationMs=' + duration);
                     snapshotActive=false;
-                    deferImageLoading=false;
                     clearSnapshotTimeout();
-                    loadImagesSequentially(grid);
                     showEmptyIfNeeded();
                     updateConnectionState();
                     return;
@@ -726,10 +716,7 @@ std::string WebVisuBridge::buildPageHtml() const
 
                 if(payload.type === 'snapshot' && Array.isArray(payload.devices)){
                     clearDevices();
-                    deferImageLoading=true;
                     payload.devices.forEach(device => upsertDevice(device));
-                    deferImageLoading=false;
-                    loadImagesSequentially(grid);
                     showEmptyIfNeeded();
                     updateConnectionState();
                     return;
@@ -1146,7 +1133,10 @@ std::string WebVisuBridge::buildDetailWidgetHtml(KnxChannelBase& channel,
 
 std::string WebVisuBridge::buildImageUrl(const std::string& imageFile) const
 {
-    return "/devices/image/" + urlEncode(imageFile.empty() ? "missing_file.png" : imageFile);
+    const std::string normalizedImageName = imageFile.empty() ? "missing_file.png" : imageFile;
+    const std::string dataUri = ImageLoader::loadImage(normalizedImageName);
+    const std::string versionToken = imageVersionTokenFromDataUri(dataUri);
+    return "/devices/image/" + urlEncode(normalizedImageName) + "?v=" + versionToken;
 }
 
 void WebVisuBridge::sendSnapshotToClient(int clientId)
@@ -1338,7 +1328,8 @@ void WebVisuBridge::handleImageRequest(const OpenKNX::Network::WebRequest& req,
         return;
     }
 
-    std::string imageName = uri.substr(prefix.size());
+    const std::string requestedImage = uri.substr(prefix.size());
+    std::string imageName = stripQueryString(requestedImage);
     if (imageName.find("..") != std::string::npos || imageName.empty())
     {
         res.setStatus(400);
@@ -1379,11 +1370,11 @@ void WebVisuBridge::handleImageRequest(const OpenKNX::Network::WebRequest& req,
         return;
     }
 
-    const std::string etag = std::string("\"") + imageName + "\"";
+    const std::string versionToken = imageVersionTokenFromDataUri(dataUri);
+    const std::string etag = std::string("\"") + imageName + "-" + versionToken + "\"";
     const std::string ifNoneMatch = headerIgnoreCase(req, "if-none-match");
 
-    res.setHeader("Cache-Control", "private, no-cache, max-age=0, must-revalidate");
-    res.setHeader("Pragma", "no-cache");
+    res.setHeader("Cache-Control", "public, max-age=31536000, immutable");
     res.setHeader("ETag", etag.c_str());
 
     if (!ifNoneMatch.empty() && ifNoneMatch == etag)
