@@ -9,6 +9,8 @@ Die OpenKNX Smart Home Bridge erlaubt KNX Geräte über Apple Home und Amazon Al
 - SW-Updates können über WLAN (OTA) eigespielt werden
 
 # Release Notes
+- 0.6 Breaking Change: Limit auf 60 Geräte
+- 0.6 Feature: Preview Web Visu
 - 0.5 Fix: Fehler im Memory Layout der Produktdatenbank
 - 0.4.2 Fix: Vertauschte Auf-/Zu-Richtung bei Tür, Fenster und Garagentor (sowohl beim Senden auf KNX als auch bei der Rückmeldung an HomeKit)
 - 0.4.1 Fix: Fehler bei Schloss während Sperrvorgang bei benutzerdefinierten Bildern im Display (nicht relevant für SmartHomeBridge)

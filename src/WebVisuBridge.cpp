@@ -301,7 +301,7 @@ void WebVisuBridge::loop()
 void WebVisuBridge::registerWebPages()
 {
 #ifdef OPENKNX_WEBSERVER
-   // openknxNetwork.webserver.addMenuItem("Ger\xC3\xA4te", MENU_URI, 52);
+    openknxNetwork.webserver.addMenuItem("Ger\xC3\xA4te (Alpha Version)", MENU_URI, 52);
     openknxNetwork.webserver.addRoute(OpenKNX::Network::WEB_GET, MENU_URI,
                                       [this](OpenKNX::Network::WebRequest&, OpenKNX::Network::WebResponse& res) {
                                           std::string html = buildPageHtml();
