@@ -13,6 +13,8 @@
   <op:config name="%BRI_IconSize%" value="64x64 Pixel" />
   <op:config name="%BRI_DeviceType%" value="%AID%_PT-BRIDeviceTypeSmartHomeBridge" />
   <op:config name="%BRI_DisplayType%" value="%AID%_PT-BRIDisplayTypeSmartHomeBridge" />
+  <op:config name="%BRI_DisplaySettingsTitle%" value="Touch Display Einstellungen" />
+
 
   <ManufacturerData>
     <Manufacturer RefId="M-00FA">
@@ -488,7 +490,7 @@
               <ParameterRef Id="%AID%_P-%T%000007_R-%T%00000701" RefId="%AID%_P-%T%000007" /> <!-- HomeKit Supported -->
               <ParameterRef Id="%AID%_P-%T%000008_R-%T%00000801" RefId="%AID%_P-%T%000008" /> <!-- Hue Supported -->
               <ParameterRef Id="%AID%_P-%T%000009_R-%T%00000901" RefId="%AID%_P-%T%000009" /> <!-- Brigde Settings -->
-              <ParameterRef Id="%AID%_P-%T%000010_R-%T%00001001" RefId="%AID%_P-%T%000010" /> <!-- Display Settings -->
+              <ParameterRef Id="%AID%_P-%T%000010_R-%T%00001002" RefId="%AID%_P-%T%000010" /> <!-- Display Settings -->
             </ParameterRefs>
             <ComObjectTable>
             </ComObjectTable>        
@@ -518,7 +520,7 @@
                 <ParameterRefRef IndentLevel="1" RefId="%AID%_P-%T%000007_R-%T%00000701" /> <!-- HomeKit Supported -->
                 <ParameterRefRef IndentLevel="1" RefId="%AID%_P-%T%000008_R-%T%00000801" /> <!-- Hue Supported -->
                 <ParameterRefRef IndentLevel="1" RefId="%AID%_P-%T%000009_R-%T%00000901" /> <!-- Brigde Settings -->
-                <ParameterRefRef IndentLevel="1" RefId="%AID%_P-%T%000010_R-%T%00001001" /> <!-- Display Settings -->
+                <ParameterRefRef IndentLevel="1" RefId="%AID%_P-%T%000010_R-%T%00001002" /> <!-- Display Settings -->
 
                 <!-- Bridge Settings -->
                 <choose ParamRefId="%AID%_P-%T%000009_R-%T%00000901" > 

@@ -16,7 +16,7 @@
             <!-- Anzahl der Kanäle -->
             <choose ParamRefId="%AID%_UP-%T%000000_R-%T%00000001">
                 <when test="&gt;=60">
-                        <ParameterSeparator Id="%AID%_PS-nnn" Text="ACHTUNG: Die HomeKit Verbindung kann instabil werden wenn mehr als 60 Geräte verwendet werden." UIHint="Information" />
+                        <ParameterSeparator Id="%AID%_PS-nnn" Text="ACHTUNG: Die HomeKit Verbindung kann instabil werden wenn mehr als 60 Geräte. Daher wird mit der nächsten Version der SmartHomeBridge die Kanalanzahl auf 60 begrenzt." UIHint="Error" />
                 </when>
             </choose>
         </when>

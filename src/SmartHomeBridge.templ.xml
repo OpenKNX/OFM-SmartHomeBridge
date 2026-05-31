@@ -559,11 +559,11 @@
                           <ComObjectRefRef RefId="%AID%_O-%T%%CCC%002_R-%T%%CCC%00201" />
 
                           <!-- DisplaySettings -->
-                          <choose ParamRefId="%AID%_P-%T%000010_R-%T%00001001">
+                          <choose ParamRefId="%AID%_P-%T%000010_R-%T%00001002">
                             <when test="1">
                              
                               <ParameterSeparator Id="%AID%_PS-nnn" Text="" UIHint="HorizontalRuler" />
-                              <ParameterSeparator Id="%AID%_PS-nnn" Text="Touch Display Einstellungen" UIHint="Headline" />
+                              <ParameterSeparator Id="%AID%_PS-nnn" Text="%BRI_DisplaySettingsTitle%" UIHint="Headline" />
 
 
                               <!-- Icons -->
@@ -608,11 +608,11 @@
                           <ComObjectRefRef RefId="%AID%_O-%T%%CCC%002_R-%T%%CCC%00201" />
 
                            <!-- DisplaySettings -->
-                          <choose ParamRefId="%AID%_P-%T%000010_R-%T%00001001">
+                          <choose ParamRefId="%AID%_P-%T%000010_R-%T%00001002">
                             <when test="1">
                              
                               <ParameterSeparator Id="%AID%_PS-nnn" Text="" UIHint="HorizontalRuler" />
-                              <ParameterSeparator Id="%AID%_PS-nnn" Text="Touch Display Einstellungen" UIHint="Headline" />
+                              <ParameterSeparator Id="%AID%_PS-nnn" Text="%BRI_DisplaySettingsTitle%" UIHint="Headline" />
 
 
                               <!-- Icons -->
@@ -695,11 +695,11 @@
                           </choose>
 
                            <!-- DisplaySettings -->
-                          <choose ParamRefId="%AID%_P-%T%000010_R-%T%00001001">
+                          <choose ParamRefId="%AID%_P-%T%000010_R-%T%00001002">
                             <when test="1">
                              
                               <ParameterSeparator Id="%AID%_PS-nnn" Text="" UIHint="HorizontalRuler" />
-                              <ParameterSeparator Id="%AID%_PS-nnn" Text="Touch Display Einstellungen" UIHint="Headline" />
+                              <ParameterSeparator Id="%AID%_PS-nnn" Text="%BRI_DisplaySettingsTitle%" UIHint="Headline" />
 
                               <!-- Lock direction -->
                               <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%T%%CCC%017_R-%T%%CCC%01701" HelpContext="%DOC%" />
@@ -753,11 +753,11 @@
                               <ComObjectRefRef RefId="%AID%_O-%T%%CCC%002_R-%T%%CCC%00202" />
 
                               <!-- DisplaySettings -->
-                              <choose ParamRefId="%AID%_P-%T%000010_R-%T%00001001">
+                              <choose ParamRefId="%AID%_P-%T%000010_R-%T%00001002">
                                 <when test="1">
                                 
                                   <ParameterSeparator Id="%AID%_PS-nnn" Text="" UIHint="HorizontalRuler" />
-                                  <ParameterSeparator Id="%AID%_PS-nnn" Text="Touch Display Einstellungen" UIHint="Headline" />
+                                  <ParameterSeparator Id="%AID%_PS-nnn" Text="%BRI_DisplaySettingsTitle%" UIHint="Headline" />
 
 
                                   <!-- Icons -->
@@ -801,11 +801,11 @@
 
 
                               <!-- DisplaySettings -->
-                              <choose ParamRefId="%AID%_P-%T%000010_R-%T%00001001">
+                              <choose ParamRefId="%AID%_P-%T%000010_R-%T%00001002">
                                 <when test="1">
                                 
                                   <ParameterSeparator Id="%AID%_PS-nnn" Text="" UIHint="HorizontalRuler" />
-                                  <ParameterSeparator Id="%AID%_PS-nnn" Text="Touch Display Einstellungen" UIHint="Headline" />
+                                  <ParameterSeparator Id="%AID%_PS-nnn" Text="%BRI_DisplaySettingsTitle%" UIHint="Headline" />
 
                                   <!-- Icons -->
                                   <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%T%%CCC%004_R-%T%%CCC%00401" HelpContext="BRI-BildProzent" />
@@ -847,11 +847,11 @@
                                 </when>
                               </choose>
                               <!-- DisplaySettings -->
-                              <choose ParamRefId="%AID%_P-%T%000010_R-%T%00001001">
+                              <choose ParamRefId="%AID%_P-%T%000010_R-%T%00001002">
                                 <when test="1">
                                 
                                   <ParameterSeparator Id="%AID%_PS-nnn" Text="" UIHint="HorizontalRuler" />
-                                  <ParameterSeparator Id="%AID%_PS-nnn" Text="Touch Display Einstellungen" UIHint="Headline" />
+                                  <ParameterSeparator Id="%AID%_PS-nnn" Text="%BRI_DisplaySettingsTitle%" UIHint="Headline" />
 
                                   <!-- Icons -->
                                   <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%T%%CCC%004_R-%T%%CCC%00401" HelpContext="BRI-BildEinAus" />
@@ -916,11 +916,11 @@
 
 
                           <!-- DisplaySettings -->
-                          <choose ParamRefId="%AID%_P-%T%000010_R-%T%00001001">
+                          <choose ParamRefId="%AID%_P-%T%000010_R-%T%00001002">
                             <when test="1">
                             
                               <ParameterSeparator Id="%AID%_PS-nnn" Text="" UIHint="HorizontalRuler" />
-                              <ParameterSeparator Id="%AID%_PS-nnn" Text="Touch Display Einstellungen" UIHint="Headline" />
+                              <ParameterSeparator Id="%AID%_PS-nnn" Text="%BRI_DisplaySettingsTitle%" UIHint="Headline" />
 
                               <!-- Icons -->
                               <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%T%%CCC%004_R-%T%%CCC%00401" HelpContext="BRI-BildProzent" />
@@ -984,11 +984,11 @@
                           </choose>
 
                           <!-- DisplaySettings -->
-                          <choose ParamRefId="%AID%_P-%T%000010_R-%T%00001001">
+                          <choose ParamRefId="%AID%_P-%T%000010_R-%T%00001002">
                             <when test="1">
                             
                               <ParameterSeparator Id="%AID%_PS-nnn" Text="" UIHint="HorizontalRuler" />
-                              <ParameterSeparator Id="%AID%_PS-nnn" Text="Touch Display Einstellungen" UIHint="Headline" />
+                              <ParameterSeparator Id="%AID%_PS-nnn" Text="%BRI_DisplaySettingsTitle%" UIHint="Headline" />
 
                               <!-- Icons -->
                               <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%T%%CCC%004_R-%T%%CCC%00401" HelpContext="BRI-BildProzent"  />
@@ -1050,11 +1050,11 @@
                           </choose>
 
                           <!-- DisplaySettings -->
-                          <choose ParamRefId="%AID%_P-%T%000010_R-%T%00001001">
+                          <choose ParamRefId="%AID%_P-%T%000010_R-%T%00001002">
                             <when test="1">
                             
                               <ParameterSeparator Id="%AID%_PS-nnn" Text="" UIHint="HorizontalRuler" />
-                              <ParameterSeparator Id="%AID%_PS-nnn" Text="Touch Display Einstellungen" UIHint="Headline" />
+                              <ParameterSeparator Id="%AID%_PS-nnn" Text="%BRI_DisplaySettingsTitle%" UIHint="Headline" />
 
                               <!-- Icons -->
                               <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%T%%CCC%004_R-%T%%CCC%00401" HelpContext="BRI-BildProzent" />
@@ -1102,11 +1102,11 @@
                          
                        
                           <!-- DisplaySettings -->
-                          <choose ParamRefId="%AID%_P-%T%000010_R-%T%00001001">
+                          <choose ParamRefId="%AID%_P-%T%000010_R-%T%00001002">
                             <when test="1">
                             
                               <ParameterSeparator Id="%AID%_PS-nnn" Text="" UIHint="HorizontalRuler" />
-                              <ParameterSeparator Id="%AID%_PS-nnn" Text="Touch Display Einstellungen" UIHint="Headline" />
+                              <ParameterSeparator Id="%AID%_PS-nnn" Text="%BRI_DisplaySettingsTitle%" UIHint="Headline" />
 
                               <!-- Szene Lernfunktion -->
                               <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%T%%CCC%045_R-%T%%CCC%04501" HelpContext="%DOC%"/> 
@@ -1164,11 +1164,11 @@
       
                        
                           <!-- DisplaySettings -->
-                          <choose ParamRefId="%AID%_P-%T%000010_R-%T%00001001">
+                          <choose ParamRefId="%AID%_P-%T%000010_R-%T%00001002">
                             <when test="1">
                             
                               <ParameterSeparator Id="%AID%_PS-nnn" Text="" UIHint="HorizontalRuler" />
-                              <ParameterSeparator Id="%AID%_PS-nnn" Text="Touch Display Einstellungen" UIHint="Headline" />
+                              <ParameterSeparator Id="%AID%_PS-nnn" Text="%BRI_DisplaySettingsTitle%" UIHint="Headline" />
 
                               <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%T%%CCC%044_R-%T%%CCC%04401" HelpContext="%DOC%" /> <!-- Titel Input verwenden -->
                                 <choose ParamRefId="%AID%_UP-%T%%CCC%044_R-%T%%CCC%04401">
@@ -1316,11 +1316,11 @@
                           </choose>
 
                           <!-- DisplaySettings -->
-                          <choose ParamRefId="%AID%_P-%T%000010_R-%T%00001001">
+                          <choose ParamRefId="%AID%_P-%T%000010_R-%T%00001002">
                             <when test="1">
                             
                               <ParameterSeparator Id="%AID%_PS-nnn" Text="" UIHint="HorizontalRuler" />
-                              <ParameterSeparator Id="%AID%_PS-nnn" Text="Touch Display Einstellungen" UIHint="Headline" />
+                              <ParameterSeparator Id="%AID%_PS-nnn" Text="%BRI_DisplaySettingsTitle%" UIHint="Headline" />
 
                               <!-- Icons -->
                               <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%T%%CCC%004_R-%T%%CCC%00401" HelpContext="BRI-BildModus" />
@@ -1478,11 +1478,11 @@
                           </choose>
 
                           <!-- DisplaySettings -->
-                          <choose ParamRefId="%AID%_P-%T%000010_R-%T%00001001">
+                          <choose ParamRefId="%AID%_P-%T%000010_R-%T%00001002">
                             <when test="1">
                             
                               <ParameterSeparator Id="%AID%_PS-nnn" Text="" UIHint="HorizontalRuler" />
-                              <ParameterSeparator Id="%AID%_PS-nnn" Text="Touch Display Einstellungen" UIHint="Headline" />
+                              <ParameterSeparator Id="%AID%_PS-nnn" Text="%BRI_DisplaySettingsTitle%" UIHint="Headline" />
 
                               <!-- Icons -->
                               <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%T%%CCC%004_R-%T%%CCC%00401" HelpContext="BRI-BildWert"  />
@@ -1578,11 +1578,11 @@
                           <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%T%%CCC%071_R-%T%%CCC%07101" HelpContext="%DOC%" /> <!-- Alarm Invert Input -->
 
                           <!-- DisplaySettings -->
-                          <choose ParamRefId="%AID%_P-%T%000010_R-%T%00001001">
+                          <choose ParamRefId="%AID%_P-%T%000010_R-%T%00001002">
                             <when test="1">
                             
                               <ParameterSeparator Id="%AID%_PS-nnn" Text="" UIHint="HorizontalRuler" />
-                              <ParameterSeparator Id="%AID%_PS-nnn" Text="Touch Display Einstellungen" UIHint="Headline" />
+                              <ParameterSeparator Id="%AID%_PS-nnn" Text="%BRI_DisplaySettingsTitle%" UIHint="Headline" />
 
                               <!-- Roter Hintergrund -->
                               <ParameterRefRef RefId="%AID%_UP-%T%%CCC%073_R-%T%%CCC%07301" IndentLevel="1" HelpContext="%DOC%" />
@@ -1662,11 +1662,11 @@
                           </choose>
 
                           <!-- DisplaySettings -->
-                          <choose ParamRefId="%AID%_P-%T%000010_R-%T%00001001">
+                          <choose ParamRefId="%AID%_P-%T%000010_R-%T%00001002">
                             <when test="1">
                             
                               <ParameterSeparator Id="%AID%_PS-nnn" Text="" UIHint="HorizontalRuler" />
-                              <ParameterSeparator Id="%AID%_PS-nnn" Text="Touch Display Einstellungen" UIHint="Headline" />
+                              <ParameterSeparator Id="%AID%_PS-nnn" Text="%BRI_DisplaySettingsTitle%" UIHint="Headline" />
 
                               <!-- Icons -->
                               <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%T%%CCC%004_R-%T%%CCC%00401"  HelpContext="BRI-BildEinAus" />
@@ -1768,11 +1768,11 @@
                           </choose>
 
                           <!-- DisplaySettings -->
-                          <choose ParamRefId="%AID%_P-%T%000010_R-%T%00001001">
+                          <choose ParamRefId="%AID%_P-%T%000010_R-%T%00001002">
                             <when test="1">
                             
                               <ParameterSeparator Id="%AID%_PS-nnn" Text="" UIHint="HorizontalRuler" />
-                              <ParameterSeparator Id="%AID%_PS-nnn" Text="Touch Display Einstellungen" UIHint="Headline" />
+                              <ParameterSeparator Id="%AID%_PS-nnn" Text="%BRI_DisplaySettingsTitle%" UIHint="Headline" />
 
                               <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%T%%CCC%098_R-%T%%CCC%09801" HelpContext="%DOC%" /> <!--Öffnungsrichtung -->
                              
@@ -1886,11 +1886,11 @@
                           </choose>
 
                           <!-- DisplaySettings -->
-                          <choose ParamRefId="%AID%_P-%T%000010_R-%T%00001001">
+                          <choose ParamRefId="%AID%_P-%T%000010_R-%T%00001002">
                             <when test="1">
                             
                               <ParameterSeparator Id="%AID%_PS-nnn" Text="" UIHint="HorizontalRuler" />
-                              <ParameterSeparator Id="%AID%_PS-nnn" Text="Touch Display Einstellungen" UIHint="Headline" />
+                              <ParameterSeparator Id="%AID%_PS-nnn" Text="%BRI_DisplaySettingsTitle%" UIHint="Headline" />
 
                               <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%T%%CCC%098_R-%T%%CCC%09801" HelpContext="%DOC%" /> <!--Öffnungsrichtung -->
                              
@@ -2004,11 +2004,11 @@
                           </choose>
 
                           <!-- DisplaySettings -->
-                          <choose ParamRefId="%AID%_P-%T%000010_R-%T%00001001">
+                          <choose ParamRefId="%AID%_P-%T%000010_R-%T%00001002">
                             <when test="1">
                             
                               <ParameterSeparator Id="%AID%_PS-nnn" Text="" UIHint="HorizontalRuler" />
-                              <ParameterSeparator Id="%AID%_PS-nnn" Text="Touch Display Einstellungen" UIHint="Headline" />
+                              <ParameterSeparator Id="%AID%_PS-nnn" Text="%BRI_DisplaySettingsTitle%" UIHint="Headline" />
 
                               <ParameterRefRef IndentLevel="1" RefId="%AID%_UP-%T%%CCC%098_R-%T%%CCC%09801" HelpContext="%DOC%" /> <!--Öffnungsrichtung -->
                              
