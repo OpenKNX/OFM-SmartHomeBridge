@@ -500,7 +500,7 @@ std::string WebVisuBridge::buildPageHtml() const
         function armSnapshotTimeout(){
             clearSnapshotTimeout();
             snapshotTimeoutTimer=setTimeout(() => {
-               a if(snapshotActive){
+                if(snapshotActive){
                     trace('warn','snapshot timeout after 5000ms, devices=' + snapshotDeviceCount);
                 }
             }, 5000);
@@ -1155,6 +1155,8 @@ void WebVisuBridge::sendSnapshotToClient(int clientId)
     const uint16_t totalChannels = _bridge != nullptr ? _bridge->getNumberOfChannels() : 0;
 
     logDebug("WebVisu", "snapshot start client=%d channels=%u", clientId, (unsigned)totalChannels);
+    // DEBUG: Log Speicherverbrauch zu Beginn
+    logDebug("WebVisu", "snapshot heap at start: %u", (unsigned)esp_get_free_heap_size());
 
     if (!openknxNetwork.webserver.sendToClient(SOCKET_URI, clientId, "{\"type\":\"snapshotBegin\"}", strlen("{\"type\":\"snapshotBegin\"}")))
     {
@@ -1186,6 +1188,8 @@ void WebVisuBridge::sendSnapshotToClient(int clientId)
             message = "{\"type\":\"snapshotDevice\",\"device\":";
             message += deviceJson;
             message += "}";
+            // DEBUG: Log Größe der Nachricht und Heap
+            logDebug("WebVisu", "snapshotDevice channel=%u size=%u heap=%u", (unsigned)(idx + 1), (unsigned)message.size(), (unsigned)esp_get_free_heap_size());
             if (!openknxNetwork.webserver.sendToClient(SOCKET_URI, clientId, message.c_str(), message.size()))
             {
                 logError("WebVisu", "snapshot abort client=%d stage=snapshotDevice channel=%u sent=%u",
@@ -1204,8 +1208,8 @@ void WebVisuBridge::sendSnapshotToClient(int clientId)
     }
 
     const unsigned long duration = millis() - startedAt;
-    logDebug("WebVisu", "snapshot done client=%d sent=%u skipped=%u durationMs=%u",
-            clientId, (unsigned)sentDevices, (unsigned)skippedChannels, (unsigned)duration);
+    logDebug("WebVisu", "snapshot done client=%d sent=%u skipped=%u durationMs=%u heap=%u",
+            clientId, (unsigned)sentDevices, (unsigned)skippedChannels, (unsigned)duration, (unsigned)esp_get_free_heap_size());
 #endif
 }
 
