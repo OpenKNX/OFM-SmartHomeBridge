@@ -180,7 +180,7 @@ void SmartHomeBridgeModule::setup()
   }
 
 #ifdef OPENKNX_WEBSERVER
-#ifdef OPENKNX_WEBVISUBRIDGE
+#ifdef OPENKNX_WEBVISU
   logDebugP("WebVisu enabled");
   addBridge(new WebVisuBridge());
 #endif
