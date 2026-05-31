@@ -301,7 +301,7 @@ void WebVisuBridge::loop()
 void WebVisuBridge::registerWebPages()
 {
 #ifdef OPENKNX_WEBSERVER
-    openknxNetwork.webserver.addMenuItem("Ger\xC3\xA4te", MENU_URI, 52);
+   // openknxNetwork.webserver.addMenuItem("Ger\xC3\xA4te", MENU_URI, 52);
     openknxNetwork.webserver.addRoute(OpenKNX::Network::WEB_GET, MENU_URI,
                                       [this](OpenKNX::Network::WebRequest&, OpenKNX::Network::WebResponse& res) {
                                           std::string html = buildPageHtml();
@@ -500,7 +500,7 @@ std::string WebVisuBridge::buildPageHtml() const
         function armSnapshotTimeout(){
             clearSnapshotTimeout();
             snapshotTimeoutTimer=setTimeout(() => {
-                if(snapshotActive){
+               a if(snapshotActive){
                     trace('warn','snapshot timeout after 5000ms, devices=' + snapshotDeviceCount);
                 }
             }, 5000);
@@ -1568,3 +1568,4 @@ bool WebVisuBridge::parseBoolField(const std::string& message, const char* key, 
 }
 
 #endif
+
