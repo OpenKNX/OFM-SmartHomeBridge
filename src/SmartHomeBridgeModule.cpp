@@ -78,6 +78,35 @@ void SmartHomeBridgeModule::setup()
 #endif
   _utf8Name = convertISO8859_15ToUTF8((const char *)ParamBRI_BridgeName);
 
+
+
+  #ifdef OPENKNX_WEBSERVER
+    openknxNetwork.webserver.addMenuItem("Smart Home Bridge", "/smarthomebridge", 50);
+    openknxNetwork.webserver.addRoute(OpenKNX::Network::WEB_GET, "/smarthomebridge", [this](OpenKNX::Network::WebRequest&, OpenKNX::Network::WebResponse& res) {
+        std::string html = "<div class='container'>";
+        html += "<h1 style='margin-bottom:0.75em;'>Smart Home Bridge</h1>";
+        html += "<br>Name: ";
+        html += _utf8Name;
+        html += "<br>Verwendete Kanäle: " + std::to_string(getNumberOfUsedChannels());
+        html += " von " + std::to_string(BRI_ChannelCount);
+        html += "<br>Freier Heap: " + std::to_string(ESP.getFreeHeap()) + " of " + std::to_string(ESP.getHeapSize());
+        html += "<br>Minimaler freier Heap: " + std::to_string(ESP.getMinFreeHeap());
+        html += "<br>Größter freie Heapblock: " + std::to_string(ESP.getMaxAllocHeap());
+        if (ESP.getFreePsram() > 0)
+        {
+          html += "<br>Freier PSRAM: " + std::to_string(ESP.getFreePsram()) + " of " + std::to_string(ESP.getPsramSize());
+          html += "<br>Minimaler freier PSRAM: " + std::to_string(ESP.getMinFreePsram());
+        }
+        html += "<br>Maximale Stack Verwendung: " + std::to_string(8192 - uxTaskGetStackHighWaterMark(nullptr));
+        html += " von 8192";
+        html += "</div>";
+        res.setLayout(true);
+        res.setActiveMenu("/smarthomebridge");
+        res.send(html.c_str());
+    });
+    
+#endif
+
 #ifndef SMARTHOMEBRIDGE_DEVICESONLY
   bool homeKitEnabled = ParamBRI_HomeKitEnabled;
   if (homeKitEnabled)
