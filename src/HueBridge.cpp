@@ -133,7 +133,7 @@ void HueBridge::start(SmartHomeBridgeModule *bridge)
     }
     else
     {
-        espalexa.beginWithNetworkWebserver(9080, mac);
+        espalexa.beginWithNetworkWebserver(80, mac);
     }   
 
 #else

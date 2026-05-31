@@ -525,7 +525,7 @@ public:
 
 #ifdef OPENKNX_WEBSERVER
   #ifndef ESPALEXA_ASYNC
-  bool beginWithNetworkWebserver(uint16_t webserverPort = 9080, uint8_t* mac = nullptr)
+  bool beginWithNetworkWebserver(uint16_t webserverPort, uint8_t* mac = nullptr)
   {
     useOpenKnxWebserver = true;
     return begin(nullptr, webserverPort, mac);
