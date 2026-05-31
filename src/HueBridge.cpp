@@ -126,7 +126,16 @@ void HueBridge::start(SmartHomeBridgeModule *bridge)
     uint8_t mac[6];
     openknxNetwork.macAddress(mac);
 #ifdef OPENKNX_WEBSERVER
-    espalexa.beginWithNetworkWebserver(9080, mac);
+    auto webServer = bridge->getWebServer();
+    if (webServer != nullptr)
+    {
+        espalexa.begin(webServer, bridge->getWebServerPort(), mac);
+    }
+    else
+    {
+        espalexa.beginWithNetworkWebserver(9080, mac);
+    }   
+
 #else
     espalexa.begin(nullptr, 80, mac);
 #endif
@@ -149,21 +158,26 @@ void HueBridge::processInputKo(GroupObject& groupObject)
 }
 
 
+
 void HueBridge::registerWebPages()
 {
 #ifdef OPENKNX_WEBSERVER
     openknxNetwork.webserver.addMenuItem("Hue", "/hue", 51);
     openknxNetwork.webserver.addRoute(OpenKNX::Network::WEB_GET, "/hue", [this](OpenKNX::Network::WebRequest&, OpenKNX::Network::WebResponse& res) {
-        std::string html = "<div class='container'>";
-        html += "<h1 style='margin-bottom:0.75em;'>Hue</h1>";
-        html += "<p style='margin-bottom:0.75em;'>Anzahl der Ger&auml;te: ";
-        html += std::to_string(espalexa.getNumberOfDevices());
-        html += "</p><p><a href=\"/espalexa\">Technische Information für Entwickler (in Englisch)</a></p>";
-        html += "</div>";
+        std::string html;
+        getInformation(html);
         res.setLayout(true);
         res.setActiveMenu("/hue");
         res.send(html.c_str());
     });
 #endif
+}
+
+void HueBridge::getInformation(std::string& result)
+{
+    result += "<h3 style='margin-bottom:0.75em;'>Hue Emulation</h3>";
+    result += "<p style='margin-bottom:0.75em;'>Anzahl der Ger&auml;te: ";
+    result += std::to_string(espalexa.getNumberOfDevices());
+    result += "</p><p><a href=\"/espalexa\">Technische Information für Entwickler (in Englisch)</a></p>";
 }
 #endif

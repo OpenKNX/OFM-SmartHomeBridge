@@ -24,6 +24,7 @@ public:
     virtual void start(SmartHomeBridgeModule *bridge) override;
     virtual void loop() override;
     virtual void registerWebPages() override;
+    virtual void getInformation(std::string& result) override;
 #ifdef OPENKNX_DUALCORE
     virtual void loop1() override;
 #endif

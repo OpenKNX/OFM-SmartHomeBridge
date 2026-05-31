@@ -195,6 +195,48 @@ void HomeKitBridge::registerWebPages()
 #endif
 }
 
+
+void HomeKitBridge::initWebServer(WebServer &webServer)
+{
+    webServer.on("/resetPairing", HTTP_POST, [this]()
+                 { this->serveResetPairingPage(); });
+}
+
+void HomeKitBridge::serveResetPairingPage()
+{
+    auto webServer = _bridge->getWebServer();
+
+    String res = "<!DOCTYPE html><html lang=\"en\"><meta charset=\"UTF-8\"><meta http-equiv=\"refresh\" content=\"3;url=/\"><title>";
+    res + "HomeKit Pairing Reset";
+    res += "</title><body>";
+    res += "<br>HomeKit Pairing reseted</br>";
+    res += "</body>";
+    webServer->send(200, "text/html;charset=UTF-8", res);
+    homeSpan.processSerialCommand("F");
+
+}
+
+void HomeKitBridge::getInformation(std::string& result)
+{
+    result += "<h3>HomeKit Bridge</h3>";
+    auto handle = homeSpan.getAutoPollTask();
+    if (handle != nullptr)
+    {
+        auto minFreeStack = uxTaskGetStackHighWaterMark(handle);
+        if (minFreeStack != 0)
+        {
+            result += "\nMaximale Stack Verwendung: ";
+            result += std::to_string(HOMESPAN_STACK_SIZE - minFreeStack);
+            result += " von ";
+            result += std::to_string(HOMESPAN_STACK_SIZE);
+        }
+    }
+    // HomeKit Factory Reset
+    result += "<form method='post' action='/resetPairing'><input name='resetPairing' type='hidden' value='1'><input type='submit' value='Alle HomeKit Kopplungen Löschen'></form>";
+    result += "<p class='meta'>Hinweis: Es werden nur Homekit-Kopplungen gelöschst. WLAN-Zugangsdaten bleiben erhalten.</p>";
+        
+}
+
 const std::string HomeKitBridge::name()
 {
     return "HomeKitBridge";

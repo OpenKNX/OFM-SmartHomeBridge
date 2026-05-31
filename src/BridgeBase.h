@@ -1,6 +1,7 @@
 
 #pragma once
 #include "OpenKNX.h"
+#include "MemoryAllocator.h"
 
 #ifndef SMARTHOMEBRIDGE_DEVICESONLY
 class WebServer;
@@ -36,7 +37,12 @@ class KnxChannelLock;
 
 class BridgeBase : public OpenKNX::Base
 {
+     
 public:
+    static void* operator new(size_t size)
+    {
+        return HS_MALLOC(size);
+    }
     virtual SwitchBridge* createSwitch(KnxChannelSwitch& channel, uint8_t _channelIndex /* this parameter is used in macros, do not rename */, uint8_t deviceType);
     virtual DimmerBridge* createDimmer(KnxChannelDimmer& channel, uint8_t _channelIndex /* this parameter is used in macros, do not rename */, uint8_t deviceType);
     virtual RGBBridge* createRGB(KnxChannelRGB& channel, uint8_t _channelIndex /* this parameter is used in macros, do not rename */, uint8_t deviceType);
@@ -53,8 +59,10 @@ public:
 
     virtual void initialize(SmartHomeBridgeModule* bridge) {};
 #ifndef SMARTHOMEBRIDGE_DEVICESONLY  
+    virtual void initWebServer(WebServer& webServer) {};
     virtual void registerWebPages() {};
 #endif
+    virtual void getInformation(std::string& result) {};
     virtual void start(SmartHomeBridgeModule* bridge) {};
     virtual void loop() {};
     virtual void processInputKo(GroupObject& ko) {};
