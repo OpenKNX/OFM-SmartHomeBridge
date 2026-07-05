@@ -298,172 +298,40 @@ void WebVisuBridge::loop()
     processPendingSnapshots();
 }
 
-void WebVisuBridge::registerWebPages()
-{
-#ifdef OPENKNX_WEBSERVER
-    openknxNetwork.webserver.addMenuItem("Ger\xC3\xA4te (Alpha Version)", MENU_URI, 52);
-    openknxNetwork.webserver.addRoute(OpenKNX::Network::WEB_GET, MENU_URI,
-                                      [this](OpenKNX::Network::WebRequest&, OpenKNX::Network::WebResponse& res) {
-                                          std::string html = buildPageHtml();
-                                          res.setLayout(true);
-                                          res.setActiveMenu(MENU_URI);
-                                          res.send(html.c_str());
-                                      });
 
-    openknxNetwork.webserver.addRoute(OpenKNX::Network::WEB_GET, "/devices/image/*",
-                                      [this](OpenKNX::Network::WebRequest& req, OpenKNX::Network::WebResponse& res) {
-                                          handleImageRequest(req, res);
-                                      });
-    openknxNetwork.webserver.addRoute(OpenKNX::Network::WEB_GET, "/devices/*",
-                                      [this](OpenKNX::Network::WebRequest& req, OpenKNX::Network::WebResponse& res) {
-                                          handleDetailRequest(req, res);
-                                      });
 
-    openknxNetwork.webserver.addSocket(
-        SOCKET_URI,
-        [this](int clientId, OpenKNX::Network::WebSocketFrame* frame) {
-            queueCommand(frame->data, frame->length);
-        },
-        [this](int clientId, bool connected) {
-            if (connected)
-            {
-                queueSnapshotForClient(clientId);
-            }
-            else
-            {
-                _pendingSnapshotClients.erase(std::remove(_pendingSnapshotClients.begin(), _pendingSnapshotClients.end(), clientId),
-                                              _pendingSnapshotClients.end());
-            }
-        });
-#endif
+const char* webPage = R"HTML(
+    <div class='webvisu'>
+    <style>
+.webvisu{padding:0.5rem 0;}
+.webvisu h1{margin:0 0 0.75rem 0;}
+.webvisu .meta{margin-bottom:1rem;color:var(--muted,#555);}
+.webvisu-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:0.75rem;}
+.webvisu-card{border:1px solid #d5d5d5;border-radius:8px;padding:0.9rem;background:#fff;display:flex;flex-direction:column;gap:0.6rem;box-shadow:0 1px 2px rgba(0,0,0,0.04);}
+.webvisu-title{display:flex;justify-content:space-between;align-items:center;gap:0.75rem;font-weight:600;}
+.webvisu-type{font-size:0.8rem;color:#666;background:#f1f1f1;border-radius:999px;padding:0.1rem 0.5rem;}
+.webvisu-main{display:flex;align-items:center;gap:0.75rem;}
+.webvisu-icon-wrap{width:52px;height:52px;border-radius:10px;background:transparent;display:flex;align-items:center;justify-content:center;border:none;flex:0 0 auto;}
+.webvisu-icon{max-width:36px;max-height:36px;}
+.webvisu-icon-recolor.webvisu-icon-state-on{filter:brightness(0) saturate(100%) invert(54%) sepia(74%) saturate(558%) hue-rotate(79deg) brightness(98%) contrast(96%);}
+.webvisu-icon-recolor.webvisu-icon-state-off{filter:brightness(0) saturate(100%) opacity(1);}
+.webvisu-value{font-size:1.25rem;font-weight:700;}
+.webvisu-controls{display:flex;align-items:center;gap:0.6rem;flex-wrap:wrap;}
+.webvisu-btn{border:1px solid #999;background:#fafafa;border-radius:6px;padding:0.35rem 0.75rem;cursor:pointer;font-size:0.95rem;}
+.webvisu-btn:hover{background:#efefef;}
+.webvisu-link{color:#215d8f;text-decoration:none;font-size:0.9rem;font-weight:600;}
+.webvisu-link:hover{text-decoration:underline;}
+.webvisu-slider{width:100%;accent-color:#3b6ea8;}
+.webvisu-empty{padding:0.75rem;border:1px dashed #bbb;border-radius:8px;color:#666;background:#fafafa;}
+@media (max-width: 640px){
+    .webvisu-grid{grid-template-columns:1fr;}
 }
-
-bool WebVisuBridge::processCommand(const std::string cmd, bool diagnoseKo)
-{
-    return false;
-}
-
-void WebVisuBridge::showHelp()
-{
-}
-
-void WebVisuBridge::queueCommand(const uint8_t* data, int length)
-{
-    if (data == nullptr || length <= 0)
-        return;
-
-    int safeLen = std::min(length, 512);
-    std::string message;
-    message.reserve(safeLen);
-
-    for (int i = 0; i < safeLen; ++i)
-    {
-        uint8_t c = data[i];
-        if ((c >= 0x20 && c <= 0x7E) || c == '\t' || c == '\n' || c == '\r')
-        {
-            message.push_back((char)c);
-        }
-    }
-
-    if (!message.empty())
-    {
-        _pendingCommands.push_back(message);
-    }
-}
-
-void WebVisuBridge::processPendingCommands()
-{
-    if (_pendingCommands.empty())
-        return;
-
-    std::vector<std::string> commands;
-    commands.swap(_pendingCommands);
-
-    for (const std::string& command : commands)
-    {
-        processCommandMessage(command);
-    }
-}
-
-void WebVisuBridge::queueSnapshotForClient(int clientId)
-{
-    if (clientId < 0)
-        return;
-
-    if (std::find(_pendingSnapshotClients.begin(), _pendingSnapshotClients.end(), clientId) != _pendingSnapshotClients.end())
-        return;
-
-    _pendingSnapshotClients.push_back(clientId);
-}
-
-void WebVisuBridge::processPendingSnapshots()
-{
-    if (_pendingSnapshotClients.empty())
-        return;
-
-    const int clientId = _pendingSnapshotClients.front();
-    _pendingSnapshotClients.erase(_pendingSnapshotClients.begin());
-
-    if (!isSocketClientConnected(clientId))
-        return;
-
-    sendSnapshotToClient(clientId);
-}
-
-bool WebVisuBridge::isSocketClientConnected(int clientId) const
-{
-#ifdef OPENKNX_WEBSERVER
-    const auto clients = openknxNetwork.webserver.connectedClientFds(SOCKET_URI);
-    return std::find(clients.begin(), clients.end(), clientId) != clients.end();
-#else
-    (void)clientId;
-    return false;
-#endif
-}
-
-void WebVisuBridge::processCommandMessage(const std::string& message)
-{
-    std::string action;
-    if (!parseStringField(message, "action", action))
-    {
-        return;
-    }
-
-    int channelOneBased = 0;
-    if (!parseIntField(message, "channel", channelOneBased))
-    {
-        return;
-    }
-
-    if (channelOneBased <= 0)
-    {
-        return;
-    }
-
-    if (_bridge == nullptr)
-    {
-        return;
-    }
-
-    const uint8_t channelIndex = (uint8_t)(channelOneBased - 1);
-    WebVisuWidgetBase* widget = webVisuWidget(channelIndex);
-    if (widget == nullptr)
-    {
-        return;
-    }
-
-    widget->webVisuHandleCommand(action, message);
-}
-
-std::string WebVisuBridge::buildPageHtml() const
-{
-    std::string html = "<div class='webvisu'>";
-    html += WebVisuWidgetBase::widgetStyles();
-    html += R"HTML(
+    </style>
     <h1>Ger&auml;te</h1>
     <div id='webvisu-meta' class='meta'>Verbinde...</div>
     <div id='webvisu-grid' class='webvisu-grid'></div>
-    <script>(function(){
+    <script>
+     (function(){
         const grid=document.getElementById('webvisu-grid');
         const meta=document.getElementById('webvisu-meta');
         const devices={};
@@ -757,10 +625,198 @@ std::string WebVisuBridge::buildPageHtml() const
         connect();
         updateConnectionState();
         showEmptyIfNeeded();
-    })();</script>
-</div>)HTML";
-    return html;
+    })();
+    </script>
+  </div>)HTML";
+
+class ConstStringStream
+{
+    const char* _str;
+    public:
+    ConstStringStream(const char* str) : _str(str)
+    {
+    }
+
+    size_t read(void* ctx, uint8_t* buf, size_t maxLen) 
+    {
+        size_t bytesRead = 0;
+        while (bytesRead < maxLen && _str[bytesRead])
+        {
+            buf[bytesRead] = static_cast<uint8_t>(_str[bytesRead]);
+            bytesRead++;
+        }
+        _str += bytesRead;
+        return bytesRead;
+    }
+};
+
+void WebVisuBridge::registerWebPages()
+{
+#ifdef OPENKNX_WEBSERVER
+    openknxNetwork.webserver.addMenuItem("Ger\xC3\xA4te (Alpha Version)", MENU_URI, 52);
+    openknxNetwork.webserver.addRoute(OpenKNX::Network::WEB_GET, MENU_URI,
+                                      [this](OpenKNX::Network::WebRequest&, OpenKNX::Network::WebResponse& res) {
+                                          
+                                          res.setLayout(true);
+                                          res.setActiveMenu(MENU_URI);
+
+                                          ConstStringStream* webPageStream = new ConstStringStream(webPage);
+                                          res.sendStream(
+                                            strlen(webPage),
+                                            [](void* ctx, uint8_t* buf, size_t maxLen) -> size_t 
+                                            {
+                                                ConstStringStream* stream = static_cast<ConstStringStream*>(ctx);
+                                                return stream->read(ctx, buf, maxLen);  
+                                            }, 
+                                          [](void * ctx) { delete static_cast<ConstStringStream*>(ctx); } ,
+                                           (void*) webPageStream);
+                                      });
+
+    openknxNetwork.webserver.addRoute(OpenKNX::Network::WEB_GET, "/devices/image/*",
+                                      [this](OpenKNX::Network::WebRequest& req, OpenKNX::Network::WebResponse& res) {
+                                          handleImageRequest(req, res);
+                                      });
+    openknxNetwork.webserver.addRoute(OpenKNX::Network::WEB_GET, "/devices/*",
+                                      [this](OpenKNX::Network::WebRequest& req, OpenKNX::Network::WebResponse& res) {
+                                          handleDetailRequest(req, res);
+                                      });
+
+    openknxNetwork.webserver.addSocket(
+        SOCKET_URI,
+        [this](int clientId, OpenKNX::Network::WebSocketFrame* frame) {
+            queueCommand(frame->data, frame->length);
+        },
+        [this](int clientId, bool connected) {
+            if (connected)
+            {
+                queueSnapshotForClient(clientId);
+            }
+            else
+            {
+                _pendingSnapshotClients.erase(std::remove(_pendingSnapshotClients.begin(), _pendingSnapshotClients.end(), clientId),
+                                              _pendingSnapshotClients.end());
+            }
+        });
+#endif
 }
+
+bool WebVisuBridge::processCommand(const std::string cmd, bool diagnoseKo)
+{
+    return false;
+}
+
+void WebVisuBridge::showHelp()
+{
+}
+
+void WebVisuBridge::queueCommand(const uint8_t* data, int length)
+{
+    if (data == nullptr || length <= 0)
+        return;
+
+    int safeLen = std::min(length, 512);
+    std::string message;
+    message.reserve(safeLen);
+
+    for (int i = 0; i < safeLen; ++i)
+    {
+        uint8_t c = data[i];
+        if ((c >= 0x20 && c <= 0x7E) || c == '\t' || c == '\n' || c == '\r')
+        {
+            message.push_back((char)c);
+        }
+    }
+
+    if (!message.empty())
+    {
+        _pendingCommands.push_back(message);
+    }
+}
+
+void WebVisuBridge::processPendingCommands()
+{
+    if (_pendingCommands.empty())
+        return;
+
+    std::vector<std::string> commands;
+    commands.swap(_pendingCommands);
+
+    for (const std::string& command : commands)
+    {
+        processCommandMessage(command);
+    }
+}
+
+void WebVisuBridge::queueSnapshotForClient(int clientId)
+{
+    if (clientId < 0)
+        return;
+
+    if (std::find(_pendingSnapshotClients.begin(), _pendingSnapshotClients.end(), clientId) != _pendingSnapshotClients.end())
+        return;
+
+    _pendingSnapshotClients.push_back(clientId);
+}
+
+void WebVisuBridge::processPendingSnapshots()
+{
+    if (_pendingSnapshotClients.empty())
+        return;
+
+    const int clientId = _pendingSnapshotClients.front();
+    _pendingSnapshotClients.erase(_pendingSnapshotClients.begin());
+
+    if (!isSocketClientConnected(clientId))
+        return;
+
+    sendSnapshotToClient(clientId);
+}
+
+bool WebVisuBridge::isSocketClientConnected(int clientId) const
+{
+#ifdef OPENKNX_WEBSERVER
+    const auto clients = openknxNetwork.webserver.connectedClientFds(SOCKET_URI);
+    return std::find(clients.begin(), clients.end(), clientId) != clients.end();
+#else
+    (void)clientId;
+    return false;
+#endif
+}
+
+void WebVisuBridge::processCommandMessage(const std::string& message)
+{
+    std::string action;
+    if (!parseStringField(message, "action", action))
+    {
+        return;
+    }
+
+    int channelOneBased = 0;
+    if (!parseIntField(message, "channel", channelOneBased))
+    {
+        return;
+    }
+
+    if (channelOneBased <= 0)
+    {
+        return;
+    }
+
+    if (_bridge == nullptr)
+    {
+        return;
+    }
+
+    const uint8_t channelIndex = (uint8_t)(channelOneBased - 1);
+    WebVisuWidgetBase* widget = webVisuWidget(channelIndex);
+    if (widget == nullptr)
+    {
+        return;
+    }
+
+    widget->webVisuHandleCommand(action, message);
+}
+
 
 std::string WebVisuBridge::buildDetailPageHtml(uint8_t channelIndex) const
 {
@@ -806,16 +862,15 @@ std::string WebVisuBridge::buildDetailPageHtml(uint8_t channelIndex) const
     <div id='webvisu-meta' class='meta'>Verbinde...</div>
     <div id='webvisu-detail' class='webvisu-grid'>)HTML";
     html += initialDetailHtml;
-    html += R"HTML(</div>
-    <script>(function(){
-        const channel=)HTML";
-    html += std::to_string((int)channelIndex + 1);
-    html += R"HTML(;
+    /*
+    Original JS (unminified) for detail page:
+    (function(){
+        const channel=<dynamic one-based channel>;
         const detail=document.getElementById('webvisu-detail');
         const initialDetailHtml=detail ? detail.innerHTML : '';
         const meta=document.getElementById('webvisu-meta');
         const debugEnabled=(new URLSearchParams(location.search).get('wvdebug')||'1') !== '0';
-        const tracePrefix='[WebVisu][Detail ch=' + String(channel) + ']';
+        const p='[WebVisu][Detail ch=' + String(c) + ']';
         let ws=null;
         let reconnectTimer=null;
         let current=initialDetailHtml ? { channel: channel, detailHtml: initialDetailHtml } : null;
@@ -826,14 +881,14 @@ std::string WebVisuBridge::buildDetailPageHtml(uint8_t channelIndex) const
         let isClosing=false;
 
         function trace(level, message, extra){
-            if(!debugEnabled){
+            if(!e){
                 return;
             }
-            const fn=(console[level]&&typeof console[level]==='function')?console[level]:console.log;
+            const f=(console[o]&&typeof console[o]==='function')?console[o]:console.log;
             if(extra!==undefined){
-                fn(tracePrefix + ' ' + message, extra);
+                fn(p + ' ' + message, extra);
             } else {
-                fn(tracePrefix + ' ' + message);
+                fn(p + ' ' + message);
             }
         }
 
@@ -1046,7 +1101,13 @@ std::string WebVisuBridge::buildDetailPageHtml(uint8_t channelIndex) const
 
         connect();
         render();
-    })();</script>
+    })();
+    */
+    html += R"HTML(</div>
+    <script>(function(){
+        const c=)HTML";
+    html += std::to_string((int)channelIndex + 1);
+    html += R"HTML(;const d=document.getElementById('webvisu-detail'),i=d?d.innerHTML:'',m=document.getElementById('webvisu-meta'),e=(new URLSearchParams(location.search).get('wvdebug')||'1')!=='0',p='[WebVisu][Detail ch='+String(c)+']';let w=null,r=null,u=i?{channel:c,detailHtml:i}:null,n=0,b=0,s=0,t=null,x=!1;const l=(o,a,y)=>{if(!e)return;const f=console[o]&&typeof console[o]==='function'?console[o]:console.log;y!==undefined?f(p+' '+a,y):f(p+' '+a)},h=()=>{if(t){clearTimeout(t);t=null}},k=()=>{h();t=setTimeout(()=>{l('warn','snapshot timeout after 5000ms, devices='+b)},5e3)},q=o=>{if(w&&w.readyState===1){l('debug','send payload action='+String(o.action||'n/a')+' channel='+String(o.channel||'n/a'));w.send(JSON.stringify(o))}},A=o=>{const a=o.getAttribute('data-wv-payload')||o.getAttribute('data-wv-payload-template');if(!a)return null;let y=a;const f=o.getAttribute('data-channel');if(f)y=y.replaceAll('__CHANNEL__',f);if(o instanceof HTMLInputElement||o instanceof HTMLTextAreaElement||o instanceof HTMLSelectElement)y=y.replaceAll('__VALUE__',o.value);const D=o.closest('[data-wv-container]');if(D){D.querySelectorAll('[data-wv-role]').forEach(E=>{const F=E.getAttribute('data-wv-role');if(F)y=y.replaceAll('__'+F.toUpperCase()+'__',E.value)})}try{return JSON.parse(y)}catch{return null}},B=()=>{m.textContent=w&&w.readyState===1?'Live verbunden':'Nicht verbunden';if(!u){d.innerHTML='<div class="webvisu-empty">Ger&auml;t nicht gefunden.</div>';return}d.innerHTML=u.detailHtml||u.html||''},C=o=>{if(o&&Number(o.channel)===c){if(!o.detailHtml||o.detailHtml===''){if(u&&u.detailHtml)o.detailHtml=u.detailHtml;else if(i)o.detailHtml=i}u=o;B()}},G=()=>{if(x||r)return;r=setTimeout(()=>{r=null;H()},1500)},I=()=>{x=!0;if(r){clearTimeout(r);r=null}h();if(w&&(w.readyState===0||w.readyState===1)){try{w.close(1e3,'page unload')}catch{}}},H=()=>{const o=location.protocol==='https:'?'wss://':'ws://';w=new WebSocket(o+location.host+'/devices/ws');l('info','connecting to '+(o+location.host+'/devices/ws'));w.onopen=()=>{l('info','ws open');B()};w.onclose=()=>{l('warn','ws close');h();w=null;B();if(!x)G()};w.onerror=()=>{l('error','ws error');B()};w.onmessage=o=>{n+=1;let a=null;try{a=JSON.parse(o.data)}catch{const y=String(o.data||'').replace(/\s+/g,' ').slice(0,140);m.textContent='WS JSON-Fehler: '+y;l('error','json parse failed #'+n+' preview='+y);return}if(a.type==='snapshotBegin'){b=0;s=Date.now();k();l('info','snapshotBegin #'+n);B();return}if(a.type==='snapshotDevice'&&a.device){b+=1;k();l('debug','snapshotDevice #'+b+' channel='+String(a.device.channel||'n/a'));C(a.device);return}if(a.type==='snapshotEnd'){const y=Date.now()-s;l('info','snapshotEnd devices='+b+' durationMs='+y);h();B();return}if(a.type==='snapshot'&&Array.isArray(a.devices)){const y=a.devices.find(f=>Number(f.channel)===c);if(y){if((!y.detailHtml||y.detailHtml==='')&&u&&u.detailHtml)y.detailHtml=u.detailHtml;else if(!y.detailHtml||y.detailHtml==='')y.detailHtml=i;u=y}B();return}if(a.type==='update'&&a.device){l('debug','update channel='+String(a.device.channel||'n/a'));C(a.device)}}};d.addEventListener('click',o=>{const a=o.target;if(!(a instanceof HTMLElement))return;const y=a.closest('[data-wv-payload], [data-wv-payload-template]');if(!(y instanceof HTMLElement))return;const f=A(y);if(f)q(f)});d.addEventListener('change',o=>{const a=o.target;if(!(a instanceof HTMLElement))return;const y=a.closest('[data-wv-payload], [data-wv-payload-template]');if(!(y instanceof HTMLElement))return;const f=A(y);if(f)q(f)});window.addEventListener('pagehide',I);window.addEventListener('beforeunload',I);H();B();})();</script>
 </div>)HTML";
     return html;
 }

@@ -64,7 +64,6 @@ class WebVisuBridge : public BridgeBase
     void registerWebVisuWidget(uint8_t channelIndex, class WebVisuWidgetBase* widget);
     class WebVisuWidgetBase* webVisuWidget(uint8_t channelIndex) const;
 
-    std::string buildPageHtml() const;
     std::string buildDetailPageHtml(uint8_t channelIndex) const;
     std::string buildDeviceJson(KnxChannelBase& channel, uint8_t channelIndex) const;
     std::string buildDetailWidgetHtml(KnxChannelBase& channel,
