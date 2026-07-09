@@ -43,6 +43,7 @@ class SmartHomeBridgeModule : public ChannelOwnerModule
     public:
         SmartHomeBridgeModule();
         ~SmartHomeBridgeModule();
+        const char* getDevicTypeName();
         KnxChannelBase* getChannel(uint8_t channelIndex);
         void addBridge(BridgeBase* bridge);
         const char* getNameInUTF8();

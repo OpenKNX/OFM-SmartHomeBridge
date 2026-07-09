@@ -3,13 +3,13 @@
 #include "hardware.h"
 #ifndef SMARTHOMEBRIDGE_DEVICESONLY
 #include <WiFi.h>
-#include <NetworkModule.h>
 #include "HomeKitBridge.h"
 #include "HueBridge.h"
 #ifdef OPENKNX_WEBSERVER
 #include "WebVisuBridge.h"
 #endif
 #endif
+#include <NetworkModule.h>
 #include "SmartHomeBridgeModule.h"
 #include "./Switch/KnxChannelSwitch.h"
 #include "./Dimmer/KnxChannelDimmer.h"
@@ -36,6 +36,15 @@ SmartHomeBridgeModule::SmartHomeBridgeModule()
 const std::string SmartHomeBridgeModule::name()
 {
   return "SmartHomeBridgeModule";
+}
+
+const char* SmartHomeBridgeModule::getDevicTypeName()
+{
+#ifdef OPENKNX_DEVICE_TYPE_NAME
+    return OPENKNX_DEVICE_TYPE_NAME;
+#else
+    return MAIN_FirmwareName;
+#endif
 }
 
 void SmartHomeBridgeModule::showInformations()
@@ -80,11 +89,13 @@ void SmartHomeBridgeModule::setup()
   _utf8Name = convertISO8859_15ToUTF8((const char *)ParamBRI_BridgeName);
 
 #ifdef OPENKNX_WEBSERVER
-  openknxNetwork.webserver.addMenuItem("Smart Home Bridge", "/smarthomebridge", 50);
+  openknxNetwork.webserver.addMenuItem(getDevicTypeName() "/smarthomebridge", 50);
   openknxNetwork.webserver.addRoute(OpenKNX::Network::WEB_GET, "/smarthomebridge", [this](OpenKNX::Network::WebRequest &, OpenKNX::Network::WebResponse &res)
                                     {
         std::string html = "<div class='container'>";
-        html += "<h1 style='margin-bottom:0.75em;'>Smart Home Bridge</h1>";
+        html += "<h1 style='margin-bottom:0.75em;'>";
+        html += getDevicTypeName();
+        html += " </h1>";
         html += "<br>Name: ";
         html += _utf8Name;
         html += "<br>Verwendete Kanäle: " + std::to_string(getNumberOfUsedChannels());
@@ -438,9 +449,12 @@ void SmartHomeBridgeModule::serveFirmwareUpdatePage()
 void SmartHomeBridgeModule::serveRebootPage()
 {
   String res = "<!DOCTYPE html><html lang=\"en\"><meta charset=\"UTF-8\"><meta http-equiv=\"refresh\" content=\"20;url=/\"><title>";
-  res + "Smart Home Bridge Reboot";
+  res += getDevicTypeName();
+  res + " Reboot";
   res += "</title><body>";
-  res += "<br>Smart Home Bridge is rebooting...</br>";
+  res += "<br>";
+  res += getDevicTypeName();
+  res += " is rebooting...</br>";
   res += "</body>";
   webServer->send(200, "text/html;charset=UTF-8", res);
   vTaskDelay(1000);
@@ -455,7 +469,8 @@ void SmartHomeBridgeModule::serveProgModePage()
   else
     knx.progMode(false);
   String res = "<!DOCTYPE html><html lang=\"en\"><meta charset=\"UTF-8\"><meta http-equiv=\"refresh\" content=\"3;url=/\"><title>";
-  res + "Smart Home Bridge Prog Mode";
+  res += getDevicTypeName();
+  res += " Prog Mode";
   res += "</title><body>";
   res += "<br>Prog mode ";
   res += progMode ? "activated" : "deactivated";
