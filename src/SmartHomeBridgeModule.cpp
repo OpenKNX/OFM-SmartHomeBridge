@@ -9,7 +9,9 @@
 #include "WebVisuBridge.h"
 #endif
 #endif
+#if defined(OPENKNX_WEBSERVER) || defined(OPENKNX_WEBVISU) || defined(OPENKNX_HOMEKIT) || defined(OPENKNX_HUE)
 #include <NetworkModule.h>
+#endif
 #include "SmartHomeBridgeModule.h"
 #include "./Switch/KnxChannelSwitch.h"
 #include "./Dimmer/KnxChannelDimmer.h"
