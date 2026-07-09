@@ -91,7 +91,7 @@ void SmartHomeBridgeModule::setup()
   _utf8Name = convertISO8859_15ToUTF8((const char *)ParamBRI_BridgeName);
 
 #ifdef OPENKNX_WEBSERVER
-  openknxNetwork.webserver.addMenuItem(getDevicTypeName() "/smarthomebridge", 50);
+  openknxNetwork.webserver.addMenuItem(getDevicTypeName(), "/smarthomebridge", 50);
   openknxNetwork.webserver.addRoute(OpenKNX::Network::WEB_GET, "/smarthomebridge", [this](OpenKNX::Network::WebRequest &, OpenKNX::Network::WebResponse &res)
                                     {
         std::string html = "<div class='container'>";
