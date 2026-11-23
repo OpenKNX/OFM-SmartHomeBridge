@@ -27,6 +27,7 @@
 #include <platform/ESP32/ESP32Config.h>
 #include <crypto/CHIPCryptoPAL.h>
 #include <lib/support/CHIPMem.h>
+#include <app/server/OnboardingCodesUtil.h>
 #include <setup_payload/SetupPayload.h>
 #include <ESPmDNS.h>
 #include <esp_system.h>
@@ -546,6 +547,16 @@ esp_err_t MatterBridge::startMatter()
             logInfoP("Matter effective setup code after start: %u", (unsigned)effectivePasscode);
         else
             logInfoP("Matter GetSetupPasscode not supported after start: %" CHIP_ERROR_FORMAT, chipErr.Format());
+
+        uint16_t effectiveDiscriminator = 0;
+        chipErr = chip::DeviceLayer::GetCommissionableDataProvider()->GetSetupDiscriminator(effectiveDiscriminator);
+        if (chipErr == CHIP_NO_ERROR)
+            logInfoP("Matter effective discriminator after start: %u", (unsigned)effectiveDiscriminator);
+        else
+            logInfoP("Matter GetSetupDiscriminator not supported after start: %" CHIP_ERROR_FORMAT, chipErr.Format());
+
+        chip::RendezvousInformationFlags rendezvousFlags = chip::RendezvousInformationFlag::kBLE;
+        PrintOnboardingCodes(rendezvousFlags);
     }
 
     return ESP_OK;
